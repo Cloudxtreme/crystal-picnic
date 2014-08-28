@@ -1,0 +1,356 @@
+set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+project(crystalpicnic)
+cmake_minimum_required(VERSION 2.6)
+#cmake_policy(SET CMP0015 OLD)
+
+# Options
+
+option(EDITOR "Build with in game editor" off)
+option(TOOLS "Build extra tools" off)
+option(WELL512 "Use well512 RNG" off)
+option(RASPBERRYPI "Build for Raspberry Pi" off)
+option(GNU "Use GNU tools on Windows" off)
+option(DEMO "Build the demo version" off)
+option(DEBUG "Build with debug symbols" off)
+option(PROFILE "Build for profiling" off)
+option(STABS "Use -gstabs" off)
+option(LUAJIT "Use LuaJIT" off)
+
+# Option configuration
+
+set(ALLEG_SUFFIX "-static" CACHE STRING "Allegro library suffix")
+
+if(WELL512)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWELL512=1")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWELL512=1")
+endif()
+
+include_directories("${CMAKE_SOURCE_DIR}/include")
+
+if(NOT ("${USER_INCLUDE_PATH}" STREQUAL ""))
+	include_directories(${USER_INCLUDE_PATH})
+endif(NOT ("${USER_INCLUDE_PATH}" STREQUAL ""))
+if(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
+	link_directories(${USER_LIBRARY_PATH})
+endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
+
+set(CMAKE_C_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG=1")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG=1")
+
+if(WIN32)
+	if(GNU)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc -static-libstdc++ -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -fcheck-new -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
+		if(DEMO)
+			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEMO=1")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEMO=1")
+		endif()
+		if(DEBUG)
+			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+		else()
+			if(PROFILE)
+				set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
+				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+			else()
+				if(STABS)
+					set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gstabs")
+					set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gstabs")
+					set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -gstabs")
+				endif()
+			endif()
+		endif()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+	else()
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501")
+		if(DEMO)
+			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /DDEMO")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DDEMO")
+		endif()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /SUBSYSTEM:WINDOWS")
+	endif()
+endif()
+
+set(COMMON_SRCS
+	src/abilities.cpp
+	src/animation.cpp
+	src/animation_set.cpp
+	src/area_loop.cpp
+	src/area_manager.cpp
+	src/astar.cpp
+	src/astar_character_role.cpp
+	src/bass.cpp
+	src/bass_fileprocs.cpp
+	src/battle_ai.cpp
+	src/battle_entity.cpp
+	src/battle_loop.cpp
+	src/battle_pathfind.cpp
+	src/battle_transition_in.cpp
+	src/bitmap.cpp
+	src/bones.cpp
+	src/camera.cpp
+	src/character_map_entity.cpp
+	src/character_role.cpp
+	src/collidable.cpp
+	src/collision_detection.cpp
+	src/config.cpp
+	src/cpa.cpp
+	src/credits_loop.cpp
+	src/crystal_loop.cpp
+	src/direct3d.cpp
+	src/enemy_avatar.cpp
+	src/enemy_avatar_wander_character_role.cpp
+	src/engine.cpp
+	src/entity.cpp
+	src/error.cpp
+	src/follow_character_role.cpp
+	src/frame.cpp
+	src/game_specific_globals.cpp
+	src/general.cpp
+	src/graphics.cpp
+	src/hqm.c
+	src/hqm_loop.cpp
+	src/input_config_loop.cpp
+	src/lua.cpp
+	src/main.cpp
+	src/main_menu_loop.cpp
+	src/map_entity.cpp
+	src/map_loop.cpp
+	src/mt19937ar.c
+	src/music.cpp
+	src/npc.cpp
+	src/particle.cpp
+	src/player.cpp
+	src/resource_manager.cpp
+	src/runner_loop.cpp
+	src/saveload_loop.cpp
+	src/shaders.cpp
+	src/shop_loop.cpp
+	src/skeleton.cpp
+	src/snprintf.c
+	src/sound.cpp
+	src/speech_loop.cpp
+	src/steering.cpp
+	src/tls.cpp
+	src/triangulate.cpp
+	src/video_player.cpp
+	src/wander_character_role.cpp
+	src/weaponized_entity.cpp
+	src/well512.c
+	src/whack_a_skunk_loop.cpp
+	src/widgets.cpp
+	src/xml.cpp
+)
+
+if(APPLE)
+	list(APPEND COMMON_SRCS src/apple.m src/unlock.mm)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unknown-pragmas -Wno-comment")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-comment")
+	if(DEMO)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEMO=1")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEMO=1")
+	endif()
+endif()
+
+add_library(my_load_bitmap
+	STATIC
+	src/my_load_bitmap.cpp
+)
+
+add_library(crystalpicnic-engine
+	STATIC
+	${COMMON_SRCS}
+)
+
+if(DEMO)
+	add_executable(CrystalPicnicDemo src/crystalpicnic.cpp)
+else()
+	add_executable(CrystalPicnic src/crystalpicnic.cpp)
+endif()
+
+if(APPLE)
+	set(ALLEGRO_MAIN_LIB "allegro_main${ALLEG_SUFFIX}")
+	FIND_LIBRARY(OPENGL_LIBRARY OpenGL)
+	FIND_LIBRARY(FOUNDATION_LIBRARY Foundation)
+	FIND_LIBRARY(APPSERVICES_LIBRARY ApplicationServices)
+	FIND_LIBRARY(APPKIT_LIBRARY AppKit)
+	FIND_LIBRARY(IOKIT_LIBRARY IOKit)
+	FIND_LIBRARY(AUDIOTOOLBOX_LIBRARY AudioToolbox)
+	FIND_LIBRARY(STOREKIT_LIBRARY StoreKit)
+	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} ${STOREKIT_LIBRARY} bass bassmidi curl atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
+endif(APPLE)
+
+if(WIN32)
+	set(ALLEGRO_MAIN_LIB "")
+	set(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "xinput" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi" "wsock32" "ws2_32" )
+	if(GNU)
+		set(ICON_OBJ "${CMAKE_SOURCE_DIR}/windows_icon.res")
+		set(ZLIB_LIB_NAME "z")
+	else()
+		set(ICON_OBJ "c:\\Users\\trent\\code\\crystalpicnic\\windows_icon.lib")
+		set(ZLIB_LIB_NAME "z")
+	endif()
+	if(LUAJIT)
+		set(LUA_LIB "c:\\Users\\trent\\code\\crystalpicnic\\build\\lua51.dll")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLUAJIT=1 -DLUA_BUILD_AS_DLL=1")
+	else()
+		set(LUA_LIB "lua5.2")
+	endif()
+	set(MAIN_LIBS
+		crystalpicnic-engine
+		wrap
+		my_load_bitmap
+		atlas
+		tgui2
+		allegro_ttf${ALLEG_SUFFIX}
+		allegro_font${ALLEG_SUFFIX}
+		allegro_primitives${ALLEG_SUFFIX}
+		allegro_color${ALLEG_SUFFIX}
+		allegro_memfile${ALLEG_SUFFIX}
+		allegro_dialog${ALLEG_SUFFIX}
+		allegro${ALLEG_SUFFIX}
+		${ALLEGRO_MAIN_LIB}
+		${LUA_LIB}
+		freetype
+		${ZLIB_LIB_NAME}
+		bassmidi
+		bass
+		curl
+		poly2tri
+		${EXTRA_LIBS}
+		"c:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3dx9.lib"
+		${ICON_OBJ}
+	)
+else(WIN32)
+	if(APPLE)
+		set(MAIN_LIBS
+			crystalpicnic-engine
+			wrap
+			my_load_bitmap
+			atlas
+			allegro_ttf${ALLEG_SUFFIX}
+			allegro_font${ALLEG_SUFFIX}
+			allegro_primitives${ALLEG_SUFFIX}
+			allegro_color${ALLEG_SUFFIX}
+			allegro_memfile${ALLEG_SUFFIX}
+			allegro_dialog${ALLEG_SUFFIX}
+			allegro${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB}
+			/Users/trent/code/local/lib/liblua5.2.a
+			${EXTRA_LIBS}
+		)
+	else(APPLE)
+		# Linux
+		if(DEMO)
+			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEMO=1")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEMO=1")
+		endif()
+
+		if(RASPBERRYPI)
+			set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
+			include_directories("/opt/vc/include")
+			include_directories("/opt/vc/include/interface/vcos/pthreads")
+
+			if(LUAJIT)
+				set(LUA_LIB "/Users/trent/code/crystalpicnic/build-raspberrypi/libluajit.so")
+				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLUAJIT=1")
+			else()
+				set(LUA_LIB "lua5.2")
+			endif()
+
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,.")
+			set(MAIN_LIBS
+				crystalpicnic-engine
+				wrap
+				my_load_bitmap
+				atlas
+				allegro_ttf${ALLEG_SUFFIX}
+				allegro_font${ALLEG_SUFFIX}
+				allegro_primitives${ALLEG_SUFFIX}
+				allegro_color${ALLEG_SUFFIX}
+				allegro_memfile${ALLEG_SUFFIX}
+				allegro${ALLEG_SUFFIX}
+				${ALLEGRO_MAIN_LIB}
+				SM
+				ICE
+				X11
+				Xext
+				Xcursor
+				Xinerama
+				Xrandr
+				Xpm
+				xcb
+				Xau
+				Xdmcp
+				bcm_host GLESv2 EGL m pthread
+				/Users/trent/code/crystalpicnic/build-raspberrypi/libbassmidi.so
+				/Users/trent/code/crystalpicnic/build-raspberrypi/libbass.so
+				curl
+				${LUA_LIB}
+				freetype
+				z
+				atlas
+				tgui2
+				wrap
+				poly2tri
+			)
+		else(RASPBERRYPI)
+			if(DEBUG)
+				set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Wno-unknown-pragmas -Wno-comment")
+				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wno-unknown-pragmas -Wno-comment")
+			else()
+				set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
+				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
+			endif()
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,.")
+			set(MAIN_LIBS
+				crystalpicnic-engine
+				wrap
+				my_load_bitmap
+				atlas
+				allegro_ttf${ALLEG_SUFFIX}
+				allegro_font${ALLEG_SUFFIX}
+				allegro_primitives${ALLEG_SUFFIX}
+				allegro_color${ALLEG_SUFFIX}
+				allegro_memfile${ALLEG_SUFFIX}
+				allegro${ALLEG_SUFFIX}
+				${ALLEGRO_MAIN_LIB}
+				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xpm GL GLU
+#				/usr/lib/x86_64-linux-gnu/liblua5.2.a
+#				/usr/lib/x86_64-linux-gnu/libfreetype.a
+#				/usr/lib/x86_64-linux-gnu/libz.a
+				/usr/local/lib/liblua5.2.a
+				/usr/lib/libfreetype.a
+				/usr/lib/libz.a
+				/home/trent/code/crystalpicnic/build/libbass.so
+				/home/trent/code/crystalpicnic/build/libbassmidi.so
+				curl
+				atlas
+				tgui2
+				wrap
+				/usr/local/lib/libpoly2tri.a
+				dl
+			)
+		endif()
+	endif(APPLE)
+endif(WIN32)
+
+if(DEMO)
+	target_link_libraries(CrystalPicnicDemo ${MAIN_LIBS})
+else()
+	target_link_libraries(CrystalPicnic ${MAIN_LIBS})
+endif()
+
+# -- Tools --
+
+if(EDITOR)
+   add_subdirectory(tools/battled2)
+endif(EDITOR)
+
+if(TOOLS)
+   add_subdirectory(tools)
+endif(TOOLS)
+

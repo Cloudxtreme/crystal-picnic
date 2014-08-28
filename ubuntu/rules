@@ -1,0 +1,81 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export BASEDIR=$(shell pwd)
+export PACKAGE_DIR=${BASEDIR}/..
+
+export INSTDIR=${PACKAGE_DIR}/inst
+export PKG_CONFIG_PATH=${INSTDIR}/lib/pkgconfig
+
+export CRYSTALPICNIC_PKGNAME=crystalpicnic
+export CRYSTALPICNIC_BASENAME=crystalpicnic
+
+INSTALL = install
+INSTALL_FILE    = $(INSTALL) -p    -o root -g root  -m  644
+INSTALL_PROGRAM = $(INSTALL) -p    -o root -g root  -m  755
+INSTALL_SCRIPT  = $(INSTALL) -p    -o root -g root  -m  755
+INSTALL_DIR     = $(INSTALL) -p -d -o root -g root  -m  755
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+BIN_PATH=UNKNOWN
+ifeq ($(DEB_BUILD_ARCH),i386)
+BIN_PATH=i386/
+else ifeq ($(DEB_BUILD_ARCH),amd64)
+BIN_PATH=amd64/
+else
+$(error unknown arch. bass is not available for $(DEB_BUILD_ARCH). only i386 and amd64 is supported.)
+endif
+
+install:
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	${INSTALL_PROGRAM} -D ${BIN_PATH}/CrystalPicnic debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/CrystalPicnic
+	${INSTALL_PROGRAM} -D ${BIN_PATH}/CrystalPicnicLauncher debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/CrystalPicnicLauncher
+	${INSTALL_FILE} -D ${BIN_PATH}/libbass.so debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/libbass.so
+	${INSTALL_FILE} -D ${BIN_PATH}/libbassmidi.so debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/libbassmidi.so
+	${INSTALL_FILE} -D data.cpa debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/data.cpa
+	${INSTALL_FILE} -D FamilyLicense.txt debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/FamilyLicense.txt
+	${INSTALL_FILE} -D ReadMe.txt debian/${CRYSTALPICNIC_PKGNAME}/opt/${CRYSTALPICNIC_BASENAME}/ReadMe.txt
+	${INSTALL_FILE} -D crystalpicnic.desktop debian/${CRYSTALPICNIC_PKGNAME}/usr/share/applications/crystalpicnic.desktop
+	${INSTALL_FILE} -D crystalpicnic.png debian/${CRYSTALPICNIC_PKGNAME}/usr/share/pixmaps/crystalpicnic.png
+
+install-indep:
+
+binary-indep: install
+	
+binary-arch: install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installexamples
+	dh_installmenu
+	dh_installchangelogs
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+
+%:
+	dh $@ 
+
+.PHONY: binary-indep binary-arch binary install

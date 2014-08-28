@@ -1,0 +1,13 @@
+Source: crystalpicnic
+Section: games
+Priority: extra
+Maintainer: Trent Gamblin <trent@nooskewl.com>
+Build-Depends: debhelper (>= 7.0.50~), imagemagick
+Standards-Version: 3.9.1
+Homepage: http://www.crystalpicnic.com/
+
+Package: crystalpicnic
+Architecture: i386 amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Crystal Picnic
+ Crystal Picnic is a lighthearted and colourful tribute to the classic era of action RPGs! Join a sarcastic gardener and a wannabe knight as they journey across the kingdom chasing after ants who stole magic crystals from the castle. Oh, and did we mention the ants have gone mad because they're EATING those crystals? Yeah, that makes things much more unpredictable! Hours of exploration, mesmerizing platform-style combat, plenty of new friends to meet and loads of wacky enemies to encounter. When you fight chubby birds and ants carrying bazookas, you know you're in for a good time!

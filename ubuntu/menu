@@ -1,0 +1,3 @@
+?package(crystalpicnic): needs="X11" \
+             section="Games/Adventure" \
+             title="Crystal Picnic" command="/opt/crystalpicnic/CrystalPicnic"

@@ -1,0 +1,54 @@
+-----
+DELAY
+-----
+
+<delay MILLISECONDS/>
+
+
+-----
+SPEED
+-----
+
+<speed MILLISECONDS>...</speed>
+
+MILLISECONDS between character draws.
+
+
+-----
+SHAKE
+-----
+
+<shake>...</shake>
+
+
+----
+BOLD
+----
+
+<b>...</b>
+
+
+-------
+ITALICS
+-------
+
+<i>...</i>
+
+
+----
+SIZE
+----
+
+<size POINTS>...</size>
+
+Use POINTS pt. font. Default is 16.
+
+
+-----
+COLOR
+-----
+
+<color R G B>...</color>
+
+Red, Green, Blue
+
