@@ -1,0 +1,7 @@
+crystalpicnic for Ubuntu
+------------------
+
+Nothing special should be needed to build Crystal Picnic from the source package, so long as you use the dpkg/debuild tools to do it.
+
+
+

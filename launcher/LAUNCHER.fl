@@ -1,0 +1,285 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0302 
+header_name {.h} 
+code_name {.cxx}
+decl {\#include <allegro5/allegro.h>} {private global
+} 
+
+declblock {\#if defined _MSC_VER} {open after {\#endif}
+} {
+  decl {\#include "snprintf.h"} {private local
+  }
+} 
+
+decl {\#include <vector>} {private global
+} 
+
+declblock {\#if !defined ALLEGRO_WINDOWS} {open after {\#endif}
+} {
+  decl {\#include <unistd.h>} {private local
+  }
+} 
+
+decl {\#include "config.h"} {private global
+} 
+
+declblock {\#ifdef ALLEGRO_WINDOWS} {open after {\#endif}
+} {
+  decl {\#define mkdir(a, b) mkdir(a)} {private global
+  }
+} 
+
+decl {bool play = false;} {private local
+} 
+
+decl {std::vector< std::pair<int, int> > modes;} {private local
+} 
+
+Function {make_window()} {open
+} {
+  Fl_Window window {
+    label {Crystal Picnic Launcher} open
+    xywh {653 361 330 192} type Double color 8 visible
+  } {
+    Fl_Text_Display {} {
+      label Display
+      xywh {10 25 180 125} box ENGRAVED_FRAME color 15 labelsize 16 labelcolor 3 align 5
+    }
+    Fl_Group display {user_data_type {void*} open
+      xywh {10 25 105 40}
+    } {
+      Fl_Round_Button windowed_button {
+        label Windowed
+        xywh {20 35 90 15} type Radio down_box DIAMOND_DOWN_BOX value 1 color 7 selection_color 216 labelcolor 7
+      }
+      Fl_Round_Button fullscreen_button {
+        label Fullscreen
+        xywh {20 50 95 15} type Radio down_box DIAMOND_DOWN_BOX color 7 selection_color 216 labelcolor 7
+      }
+    }
+    Fl_Check_Button opengl_button {
+      label OpenGL
+      xywh {20 70 75 15} down_box THIN_DOWN_BOX color 7 selection_color 216 labelcolor 7
+    }
+    Fl_Check_Button linear_filter_button {
+      label {Linear Filter}
+      xywh {20 90 100 15} down_box THIN_DOWN_BOX color 7 selection_color 216 labelcolor 7
+    }
+    Fl_Choice mode_dropdown {
+      label {Mode:} open
+      xywh {65 111 115 25} box NO_BOX down_box BORDER_BOX color 216 selection_color 216 labelcolor 7
+    } {}
+    Fl_Text_Display {} {
+      label Audio
+      xywh {200 25 120 35} box ENGRAVED_FRAME color 15 labelsize 16 labelcolor 3 align 5
+    }
+    Fl_Check_Button reverb_button {
+      label Reverb
+      xywh {205 35 70 15} down_box THIN_DOWN_BOX value 1 color 7 selection_color 216 labelcolor 7
+    }
+    Fl_Button {} {
+      label {Save and Play!}
+      callback {cfg.loaded_fullscreen = fullscreen_button->value();
+cfg.loaded_force_opengl = opengl_button->value();
+cfg.loaded_linear_filtering = linear_filter_button->value();
+int mode = mode_dropdown->value();
+if (mode > 0) {
+  mode--;
+  cfg.loaded_w = modes[mode].first;
+  cfg.loaded_h = modes[mode].second;
+}
+cfg.loaded_reverb = reverb_button->value();
+cfg.save();
+
+play = true;
+
+window->hide();}
+      xywh {200 158 120 25} color 216 selection_color 216 labelsize 16 labelcolor 7
+    }
+  }
+} 
+
+Function {add_mode(int width, int height)} {open return_type void
+} {
+  code {int sz = modes.size();
+  for (int i = 0; i < sz; i++) {
+    if (modes[i].first == width && modes[i].second == height) {
+      return;
+    }
+  }
+  
+  int i = 0;
+  for (; i < sz; i++) {
+    if (modes[i].first > width) {
+      break;
+    }
+    if (modes[i].first == width && modes[i].second > height) {
+      break;
+    }
+  }
+  
+  modes.insert(modes.begin()+i, std::pair<int, int>(width, height));} {}
+} 
+
+Function {main(int argc, char **argv)} {open return_type int
+} {
+  code {\#if defined ALLEGRO_WINDOWS
+\#define FULL_EXE "CrystalPicnic.exe"
+\#define DEMO_EXE "CrystalPicnicDemo.exe"
+\#define FULL_TEST "CrystalPicnic.exe"
+\#elif defined ALLEGRO_MACOSX
+\#define FULL_EXE "open \\"../../../Crystal Picnic.app\\""
+\#define DEMO_EXE "open \\"../../../Crystal Picnic Demo.app\\""
+\#define FULL_TEST "../../../Crystal Picnic.app/Contents/MacOS/CrystalPicnic"
+\#else
+\#define FULL_EXE "./CrystalPicnic"
+\#define DEMO_EXE "./CrystalPicnicDemo"
+\#define FULL_TEST "CrystalPicnic"
+\#endif
+
+  char EXENAME[1000];
+
+\#ifdef ALLEGRO_WINDOWS
+  if (_access(FULL_TEST, 0) == 0) {
+    strncpy(EXENAME, FULL_EXE, 1000);
+  }
+\#else
+  if (access(FULL_TEST, F_OK) != -1) {
+    strncpy(EXENAME, FULL_EXE, 1000);
+  }
+\#endif
+  else {
+    strncpy(EXENAME, DEMO_EXE, 1000);
+  }
+
+  char tmpfilename[L_tmpnam];
+  tmpnam(tmpfilename);
+
+\#if !defined ALLEGRO_WINDOWS && !defined ALLEGRO_MACOSX
+  if (fork() == 0) {
+    while (access(tmpfilename, F_OK) == -1) {
+      usleep(10000);
+    }
+    usleep(10000);
+    FILE *f = fopen(tmpfilename, "rb");
+    play = fgetc(f);
+    fclose(f);
+    remove(tmpfilename);
+    if (play) {
+      system(EXENAME);
+    }
+    exit(0);
+  }
+\#endif
+
+  Fl_Window *window = make_window();
+
+\#ifdef ALLEGRO_WINDOWS
+  window->icon((char *)LoadIcon(fl_display, "IDI_ICON"));
+\#endif
+
+  al_init();
+
+  // Create user settings dir
+  al_set_org_name("Nooskewl");
+  al_set_app_name("Crystal Picnic");
+
+  ALLEGRO_PATH *user_path = al_get_standard_path(ALLEGRO_USER_SETTINGS_PATH);
+  al_drop_path_tail(user_path);
+  if (!al_filename_exists(al_path_cstr(user_path, ALLEGRO_NATIVE_PATH_SEP))) {
+    mkdir(al_path_cstr(user_path, ALLEGRO_NATIVE_PATH_SEP), 0755);
+  }
+  al_destroy_path(user_path);
+  user_path = al_get_standard_path(ALLEGRO_USER_SETTINGS_PATH);
+  if (!al_filename_exists(al_path_cstr(user_path, ALLEGRO_NATIVE_PATH_SEP))) {
+    mkdir(al_path_cstr(user_path, ALLEGRO_NATIVE_PATH_SEP), 0755);
+  }
+  al_destroy_path(user_path);
+
+  cfg.load();
+  add_mode(1024, 576);
+  add_mode(1280, 720);
+  add_mode(1920, 1080);
+  int num_modes = al_get_num_display_modes();
+  for (int i = 0; i < num_modes; i++) {
+    ALLEGRO_DISPLAY_MODE mode;
+    al_get_display_mode(i, &mode);
+    float low = 3.0f / 2.0f * 0.95f;
+    float high = 16.0f / 9.0f * 1.05f;
+    float aspect = mode.width / (float)mode.height;
+    if (aspect < low || aspect > high) {
+      continue;
+    }
+    add_mode(mode.width, mode.height);
+  }
+  mode_dropdown->add("Default");
+  for (size_t i = 0; i < modes.size(); i++) {
+    char s[100];
+    snprintf(s, 100, "%dx%d", modes[i].first, modes[i].second);
+    mode_dropdown->add(s);
+  }
+  windowed_button->value(!cfg.fullscreen);
+  fullscreen_button->value(cfg.fullscreen);
+\#ifdef ALLEGRO_WINDOWS
+  opengl_button->value(cfg.force_opengl);
+\#else
+  opengl_button->value(1);
+  opengl_button->deactivate();
+\#endif
+  linear_filter_button->value(cfg.linear_filtering);
+  int start_mode = 0;
+  for (size_t i = 0; i < modes.size(); i++) {
+    if (modes[i].first == cfg.screen_w && modes[i].second == cfg.screen_h) {
+      start_mode = i+1;
+      break;
+    }
+  }
+  mode_dropdown->value(start_mode);
+  reverb_button->value(cfg.reverb);
+  window->show(argc, argv);
+  Fl::lock();
+  int ret = Fl::run();
+  Fl::unlock();
+
+
+  if (play) {
+  
+\#ifdef ALLEGRO_WINDOWS
+STARTUPINFO sui;
+  PROCESS_INFORMATION pi;
+
+  memset(&sui, 0, sizeof(sui));
+  sui.cb = sizeof(sui);
+  
+  CreateProcess(
+    NULL,
+    EXENAME,
+    NULL,
+    NULL,
+    FALSE,
+    0,
+    NULL,
+    NULL,
+    &sui,
+    &pi
+  );
+\#endif
+
+  }
+
+\#if !defined ALLEGRO_WINDOWS && !defined ALLEGRO_MACOSX
+  FILE *f = fopen(tmpfilename, "wb");
+  fputc(play, f);
+  fclose(f);
+\#elif defined ALLEGRO_MACOSX
+  if (fork() == 0) {
+    if (play) {
+      system(EXENAME);
+    }
+    exit(0);
+  }
+\#endif
+
+  exit(ret);} {selected
+  }
+} 

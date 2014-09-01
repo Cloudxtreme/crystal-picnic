@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Crystal Picnic
+Comment=Classic-style Action RPG
+Icon=crystalpicnic
+Exec=/opt/crystalpicnic/CrystalPicnic
+Categories=Game;RolePlaying
+

@@ -1,0 +1,11 @@
+  | love
+  | hate
+ e| frenzy
+we| peace
+  | sadness
+ e| joy
+ e| fear
+w | adventure
+ e| mystery
+  | anger
+w | boss

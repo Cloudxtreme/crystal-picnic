@@ -1,0 +1,11 @@
+--- firetv-project/AndroidManifest.xml
++++ firetv-project/AndroidManifest.xml
+@@ -9,7 +9,7 @@
+ 			android:label="@string/app_name"
+ 			android:launchMode="singleTask"
+ 			android:screenOrientation="landscape"
+-			android:configChanges="screenLayout|uiMode|orientation"
++			android:configChanges="screenLayout|uiMode|orientation|keyboard|keyboardHidden|navigation"
+ 		>
+ 			<intent-filter>
+ 				<action android:name="android.intent.action.MAIN" />

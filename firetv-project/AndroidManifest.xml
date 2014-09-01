@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	android:installLocation="preferExternal"
+	package="com.nooskewl.crystalpicnic"
+	android:versionCode="46"
+	android:versionName="1.0">
+	<application android:label="@string/app_name" android:debuggable="true" android:icon="@drawable/icon" android:theme="@style/NoActionBar">
+		<activity android:name="com.nooskewl.crystalpicnic.CPActivity"
+			android:label="@string/app_name"
+			android:launchMode="singleTask"
+			android:screenOrientation="landscape"
+			android:configChanges="screenLayout|uiMode|orientation|keyboard|keyboardHidden|navigation"
+		>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.DREAMING_STARTED" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.DREAMING_STOPPED" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<!--  Tell Allegro the name of the game .so when using dynamic linking -->
+			<meta-data android:name="org.liballeg.app_name" android:value="crystalpicnic"/>
+		</activity>
+		<receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
+			<intent-filter>
+				<action android:name="com.amazon.inapp.purchasing.NOTIFY"
+				android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY" />
+			</intent-filter>
+		</receiver>
+	</application>
+	<uses-feature android:glEsVersion="0x00020000"/>
+	<uses-sdk android:minSdkVersion="16"/>
+	<uses-sdk android:targetSdkVersion="16"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+</manifest> 

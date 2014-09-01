@@ -1,0 +1,66 @@
+#!/bin/bash
+
+FIND=/c/mingw/msys/1.0/bin/find.exe
+XARGS=xargs
+
+DEST="build"
+BASE="`pwd`/$DEST/data"
+
+echo "Copying..."
+robocopy //s data data_cpi > /dev/null
+rm -rf data_cpi/.git
+
+cd data_cpi
+../2cpi
+cd ..
+
+if [ -f "packtiles2" ] ; then
+   PACKTILES="`pwd`/packtiles2"
+else
+   echo "packtiles2 tool not found, please build the tools before running install.sh"
+   exit;
+fi
+
+mkdir $DEST/data
+mkdir $DEST/data/areas
+mkdir $DEST/data/map_entities
+
+cd data_cpi/areas
+
+cp -f global.lua "$BASE/areas"
+
+# Pack tiles
+echo packtiles
+cd tiles
+for f in * ; do
+	"$PACKTILES" ".cpi" $f
+done
+for f in `$FIND . -name "*_new.cpi"` ; do
+	mkdir -p "$BASE/areas/tiles/`dirname $f`"
+	mv -f $f "$BASE/areas/tiles/`echo $f | sed -e 's/_new.cpi/.cpi/'`"
+done
+cd ..
+
+for f in *.area
+do
+	echo "Processing $f..."
+	robocopy //s $f "$BASE/areas/$f" > /dev/null
+done
+
+cd ..
+
+DIRS="battle fonts map_entities misc_graphics mini_games music scripts sfx shaders skeletons text videos"
+for f in $DIRS ; do echo copy $f; robocopy //s $f "$BASE/$f" > /dev/null ; done
+
+cd ..
+
+DERP=`pwd`
+cd "$BASE/skeletons/xml"
+for f in *.xml ; do cat $f | sed -e 's/.png/.cpi/g' > $f.tmp ; mv $f.tmp $f ; done
+cd "$BASE"
+../../tools/mkcpa.sh ../data.cpa
+cd ..
+rm -rf data
+cd "$DERP"
+
+rm -rf data_cpi

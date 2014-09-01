@@ -1,0 +1,69 @@
+#!/bin/bash
+
+FIND=find
+XARGS=xargs
+
+MV="mv -f"
+CP="cp -f"
+
+DEST="build"
+BASE="/home/trent/code/crystalpicnic/build/data"
+
+echo "Copying..."
+cp -a data data_cpi
+rm -rf data_cpi/.git
+
+cd data_cpi
+../2cpi
+cd ..
+
+if [ -f "packtiles2" ] ; then
+   PACKTILES="`pwd`/packtiles2"
+else
+   echo "packtiles2 tool not found, please build the tools before running install.sh"
+   exit;
+fi
+
+mkdir $DEST/data
+mkdir $DEST/data/areas
+mkdir $DEST/data/map_entities
+
+cd data_cpi/areas
+
+$CP global.lua $BASE/areas
+
+# Pack tiles
+echo packtiles
+cd tiles
+for f in * ; do
+	$PACKTILES ".cpi" $f
+done
+for f in `$FIND . -name "*_new.cpi"` ; do
+	mkdir -p $BASE/areas/tiles/`dirname $f`
+	$MV $f $BASE/areas/tiles/`echo $f | sed -e 's/_new.cpi/.cpi/'`
+done
+cd ..
+
+for f in *.area
+do
+	echo "Processing $f..."
+	cp -a $f $BASE/areas
+done
+
+cd ..
+
+DIRS="battle fonts map_entities misc_graphics mini_games music scripts sfx shaders skeletons text videos"
+for f in $DIRS ; do echo copy $f; cp -a $f $BASE ; done
+
+cd ..
+
+DERP=`pwd`
+cd $BASE/skeletons/xml
+for f in *.xml ; do cat $f | sed -e 's/.png/.cpi/g' > $f.tmp ; mv $f.tmp $f ; done
+cd $BASE
+../../tools/mkcpa-linux.sh ../data.cpa
+cd ..
+rm -rf data
+cd $DERP
+
+rm -rf data_cpi
