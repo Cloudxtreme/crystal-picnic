@@ -784,10 +784,8 @@ bool W_Scrolling_List::keyChar(int keycode, int unichar)
 	}
 	else if (
 		keycode == ALLEGRO_KEY_ESCAPE
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 		|| keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 		|| keycode == ALLEGRO_KEY_BACK
 #endif
 		) {

@@ -12,11 +12,8 @@ int isPurchased();
 void queryPurchased();
 void doIAP();
 int checkPurchased();
-
-#ifdef FIRETV
 void grab_input();
 void setMusic(int music);
-#endif
 
 #ifdef __cplusplus
 }

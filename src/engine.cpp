@@ -16,7 +16,7 @@
 #include "shaders.h"
 #include "collision_detection.h"
 
-#ifdef ANDROID
+#ifdef ALLEGRO_ANDROID
 #include "android.h"
 #endif
 
@@ -88,9 +88,6 @@ static void do_modal(
 			}
 
 			if (engine->get_send_tgui_events()) {
-#ifdef OUYA
-	if ((event.type != ALLEGRO_EVENT_KEY_DOWN && event.type != ALLEGRO_EVENT_KEY_UP && event.type != ALLEGRO_EVENT_KEY_CHAR) || event.keyboard.keycode == ALLEGRO_KEY_MENU)
-#endif
 				tgui::handleEvent(&event);
 			}
 
@@ -457,7 +454,12 @@ void Engine::setup_screen_size()
 	if (cfg.linear_filtering) {
 		cfg.screens_w = r;
 		cfg.screens_h = r;
+#ifdef OUYA
+		// On OUYA we use setFixedSize(1280, 720) in Java but that doesn't change mouse coords, this fixes it.
+		tgui::setScale(1920.0f/cfg.screen_w, 1080.0f/cfg.screen_h);
+#else
 		tgui::setScale(w/cfg.screen_w, h/cfg.screen_h);
+#endif
 	}
 	else {
 		r += r * 0.5f / cfg.screen_w;
@@ -649,7 +651,11 @@ bool Engine::init_allegro()
 		return false;
 	}
 
-#if defined USE_FULLSCREEN_WINDOW
+#if defined OUYA
+	// We use setFixedSize on OUYA for performance
+	cfg.screen_w = 1280;
+	cfg.screen_h = 720;
+#elif defined USE_FULLSCREEN_WINDOW
 	if (cfg.fullscreen) {
 		cfg.screen_w = al_get_display_width(display);
 		cfg.screen_h = al_get_display_height(display);
@@ -1080,18 +1086,10 @@ loop_top:
 
 		process_touch_input(&event);
 		if (send_tgui_events) {
-#ifdef OUYA
-	if ((event.type != ALLEGRO_EVENT_KEY_DOWN && event.type != ALLEGRO_EVENT_KEY_UP && event.type != ALLEGRO_EVENT_KEY_CHAR) || event.keyboard.keycode == ALLEGRO_KEY_MENU)
-#endif
 			tgui::handleEvent_pretransformed(&event);
 		}
 
 		for (size_t i = 0; i < loops.size(); i++) {
-#ifdef OUYA
-			if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode != ALLEGRO_KEY_MENU) {
-				continue;
-			}
-#endif
 			if (loops[i]->handle_event(&event)) {
 				break;
 			}
@@ -1310,18 +1308,10 @@ loop_top:
 
 		process_touch_input(&event);
 		if (send_tgui_events) {
-#ifdef OUYA
-	if ((event.type != ALLEGRO_EVENT_KEY_DOWN && event.type != ALLEGRO_EVENT_KEY_UP && event.type != ALLEGRO_EVENT_KEY_CHAR) || event.keyboard.keycode == ALLEGRO_KEY_MENU)
-#endif
 			tgui::handleEvent_pretransformed(&event);
 		}
 
 		for (size_t i = 0; i < loops.size(); i++) {
-#ifdef OUYA
-			if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode != ALLEGRO_KEY_MENU) {
-				continue;
-			}
-#endif
 			if (loops[i]->handle_event(&event)) {
 				break;
 			}

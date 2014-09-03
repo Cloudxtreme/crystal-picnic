@@ -355,9 +355,6 @@ void Main::execute()
 					}
 #endif
 					else if (!engine->is_switched_out() && engine->get_send_tgui_events()) {
-#ifdef OUYA
-	if ((event.type != ALLEGRO_EVENT_KEY_DOWN && event.type != ALLEGRO_EVENT_KEY_UP && event.type != ALLEGRO_EVENT_KEY_CHAR) || event.keyboard.keycode == ALLEGRO_KEY_MENU)
-#endif
 						tgui::handleEvent(&event);
 					}
 				}

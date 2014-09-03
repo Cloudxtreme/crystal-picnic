@@ -68,7 +68,6 @@ bool Map_Loop::handle_event(ALLEGRO_EVENT *event)
 	if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 		int new_loc = -1;
 		
-#ifndef OUYA
 		if (event->keyboard.keycode == cfg.key_left) {
 			new_loc = locations[curr_loc].left;
 		}
@@ -102,9 +101,7 @@ bool Map_Loop::handle_event(ALLEGRO_EVENT *event)
 
 			return true;
 		}
-		else
-#endif
-		if (
+		else if (
 			event->keyboard.keycode == cfg.key_menu ||
 			event->keyboard.keycode == ALLEGRO_KEY_MENU
 #if defined ALLEGRO_ANDROID
@@ -162,16 +159,13 @@ bool Map_Loop::handle_event(ALLEGRO_EVENT *event)
 		}
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
-#ifndef OUYA
 		if (event->joystick.button == cfg.joy_menu) {
 			std::vector<Loop *> loops;
 			loops.push_back(new Main_Menu_Loop(players, engine->get_loops()));
 			engine->set_loops(loops, false);
 			return true;
 		}
-		else
-#endif
-		if (event->joystick.button == cfg.joy_ability[3]) {
+		else if (event->joystick.button == cfg.joy_ability[3]) {
 			engine->play_sample("sfx/use_item.ogg", 1.0f, 0.0f, 1.0f);
 			engine->fade_out();
 			Lua::call_lua(lua_state, "get_dest", "ss>siii",

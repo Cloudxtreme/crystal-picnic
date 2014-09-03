@@ -26,10 +26,6 @@
 
 #include <tgui2.hpp>
 
-#define JOY_XBOX360 0
-#define JOY_OUYA    1
-#define JOY_PS3     2
-
 enum TouchInputType {
 	TOUCHINPUT_GUI = 0,
 	TOUCHINPUT_SPEECH = 1,

@@ -27,6 +27,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.view.View.OnGenericMotionListener;
 import android.view.MotionEvent;
+import org.liballeg.android.KeyListener;
+import android.view.InputEvent;
+import android.view.InputDevice;
 
 public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
 
@@ -42,7 +45,11 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		System.loadLibrary("allegro_physfs");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
+		System.loadLibrary("android_extras");
 	}
+
+	native void pushButtonEvent(int button, boolean down);
+	native void pushAxisEvent(int axis, float value);
 
 	public CPActivity()
 	{
@@ -150,9 +157,13 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 
 	@Override
 	public boolean onGenericMotion(View v, MotionEvent event) {
-		pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
-		pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
-		return true;
+		int bits = event.getSource();
+		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+			pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
+			pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
+			return true;
+		}
+		return false;
 	}
 					
 	static final int joy_ability0 = 0;

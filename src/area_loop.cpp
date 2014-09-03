@@ -236,7 +236,6 @@ bool Area_Loop::handle_event(ALLEGRO_EVENT *event)
 	}
 	else
 	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
-#ifndef OUYA
 		if (event->joystick.button == cfg.joy_menu) {
 			Map_Entity *player = area->get_entity(0);
 			if (!player->input_is_disabled()) {
@@ -246,9 +245,7 @@ bool Area_Loop::handle_event(ALLEGRO_EVENT *event)
 				pass_to_player = false;
 			}
 		}
-		else
-#endif
-		if (event->joystick.button == cfg.joy_switch) {
+		else if (event->joystick.button == cfg.joy_switch) {
 			if (num_jumping == 0) {
 				Map_Entity *player = area->get_entity(0);
 				if (!player->input_is_disabled()) {
