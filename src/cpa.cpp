@@ -24,7 +24,7 @@ bool CPA::exists(std::string filename)
 
 CPA::CPA(std::string archive_name)
 {
-#ifdef ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID
 	ALLEGRO_PATH *apkname = al_get_standard_path(ALLEGRO_EXENAME_PATH);
 	PHYSFS_init(al_path_cstr(apkname, '/'));
 	PHYSFS_addToSearchPath(al_path_cstr(apkname, '/'), 1);
@@ -40,12 +40,20 @@ CPA::CPA(std::string archive_name)
 		count += al_fread(f, bytes+count, sz-count);
 	}
 	al_fclose(f);
+#elif defined ALLEGRO_IPHONE
+	ALLEGRO_FILE *f = al_fopen(archive_name.c_str(), "rb");
+	int sz = al_fsize(f);
+	bytes = new uint8_t[sz];
+	int count = 0;
+	while (count < sz) {
+		count += al_fread(f, bytes+count, sz-count);
+	}
+	al_fclose(f);
 #else
 #ifdef __linux__
 	ALLEGRO_PATH *path = al_get_standard_path(ALLEGRO_EXENAME_PATH);
 	al_set_path_filename(path, archive_name.c_str());
 	ALLEGRO_FILE *file = al_fopen(al_path_cstr(path, '/'), "rb");
-printf("file=%p\n", file);
 #else
 	ALLEGRO_FILE *file = al_fopen(archive_name.c_str(), "rb");
 #endif
@@ -55,7 +63,6 @@ printf("file=%p\n", file);
 
 #ifdef __linux__
 	gzFile f = gzopen(al_path_cstr(path, '/'), "rb");
-printf("f=%x\n", f);
 	al_destroy_path(path);
 #else
 	gzFile f = gzopen(archive_name.c_str(), "rb");

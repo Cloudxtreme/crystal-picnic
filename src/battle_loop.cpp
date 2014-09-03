@@ -193,7 +193,7 @@ bool Battle_Loop::handle_event(ALLEGRO_EVENT *event)
 	}
 
 	if (event->type == ALLEGRO_EVENT_KEY_DOWN && (
-#ifdef FIRETV
+#ifdef ALLEGRO_ANDROID
 		event->keyboard.keycode == ALLEGRO_KEY_BUTTON_L1 ||
 #endif
 		event->keyboard.keycode == cfg.key_switch

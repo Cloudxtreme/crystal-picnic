@@ -321,11 +321,17 @@ void Main::execute()
 					ALLEGRO_EVENT event;
 					al_get_next_event(event_queue, &event);
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
-					if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE || (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_Q)) {
+					if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 						done = true;
 						break;
 					}
 					else
+#endif
+#ifdef ALLEGRO_ANDROID
+					if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_BACK) {
+						done = true;
+						break;
+					}
 #endif
 					if (event.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
 						al_reconfigure_joysticks();

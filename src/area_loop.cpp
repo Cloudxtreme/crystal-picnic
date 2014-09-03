@@ -219,7 +219,7 @@ bool Area_Loop::handle_event(ALLEGRO_EVENT *event)
 			}
 		}
 		else if (
-#ifdef FIRETV
+#ifdef ALLEGRO_ANDROID
 			event->keyboard.keycode == ALLEGRO_KEY_BUTTON_L1 ||
 #endif
 			event->keyboard.keycode == cfg.key_switch

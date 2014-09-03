@@ -107,10 +107,8 @@ bool Map_Loop::handle_event(ALLEGRO_EVENT *event)
 		if (
 			event->keyboard.keycode == cfg.key_menu ||
 			event->keyboard.keycode == ALLEGRO_KEY_MENU
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 			|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 			|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 			) {

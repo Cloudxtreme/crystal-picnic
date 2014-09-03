@@ -22,13 +22,13 @@
 
 #include <allegro5/allegro_opengl.h>
 #include <allegro5/allegro_font.h>
-#ifdef ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 #include <allegro5/allegro_image.h>
 #endif
 
 #include <bass.h>
 
-#if (defined __linux__ && (!defined OUYA && !defined FIRETV)) || defined ALLEGRO_MACOSX
+#if defined __linux__ || defined ALLEGRO_MACOSX || defined ALLEGRO_IPHONE
 	#define USE_FULLSCREEN_WINDOW 1
 #endif
 
@@ -351,7 +351,7 @@ void Engine::add_loop(Loop *loop)
 
 void Engine::choose_joystick()
 {
-#if defined FIRETV
+#if defined ALLEGRO_ANDROID
        cfg.use_joy = true;
        cfg.joy_ability[0] = 0;
        cfg.joy_ability[1] = 1;
@@ -363,7 +363,7 @@ void Engine::choose_joystick()
        cfg.joy_arrange_down = 5;
        return;
 #endif
-#if defined ALLEGRO_ANDROID && (!defined OUYA && !defined FIRETV)
+#if defined ALLEGRO_IPHONE
 	cfg.use_joy = true;
 	return;
 #endif
@@ -376,38 +376,6 @@ void Engine::choose_joystick()
 			if (al_get_joystick_num_buttons(joy) > 0) {
 				cfg.use_joy = true;
 				cfg.allegro_joystick = joy;
-#ifdef OUYA
-				if (strstr(al_get_joystick_name(joy), "360") || strstr(al_get_joystick_name(joy), "X-Box")) {
-					cfg.joy_ability[0] = 3;
-					cfg.joy_ability[1] = 2;
-					cfg.joy_ability[2] = 1;
-					cfg.joy_ability[3] = 0;
-					cfg.joy_menu = 7;
-					cfg.joy_switch = 5;
-					cfg.joy_arrange_up = 4;
-					cfg.joy_arrange_down = 5;
-				}
-				else if (strstr(al_get_joystick_name(joy), "PLAYSTATION")) {
-					cfg.joy_ability[0] = 12;
-					cfg.joy_ability[1] = 15;
-					cfg.joy_ability[2] = 13;
-					cfg.joy_ability[3] = 14;
-					cfg.joy_menu = 3;
-					cfg.joy_switch = 11;
-					cfg.joy_arrange_up = 10;
-					cfg.joy_arrange_down = 11;
-				}
-				else {
-					cfg.joy_ability[0] = 2;
-					cfg.joy_ability[1] = 1;
-					cfg.joy_ability[2] = 3;
-					cfg.joy_ability[3] = 0;
-					cfg.joy_menu = 13;
-					cfg.joy_switch = 5;
-					cfg.joy_arrange_up = 4;
-					cfg.joy_arrange_down = 5;
-				}
-#endif
 				if (cfg.joy_stick == -1) {
 					cfg.joy_stick_dont_save = 0;
 					int num_sticks = al_get_joystick_num_sticks(joy);
@@ -624,7 +592,7 @@ bool Engine::init_allegro()
 	load_cpa();
 
 	al_init_primitives_addon();
-#ifdef ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	al_init_image_addon();
 #endif
 	al_init_font_addon();
@@ -696,7 +664,7 @@ bool Engine::init_allegro()
 	}
 #endif
 
-#if defined FIRETV
+#if defined ALLEGRO_ANDROID
 	glDisable(GL_DITHER);
 #endif
 
@@ -781,7 +749,7 @@ bool Engine::init_allegro()
 	al_register_event_source(event_queue, al_get_touch_input_event_source());
 #endif
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
-#if !defined ALLEGRO_IPHONE && (!defined ALLEGRO_ANDROID || (defined OUYA || defined FIRETV))
+#if !defined ALLEGRO_IPHONE
 	al_register_event_source(event_queue, al_get_joystick_event_source());
 #endif
 
@@ -934,7 +902,7 @@ bool Engine::init()
 	if (!init_allegro())
 		return false;
 
-#if defined FIRETV
+#if defined ALLEGRO_ANDROID
 	grab_input();
 #endif
 
@@ -1847,7 +1815,7 @@ void Engine::finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target
 				0
 			);
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
-#if !defined OUYA && !defined FIRETV
+#if !defined OUYA && !defined FIRETV // FIXMEFIXME
 			if (draw_touch_controls) {
 				switch (touch_input_type) {
 					case TOUCHINPUT_GUI:
@@ -2142,7 +2110,7 @@ void *wait_for_drawing_resume(void *arg)
 
 void Engine::switch_out()
 {
-#if defined ALLEGRO_ANDROID && (!defined OUYA && !defined FIRETV)
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	cfg.save();
 #endif
 
@@ -2218,7 +2186,7 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	General::load_fonts();
 	load_translation();
 	Wrap::reload_loaded_bitmaps();
-#if defined FIRETV
+#if defined ALLEGRO_ANDROID
 	grab_input();
 #endif
 #if !defined OUYA && !defined FIRETV
@@ -3334,9 +3302,11 @@ bool Engine::can_use_crystals()
 
 void Engine::load_cpa()
 {
-#ifdef ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID
 	// Loaded by PHYSFS
 	cpa = new CPA("assets/data.cpa.uncompressed");
+#elif defined ALLEGRO_IPHONE
+	cpa = new CPA("data.cpa.uncompressed");
 #else
 	cpa = new CPA("data.cpa");
 #endif

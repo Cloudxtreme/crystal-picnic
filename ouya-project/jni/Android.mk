@@ -76,6 +76,12 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
+LOCAL_MODULE := libandroid_extras-prebuilt
+LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/libandroid_extras.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
 LOCAL_ALLOW_UNDEFINED_SYMBOLS := false
 LOCAL_MODULE    := crystalpicnic
 LOCAL_SRC_FILES := abilities.cpp android.cpp animation.cpp animation_set.cpp area_loop.cpp area_manager.cpp astar.cpp astar_character_role.cpp bass.cpp bass_fileprocs.cpp battle_ai.cpp battle_entity.cpp battle_loop.cpp battle_pathfind.cpp battle_transition_in.cpp bitmap.cpp bones.cpp camera.cpp character_map_entity.cpp character_role.cpp collidable.cpp collision_detection.cpp config.cpp cpa.cpp credits_loop.cpp crystal_loop.cpp crystalpicnic.cpp direct3d.cpp enemy_avatar.cpp enemy_avatar_wander_character_role.cpp engine.cpp entity.cpp error.cpp follow_character_role.cpp frame.cpp game_specific_globals.cpp general.cpp graphics.cpp hqm.c hqm_loop.cpp input_config_loop.cpp lua.cpp main.cpp main_menu_loop.cpp map_entity.cpp map_loop.cpp mt19937ar.c music.cpp my_load_bitmap.cpp npc.cpp particle.cpp player.cpp resource_manager.cpp runner_loop.cpp saveload_loop.cpp shaders.cpp shop_loop.cpp skeleton.cpp sound.cpp speech_loop.cpp steering.cpp tls.cpp triangulate.cpp video_player.cpp wander_character_role.cpp weaponized_entity.cpp well512.c whack_a_skunk_loop.cpp widgets.cpp xml.cpp

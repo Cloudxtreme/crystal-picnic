@@ -78,7 +78,7 @@ void Configuration::reset(void)
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
 	fullscreen = true;
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI || defined ALLEGRO_IPHONE
 	low_graphics = true;
 #else
 	low_graphics = false;

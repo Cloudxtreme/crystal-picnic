@@ -163,7 +163,7 @@ bool Whack_a_Skunk_Loop::handle_event(ALLEGRO_EVENT *event)
 		}
 	}
 
-#if defined ALLEGRO_ANDROID && (!defined OUYA && !defined FIRETV)
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	if (event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 		int closest_index = -1;
 		float closest_distance = FLT_MAX;

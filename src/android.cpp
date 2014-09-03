@@ -175,7 +175,6 @@ const char * get_sdcarddir()
 	return buf;
 }
 
-#ifdef FIRETV
 void grab_input()
 {
 	_jni_callVoidMethodV(
@@ -196,5 +195,4 @@ void setMusic(int music)
 		music
 	);
 }
-#endif
 

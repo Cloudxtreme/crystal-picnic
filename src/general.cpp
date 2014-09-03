@@ -128,6 +128,7 @@ unsigned char rgb_scale_4[16] = {
 #if defined ALLEGRO_IPHONE
 static std::string user_resource_path_ios()
 {
+	const int MAX_PATH = 5000;
 	static char path[MAX_PATH];
 
 	ALLEGRO_PATH *user_path = al_get_standard_path(ALLEGRO_USER_DOCUMENTS_PATH);
@@ -142,11 +143,12 @@ std::string get_user_resource(const char *fmt, ...)
 	va_list ap;
 
 #ifdef ALLEGRO_IPHONE
+	const int MAX_PATH = 5000;
 	char file[MAX_PATH];
 	static char result[MAX_PATH];
 	char old[MAX_PATH];
 
-	sprintf(file, "%s/CrystalPicnic", use_resource_path_ios());
+	sprintf(file, "%s/CrystalPicnic", user_resource_path_ios().c_str());
 	if (!al_filename_exists(file))
 		mkdir(file, 0755);
 
@@ -154,7 +156,7 @@ std::string get_user_resource(const char *fmt, ...)
 	vsnprintf(file, MAX_PATH, fmt, ap);
 	va_end(ap);
 
-	sprintf(result, "%s/CrystalPicnic/%s", use_resource_path_ios(), file);
+	sprintf(result, "%s/CrystalPicnic/%s", user_resource_path_ios().c_str(), file);
 #else
 #ifndef ALLEGRO_WINDOWS
 	const int MAX_PATH = 5000;

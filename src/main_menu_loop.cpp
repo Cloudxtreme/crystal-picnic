@@ -779,10 +779,8 @@ bool Main_Menu_Main_Loop::handle_event(ALLEGRO_EVENT *event)
 	if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 		if (
 			event->keyboard.keycode == ALLEGRO_KEY_ESCAPE
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 			|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 			|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 		) {
@@ -1073,10 +1071,8 @@ bool Main_Menu_Abilities_Loop::handle_event(ALLEGRO_EVENT *event)
 		if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 			if (
 				event->keyboard.keycode == ALLEGRO_KEY_ESCAPE
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 				|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 				|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 			) {
@@ -1372,10 +1368,8 @@ bool Main_Menu_Items_Loop::handle_event(ALLEGRO_EVENT *event)
 		if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 			if (
 				event->keyboard.keycode == ALLEGRO_KEY_ESCAPE
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 				|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 				|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 			) {
@@ -1918,10 +1912,8 @@ bool Main_Menu_Equip_Loop::handle_event(ALLEGRO_EVENT *event)
 		if (!list_was_activated) {
 			if (
 				event->keyboard.keycode == ALLEGRO_KEY_ESCAPE
-#if defined FIRETV || (defined ALLEGRO_ANDROID && !defined OUYA)
-#ifdef FIRETV
+#if defined ALLEGRO_ANDROID
 				|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
-#endif
 				|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 			) {

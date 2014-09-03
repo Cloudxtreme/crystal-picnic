@@ -25,8 +25,10 @@ import android.app.Activity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.view.View.OnGenericMotionListener;
+import android.view.MotionEvent;
 
-public class CPActivity extends AllegroActivity {
+public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
 
 	/* load libs */
 	static {
@@ -121,6 +123,70 @@ public class CPActivity extends AllegroActivity {
 		clip_thread_done = false;
 
 		return clipdata;
+	}
+
+	public void grabInput() {
+		surface.setOnKeyListener(new KeyListener(this) {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				int code = getCode(keyCode);
+				if (code == -1) {
+					return surface.key_listener.onKey(v, keyCode, event);
+				}
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getRepeatCount() == 0) {
+						pushButtonEvent(code, true);
+					}
+				}
+				else {
+					pushButtonEvent(code, false);
+				}
+				return true;
+			}
+		});
+
+		surface.setOnGenericMotionListener(this);
+	}
+
+	@Override
+	public boolean onGenericMotion(View v, MotionEvent event) {
+		pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
+		pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
+		return true;
+	}
+					
+	static final int joy_ability0 = 0;
+	static final int joy_ability1 = 1;
+	static final int joy_ability2 = 2;
+	static final int joy_ability3 = 3;
+	static final int joy_menu = 4;
+	static final int joy_switch = 5;
+	static final int joy_arrange_up = 6;
+
+	static int getCode(int keyCode) {
+		int code = -1;
+		if (keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
+			code = joy_ability0;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_X) {
+			code = joy_ability1;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_B) {
+			code = joy_ability2;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_A) {
+			code = joy_ability3;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_MENU) {
+			code = joy_menu;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_L1) {
+			code = joy_arrange_up;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_R1) {
+			code = joy_switch;
+		}
+		return code;
 	}
 
 	static String keyS = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfPZLeoBrfkrbt2s3fK5BVvsqMkQI4vuBps0wFiZk3ST9L7YKKNWV8qwoXvF3WGp33hA4FkumgUzm4xjFzEKUKV8XEoQkl7Kh+2tC2SUpvkb0hDMkg2fct8TimbcAoET7l1MlIyRV7dBTo1XXImKYtG+Zr9B+SfBwRG8Fpa8G30QIDAQAB";

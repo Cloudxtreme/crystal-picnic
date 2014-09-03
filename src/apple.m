@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 
 void LOG(const char *s)
 {

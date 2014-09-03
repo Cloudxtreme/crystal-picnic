@@ -29,7 +29,7 @@
 #include "snprintf.h"
 #include "hqm.h"
 
-#ifdef ALLEGRO_MACOSX
+#if defined ALLEGRO_MACOSX || defined ALLEGRO_IPHONE
 #include <sys/stat.h>
 #endif
 
