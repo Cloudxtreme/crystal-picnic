@@ -209,6 +209,7 @@ Engine::Engine() :
 	
 	_shake.start = 0;
 	_shake.duration = 0;
+	shaking = false;
 
 	touch_input_type = TOUCHINPUT_GUI;
 	touch_input_on_bottom = true;
@@ -1056,6 +1057,7 @@ void Engine::do_event_loop()
 	fade_color = al_map_rgba(0, 0, 0, 0);
 	_shake.start = al_get_time();
 	_shake.duration = 0.0;
+	shaking = false;
 
 	done = false;
 
@@ -1561,12 +1563,24 @@ void Engine::shake(double start, double duration, int amount)
 	_shake.start = start + al_get_time();
 	_shake.duration = duration;
 	_shake.amount = amount;
+	shaking = true;
 }
 
 void Engine::end_shake()
 {
 	_shake.start = 0;
 	_shake.duration = 0;
+	Area_Loop *l = GET_AREA_LOOP;
+	if (l) {
+		l->get_area()->set_rumble_offset(General::Point<float>(0, 0));
+	}
+	else {
+		Battle_Loop *loop = GET_BATTLE_LOOP;
+		if (loop) {
+			loop->set_rumble_offset(General::Point<float>(0, 0));
+		}
+	}
+	shaking = false;
 }
 
 void Engine::fade(double start, double duration, ALLEGRO_COLOR color)
@@ -1903,6 +1917,18 @@ void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 				loop->set_rumble_offset(General::Point<float>(x, y));
 			}
 		}
+	}
+	else if (shaking && now >= _shake.start) {
+		if (l) {
+			l->get_area()->set_rumble_offset(General::Point<float>(0, 0));
+		}
+		else {
+			Battle_Loop *loop = GET_BATTLE_LOOP;
+			if (loop) {
+				loop->set_rumble_offset(General::Point<float>(0, 0));
+			}
+		}
+		shaking = false;
 	}
 
 	ALLEGRO_BITMAP *old_target = set_draw_target(force_no_target_change);

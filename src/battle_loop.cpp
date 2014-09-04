@@ -1078,8 +1078,8 @@ void Battle_Loop::draw()
 		Wrap::Bitmap *b = cart_parallax[3];
 		int bmp_w = al_get_bitmap_width(b->bitmap);
 		int bmp_h = al_get_bitmap_height(b->bitmap);
-		int x = cart_pixels_travelled % bmp_w;
-		int y = -dy * ((double)bmp_h / size.h);
+		int x = (cart_pixels_travelled+(int)rumble_offset.x) % bmp_w;
+		int y = -(dy+rumble_offset.y) * ((double)bmp_h / size.h);
 
 		al_hold_bitmap_drawing(true);
 		al_draw_bitmap_region(
@@ -1088,8 +1088,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(b->bitmap),
 			cfg.screen_h,
-			-x-al_get_bitmap_width(b->bitmap)+rumble_offset.x,
-			rumble_offset.y,
+			-x-al_get_bitmap_width(b->bitmap),
+			0,
 			0
 		);
 		al_draw_bitmap_region(
@@ -1098,8 +1098,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(b->bitmap),
 			cfg.screen_h,
-			-x+rumble_offset.x,
-			rumble_offset.y,
+			-x,
+			0,
 			0
 		);
 		al_draw_bitmap_region(
@@ -1108,8 +1108,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(b->bitmap),
 			cfg.screen_h,
-			-x+bmp_w+rumble_offset.x,
-			rumble_offset.y,
+			-x+bmp_w,
+			0,
 			0
 		);
 		al_hold_bitmap_drawing(false);
@@ -1117,8 +1117,8 @@ void Battle_Loop::draw()
 		b = cart_parallax[0];
 		bmp_w = al_get_bitmap_width(b->bitmap);
 		bmp_h = al_get_bitmap_height(b->bitmap);
-		x = cart_pixels_travelled % bmp_w;
-		y = -dy * ((double)bmp_h / size.h);
+		x = (cart_pixels_travelled+(int)rumble_offset.x) % bmp_w;
+		y = -(dy+rumble_offset.y) * ((double)bmp_h / size.h);
 
 		if (seventh_hit_time > 0 && !set_cart_transition_start) {
 			cart_transition_start = cart_pixels_travelled + (bmp_w - x);
@@ -1159,8 +1159,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(cart_parallax[2]->bitmap),
 			cfg.screen_h,
-			-x-al_get_bitmap_width(cart_parallax[2]->bitmap)+rumble_offset.x,
-			rumble_offset.y,
+			-x-al_get_bitmap_width(cart_parallax[2]->bitmap),
+			0,
 			0
 		);
 		al_draw_bitmap_region(
@@ -1169,8 +1169,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(bmp1->bitmap),
 			cfg.screen_h,
-			-x+rumble_offset.x,
-			rumble_offset.y,
+			-x,
+			0,
 			0
 		);
 		al_draw_bitmap_region(
@@ -1179,8 +1179,8 @@ void Battle_Loop::draw()
 			y,
 			al_get_bitmap_width(bmp2->bitmap),
 			cfg.screen_h,
-			-x+al_get_bitmap_width(bmp1->bitmap)+rumble_offset.x,
-			rumble_offset.y,
+			-x+al_get_bitmap_width(bmp1->bitmap),
+			0,
 			0
 		);
 

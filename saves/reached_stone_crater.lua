@@ -1,5 +1,5 @@
 set_save_state_version(1)
-set_area_name("map:Stone Crater")
+set_area_name("map:STONE_CRATER")
 set_milestone_complete("ant_tracks", true)
 set_milestone_complete("antcolony_chest1", true)
 set_milestone_complete("antcolony_chest2", true)

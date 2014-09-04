@@ -283,6 +283,7 @@ protected:
 		int amount;
 	};
 	Shake _shake;
+	bool shaking;
 
 	struct Fade {
 		double fade_start;
