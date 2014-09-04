@@ -148,7 +148,7 @@ set(COMMON_SRCS
 )
 
 if(APPLE)
-	list(APPEND COMMON_SRCS src/apple.m src/unlock.mm)
+	list(APPEND COMMON_SRCS src/apple.m)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unknown-pragmas -Wno-comment")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-comment")
 	if(DEMO)
@@ -181,8 +181,7 @@ if(APPLE)
 	FIND_LIBRARY(APPKIT_LIBRARY AppKit)
 	FIND_LIBRARY(IOKIT_LIBRARY IOKit)
 	FIND_LIBRARY(AUDIOTOOLBOX_LIBRARY AudioToolbox)
-	FIND_LIBRARY(STOREKIT_LIBRARY StoreKit)
-	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} ${STOREKIT_LIBRARY} bass bassmidi curl atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
+	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} bass bassmidi curl atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
 endif(APPLE)
 
 if(WIN32)
@@ -240,7 +239,7 @@ else(WIN32)
 			allegro_memfile${ALLEG_SUFFIX}
 			allegro_dialog${ALLEG_SUFFIX}
 			allegro${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB}
-			/Users/trent/code/local/lib/liblua5.2.a
+			/Users/trent/code/local/lib/liblua.a
 			${EXTRA_LIBS}
 		)
 	else(APPLE)

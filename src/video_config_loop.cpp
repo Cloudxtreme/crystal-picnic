@@ -139,8 +139,22 @@ bool Video_Config_Loop::logic()
 			exit(0);
 #else
 			ALLEGRO_PATH *exe = al_get_standard_path(ALLEGRO_EXENAME_PATH);
+			char path[5000];
+#ifdef ALLEGRO_MACOSX
+			for (int i = 0; i < 2; i++) {
+				al_drop_path_tail(exe);
+			}
+			al_set_path_filename(exe, "");
+			snprintf(path, 5000, "open \"%s\"", al_path_cstr(exe, '/'));
+			if (path[strlen(path)-1] == '/') {
+				path[strlen(path)-1] = 0;
+			}
+#else
+			strncpy(path, 5000, al_path_cstr(exe, '/'));
+#endif
+			al_destroy_path(exe);
 			if (fork() == 0) {
-				system(al_path_cstr(exe, '/'));
+				system(path);
 			}
 			else {
 				exit(0);
