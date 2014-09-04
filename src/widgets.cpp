@@ -1016,7 +1016,7 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 	for (int i = start; i < end; i++) {
 		int this_y = yy+(i-start)*line_height;
 		ALLEGRO_COLOR color;
-		if (disabled[selected]) {
+		if (disabled[i]) {
 			color = dark;
 		}
 		else if ((int)i == selected) {
@@ -1329,3 +1329,23 @@ W_Scrolling_List::~W_Scrolling_List() {
 		}
 	}
 }
+
+void W_Checkbox::keyDown(int keycode)
+{
+	if (this == tgui::getFocussedWidget() && (keycode == cfg.key_ability[3] || keycode == ALLEGRO_KEY_ENTER)) {
+		checked = !checked;
+	}
+}
+
+void W_Checkbox::joyButtonDown(int button)
+{
+	if (this == tgui::getFocussedWidget()) {
+		checked = !checked;
+	}
+}
+
+bool W_Checkbox::acceptsFocus()
+{
+	return true;
+}
+

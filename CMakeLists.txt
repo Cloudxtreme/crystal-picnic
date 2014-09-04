@@ -127,6 +127,7 @@ set(COMMON_SRCS
 	src/resource_manager.cpp
 	src/runner_loop.cpp
 	src/saveload_loop.cpp
+	src/settings_loop.cpp
 	src/shaders.cpp
 	src/shop_loop.cpp
 	src/skeleton.cpp
@@ -136,6 +137,7 @@ set(COMMON_SRCS
 	src/steering.cpp
 	src/tls.cpp
 	src/triangulate.cpp
+	src/video_config_loop.cpp
 	src/video_player.cpp
 	src/wander_character_role.cpp
 	src/weaponized_entity.cpp

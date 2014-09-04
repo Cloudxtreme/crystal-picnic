@@ -5,6 +5,7 @@
 #include <list>
 
 #include <tgui2.hpp>
+#include <tgui2_widgets.hpp>
 
 #include "general.h"
 #include "engine.h"
@@ -605,6 +606,15 @@ public:
 
 protected:
 	std::list<W_I_Toggleable *> group;
+};
+
+class W_Checkbox : public TGUI_Checkbox {
+public:
+	void keyDown(int keycode);
+	void joyButtonDown(int keycode);
+	bool acceptsFocus();
+
+	W_Checkbox(bool checked) : TGUI_Checkbox(0, 0, 8, 8, checked) {}
 };
 
 #endif // WIDGETS_H

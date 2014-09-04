@@ -7,7 +7,7 @@
 #include "saveload_loop.h"
 #include "hqm_loop.h"
 #include "runner_loop.h"
-#include "input_config_loop.h"
+#include "settings_loop.h"
 
 // FIXME:
 #include "credits_loop.h"
@@ -366,22 +366,10 @@ void Main::execute()
 				tgui::TGUIWidget *widget = tgui::update();
 
 				if (widget == config_button) {
-					std::vector<std::string> text;
-					text.push_back(t("CFG_KEYBOARD_OR_GAMEPAD"));
-					Drawer_Loop *drawer_loop = new Drawer_Loop();
-					std::vector<Loop *> loops_to_draw;
-					loops_to_draw.push_back(drawer_loop);
-					Input_Config_Loop *l;
-					if (engine->prompt(text, t("KEYBOARD"), t("GAMEPAD"), &loops_to_draw) == 0) {
-						l = new Input_Config_Loop(true);
-					}
-					else {
-						l = new Input_Config_Loop(false);
-					}
-					delete drawer_loop;
+					Settings_Loop *l = new Settings_Loop();
 					fade(1.0, true);
 					tgui::hide();
-					tgui::push(); // popped in ~Input_Config_Loop()
+					tgui::push(); // popped in ~Settings_Loop()
 					std::vector<Loop *> loops;
 					l->init();
 					loops.push_back(l);
