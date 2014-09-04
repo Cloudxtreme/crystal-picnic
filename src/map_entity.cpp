@@ -412,6 +412,15 @@ void Map_Entity::logic(void)
 
 	colliding_with_ladder = false;
 
+	bool is_player_npc = false;
+	std::vector<NPC *> player_npcs = area_loop->get_player_npcs();
+	for (size_t i = 0; i < player_npcs.size(); i++) {
+		if (this == player_npcs[i]) {
+			is_player_npc = true;
+			break;
+		}
+	}
+
 	float curr_speed = get_current_speed();
 
 	float dx = 0;
@@ -1010,8 +1019,10 @@ void Map_Entity::logic(void)
 		w->move_camera(tmp, pos, true);
 	}
 
-	pos.x += pos_inc_x;
-	pos.y += pos_inc_y;
+	if (!is_player_npc) {
+		pos.x += pos_inc_x;
+		pos.y += pos_inc_y;
+	}
 }
 
 void Map_Entity::add_camera(Camera *camera)
