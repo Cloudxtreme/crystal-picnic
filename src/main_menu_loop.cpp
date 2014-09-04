@@ -142,6 +142,9 @@ bool Main_Menu_Loop::init()
 
 	character_preview_box = resource_manager->reference_bitmap("misc_graphics/interface/character_preview_box.cpi");
 	money_time_box = resource_manager->reference_bitmap("misc_graphics/interface/money_time_box.cpi");
+	nine_crystal = resource_manager->reference_bitmap("misc_graphics/interface/9crystal.cpi");
+	nine_coin = resource_manager->reference_bitmap("misc_graphics/interface/9coin.cpi");
+	nine_clock = resource_manager->reference_bitmap("misc_graphics/interface/9clock.cpi");
 
 	extra_x = cfg.screen_w - General::RENDER_W;
 	extra_y = cfg.screen_h - General::RENDER_H;
@@ -182,9 +185,16 @@ bool Main_Menu_Loop::init()
 	}
 
 	if (engine->can_use_crystals()) {
+		int w1 = General::get_text_width(General::FONT_LIGHT, General::itos(99));
+		int w2 = General::get_text_width(General::FONT_LIGHT, General::itos(9999));
+		int w4 = al_get_bitmap_width(nine_crystal->bitmap);
 		int money_y = cfg.screen_h-al_get_bitmap_height(money_time_box->bitmap)-1;
-		money_y -= 2;
-		crystal_button = new W_Button(1, money_y, al_get_bitmap_width(money_time_box->bitmap), General::get_font_line_height(General::FONT_LIGHT)+6);
+		crystal_button = new W_Button(
+			al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w4+5+w2+w4)/2 - 2,
+			money_y + 7 - 2,
+			w1+w4+4,
+			General::get_font_line_height(General::FONT_LIGHT)+4
+		);
 		tgui::addWidget(crystal_button);
 	}
 	else {
@@ -451,51 +461,64 @@ void Main_Menu_Loop::draw()
 		0
  	);
 
-	money_y++;
+	money_y += 7;
 
 	ALLEGRO_COLOR crystals_color = engine->can_use_crystals() ? al_color_name("cyan") : al_color_name("lightgrey");
 
- 	General::draw_text(
- 		t("CRYSTALS_LABEL"),
+	int w1 = General::get_text_width(General::FONT_LIGHT, General::itos(99));
+	int w2 = General::get_text_width(General::FONT_LIGHT, General::itos(9999));
+	int w3 = General::get_text_width(General::FONT_LIGHT, General::get_time_string(Game_Specific_Globals::elapsed_time));
+	int w4 = al_get_bitmap_width(nine_crystal->bitmap);
+
+	General::draw_text(
+		General::itos(Game_Specific_Globals::crystals),
 		crystals_color,
- 		ox+4,
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2+w4,
 		oy+money_y,
 		0
- 	);
- 	General::draw_text(
-	       	General::itos(Game_Specific_Globals::crystals),
-		crystals_color,
-		ox+al_get_bitmap_width(money_time_box->bitmap)-1,
-		oy+money_y,
-		ALLEGRO_ALIGN_RIGHT
 	);
 	if (engine->can_use_crystals()) {
-		al_draw_line(ox+4, oy+money_y+10, ox+al_get_bitmap_width(money_time_box->bitmap)-1, oy+money_y+10, al_color_name("cyan"), 1.0f/(int)cfg.screens_w);
+		al_draw_line(
+			ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2,
+			oy+money_y+11,
+			ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2+w1+w4,
+			oy+money_y+11,
+			crystals_color,
+			1
+		);
 	}
- 	General::draw_text(
- 		t("CASH_LABEL"),
- 		ox+4,
-		oy+money_y+General::get_font_line_height(General::FONT_LIGHT),
-		0
- 	);
- 	General::draw_text(
-	       	General::itos(Game_Specific_Globals::cash),
-		ox+al_get_bitmap_width(money_time_box->bitmap)-1,
-		oy+money_y+General::get_font_line_height(General::FONT_LIGHT),
-		ALLEGRO_ALIGN_RIGHT
-	);
- 	General::draw_text(
- 		t("TIME_LABEL"),
- 		ox+4,
-		oy+money_y+General::get_font_line_height(General::FONT_LIGHT)*2,
-		0
- 	);
 	General::draw_text(
-		// FIXME?:
+		General::itos(Game_Specific_Globals::cash),
+		al_color_name("lightgrey"),
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2+w1+w4+5+w4,
+		oy+money_y,
+		0
+	);
+	General::draw_text(
 		General::get_time_string(Game_Specific_Globals::elapsed_time),
-		ox+al_get_bitmap_width(money_time_box->bitmap)-1,
-		oy+money_y+General::get_font_line_height(General::FONT_LIGHT)*2,
-		ALLEGRO_ALIGN_RIGHT
+		al_color_name("lightgrey"),
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w3+w4)/2+w4,
+		oy+money_y+General::get_font_line_height(General::FONT_LIGHT),
+		0
+	);
+
+	al_draw_bitmap(
+		nine_crystal->bitmap,
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2,
+		oy+money_y,
+		0
+	);
+	al_draw_bitmap(
+		nine_coin->bitmap,
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2+w1+w4+5,
+		oy+money_y,
+		0
+	);
+	al_draw_bitmap(
+		nine_clock->bitmap,
+		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w3+w4)/2,
+		oy+money_y+General::get_font_line_height(General::FONT_LIGHT),
+		0
 	);
 
 	sub_loop->draw();
@@ -547,6 +570,9 @@ Main_Menu_Loop::~Main_Menu_Loop()
 {
 	resource_manager->release_bitmap("misc_graphics/interface/character_preview_box.cpi");
 	resource_manager->release_bitmap("misc_graphics/interface/money_time_box.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/9crystal.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/9coin.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/9clock.cpi");
 
 	save_button->remove();
 	quit_button->remove();

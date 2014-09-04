@@ -90,6 +90,9 @@ protected:
 	
 	Wrap::Bitmap *character_preview_box;
 	Wrap::Bitmap *money_time_box;
+	Wrap::Bitmap *nine_crystal;
+	Wrap::Bitmap *nine_coin;
+	Wrap::Bitmap *nine_clock;
 	W_Icon_Button *options_button;
 	W_Icon_Button *save_button;
 	W_Icon_Button *quit_button;
