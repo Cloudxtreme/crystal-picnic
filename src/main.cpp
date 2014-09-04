@@ -222,6 +222,7 @@ void Main::execute()
 			
 			engine->set_game_over(false);
 
+			bool add_continue;
 			bool add_hqm;
 			bool add_bonus;
 
@@ -235,24 +236,29 @@ void Main::execute()
 				buy_button = new W_Title_Screen_Button(t("BUY_FULL_GAME"));
 				buy_button->setX(20);
 				buy_button->setY(132);
+				add_continue = false;
 				add_hqm = false;
 				add_bonus = false;
 			}
 			else {
+				add_continue = true;
 				add_hqm = true;
 				add_bonus = cfg.beat_game;
 			}
 #else
 #ifdef DEMO
+			add_continue = false;
 			add_hqm = false;
 			add_bonus = false;
 			button_inc = 16;
 #else
+			add_continue = true;
 			add_hqm = true;
 			add_bonus = cfg.beat_game;
 #endif
 #endif
 			
+			button_inc += add_continue ? 0 : 16;
 			button_inc += add_bonus ? -16 : 0;
 
 
@@ -279,7 +285,9 @@ void Main::execute()
 			tgui::addWidget(config_button);
 #endif
 			tgui::addWidget(new_game_button);
-			tgui::addWidget(continue_button);
+			if (add_continue) {
+				tgui::addWidget(continue_button);
+			}
 			if (buy_button) {
 				tgui::addWidget(buy_button);
 			}
@@ -414,6 +422,9 @@ void Main::execute()
 						buy_button->remove();
 						delete buy_button;
 						buy_button = NULL;
+						add_continue = true;
+						tgui::addWidget(continue_button);
+						new_game_button->setY(new_game_button->getY()-16);
 						add_hqm = true;
 						hqm_button->setX(20);
 						hqm_button->setY(132);
