@@ -258,7 +258,6 @@ void Main::execute()
 #endif
 #endif
 			
-			button_inc += add_continue ? 0 : 16;
 			button_inc += add_bonus ? -16 : 0;
 
 
@@ -268,7 +267,7 @@ void Main::execute()
 			
 			W_Title_Screen_Button *new_game_button = new W_Title_Screen_Button(t("NEW_GAME"));
 			new_game_button->setX(20);
-			new_game_button->setY(100+button_inc);
+			new_game_button->setY(100+button_inc+(add_continue ? 0 : 16));
 			W_Title_Screen_Button *continue_button = new W_Title_Screen_Button(t("CONTINUE"));
 			continue_button->setX(20);
 			continue_button->setY(116+button_inc);
