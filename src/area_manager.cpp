@@ -1427,6 +1427,9 @@ bool Area_Manager::load(std::string name)
 
 	if (cfg.water_shader) {
 		water_shader = Shader::get("water");
+		if (!water_shader) {
+			cfg.water_shader = false;
+		}
 	}
 
 	this->name = name;

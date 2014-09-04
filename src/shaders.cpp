@@ -148,6 +148,12 @@ Wrap::Shader *get(std::string name)
 
 	MyShader s;
 	s.shader = load_shader(name);
+
+	if (!s.shader->shader) {
+		Wrap::destroy_shader(s.shader);
+		return NULL;
+	}
+
 	s.name = name;
 	shaders.push_back(s);
 
