@@ -76,8 +76,8 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := libamazon_extras-prebuilt
-LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/libamazon_extras.so
+LOCAL_MODULE := libandroid_extras-prebuilt
+LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/libandroid_extras.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)

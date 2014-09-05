@@ -7,13 +7,13 @@ extern "C" {
 
 void logString(const char *s);
 const char * get_sdcarddir();
-
 int isPurchased();
 void queryPurchased();
 void doIAP();
 int checkPurchased();
 void grab_input();
 void setMusic(int music);
+bool gamepadConnected();
 
 #ifdef __cplusplus
 }

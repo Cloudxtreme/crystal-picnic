@@ -29,6 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.liballeg.android.KeyListener;
 import android.content.IntentFilter;
+import android.view.InputDevice;
 
 import com.amazon.inapp.purchasing.GetUserIdResponse;
 import com.amazon.inapp.purchasing.GetUserIdResponse.GetUserIdRequestStatus;
@@ -54,7 +55,7 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		System.loadLibrary("allegro_physfs");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
-		System.loadLibrary("amazon_extras");
+		System.loadLibrary("android_extras");
 	}
    
 	native void pushButtonEvent(int button, boolean down);
@@ -141,6 +142,25 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		return clipdata;
 	}
 
+	boolean gotGamepadConnected = false;
+	boolean _gamepadConnected;
+
+	// FIXME: impelement this
+	public boolean gamepadConnected()
+	{
+		if (!gotGamepadConnected) {
+			int[] ids = InputDevice.getDeviceIds();
+			for (int i = 0; i < ids.length; i++) {
+				InputDevice inp = InputDevice.getDevice(ids[i]);
+				int bits = inp.getSources();
+				if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+					_gamepadConnected = true;
+				}
+			}
+		}
+		return _gamepadConnected;
+	}
+	
 	private PurchaseDataStorage purchaseDataStorage;
 
 	MyBroadcastReceiver bcr;
@@ -184,11 +204,34 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		surface.setOnGenericMotionListener(this);
 	}
 
+	float axis_x = 0.0f;
+	float axis_y = 0.0f;
+	float axis_hat_x = 0.0f;
+	float axis_hat_y = 0.0f;
+
 	@Override
 	public boolean onGenericMotion(View v, MotionEvent event) {
-		pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
-		pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
-		return true;
+		int bits = event.getSource();
+		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+			float ax = event.getAxisValue(MotionEvent.AXIS_X, 0);
+			float ay = event.getAxisValue(MotionEvent.AXIS_Y, 0);
+			float ahx = event.getAxisValue(MotionEvent.AXIS_HAT_X, 0);
+			float ahy = event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0);
+			if (ax != axis_x || ay != axis_y) {
+				pushAxisEvent(0, ax);
+				pushAxisEvent(1, ay);
+				axis_x = ax;
+				axis_y = ay;
+			}
+			else if (ahx != axis_hat_x || ahy != axis_hat_y) {
+				pushAxisEvent(0, ahx);
+				pushAxisEvent(1, ahy);
+				axis_hat_x = ahx;
+				axis_hat_y = ahy;
+			}
+			return true;
+		}
+		return false;
 	}
 					
 	static final int joy_ability0 = 0;

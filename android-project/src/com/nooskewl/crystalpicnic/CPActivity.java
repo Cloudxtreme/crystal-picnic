@@ -25,8 +25,12 @@ import android.app.Activity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.view.View.OnGenericMotionListener;
+import android.view.MotionEvent;
+import org.liballeg.android.KeyListener;
+import android.view.InputDevice;
 
-public class CPActivity extends AllegroActivity {
+public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
 
 	/* load libs */
 	static {
@@ -41,6 +45,9 @@ public class CPActivity extends AllegroActivity {
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
 	}
+
+	native void pushButtonEvent(int button, boolean down);
+	native void pushAxisEvent(int axis, float value);
 
 	public CPActivity()
 	{
@@ -121,6 +128,103 @@ public class CPActivity extends AllegroActivity {
 		clip_thread_done = false;
 
 		return clipdata;
+	}
+	
+	boolean gotGamepadConnected = false;
+	boolean _gamepadConnected;
+
+	// FIXME: impelement this
+	public boolean gamepadConnected()
+	{
+		if (!gotGamepadConnected) {
+			int[] ids = InputDevice.getDeviceIds();
+			for (int i = 0; i < ids.length; i++) {
+				InputDevice inp = InputDevice.getDevice(ids[i]);
+				int bits = inp.getSources();
+				if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+					_gamepadConnected = true;
+				}
+			}
+		}
+		return _gamepadConnected;
+	}
+	
+	public void grabInput() {
+		surface.setOnKeyListener(new KeyListener(this) {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				int code = getCode(keyCode);
+				if (code == -1) {
+					return surface.key_listener.onKey(v, keyCode, event);
+				}
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getRepeatCount() == 0) {
+						pushButtonEvent(code, true);
+					}
+				}
+				else {
+					pushButtonEvent(code, false);
+				}
+				return true;
+			}
+		});
+
+		surface.setOnGenericMotionListener(this);
+	}
+
+	@Override
+	public boolean onGenericMotion(View v, MotionEvent event) {
+		int bits = event.getSource();
+		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+			if (MotionEvent.AXIS_X != axis_x || MotionEvent.AXIS_Y != axis_y) {
+				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
+				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
+				axis_x = MotionEvent.AXIS_X;
+				axis_y = MotionEvent.AXIS_Y;
+			}
+			else if (MotionEvent.AXIS_HAT_X != axis_hat_x || MotionEvent.AXIS_HAT_Y != axis_hat_y) {
+				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_HAT_X, 0));
+				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0));
+				axis_hat_x = MotionEvent.AXIS_HAT_X;
+				axis_hat_y = MotionEvent.AXIS_HAT_Y;
+			}
+			return true;
+		}
+		return false;
+	}
+					
+	static final int joy_ability0 = 0;
+	static final int joy_ability1 = 1;
+	static final int joy_ability2 = 2;
+	static final int joy_ability3 = 3;
+	static final int joy_menu = 4;
+	static final int joy_switch = 5;
+	static final int joy_arrange_up = 6;
+
+	static int getCode(int keyCode) {
+		int code = -1;
+		if (keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
+			code = joy_ability0;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_X) {
+			code = joy_ability1;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_B) {
+			code = joy_ability2;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_A) {
+			code = joy_ability3;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_MENU) {
+			code = joy_menu;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_L1) {
+			code = joy_arrange_up;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BUTTON_R1) {
+			code = joy_switch;
+		}
+		return code;
 	}
 }
 

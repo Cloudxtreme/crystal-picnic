@@ -66,6 +66,7 @@ public:
 	struct Sample {
 		Sound::Sample *sample;
 		int count;
+		bool looping;
 	};
 
 	friend void *wait_for_drawing_resume(void *arg);

@@ -5,9 +5,17 @@
 
 #include <allegro5/allegro.h>
 
+#include "bass_crystalpicnic.h"
+
 namespace Sound {
 
-struct Sample;
+struct Sample {
+	HSAMPLE sample;
+	std::vector<HSAMPLE> set;
+	float freq;
+	bool is_set;
+	bool loop;
+};
 
 Sample *load(std::string filename, bool loop = false);
 Sample *load_set(std::string filename, std::string extension);

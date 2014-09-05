@@ -28,7 +28,6 @@ import android.webkit.WebViewClient;
 import android.view.View.OnGenericMotionListener;
 import android.view.MotionEvent;
 import org.liballeg.android.KeyListener;
-import android.view.InputEvent;
 import android.view.InputDevice;
 
 public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
@@ -159,8 +158,18 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 	public boolean onGenericMotion(View v, MotionEvent event) {
 		int bits = event.getSource();
 		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
-			pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
-			pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
+			if (MotionEvent.AXIS_X != axis_x || MotionEvent.AXIS_Y != axis_y) {
+				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
+				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
+				axis_x = MotionEvent.AXIS_X;
+				axis_y = MotionEvent.AXIS_Y;
+			}
+			else if (MotionEvent.AXIS_HAT_X != axis_hat_x || MotionEvent.AXIS_HAT_Y != axis_hat_y) {
+				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_HAT_X, 0));
+				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0));
+				axis_hat_x = MotionEvent.AXIS_HAT_X;
+				axis_hat_y = MotionEvent.AXIS_HAT_Y;
+			}
 			return true;
 		}
 		return false;
@@ -198,6 +207,11 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 			code = joy_switch;
 		}
 		return code;
+	}
+
+	public boolean gamepadConnected()
+	{
+		return true;
 	}
 
 	static String keyS = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfPZLeoBrfkrbt2s3fK5BVvsqMkQI4vuBps0wFiZk3ST9L7YKKNWV8qwoXvF3WGp33hA4FkumgUzm4xjFzEKUKV8XEoQkl7Kh+2tC2SUpvkb0hDMkg2fct8TimbcAoET7l1MlIyRV7dBTo1XXImKYtG+Zr9B+SfBwRG8Fpa8G30QIDAQAB";

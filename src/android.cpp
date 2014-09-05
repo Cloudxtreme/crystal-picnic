@@ -70,6 +70,7 @@ jobject _al_android_activity_object();
 })
 
 #define _jni_callIntMethod(env, obj, name) _jni_callIntMethodV(env, obj, name, "()I");
+#define _jni_callBooleanMethod(env, obj, name) _jni_callBooleanMethodV(env, obj, name, "()Z");
 
 static jobject _jni_callObjectMethod(JNIEnv *env, jobject object, const char *name, const char *sig)
 {
@@ -194,5 +195,16 @@ void setMusic(int music)
 		"(I)V",
 		music
 	);
+}
+
+bool gamepadConnected()
+{
+	bool ret = _jni_callBooleanMethod(
+		_al_android_get_jnienv(),
+		_al_android_activity_object(),
+		"gamepadConnected"
+	);
+
+	return ret;
 }
 

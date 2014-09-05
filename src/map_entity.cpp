@@ -9,6 +9,7 @@
 #include "character_role.h"
 #include "wander_character_role.h"
 #include "collision_detection.h"
+#include "follow_character_role.h"
 
 void Map_Entity::set_move_cameras_while_input_disabled(bool move_cameras)
 {
@@ -416,7 +417,9 @@ void Map_Entity::logic(void)
 	std::vector<NPC *> player_npcs = area_loop->get_player_npcs();
 	for (size_t i = 0; i < player_npcs.size(); i++) {
 		if (this == player_npcs[i]) {
-			is_player_npc = true;
+			if (dynamic_cast<Follow_Character_Role *>(player_npcs[i]->get_role())) {
+				is_player_npc = true;
+			}
 			break;
 		}
 	}

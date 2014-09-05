@@ -6,14 +6,6 @@ ALLEGRO_DEBUG_CHANNEL("CrystalPicnic")
 
 namespace Sound {
 
-struct Sample {
-	HSAMPLE sample;
-	std::vector<HSAMPLE> set;
-	float freq;
-	bool is_set;
-	bool loop;
-};
-
 Sample *load(std::string filename, bool loop)
 {
 	Sample *sample = new Sample;

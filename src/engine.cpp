@@ -1506,6 +1506,9 @@ void Engine::play_sample(std::string name, float vol, float pan, float speed)
 	Sample &s = sfx[name];
 	if (s.sample) {
 		Sound::play(s.sample, vol, pan, speed);
+		if (s.sample->loop) {
+			s.looping = true;
+		}
 	}
 }
 
@@ -1517,6 +1520,9 @@ void Engine::stop_sample(std::string name)
 	Sample &s = sfx[name];
 	if (s.sample) {
 		Sound::stop(s.sample);
+		if (s.sample->loop) {
+			s.looping = false;
+		}
 	}
 }
 
@@ -1819,8 +1825,7 @@ void Engine::finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target
 				0
 			);
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
-#if !defined OUYA && !defined FIRETV // FIXMEFIXME
-			if (draw_touch_controls) {
+			if (draw_touch_controls && !gamepadConnected()) {
 				switch (touch_input_type) {
 					case TOUCHINPUT_GUI:
 						// nothing
@@ -1881,7 +1886,6 @@ void Engine::finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target
 					}
 				}
 			}
-#endif
 #endif
 		}
 	}
@@ -2209,6 +2213,18 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	BASS_Start();
 #endif
 	glDisable(GL_DITHER);
+#endif
+
+#ifdef ALLEGRO_ANDROID
+#if !defined OUYA && !defined FIRETV
+	std::map<std::string, Sample>::iterator it;
+	for (it = sfx.begin(); it != sfx.end(); it++) {
+		std::pair<const std::string, Sample> &p = *it;
+		if (p.second.looping) {
+			play_sample(p.first);
+		}
+	}
+#endif
 #endif
 }
 

@@ -150,7 +150,7 @@ bool Video_Config_Loop::logic()
 				path[strlen(path)-1] = 0;
 			}
 #else
-			strncpy(path, 5000, al_path_cstr(exe, '/'));
+			strncpy(path, al_path_cstr(exe, '/'), 5000);
 #endif
 			al_destroy_path(exe);
 			if (fork() == 0) {
