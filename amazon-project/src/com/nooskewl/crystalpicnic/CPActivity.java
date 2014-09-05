@@ -143,20 +143,26 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 	}
 
 	boolean gotGamepadConnected = false;
-	boolean _gamepadConnected;
+	boolean _gamepadConnected = false;
 
-	// FIXME: impelement this
 	public boolean gamepadConnected()
 	{
 		if (!gotGamepadConnected) {
+			/*
 			int[] ids = InputDevice.getDeviceIds();
 			for (int i = 0; i < ids.length; i++) {
 				InputDevice inp = InputDevice.getDevice(ids[i]);
 				int bits = inp.getSources();
-				if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+				if (((bits & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) || ((bits & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK)) {
 					_gamepadConnected = true;
 				}
 			}
+			*/
+			// This is the id of Fire TV
+			if (android.os.Build.MODEL.substring(0, 4).equals("AFTB") && android.os.Build.MANUFACTURER.equals("Amazon")) {
+				_gamepadConnected = true;
+			}
+			gotGamepadConnected = true;
 		}
 		return _gamepadConnected;
 	}

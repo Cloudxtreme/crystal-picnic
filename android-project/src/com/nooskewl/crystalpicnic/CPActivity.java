@@ -131,9 +131,8 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 	}
 	
 	boolean gotGamepadConnected = false;
-	boolean _gamepadConnected;
+	boolean _gamepadConnected = false;
 
-	// FIXME: impelement this
 	public boolean gamepadConnected()
 	{
 		if (!gotGamepadConnected) {
@@ -141,14 +140,15 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 			for (int i = 0; i < ids.length; i++) {
 				InputDevice inp = InputDevice.getDevice(ids[i]);
 				int bits = inp.getSources();
-				if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
+				if (((bits & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) || ((bits & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK)) {
 					_gamepadConnected = true;
 				}
 			}
+			gotGamepadConnected = true;
 		}
 		return _gamepadConnected;
 	}
-	
+
 	public void grabInput() {
 		surface.setOnKeyListener(new KeyListener(this) {
 			@Override
