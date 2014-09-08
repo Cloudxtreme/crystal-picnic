@@ -23,6 +23,15 @@ bool Settings_Loop::init()
 	maxw = MAX(maxw, gamepad_button->getWidth());
 	maxw = MAX(maxw, return_button->getWidth());
 
+#ifdef ALLEGRO_ANDROID
+	gamepad_button->setX(cfg.screen_w/2-maxw/2);
+	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT));
+	return_button->setX(cfg.screen_w/2-maxw/2);
+	return_button->setY(cfg.screen_h/2);
+
+	tgui::addWidget(gamepad_button);
+	tgui::addWidget(return_button);
+#else
 	video_button->setX(cfg.screen_w/2-maxw/2);
 	video_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*2);
 	keyboard_button->setX(cfg.screen_w/2-maxw/2);
@@ -36,6 +45,7 @@ bool Settings_Loop::init()
 	tgui::addWidget(keyboard_button);
 	tgui::addWidget(gamepad_button);
 	tgui::addWidget(return_button);
+#endif
 
 	tgui::setFocus(return_button);
 

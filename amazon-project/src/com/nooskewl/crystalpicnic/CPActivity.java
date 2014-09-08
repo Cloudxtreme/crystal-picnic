@@ -61,19 +61,12 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 	native void pushButtonEvent(int button, boolean down);
 	native void pushAxisEvent(int axis, float value);
 
-	public static int music;
-
 	public CPActivity() {
 		super("libcrystalpicnic.so");
 	}
 
 	public void logString(String s) {
 		Log.d("CrystalPicnic", s);
-	}
-
-	public void setMusic(int music)
-	{
-		CPActivity.music = music;
 	}
 
 	public String getSDCardPrivateDir() {

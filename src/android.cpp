@@ -186,17 +186,6 @@ void grab_input()
 	);
 }
 
-void setMusic(int music)
-{
-	_jni_callVoidMethodV(
-		_al_android_get_jnienv(),
-		_al_android_activity_object(),
-		"setMusic",
-		"(I)V",
-		music
-	);
-}
-
 bool gamepadConnected()
 {
 	bool ret = _jni_callBooleanMethod(

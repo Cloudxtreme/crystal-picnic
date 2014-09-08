@@ -41,6 +41,16 @@ void Configuration::reset_keyboard_controls()
 
 void Configuration::reset_gamepad_controls()
 {
+#ifdef ALLEGRO_ANDROID
+	cfg.joy_ability[0] = 0;
+	cfg.joy_ability[1] = 1;
+	cfg.joy_ability[2] = 2;
+	cfg.joy_ability[3] = 3;
+	cfg.joy_menu = 4;
+	cfg.joy_switch = 5;
+	cfg.joy_arrange_up = 6;
+	cfg.joy_arrange_down = 5;
+#else
 	cfg.joy_ability[0] = 3;
 	cfg.joy_ability[1] = 2;
 	cfg.joy_ability[2] = 1;
@@ -60,6 +70,7 @@ void Configuration::reset_gamepad_controls()
 	cfg.joy_switch = 4;
 	cfg.joy_arrange_up = 5;
 	cfg.joy_arrange_down = 4;
+#endif
 #endif
 }
 

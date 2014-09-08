@@ -222,6 +222,9 @@ public:
 	void clear_touches();
 	void set_draw_touch_controls(bool draw) { draw_touch_controls = draw; }
 
+	void switch_music_out();
+	void switch_music_in();
+
 	Engine();
 	~Engine();
 

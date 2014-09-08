@@ -100,7 +100,10 @@ void Input_Config_Loop::top()
 bool Input_Config_Loop::handle_event(ALLEGRO_EVENT *event)
 {
 	if (getting_key >= 0) {
-		if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
+		if (event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+			getting_key = -1;
+		}
+		else if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 			if (event->keyboard.keycode == ALLEGRO_KEY_ESCAPE || event->keyboard.keycode == ALLEGRO_KEY_ENTER || event->keyboard.keycode == ALLEGRO_KEY_PGUP || event->keyboard.keycode == ALLEGRO_KEY_PGDN) {
 				// Do nothing (stop further actions below)
 			}
@@ -114,7 +117,10 @@ bool Input_Config_Loop::handle_event(ALLEGRO_EVENT *event)
 		}
 	}
 	else if (getting_button >= 0) {
-		if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
+		if (event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+			getting_button = -1;
+		}
+		else if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
 			if (event->keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 				// Do nothing (stop further actions below)
 			}

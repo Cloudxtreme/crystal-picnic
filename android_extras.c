@@ -6,6 +6,9 @@ void _al_event_source_lock(ALLEGRO_EVENT_SOURCE *);
 void _al_event_source_emit_event(ALLEGRO_EVENT_SOURCE *, ALLEGRO_EVENT *);
 void _al_event_source_unlock(ALLEGRO_EVENT_SOURCE *);
 
+void switch_music_out();
+void switch_music_in();
+
 JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_CPActivity_pushButtonEvent
   (JNIEnv *env, jobject obj, jint button, jboolean down)
 {
@@ -32,18 +35,5 @@ JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_CPActivity_pushAxisEvent
 	_al_event_source_lock(es);
 	_al_event_source_emit_event(es, &event);
 	_al_event_source_unlock(es);
-}
-
-JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
-  (JNIEnv *env, jobject obj)
-{
-	BASS_Stop();
-}
-
-JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_resumeSound
-  (JNIEnv *env, jobject obj, jint music)
-{
-	BASS_Start();
-	BASS_ChannelPlay(music, FALSE);
 }
 

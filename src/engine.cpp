@@ -349,21 +349,9 @@ void Engine::add_loop(Loop *loop)
 
 void Engine::choose_joystick()
 {
-#if defined ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
        cfg.use_joy = true;
-       cfg.joy_ability[0] = 0;
-       cfg.joy_ability[1] = 1;
-       cfg.joy_ability[2] = 2;
-       cfg.joy_ability[3] = 3;
-       cfg.joy_menu = 4;
-       cfg.joy_switch = 5;
-       cfg.joy_arrange_up = 6;
-       cfg.joy_arrange_down = 5;
        return;
-#endif
-#if defined ALLEGRO_IPHONE
-	cfg.use_joy = true;
-	return;
 #endif
 
 	int num_joysticks = al_get_num_joysticks();
@@ -2165,10 +2153,7 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	}
 	General::destroy_fonts();
 	Wrap::destroy_loaded_bitmaps();
-
-#if !defined OUYA && !defined FIRETV
-	BASS_Stop();
-#endif
+	switch_music_out();
 #endif
 
 	al_acknowledge_drawing_halt(display);
@@ -2206,25 +2191,9 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	General::load_fonts();
 	load_translation();
 	Wrap::reload_loaded_bitmaps();
-#if defined ALLEGRO_ANDROID
 	grab_input();
-#endif
-#if !defined OUYA && !defined FIRETV
-	BASS_Start();
-#endif
 	glDisable(GL_DITHER);
-#endif
-
-#ifdef ALLEGRO_ANDROID
-#if !defined OUYA && !defined FIRETV
-	std::map<std::string, Sample>::iterator it;
-	for (it = sfx.begin(); it != sfx.end(); it++) {
-		std::pair<const std::string, Sample> &p = *it;
-		if (p.second.looping) {
-			play_sample(p.first);
-		}
-	}
-#endif
+	switch_music_in();
 #endif
 }
 
@@ -3982,5 +3951,28 @@ void Engine::clear_touches()
 {
 	touches.clear();
 
+}
+
+void Engine::switch_music_out()
+{
+	Music::stop();
+	std::map<std::string, Sample>::iterator it;
+	for (it = sfx.begin(); it != sfx.end(); it++) {
+		std::pair<const std::string, Sample> &p = *it;
+		if (p.second.looping) {
+			Sound::stop(p.second.sample);
+		}
+	}
+}
+
+void Engine::switch_music_in()
+{
+	std::map<std::string, Sample>::iterator it;
+	for (it = sfx.begin(); it != sfx.end(); it++) {
+		std::pair<const std::string, Sample> &p = *it;
+		if (p.second.looping) {
+			play_sample(p.first);
+		}
+	}
 }
 

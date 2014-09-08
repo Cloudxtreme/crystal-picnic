@@ -25,13 +25,10 @@ void shutdown();
 
 }
 
-#ifdef FIRETV
 extern "C" {
-
-	void crystalpicnic_pause_sound();
-	void crystalpicnic_resume_sound();
+	void switch_music_out(void);
+	void switch_music_in(void);
 
 }
-#endif
 
 #endif // MUSIC_H

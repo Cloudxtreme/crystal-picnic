@@ -280,7 +280,7 @@ void Main::execute()
 			}
 
 			tgui::setNewWidgetParent(0);
-#if !defined ALLEGRO_ANDROID && !defined ALLEGRO_IPHONE
+#if !defined ALLEGRO_IPHONE
 			tgui::addWidget(config_button);
 #endif
 			tgui::addWidget(new_game_button);

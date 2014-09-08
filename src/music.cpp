@@ -6,8 +6,9 @@
 
 #include "hqm.h"
 
-#ifdef FIRETV
+#ifdef ALLEGRO_ANDROID
 #include "android.h"
+#include <jni.h>
 #endif
 
 static std::string current_music = "";
@@ -224,10 +225,6 @@ void play(std::string filename, float volume, bool loop)
 		music = 0;
 		music_playing = false;
 	}
-
-#ifdef FIRETV
-	setMusic(music);
-#endif
 }
 
 std::string get_playing()
@@ -269,4 +266,17 @@ void shutdown()
 }
 
 } // end namespace Music
+
+
+JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
+  (JNIEnv *env, jobject obj)
+{
+	engine->switch_music_out();
+}
+
+JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_resumeSound
+  (JNIEnv *env, jobject obj)
+{
+	engine->switch_music_in();
+}
 

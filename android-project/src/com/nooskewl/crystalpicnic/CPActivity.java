@@ -29,6 +29,7 @@ import android.view.View.OnGenericMotionListener;
 import android.view.MotionEvent;
 import org.liballeg.android.KeyListener;
 import android.view.InputDevice;
+import android.content.IntentFilter;
 
 public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
 
@@ -44,6 +45,7 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		System.loadLibrary("allegro_physfs");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
+		System.loadLibrary("android_extras");
 	}
 
 	native void pushButtonEvent(int button, boolean down);
@@ -172,27 +174,36 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		surface.setOnGenericMotionListener(this);
 	}
 
+	float axis_x = 0.0f;
+	float axis_y = 0.0f;
+	float axis_hat_x = 0.0f;
+	float axis_hat_y = 0.0f;
+
 	@Override
 	public boolean onGenericMotion(View v, MotionEvent event) {
 		int bits = event.getSource();
 		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
-			if (MotionEvent.AXIS_X != axis_x || MotionEvent.AXIS_Y != axis_y) {
-				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_X, 0));
-				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_Y, 0));
-				axis_x = MotionEvent.AXIS_X;
-				axis_y = MotionEvent.AXIS_Y;
+			float ax = event.getAxisValue(MotionEvent.AXIS_X, 0);
+			float ay = event.getAxisValue(MotionEvent.AXIS_Y, 0);
+			float ahx = event.getAxisValue(MotionEvent.AXIS_HAT_X, 0);
+			float ahy = event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0);
+			if (ax != axis_x || ay != axis_y) {
+				pushAxisEvent(0, ax);
+				pushAxisEvent(1, ay);
+				axis_x = ax;
+				axis_y = ay;
 			}
-			else if (MotionEvent.AXIS_HAT_X != axis_hat_x || MotionEvent.AXIS_HAT_Y != axis_hat_y) {
-				pushAxisEvent(0, event.getAxisValue(MotionEvent.AXIS_HAT_X, 0));
-				pushAxisEvent(1, event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0));
-				axis_hat_x = MotionEvent.AXIS_HAT_X;
-				axis_hat_y = MotionEvent.AXIS_HAT_Y;
+			else if (ahx != axis_hat_x || ahy != axis_hat_y) {
+				pushAxisEvent(0, ahx);
+				pushAxisEvent(1, ahy);
+				axis_hat_x = ahx;
+				axis_hat_y = ahy;
 			}
 			return true;
 		}
 		return false;
 	}
-					
+
 	static final int joy_ability0 = 0;
 	static final int joy_ability1 = 1;
 	static final int joy_ability2 = 2;
@@ -225,6 +236,28 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 			code = joy_switch;
 		}
 		return code;
+	}
+	
+	MyBroadcastReceiver bcr;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+    	
+		bcr = new MyBroadcastReceiver();
+	}
+	
+	public void onResume() {
+		super.onResume();
+
+		registerReceiver(bcr, new IntentFilter("android.intent.action.DREAMING_STARTED"));
+		registerReceiver(bcr, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
+	}
+
+	public void onPause() {
+		super.onPause();
+
+		unregisterReceiver(bcr);
 	}
 }
 

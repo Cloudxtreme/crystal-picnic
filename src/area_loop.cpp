@@ -209,7 +209,14 @@ bool Area_Loop::handle_event(ALLEGRO_EVENT *event)
 	bool pass_to_player = true;
 
 	if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
-		if (event->keyboard.keycode == cfg.key_menu || event->keyboard.keycode == ALLEGRO_KEY_MENU) {
+		if (
+			event->keyboard.keycode == cfg.key_menu
+			|| event->keyboard.keycode == ALLEGRO_KEY_MENU
+#if defined ALLEGRO_ANDROID
+			|| event->keyboard.keycode == ALLEGRO_KEY_BUTTON_B
+			|| event->keyboard.keycode == ALLEGRO_KEY_BACK
+#endif
+		) {
 			Map_Entity *player = area->get_entity(0);
 			if (!player->input_is_disabled()) {
 				std::vector<Loop *> loops;
