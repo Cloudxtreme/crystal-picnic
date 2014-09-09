@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96463D2D19BF8CBA0028EF95 /* settings_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */; };
+		96463D2E19BF8CBA0028EF95 /* video_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */; };
 		9672069219A5973D008F7DB1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069119A5973D008F7DB1 /* Cocoa.framework */; };
 		9672069C19A5973D008F7DB1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9672069A19A5973D008F7DB1 /* InfoPlist.strings */; };
 		967206B219A5973D008F7DB1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069119A5973D008F7DB1 /* Cocoa.framework */; };
@@ -146,6 +148,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = settings_loop.cpp; path = ../src/settings_loop.cpp; sourceTree = "<group>"; };
+		96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video_config_loop.cpp; path = ../src/video_config_loop.cpp; sourceTree = "<group>"; };
 		9672068E19A5973D008F7DB1 /* Crystal Picnic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crystal Picnic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9672069119A5973D008F7DB1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9672069419A5973D008F7DB1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -300,6 +304,8 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
+				96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */,
+				96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */,
 				96A21AF619A5BCCE00303792 /* Crystal Picnic.entitlements */,
 				9672076819A598F2008F7DB1 /* data.cpa */,
 				9672076319A598DA008F7DB1 /* libbass.dylib */,
@@ -593,6 +599,7 @@
 				9672074519A5978D008F7DB1 /* resource_manager.cpp in Sources */,
 				9672073A19A5978D008F7DB1 /* main_menu_loop.cpp in Sources */,
 				9672075319A5978D008F7DB1 /* wander_character_role.cpp in Sources */,
+				96463D2E19BF8CBA0028EF95 /* video_config_loop.cpp in Sources */,
 				9672072E19A5978D008F7DB1 /* engine.cpp in Sources */,
 				9672072C19A5978D008F7DB1 /* enemy_avatar_wander_character_role.cpp in Sources */,
 				9672075819A5978D008F7DB1 /* xml.cpp in Sources */,
@@ -600,6 +607,7 @@
 				9672075019A5978D008F7DB1 /* triangulate.cpp in Sources */,
 				9672073519A5978D008F7DB1 /* graphics.cpp in Sources */,
 				9672074A19A5978D008F7DB1 /* skeleton.cpp in Sources */,
+				96463D2D19BF8CBA0028EF95 /* settings_loop.cpp in Sources */,
 				9672074919A5978D008F7DB1 /* shop_loop.cpp in Sources */,
 				9672075619A5978D008F7DB1 /* whack_a_skunk_loop.cpp in Sources */,
 				9672072619A5978D008F7DB1 /* config.cpp in Sources */,
