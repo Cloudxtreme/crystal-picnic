@@ -9,7 +9,11 @@
 #include <cmath>
 
 // FIXME: DON'T USE THIS IN EDITOR
+#ifdef ALLEGRO_RASPBERRYPI
+const int SKELETON_UPDATE_TIME = 5;
+#else
 const int SKELETON_UPDATE_TIME = 3;
+#endif
 
 static int curr_part_name = 0;
 

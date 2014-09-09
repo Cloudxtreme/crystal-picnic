@@ -19,6 +19,11 @@ bool Video_Config_Loop::init()
 	int count = 0;
 	std::vector<std::string> mode_names;
 
+#ifdef ALLEGRO_RASPBERRYPI
+	modes.push_back(std::pair<int, int>(1024, 576));
+	mode_names.push_back("1024x576");
+#endif
+
 	int num_modes = al_get_num_display_modes();
 	for (int i = 0; i < num_modes; i++) {
 		ALLEGRO_DISPLAY_MODE mode;
@@ -29,8 +34,26 @@ bool Video_Config_Loop::init()
 		if (aspect < low || aspect > high) {
 			continue;
 		}
-		modes.push_back(std::pair<int, int>(mode.width, mode.height));
-		mode_names.push_back(General::itos(mode.width) + "x" + General::itos(mode.height));
+		int insert = 0;
+		bool found = false;
+		for (size_t j = 0; j < modes.size(); j++) {
+			if (modes[j].first == mode.width && modes[j].second == mode.height) {
+				found = true;
+				break;
+			}
+			if (modes[j].first > mode.width) {
+				break;
+			}
+			if (modes[j].first == mode.width && modes[j].second > mode.height) {
+				break;
+			}
+			insert++;
+		}
+		if (found) {
+			continue;
+		}
+		modes.insert(modes.begin()+insert, std::pair<int, int>(mode.width, mode.height));
+		mode_names.insert(mode_names.begin()+insert, General::itos(mode.width) + "x" + General::itos(mode.height));
 		if (mode.width == cfg.save_screen_w && mode.height == cfg.save_screen_h) {
 			current = count;
 		}

@@ -1,6 +1,8 @@
 #ifndef BASS_CRYSTALPICNIC_H
 #define BASS_CRYSTALPICNIC_H
 
+#include <allegro5/allegro.h>
+
 #include <bass.h>
 
 namespace BASS

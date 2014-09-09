@@ -268,6 +268,7 @@ void shutdown()
 } // end namespace Music
 
 
+#ifdef ALLEGRO_ANDROID
 JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
   (JNIEnv *env, jobject obj)
 {
@@ -279,4 +280,4 @@ JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_resum
 {
 	engine->switch_music_in();
 }
-
+#endif
