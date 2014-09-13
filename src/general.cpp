@@ -712,6 +712,15 @@ void draw_text(std::string text, ALLEGRO_COLOR color, float x, float y, int flag
 	my_draw_text(get_font(font), color, x, y, flags, text.c_str());
 }
 
+void draw_text_width(int width, std::string text, ALLEGRO_COLOR color, float x, float y, int flags, Font_Type font)
+{
+	int cx, cy, cw, ch;
+	al_get_clipping_rectangle(&cx, &cy, &cw, &ch);
+	set_clipping_rectangle(x, y, width, get_font_line_height(font));
+	my_draw_text(get_font(font), color, x, y, flags, text.c_str());
+	al_set_clipping_rectangle(cx, cy, cw, ch);
+}
+
 void draw_text(std::string text, float x, float y, int flags, Font_Type font)
 {
 	my_draw_text(get_font(font), al_color_name("lightgrey"), x, y, flags, text.c_str());

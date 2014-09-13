@@ -28,7 +28,7 @@ bool Video_Config_Loop::init()
 	for (int i = 0; i < num_modes; i++) {
 		ALLEGRO_DISPLAY_MODE mode;
 		al_get_display_mode(i, &mode);
-		float low = 3.0f / 2.0f * 0.95f;
+		float low = 4.0f / 3.0f * 0.95f;
 		float high = 16.0f / 9.0f * 1.05f;
 		float aspect = mode.width / (float)mode.height;
 		if (aspect < low || aspect > high) {

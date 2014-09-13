@@ -70,8 +70,8 @@ static void draw_main_menu()
 
 	al_draw_bitmap(
 		title->bitmap,
-		cfg.screen_w / 2 - al_get_bitmap_width(title->bitmap) / 2,
-		cfg.screen_h / 2 - al_get_bitmap_height(title->bitmap) / 2,
+		cfg.screen_w - al_get_bitmap_width(title->bitmap),
+		cfg.screen_h - al_get_bitmap_height(title->bitmap),
 		0
 	);
 
@@ -101,8 +101,8 @@ static void draw_main_menu()
 	al_draw_tinted_bitmap(
 		title_glow->bitmap,
 		al_map_rgba_f(alpha, alpha, alpha, alpha),
-		cfg.screen_w / 2 - al_get_bitmap_width(title_glow->bitmap) / 2,
-		cfg.screen_h / 2 - al_get_bitmap_height(title_glow->bitmap) / 2,
+		cfg.screen_w - al_get_bitmap_width(title_glow->bitmap),
+		cfg.screen_h - al_get_bitmap_height(title_glow->bitmap),
 		0
 	);
 	al_restore_state(&old_blend_state);

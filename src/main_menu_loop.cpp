@@ -154,10 +154,17 @@ bool Main_Menu_Loop::init()
 	// lowest point from these two things, center everything else from bottom to this point
 	int lowest = MAX(3+al_get_bitmap_height(character_preview_box->bitmap)*3, 1+GREEN_WIN_BASE_H+extra_y);
 	remaining_height = cfg.screen_h - lowest;
-	
-	save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/save_icon.cpi");	
-	quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/x_icon.cpi");	
-	return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button.cpi", "misc_graphics/interface/return_icon.cpi");
+
+	if ((float)cfg.screen_w/cfg.screen_h < 3.0f/2.0f) {
+		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button_narrow.cpi", "");	
+		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button_narrow.cpi", "");	
+		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button_narrow.cpi", "");
+	}
+	else {
+		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/save_icon.cpi");	
+		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/x_icon.cpi");	
+		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button.cpi", "misc_graphics/interface/return_icon.cpi");
+	}
 	
 	int width = GREEN_WIN_BASE_W + extra_x;
 	
@@ -773,15 +780,16 @@ bool Main_Menu_Main_Loop::init()
 	
 	int button_x = profile_mid - button_w/2 + main_menu_loop->get_green_x();
 	int button_y = profile_y + profile_h + 7;
-	
-	text_x = button_x + button_w + 2 + main_menu_loop->get_extra_x()/2;
-	text_w = Main_Menu_Loop::GREEN_WIN_BASE_W - 7 - ((button_x + button_w + 2) - main_menu_loop->get_green_x());
+
+	int extra_x = main_menu_loop->get_extra_x();
+	text_x = button_x + button_w + 2 + (extra_x < 0 ? 0 : main_menu_loop->get_extra_x()/2);
+	text_w = Main_Menu_Loop::GREEN_WIN_BASE_W + extra_x - 7 - ((button_x + button_w + 1) - main_menu_loop->get_green_x());
 
 	bool line_buttons_up = main_menu_loop->get_extra_y() > equip_button->getHeight() + 2;
 
 	equip_button->setX(button_x);
 	items_button->setX(button_x);
-	abilities_button->setX(button_x+(line_buttons_up ? 0 : button_w+2));
+	abilities_button->setX(button_x+(line_buttons_up ? 0 : button_w+1));
 	
 	equip_button->setY(button_y);
 	items_button->setY(button_y+button_h+2);

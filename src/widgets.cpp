@@ -485,8 +485,18 @@ void W_Equipment_List::draw(int abs_x, int abs_y)
 	if (icons.size() > 0) {
 		icon_w = 9;
 	}
-	al_hold_bitmap_drawing(true);
+
 	for (int i = start; i < end; i++) {
+		int icons_x = x+offset.x+width-2;
+		if (descriptions[i] != "" && item_names[i] != "") {
+			icons_x = x+offset.x+width-2-9-(right_icons.size() > 0 ? 10 : 0);
+		}
+		else if (right_icons.size() > 0) {
+			icons_x = x+offset.x+width-2-9;
+		}
+		int max_w = icons_x - (icon_w+x+3+offset.x);
+		max_w -= 2;
+
 		int this_y = yy+(i-start)*line_height;
 		ALLEGRO_COLOR color;
 		if (disabled[i]) {
@@ -495,9 +505,8 @@ void W_Equipment_List::draw(int abs_x, int abs_y)
 		else {
 			color = al_color_name("white");
 		}
-		General::draw_text(t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
+		General::draw_text_width(max_w, t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
 	}
-	al_hold_bitmap_drawing(false);
 
 	if (draw_outline) {
 		al_draw_line(offset.x+x+0.5f, offset.y+y+0.5f, offset.x+x+width-0.5f, offset.y+y+0.5f, dark, 1);
@@ -508,9 +517,19 @@ void W_Equipment_List::draw(int abs_x, int abs_y)
 
 	yy = y - ((int)y_offset % line_height);
 	for (int i = start; i < end; i++) {
+		int icons_x = x+offset.x+width-2;
+		if (descriptions[i] != "" && item_names[i] != "") {
+			icons_x = x+offset.x+width-2-9-(right_icons.size() > 0 ? 10 : 0);
+		}
+		else if (right_icons.size() > 0) {
+			icons_x = x+offset.x+width-2-9;
+		}
+		int max_w = icons_x - (icon_w+x+3+offset.x);
+		max_w -= 2;
+
 		int this_y = yy+(i-start)*line_height;
 		if (activated && i == selected && active_column == 0) {
-			tgui::drawFocusRectangle(icon_w+x+3+offset.x, this_y+offset.y, General::get_text_width(General::FONT_LIGHT, t(item_names[i].c_str())), line_height);
+			tgui::drawFocusRectangle(icon_w+x+3+offset.x, this_y+offset.y, MIN(max_w, General::get_text_width(General::FONT_LIGHT, t(item_names[i].c_str()))), line_height);
 		}
 		if (descriptions[i] != "" && item_names[i] != "") {
 			if (activated && i == selected && active_column == 1) {
@@ -647,13 +666,13 @@ void W_SaveLoad_Button::draw(int abs_x, int abs_y)
 	for (int i = 0; i < num_players; i++) {
 		int w = al_get_bitmap_width(player_bmps[m[players[i]]]->bitmap);
 		int h = al_get_bitmap_height(player_bmps[m[players[i]]]->bitmap);
-		al_draw_bitmap(player_bmps[m[players[i]]]->bitmap, abs_x+50+(max_w+10)/2-w/2+(max_w+10)*i, abs_y+height/2+max_h/2-h, 0);
+		al_draw_bitmap(player_bmps[m[players[i]]]->bitmap, abs_x+40+(max_w+2)/2-w/2+(max_w+2)*i, abs_y+height/2+max_h/2-h, 0);
 	}
 	if (use_shader) {
 		Shader::use(NULL);
 	}
 
-	General::draw_text(area_name, abs_x+50+(max_w+10)*3+20, abs_y+height/2-General::get_font_line_height(General::FONT_LIGHT)/2, 0);
+	General::draw_text(area_name, abs_x+40+(max_w+2)*3+5, abs_y+height/2-General::get_font_line_height(General::FONT_LIGHT)/2, 0);
 }
 
 W_SaveLoad_Button::W_SaveLoad_Button(int x, int y, int width, int height, std::vector<std::string> players, double playtime, std::string area_name) :
@@ -1012,8 +1031,17 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 		}
 	}
 	yy = y - ((int)y_offset % line_height);
-	al_hold_bitmap_drawing(true);
 	for (int i = start; i < end; i++) {
+		int icons_x = x+offset.x+width-2;
+		if (right_icons.size() > 0) {
+			icons_x = x+offset.x+width-2-9;
+		}
+		int max_w = icons_x - (icon_w+x+3+offset.x);
+		if (right_justified_text.size() > i) {
+			max_w -= General::get_text_width(font, right_justified_text[i]);
+		}
+		max_w -= 2;
+
 		int this_y = yy+(i-start)*line_height;
 		ALLEGRO_COLOR color;
 		if (disabled[i]) {
@@ -1026,10 +1054,10 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 			color = al_color_name("white");
 		}
 		if (translate_item_names) {
-			General::draw_text(t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
+			General::draw_text_width(max_w, t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
 		}
 		else {
-			General::draw_text(item_names[i], color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
+			General::draw_text_width(max_w, item_names[i], color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
 		}
 		int right_text_offset;
 		if (right_icons.size() > 0) {
@@ -1042,7 +1070,6 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 			General::draw_text(right_justified_text[i], color, x+offset.x+width-2+right_text_offset, this_y+offset.y, ALLEGRO_ALIGN_RIGHT, font);
 		}
 	}
-	al_hold_bitmap_drawing(false);
 
 	al_draw_line(offset.x+x+0.5f, offset.y+y+0.5f, offset.x+x+width-0.5f, offset.y+y+0.5f, dark, 1);
 	al_draw_line(offset.x+x+0.5f, offset.y+y+0.5f, offset.x+x+0.5f, offset.y+y+height-0.5f, dark, 1);
@@ -1051,9 +1078,19 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 
 	yy = y - ((int)y_offset % line_height);
 	for (int i = start; i < end; i++) {
+		int icons_x = x+offset.x+width-2;
+		if (right_icons.size() > 0) {
+			icons_x = x+offset.x+width-2-9;
+		}
+		int max_w = icons_x - (icon_w+x+3+offset.x);
+		if (right_justified_text.size() > i) {
+			max_w -= General::get_text_width(font, right_justified_text[i]);
+		}
+		max_w -= 2;
+
 		int this_y = yy+(i-start)*line_height;
 		if (activated && selected == i && active_column == 0) {
-			tgui::drawFocusRectangle(icon_w+x+3+offset.x, this_y+offset.y, General::get_text_width(General::FONT_LIGHT, item_names[i]), line_height);
+			tgui::drawFocusRectangle(icon_w+x+3+offset.x, this_y+offset.y, MIN(max_w, General::get_text_width(General::FONT_LIGHT, item_names[i])), line_height);
 		}
 		if (right_icons.size() > 0) {
 			if (activated && selected == i && active_column == 1) {

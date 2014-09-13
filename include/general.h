@@ -193,6 +193,7 @@ void draw_speech_window(Speech_Type type, int x, int y, int w, int h, bool draw_
 void draw_text(Text_Border_Type border_type, std::string text, ALLEGRO_COLOR main_color, ALLEGRO_COLOR border_color, float x, float y, int flags = 0, Font_Type font = FONT_LIGHT);
 void draw_text(ALLEGRO_FONT *font, std::string text, ALLEGRO_COLOR color, float x, float y, int flags = 0);
 void draw_text(std::string text, ALLEGRO_COLOR color, float x, float y, int flags = 0, Font_Type font = FONT_LIGHT);
+void draw_text_width(int width, std::string text, ALLEGRO_COLOR color, float x, float y, int flags = 0, Font_Type font = FONT_LIGHT);
 void draw_text(std::string text, float x, float y, int flags, Font_Type font = FONT_LIGHT);
 void draw_wrapped_text(std::string text, ALLEGRO_COLOR color, float x, float y, float width, Font_Type font = FONT_LIGHT);
 ALLEGRO_FONT *get_font(Font_Type font);
