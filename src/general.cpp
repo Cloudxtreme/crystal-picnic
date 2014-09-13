@@ -716,7 +716,18 @@ void draw_text_width(int width, std::string text, ALLEGRO_COLOR color, float x, 
 {
 	int cx, cy, cw, ch;
 	al_get_clipping_rectangle(&cx, &cy, &cw, &ch);
-	set_clipping_rectangle(x, y, width, get_font_line_height(font));
+	int cx2 = cx + cw;
+	int cy2 = cy + ch;
+	int x1 = x * cfg.screens_w;
+	int y1 = y * cfg.screens_h;
+	int x2 = (x + width) * cfg.screens_w;
+	int y2 = (y + get_font_line_height(font)) * cfg.screens_h;
+	if (cx > x1) x1 = cx;
+	if (cy > y1) y1 = cy;
+	if (cx2 < x2) x2 = cx2;
+	if (cy2 < y2) y2 = cy2;
+	if (x2 <= x1 || y2 <= y1 || x1 >= x2 || y1 >= y2) return;
+	al_set_clipping_rectangle(x1, y1, x2-x1, y2-y1);
 	my_draw_text(get_font(font), color, x, y, flags, text.c_str());
 	al_set_clipping_rectangle(cx, cy, cw, ch);
 }

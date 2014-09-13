@@ -28,7 +28,7 @@ Battle_Pathfinder_Node *path;
 General::Size<int> Battle_Loop::size;
 float Battle_Loop::x_offset_ratio;
 
-const int MINI_BATTLE_STATS_W = 72;
+const int MINI_BATTLE_STATS_W = 64;
 static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 {
 	Wrap::Bitmap *profile = p->get_profile_bitmap();

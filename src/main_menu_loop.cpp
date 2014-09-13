@@ -783,7 +783,7 @@ bool Main_Menu_Main_Loop::init()
 
 	int extra_x = main_menu_loop->get_extra_x();
 	text_x = button_x + button_w + 2 + (extra_x < 0 ? 0 : main_menu_loop->get_extra_x()/2);
-	text_w = Main_Menu_Loop::GREEN_WIN_BASE_W + extra_x - 7 - ((button_x + button_w + 1) - main_menu_loop->get_green_x());
+	text_w = Main_Menu_Loop::GREEN_WIN_BASE_W + (extra_x < 0 ? extra_x : 0) - 7 - ((button_x + button_w + 1) - main_menu_loop->get_green_x());
 
 	bool line_buttons_up = main_menu_loop->get_extra_y() > equip_button->getHeight() + 2;
 

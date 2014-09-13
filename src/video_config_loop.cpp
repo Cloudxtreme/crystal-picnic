@@ -147,9 +147,18 @@ bool Video_Config_Loop::logic()
 			memset(&sui, 0, sizeof(sui));
 			sui.cb = sizeof(sui);
 
+			char exename[1000];
+
+			if (al_filename_exists("CrystalPicnic.exe")) {
+				strncpy(exename, "CrystalPicnic.exe", 1000);
+			}
+			else {
+				strncpy(exename, "CrystalPicnicDemo.exe", 1000);
+			}
+
 			CreateProcess(
 				NULL,
-				"CrystalPicnic.exe",
+				exename,
 				NULL,
 				NULL,
 				FALSE,
