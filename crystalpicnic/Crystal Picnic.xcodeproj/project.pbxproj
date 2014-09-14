@@ -111,6 +111,7 @@
 		9672078B19A5998B008F7DB1 /* libtgui2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077C19A5998B008F7DB1 /* libtgui2.a */; };
 		9672078C19A5998B008F7DB1 /* libwrap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077D19A5998B008F7DB1 /* libwrap.a */; };
 		9672078D19A5998B008F7DB1 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077E19A5998B008F7DB1 /* libz.a */; };
+		96E8068A19C55CD7008030E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E8068919C55CD6008030E9 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +258,7 @@
 		9672077D19A5998B008F7DB1 /* libwrap.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwrap.a; path = ../../local/lib/libwrap.a; sourceTree = "<group>"; };
 		9672077E19A5998B008F7DB1 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../local/lib/libz.a; sourceTree = "<group>"; };
 		96A21AF619A5BCCE00303792 /* Crystal Picnic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Crystal Picnic.entitlements"; sourceTree = "<group>"; };
+		96E8068919C55CD6008030E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96E8068A19C55CD7008030E9 /* IOKit.framework in Frameworks */,
 				9672077F19A5998B008F7DB1 /* liballegro_font-static.a in Frameworks */,
 				9672078019A5998B008F7DB1 /* liballegro_image-static.a in Frameworks */,
 				9672078119A5998B008F7DB1 /* liballegro_main-static.a in Frameworks */,
@@ -401,6 +404,7 @@
 		9672069019A5973D008F7DB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96E8068919C55CD6008030E9 /* IOKit.framework */,
 				9672077019A5998B008F7DB1 /* liballegro_font-static.a */,
 				9672077119A5998B008F7DB1 /* liballegro_image-static.a */,
 				9672077219A5998B008F7DB1 /* liballegro_main-static.a */,
@@ -780,8 +784,9 @@
 				);
 				INFOPLIST_FILE = "crystalpicnic/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -803,8 +808,9 @@
 				);
 				INFOPLIST_FILE = "crystalpicnic/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
