@@ -1211,6 +1211,8 @@ loop_end:
 		if (!lost && !switched_out && !stop_draw && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
 
+			al_clear_to_color(al_color_name("black"));
+
 			draw_all(loops, false);
 			
 			al_flip_display();
@@ -1405,6 +1407,8 @@ loop_end:
 
 		if (!lost && !switched_out && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
+
+			al_clear_to_color(al_color_name("black"));
 
 			draw_all(loops, false);
 
@@ -3230,6 +3234,8 @@ static void fade(std::vector<Loop *> loops, double time, bool out)
 
 	while (true) {
 		ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
+
+		al_clear_to_color(al_color_name("black"));
 
 		engine->draw_all(loops, true);
 
