@@ -1136,6 +1136,12 @@ loop_top:
 		}
 #endif
 
+#ifdef TRANSLATION_BUILD
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_F1) {
+			load_translation();
+		}
+#endif
+
 		// NOT else if
 		if (event.type >= ALLEGRO_GET_EVENT_TYPE('B', 'A', 'R', 'Y')) {
 			al_unref_user_event(&event.user);
@@ -1344,6 +1350,13 @@ loop_top:
 			do_acknowledge_resize = true;
 		}
 #endif
+
+#ifdef TRANSLATION_BUILD
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_F1) {
+			load_translation();
+		}
+#endif
+
 		if (event.type >= ALLEGRO_GET_EVENT_TYPE('B', 'A', 'R', 'Y')) {
 			al_unref_user_event(&event.user);
 		}
@@ -1993,7 +2006,11 @@ void Engine::load_translation()
 		al_destroy_config(translation);
 	}
 
+#ifdef TRANSLATION_BUILD
+	ALLEGRO_FILE *f = al_fopen("TRANSLATION.utf8", "rb");
+#else
 	ALLEGRO_FILE *f = cpa->load("text/" + cfg.language + ".utf8");
+#endif
 	translation = al_load_config_file_f(f);
 	al_fclose(f);
 	f = cpa->load("text/" + cfg.language + ".utf8");
