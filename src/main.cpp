@@ -372,6 +372,7 @@ void Main::execute()
 
 				tgui::TGUIWidget *widget = tgui::update();
 
+#ifndef ALLEGRO_IPHONE
 				if (widget == config_button) {
 					Settings_Loop *l = new Settings_Loop();
 					fade(1.0, true);
@@ -386,7 +387,9 @@ void Main::execute()
 					engine->stop_timers();
 					fade(1.0, false);
 				}
-				else if (widget == new_game_button) {
+				else
+#endif
+				if (widget == new_game_button) {
 					fade(1.0, true);
 					Game_Specific_Globals::elapsed_time = 0;
 					engine->reset_game();

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9670B12119C5F2F9008001FD /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11D19C5F2F9008001FD /* icon29.png */; };
+		9670B12219C5F2F9008001FD /* icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11E19C5F2F9008001FD /* icon40.png */; };
+		9670B12319C5F2F9008001FD /* icon76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11F19C5F2F9008001FD /* icon76.png */; };
+		9670B12419C5F2F9008001FD /* icon152.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B12019C5F2F9008001FD /* icon152.png */; };
 		96BD8DCE19AFE7CA001BDCE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DCD19AFE7CA001BDCE2 /* Foundation.framework */; };
 		96BD8DD019AFE7CA001BDCE2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DCF19AFE7CA001BDCE2 /* CoreGraphics.framework */; };
 		96BD8DD219AFE7CA001BDCE2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DD119AFE7CA001BDCE2 /* UIKit.framework */; };
@@ -134,6 +138,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9670B11D19C5F2F9008001FD /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = ../../icon29.png; sourceTree = "<group>"; };
+		9670B11E19C5F2F9008001FD /* icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon40.png; path = ../../icon40.png; sourceTree = "<group>"; };
+		9670B11F19C5F2F9008001FD /* icon76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon76.png; path = ../../icon76.png; sourceTree = "<group>"; };
+		9670B12019C5F2F9008001FD /* icon152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon152.png; path = ../../icon152.png; sourceTree = "<group>"; };
 		96BD8DCA19AFE7CA001BDCE2 /* Crystal Picnic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crystal Picnic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BD8DCD19AFE7CA001BDCE2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96BD8DCF19AFE7CA001BDCE2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -291,6 +299,10 @@
 		96BD8DC119AFE7CA001BDCE2 = {
 			isa = PBXGroup;
 			children = (
+				9670B11D19C5F2F9008001FD /* icon29.png */,
+				9670B11E19C5F2F9008001FD /* icon40.png */,
+				9670B11F19C5F2F9008001FD /* icon76.png */,
+				9670B12019C5F2F9008001FD /* icon152.png */,
 				96D0922719B0175F0084C11A /* icon58.png */,
 				96D0922619B017500084C11A /* icon80.png */,
 				96D0922519B017430084C11A /* icon120.png */,
@@ -514,6 +526,10 @@
 			files = (
 				96BD8DD819AFE7CA001BDCE2 /* InfoPlist.strings in Resources */,
 				96BD8DE019AFE7CA001BDCE2 /* Images.xcassets in Resources */,
+				9670B12219C5F2F9008001FD /* icon40.png in Resources */,
+				9670B12119C5F2F9008001FD /* icon29.png in Resources */,
+				9670B12319C5F2F9008001FD /* icon76.png in Resources */,
+				9670B12419C5F2F9008001FD /* icon152.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,10 +724,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -722,10 +738,11 @@
 					/Users/trent/code/crystalpicnic/include,
 				);
 				INFOPLIST_FILE = "Crystal Picnic/Crystal Picnic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2cc679bb-2e60-40d8-8b55-5289faa95455";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -734,10 +751,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -747,10 +764,11 @@
 					/Users/trent/code/crystalpicnic/include,
 				);
 				INFOPLIST_FILE = "Crystal Picnic/Crystal Picnic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2cc679bb-2e60-40d8-8b55-5289faa95455";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -34,6 +34,13 @@
 
 ALLEGRO_DEBUG_CHANNEL("CrystalPicnic")
 
+#ifdef ALLEGRO_IPHONE
+bool gamepadConnected()
+{
+	return false;
+}
+#endif
+
 static void do_modal(
 	ALLEGRO_EVENT_QUEUE *queue,
 	ALLEGRO_COLOR clear_color, // if alpha == 1 then don't use background image
