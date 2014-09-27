@@ -659,12 +659,14 @@ void draw_speech_window(Speech_Type type, int wx, int wy, int ww, int wh, bool d
 			Shader::use(NULL);
 		}
 	}
-	
+
+/*
 	if (draw_star) {
 		Animation *a = speech_arrow->get_current_animation();
 		Frame *f = a->get_current_frame();
 		a->draw(wx+ww-f->get_width()-8, wy+wh-f->get_height()-8, 0);
 	}
+*/
 }
 
 ALLEGRO_FONT *get_font(Font_Type font)
