@@ -137,6 +137,8 @@ static void fade(double time, bool out)
 	while (true) {
 		ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
 
+		al_clear_to_color(al_color_name("black"));
+
 		draw_main_menu();
 
 		bool done = false;
@@ -486,6 +488,9 @@ void Main::execute()
 
 				if (!lost) {
 					ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
+
+					al_clear_to_color(al_color_name("black"));
+
 					draw_main_menu();
 					engine->finish_draw(false, old_target);
 					al_flip_display();

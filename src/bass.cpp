@@ -34,6 +34,10 @@ void init(void)
 	fileprocs.read = BASS_FileProcs::read;
 	fileprocs.seek = BASS_FileProcs::seek;
 
+#ifdef ALLEGRO_IPHONE
+	BASS_SetConfig(BASS_CONFIG_IOS_MIXAUDIO, 5);
+#endif
+
 #ifdef ALLEGRO_RASPBERRYPI
 	if (!BASS_Init(cfg.audio_device, 22050, 0, NULL, NULL)) {
 #else

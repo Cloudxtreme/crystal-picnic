@@ -1143,6 +1143,12 @@ loop_top:
 		}
 #endif
 
+#ifdef TRANSLATION_BUILD
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_F1) {
+			load_translation();
+		}
+#endif
+
 		// NOT else if
 		if (event.type >= ALLEGRO_GET_EVENT_TYPE('B', 'A', 'R', 'Y')) {
 			al_unref_user_event(&event.user);
@@ -1217,6 +1223,8 @@ loop_end:
 
 		if (!lost && !switched_out && !stop_draw && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
+
+			al_clear_to_color(al_color_name("black"));
 
 			draw_all(loops, false);
 			
@@ -1349,6 +1357,13 @@ loop_top:
 			do_acknowledge_resize = true;
 		}
 #endif
+
+#ifdef TRANSLATION_BUILD
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_F1) {
+			load_translation();
+		}
+#endif
+
 		if (event.type >= ALLEGRO_GET_EVENT_TYPE('B', 'A', 'R', 'Y')) {
 			al_unref_user_event(&event.user);
 		}
@@ -1412,6 +1427,8 @@ loop_end:
 
 		if (!lost && !switched_out && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
+
+			al_clear_to_color(al_color_name("black"));
 
 			draw_all(loops, false);
 
@@ -1996,7 +2013,11 @@ void Engine::load_translation()
 		al_destroy_config(translation);
 	}
 
+#ifdef TRANSLATION_BUILD
+	ALLEGRO_FILE *f = al_fopen("TRANSLATION.utf8", "rb");
+#else
 	ALLEGRO_FILE *f = cpa->load("text/" + cfg.language + ".utf8");
+#endif
 	translation = al_load_config_file_f(f);
 	al_fclose(f);
 	f = cpa->load("text/" + cfg.language + ".utf8");
@@ -3237,6 +3258,8 @@ static void fade(std::vector<Loop *> loops, double time, bool out)
 
 	while (true) {
 		ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
+
+		al_clear_to_color(al_color_name("black"));
 
 		engine->draw_all(loops, true);
 

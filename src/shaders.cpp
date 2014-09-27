@@ -45,9 +45,7 @@ ALLEGRO_SHADER *my_create_shader(std::string vertex_source, std::string pixel_so
 #endif
 	{
 		s = al_create_shader(ALLEGRO_SHADER_GLSL);
-#if defined ALLEGRO_ANDROID
-		const char *version = "#version 110\n";
-#elif defined ALLEGRO_RASPBERRYPI || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_RASPBERRYPI || defined ALLEGRO_IPHONE || defined ALLEGRO_ANDROID
 		const char *version = "#version 100\n";
 #else
 		const char *version = "#version 120\n";

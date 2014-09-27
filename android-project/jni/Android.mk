@@ -89,7 +89,7 @@ LOCAL_SRC_FILES := abilities.cpp android.cpp animation.cpp animation_set.cpp are
 LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS    := -I$(ANDROID_NDK_TOOLCHAIN_ROOT)/sysroot/usr/include -I../include -Wall
 
-LOCAL_LDLIBS    := -L$(ANDROID_NDK_TOOLCHAIN_ROOT)/sysroot/usr/lib -L$(LOCAL_PATH)/$(TARGET_ARCH_ABI) -llog libs/$(TARGET_ARCH_ABI)/liballegro.so libs/$(TARGET_ARCH_ABI)/liballegro_memfile.so libs/$(TARGET_ARCH_ABI)/liballegro_primitives.so libs/$(TARGET_ARCH_ABI)/liballegro_image.so libs/$(TARGET_ARCH_ABI)/liballegro_font.so libs/$(TARGET_ARCH_ABI)/liballegro_ttf.so libs/$(TARGET_ARCH_ABI)/liballegro_color.so libs/$(TARGET_ARCH_ABI)/liballegro_physfs.so -lGLESv1_CM -llua5.2 -lz -lbass -lbassmidi -lphysfs -ltgui2 -lpoly2tri -latlas -lwrap -lcurl -lstdc++
+LOCAL_LDLIBS    := -L$(ANDROID_NDK_TOOLCHAIN_ROOT)/sysroot/usr/lib -L$(LOCAL_PATH)/$(TARGET_ARCH_ABI) -llog libs/$(TARGET_ARCH_ABI)/liballegro.so libs/$(TARGET_ARCH_ABI)/liballegro_memfile.so libs/$(TARGET_ARCH_ABI)/liballegro_primitives.so libs/$(TARGET_ARCH_ABI)/liballegro_image.so libs/$(TARGET_ARCH_ABI)/liballegro_font.so libs/$(TARGET_ARCH_ABI)/liballegro_ttf.so libs/$(TARGET_ARCH_ABI)/liballegro_color.so libs/$(TARGET_ARCH_ABI)/liballegro_physfs.so -lGLESv1_CM -llua5.2 -lz -lbass -lbassmidi -lphysfs -ltgui2 -lpoly2tri -latlas -lwrap -lcurl -lpng -lz -lstdc++
 
 include $(BUILD_SHARED_LIBRARY)
 

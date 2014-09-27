@@ -5234,6 +5234,7 @@ int c_start_attack(lua_State *stack)
 // Forces caching of new bitmaps
 int c_redraw(lua_State *stack)
 {
+	al_clear_to_color(al_color_name("black"));
 	engine->draw_all(engine->get_loops(), false);
 	al_flip_display();
 	return 0;
