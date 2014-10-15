@@ -193,36 +193,15 @@ void W_Title_Screen_Button::losingFocus()
 
 void W_Title_Screen_Button::draw(int abs_x, int abs_y)
 {
-	if (false) {//this == tgui::getFocussedWidget()) {
-		ALLEGRO_TRANSFORM backup, t;
-		al_copy_transform(&backup, al_get_current_transform());
-		al_identity_transform(&t);
-		al_translate_transform(&t, -(abs_x+width/2), -(abs_y+height/2));
-		float scale = fmod(al_get_time(), 10.0);
-		if (scale >= 5.0f) {
-			scale = 1.0f - ((scale - 5.0f) / 5.0f);
-		}
-		else {
-			scale = scale / 5.0f;
-		}
-		scale = 1.0f + scale * 0.5f;
-		al_scale_transform(&t, scale, scale);
-		al_translate_transform(&t, abs_x+width/2, abs_y+height/2);
-		al_compose_transform(&t, &backup);
-		al_use_transform(&t);
-		General::draw_text(text, abs_x, abs_y, 0, General::FONT_HEAVY);
-		al_use_transform(&backup);
-	}
-	else {
-		General::draw_text(text, abs_x + 4, abs_y + 2, 0, General::FONT_HEAVY);
-	}
+	width = General::get_text_width(General::FONT_HEAVY, t(text.c_str())) + 8;
+	General::draw_text(t(text.c_str()), abs_x + 4, abs_y + 2, 0, General::FONT_HEAVY);
 }
 
 W_Title_Screen_Button::W_Title_Screen_Button(std::string text) :
 	W_Button("", text)
 {
 	//drawFocus = false;
-	width = General::get_text_width(General::FONT_HEAVY, text) + 8;
+	width = General::get_text_width(General::FONT_HEAVY, t(text.c_str())) + 8;
 	height = General::get_font_line_height(General::FONT_HEAVY) + 4;
 	sample_name = "sfx/use_item.ogg";
 }
@@ -1384,5 +1363,84 @@ void W_Checkbox::joyButtonDown(int button)
 bool W_Checkbox::acceptsFocus()
 {
 	return true;
+}
+
+bool W_Translated_Button::acceptsFocus()
+{
+	return true;
+}
+
+void W_Translated_Button::keyDown(int keycode)
+{
+	if (this == tgui::getFocussedWidget()) {
+		if (keycode == ALLEGRO_KEY_ENTER || keycode == cfg.key_ability[3]) {
+			engine->play_sample(sample_name);
+			pressed = true;
+		}
+	}
+}
+
+void W_Translated_Button::joyButtonDown(int button)
+{
+	if (this == tgui::getFocussedWidget()) {
+		if (button == cfg.joy_ability[3]) {
+			engine->play_sample(sample_name);
+			pressed = true;
+		}
+	}
+}
+
+void W_Translated_Button::mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, int mb)
+{
+	if (rel_x >= 0 && rel_y >= 0) {
+		engine->play_sample(sample_name);
+		pressed = true;
+	}
+}
+
+void W_Translated_Button::draw(int abs_x, int abs_y)
+{
+	width = General::get_text_width(General::FONT_LIGHT, t(text.c_str())) + 4;
+	General::draw_text(t(text.c_str()), al_color_name("lightgrey"), abs_x+offset.x+2, abs_y+offset.y+2, 0);
+}
+
+tgui::TGUIWidget *W_Translated_Button::update()
+{
+	if (pressed) {
+		pressed = false;
+		return this;
+	}
+
+	return NULL;
+}
+
+W_Translated_Button::W_Translated_Button(std::string text) :
+	pressed(false),
+	text(text)
+{
+	x = 0;
+	y = 0;
+	sample_name = "sfx/menu_select.ogg";
+
+	width = General::get_text_width(General::FONT_LIGHT, t(text.c_str())) + 4;
+	height = General::get_font_line_height(General::FONT_LIGHT) + 4;
+}
+
+W_Translated_Button::~W_Translated_Button()
+{
+}
+
+void W_Title_Screen_Icon::losingFocus()
+{
+	engine->play_sample("sfx/menu_select.ogg", 1.0f, 0.0f, 1.0f);
+}
+
+W_Title_Screen_Icon::W_Title_Screen_Icon(std::string filename) :
+	W_Button(filename)
+{
+}
+
+W_Title_Screen_Icon::~W_Title_Screen_Icon()
+{
 }
 

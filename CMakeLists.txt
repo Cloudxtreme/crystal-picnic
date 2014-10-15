@@ -120,6 +120,7 @@ set(COMMON_SRCS
 	src/hqm.c
 	src/hqm_loop.cpp
 	src/input_config_loop.cpp
+	src/language_config_loop.cpp
 	src/lua.cpp
 	src/main.cpp
 	src/main_menu_loop.cpp

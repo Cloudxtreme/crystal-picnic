@@ -104,6 +104,32 @@ protected:
 	ALLEGRO_COLOR text_color;
 };
 
+class W_Title_Screen_Icon : public W_Button {
+public:
+
+	void losingFocus();
+	W_Title_Screen_Icon(std::string filename);
+	virtual ~W_Title_Screen_Icon();
+};
+
+class W_Translated_Button : public CrystalPicnic_Widget {
+public:
+	virtual void draw(int abs_x, int abs_y);
+	bool acceptsFocus();
+	void keyDown(int keycode);
+	void joyButtonDown(int button);
+	void mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, int mb);
+	TGUIWidget *update();
+
+	W_Translated_Button(std::string text);
+	virtual ~W_Translated_Button();
+
+protected:
+	bool pressed;
+	std::string text;
+	std::string sample_name;
+};
+
 class W_SaveLoad_Button : public W_Button {
 public:
 	void draw(int abs_x, int abs_y);

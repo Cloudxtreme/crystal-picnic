@@ -235,7 +235,7 @@ void Main::execute()
 
 #if defined OUYA || defined FIRETV
 			if (!engine->get_purchased()) {
-				buy_button = new W_Title_Screen_Button(t("BUY_FULL_GAME"));
+				buy_button = new W_Title_Screen_Button("BUY_FULL_GAME");
 				buy_button->setX(20);
 				buy_button->setY(132);
 				add_continue = false;
@@ -263,22 +263,23 @@ void Main::execute()
 			button_inc += add_bonus ? -16 : 0;
 
 
-			W_Button *config_button = new W_Button("misc_graphics/interface/gear_icon.cpi");
+			W_Title_Screen_Icon *config_button = new W_Title_Screen_Icon("misc_graphics/interface/gear_icon.cpi");
+			config_button->set_sample_name("sfx/use_item.ogg");
 			config_button->setX(20);
 			config_button->setY(20);
 			
-			W_Title_Screen_Button *new_game_button = new W_Title_Screen_Button(t("NEW_GAME"));
+			W_Title_Screen_Button *new_game_button = new W_Title_Screen_Button("NEW_GAME");
 			new_game_button->setX(20);
 			new_game_button->setY(100+button_inc+(add_continue ? 0 : 16));
-			W_Title_Screen_Button *continue_button = new W_Title_Screen_Button(t("CONTINUE"));
+			W_Title_Screen_Button *continue_button = new W_Title_Screen_Button("CONTINUE");
 			continue_button->setX(20);
 			continue_button->setY(116+button_inc);
 
 			W_Title_Screen_Button *bonus_game_button = NULL;
-			W_Title_Screen_Button *hqm_button = new W_Title_Screen_Button(t("HQM"));
+			W_Title_Screen_Button *hqm_button = new W_Title_Screen_Button("HQM");
 
 			if (add_bonus) {
-				bonus_game_button = new W_Title_Screen_Button(t("BONUS_GAME"));
+				bonus_game_button = new W_Title_Screen_Button("BONUS_GAME");
 			}
 
 			tgui::setNewWidgetParent(0);

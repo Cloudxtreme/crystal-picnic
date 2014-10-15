@@ -5,6 +5,7 @@
 #include "widgets.h"
 #include "input_config_loop.h"
 #include "video_config_loop.h"
+#include "language_config_loop.h"
 
 bool Settings_Loop::init()
 {
@@ -13,37 +14,45 @@ bool Settings_Loop::init()
 	}
 	Loop::init();
 
-	video_button = new W_Button("", t("CONFIG_VIDEO"));
-	keyboard_button = new W_Button("", t("CONFIG_KEYBOARD"));
-	gamepad_button = new W_Button("", t("CONFIG_GAMEPAD"));
-	return_button = new W_Button("", t("RETURN"));
+	video_button = new W_Translated_Button("CONFIG_VIDEO");
+	keyboard_button = new W_Translated_Button("CONFIG_KEYBOARD");
+	gamepad_button = new W_Translated_Button("CONFIG_GAMEPAD");
+	language_button = new W_Translated_Button("CONFIG_LANGUAGE");
+	return_button = new W_Translated_Button("RETURN");
 
 	int maxw = video_button->getWidth();
 	maxw = MAX(maxw, keyboard_button->getWidth());
 	maxw = MAX(maxw, gamepad_button->getWidth());
+	maxw = MAX(maxw, language_button->getWidth());
 	maxw = MAX(maxw, return_button->getWidth());
 
 #ifdef ALLEGRO_ANDROID
 	gamepad_button->setX(cfg.screen_w/2-maxw/2);
-	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT));
+	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
+	language_button->setX(cfg.screen_w/2-maxw/2);
+	language_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*0.5f);
 	return_button->setX(cfg.screen_w/2-maxw/2);
-	return_button->setY(cfg.screen_h/2);
+	return_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*0.5f);
 
 	tgui::addWidget(gamepad_button);
+	tgui::addWidget(language_button);
 	tgui::addWidget(return_button);
 #else
 	video_button->setX(cfg.screen_w/2-maxw/2);
-	video_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*2);
+	video_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*2.5f);
 	keyboard_button->setX(cfg.screen_w/2-maxw/2);
-	keyboard_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT));
+	keyboard_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
 	gamepad_button->setX(cfg.screen_w/2-maxw/2);
-	gamepad_button->setY(cfg.screen_h/2);
+	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*0.5f);
+	language_button->setX(cfg.screen_w/2-maxw/2);
+	language_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*0.5f);
 	return_button->setX(cfg.screen_w/2-maxw/2);
-	return_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT));
+	return_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*1.5f);
 
 	tgui::addWidget(video_button);
 	tgui::addWidget(keyboard_button);
 	tgui::addWidget(gamepad_button);
+	tgui::addWidget(language_button);
 	tgui::addWidget(return_button);
 #endif
 
@@ -123,6 +132,20 @@ bool Settings_Loop::logic()
 		engine->do_blocking_mini_loop(loops, NULL);
 		engine->fade_in(this_loop);
 	}
+	else if (w == language_button) {
+		std::vector<Loop *> this_loop;
+		this_loop.push_back(this);
+		engine->fade_out(this_loop);
+		Language_Config_Loop *l = new Language_Config_Loop();
+		tgui::hide();
+		tgui::push(); // popped in ~Language_Config_Loop()
+		std::vector<Loop *> loops;
+		l->init();
+		loops.push_back(l);
+		engine->fade_in(loops);
+		engine->do_blocking_mini_loop(loops, NULL);
+		engine->fade_in(this_loop);
+	}
 	else if (w == return_button) {
 		std::vector<Loop *> loops;
 		loops.push_back(this);
@@ -153,6 +176,8 @@ Settings_Loop::~Settings_Loop()
 	delete keyboard_button;
 	gamepad_button->remove();
 	delete gamepad_button;
+	language_button->remove();
+	delete language_button;
 	return_button->remove();
 	delete return_button;
 
