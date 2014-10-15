@@ -8,6 +8,4 @@ version, you must obtain a license for
 it and comply with it to use it.
 
 (c) 2014 Nooskewl
-Email: support@nooskewl.com
-Web: http://www.nooskewl.com
 
