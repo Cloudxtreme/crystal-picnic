@@ -26,7 +26,15 @@ bool Settings_Loop::init()
 	maxw = MAX(maxw, language_button->getWidth());
 	maxw = MAX(maxw, return_button->getWidth());
 
-#ifdef ALLEGRO_ANDROID
+#ifdef ALLEGRO_IPHONE
+	language_button->setX(cfg.screen_w/2-maxw/2);
+	language_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT));
+	return_button->setX(cfg.screen_w/2-maxw/2);
+	return_button->setY(cfg.screen_h/2);
+
+	tgui::addWidget(language_button);
+	tgui::addWidget(return_button);
+#elif defined ALLEGRO_ANDROID
 	gamepad_button->setX(cfg.screen_w/2-maxw/2);
 	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
 	language_button->setX(cfg.screen_w/2-maxw/2);

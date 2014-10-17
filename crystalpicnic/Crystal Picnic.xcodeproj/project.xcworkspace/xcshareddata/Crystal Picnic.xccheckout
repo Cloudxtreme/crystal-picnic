@@ -5,13 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>EE4FA0E5-09B7-422E-B0B4-B328040AD3DA</string>
+	<string>133955DF-281A-4662-9F6E-CFBC855A9328</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Crystal Picnic</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>4F4E79BA-319E-4CF9-BACF-32CA4E843131</key>
-		<string>ssh://nooskewl.com/private-git/crystalpicnic.git</string>
+		<key>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</key>
+		<string>ssh://192.168.1.110/mnt/git/crystalpicnic.git</string>
 		<key>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</key>
 		<string>https://www.nooskewl.com/svn/monster2/trunk/morpgpc</string>
 	</dict>
@@ -19,7 +19,7 @@
 	<string>crystalpicnic/crystalpicnic/Crystal Picnic.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>4F4E79BA-319E-4CF9-BACF-32CA4E843131</key>
+		<key>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</key>
 		<string>../../..</string>
 		<key>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</key>
 		<string>../../../..</string>
@@ -30,7 +30,7 @@
 		<string>https://www.nooskewl.com/svn</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://nooskewl.com/private-git/crystalpicnic.git</string>
+	<string>ssh://192.168.1.110/mnt/git/crystalpicnic.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -49,7 +49,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4F4E79BA-319E-4CF9-BACF-32CA4E843131</string>
+			<string>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</string>
 			<key>IDESourceControlWCCName</key>
 			<string>crystalpicnic</string>
 		</dict>

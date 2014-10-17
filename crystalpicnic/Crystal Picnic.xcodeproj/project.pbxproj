@@ -111,6 +111,7 @@
 		9672078B19A5998B008F7DB1 /* libtgui2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077C19A5998B008F7DB1 /* libtgui2.a */; };
 		9672078C19A5998B008F7DB1 /* libwrap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077D19A5998B008F7DB1 /* libwrap.a */; };
 		9672078D19A5998B008F7DB1 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077E19A5998B008F7DB1 /* libz.a */; };
+		96C4540F19F16A1C00D8FCFF /* language_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */; };
 		96E8068A19C55CD7008030E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E8068919C55CD6008030E9 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -258,6 +259,7 @@
 		9672077D19A5998B008F7DB1 /* libwrap.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwrap.a; path = ../../local/lib/libwrap.a; sourceTree = "<group>"; };
 		9672077E19A5998B008F7DB1 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../local/lib/libz.a; sourceTree = "<group>"; };
 		96A21AF619A5BCCE00303792 /* Crystal Picnic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Crystal Picnic.entitlements"; sourceTree = "<group>"; };
+		96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = language_config_loop.cpp; path = ../src/language_config_loop.cpp; sourceTree = "<group>"; };
 		96E8068919C55CD6008030E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -307,6 +309,7 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
+				96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */,
 				96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */,
 				96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */,
 				96A21AF619A5BCCE00303792 /* Crystal Picnic.entitlements */,
@@ -653,6 +656,7 @@
 				9672073619A5978D008F7DB1 /* hqm_loop.cpp in Sources */,
 				9672073E19A5978D008F7DB1 /* map_loop.cpp in Sources */,
 				9672073119A5978D008F7DB1 /* follow_character_role.cpp in Sources */,
+				96C4540F19F16A1C00D8FCFF /* language_config_loop.cpp in Sources */,
 				9672074719A5978D008F7DB1 /* saveload_loop.cpp in Sources */,
 				9672072219A5978D008F7DB1 /* character_map_entity.cpp in Sources */,
 			);

@@ -18,6 +18,9 @@
 		96BD8DE019AFE7CA001BDCE2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96BD8DDF19AFE7CA001BDCE2 /* Images.xcassets */; };
 		96BD8DE819AFE7CA001BDCE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DCD19AFE7CA001BDCE2 /* Foundation.framework */; };
 		96BD8DE919AFE7CA001BDCE2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DD119AFE7CA001BDCE2 /* UIKit.framework */; };
+		96C4541119F16F7500D8FCFF /* language_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4541019F16F7500D8FCFF /* language_config_loop.cpp */; };
+		96C4541319F1729900D8FCFF /* settings_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4541219F1729900D8FCFF /* settings_loop.cpp */; };
+		96C4541519F172E300D8FCFF /* video_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4541419F172E300D8FCFF /* video_config_loop.cpp */; };
 		96D091AB19AFFA4B0084C11A /* abilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0916219AFFA4B0084C11A /* abilities.cpp */; };
 		96D091AD19AFFA4B0084C11A /* animation_set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0916419AFFA4B0084C11A /* animation_set.cpp */; };
 		96D091AE19AFFA4B0084C11A /* animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0916519AFFA4B0084C11A /* animation.cpp */; };
@@ -151,6 +154,9 @@
 		96BD8DDB19AFE7CA001BDCE2 /* Crystal Picnic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crystal Picnic-Prefix.pch"; sourceTree = "<group>"; };
 		96BD8DDF19AFE7CA001BDCE2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		96BD8DE519AFE7CA001BDCE2 /* Crystal PicnicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Crystal PicnicTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96C4541019F16F7500D8FCFF /* language_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = language_config_loop.cpp; path = ../../src/language_config_loop.cpp; sourceTree = "<group>"; };
+		96C4541219F1729900D8FCFF /* settings_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = settings_loop.cpp; path = ../../src/settings_loop.cpp; sourceTree = "<group>"; };
+		96C4541419F172E300D8FCFF /* video_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video_config_loop.cpp; path = ../../src/video_config_loop.cpp; sourceTree = "<group>"; };
 		96D0916219AFFA4B0084C11A /* abilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = abilities.cpp; path = ../../src/abilities.cpp; sourceTree = "<group>"; };
 		96D0916419AFFA4B0084C11A /* animation_set.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = animation_set.cpp; path = ../../src/animation_set.cpp; sourceTree = "<group>"; };
 		96D0916519AFFA4B0084C11A /* animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = animation.cpp; path = ../../src/animation.cpp; sourceTree = "<group>"; };
@@ -299,6 +305,9 @@
 		96BD8DC119AFE7CA001BDCE2 = {
 			isa = PBXGroup;
 			children = (
+				96C4541419F172E300D8FCFF /* video_config_loop.cpp */,
+				96C4541219F1729900D8FCFF /* settings_loop.cpp */,
+				96C4541019F16F7500D8FCFF /* language_config_loop.cpp */,
 				9670B11D19C5F2F9008001FD /* icon29.png */,
 				9670B11E19C5F2F9008001FD /* icon40.png */,
 				9670B11F19C5F2F9008001FD /* icon76.png */,
@@ -578,10 +587,12 @@
 				96D091CB19AFFA4B0084C11A /* entity.cpp in Sources */,
 				96D091AF19AFFA4B0084C11A /* apple.m in Sources */,
 				96D091BC19AFFA4B0084C11A /* bones.cpp in Sources */,
+				96C4541519F172E300D8FCFF /* video_config_loop.cpp in Sources */,
 				96D091EC19AFFA4B0084C11A /* triangulate.cpp in Sources */,
 				96D091EB19AFFA4B0084C11A /* tls.cpp in Sources */,
 				96D091EA19AFFA4B0084C11A /* steering.cpp in Sources */,
 				96D091AE19AFFA4B0084C11A /* animation.cpp in Sources */,
+				96C4541119F16F7500D8FCFF /* language_config_loop.cpp in Sources */,
 				96D091F219AFFA4B0084C11A /* widgets.cpp in Sources */,
 				96D091DD19AFFA4B0084C11A /* my_load_bitmap.cpp in Sources */,
 				96D091EF19AFFA4B0084C11A /* weaponized_entity.cpp in Sources */,
@@ -612,6 +623,7 @@
 				96D091C719AFFA4B0084C11A /* direct3d.cpp in Sources */,
 				96D091D219AFFA4B0084C11A /* hqm_loop.cpp in Sources */,
 				96D091E219AFFA4B0084C11A /* runner_loop.cpp in Sources */,
+				96C4541319F1729900D8FCFF /* settings_loop.cpp in Sources */,
 				96D091F119AFFA4B0084C11A /* whack_a_skunk_loop.cpp in Sources */,
 				96D091C319AFFA4B0084C11A /* cpa.cpp in Sources */,
 				96D091EE19AFFA4B0084C11A /* wander_character_role.cpp in Sources */,
