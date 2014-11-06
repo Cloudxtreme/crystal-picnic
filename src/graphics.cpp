@@ -478,7 +478,7 @@ void capture_target(ALLEGRO_BITMAP *tmp)
 {
 	ALLEGRO_BITMAP *target = al_get_target_bitmap();
 
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	/*
 	int flags = al_get_new_bitmap_flags();
 	int format = al_get_new_bitmap_format();

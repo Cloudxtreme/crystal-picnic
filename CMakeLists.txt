@@ -280,6 +280,7 @@ else(WIN32)
 				allegro_primitives${ALLEG_SUFFIX}
 				allegro_color${ALLEG_SUFFIX}
 				allegro_memfile${ALLEG_SUFFIX}
+				allegro_image${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				SM
@@ -298,6 +299,7 @@ else(WIN32)
 				/Users/trent/code/crystalpicnic/build-raspberrypi/libbass.so
 				curl
 				${LUA_LIB}
+				png
 				freetype
 				z
 				atlas

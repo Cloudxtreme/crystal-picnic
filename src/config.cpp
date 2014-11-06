@@ -89,29 +89,21 @@ void Configuration::reset(void)
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
 	fullscreen = true;
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	low_graphics = true;
 #else
 	low_graphics = false;
 #endif
-#if defined ALLEGRO_RASPBERRYPI
-	water_shader = false;
-#else
 	water_shader = true;
-#endif
 	force_opengl = false;
 	show_fps = false;
-#if defined ALLEGRO_RASPBERRYPI
-	linear_filtering = false;
-#else
 	linear_filtering = true;
-#endif
 
 	music_volume = 1.0f;
 	sfx_volume = 1.0f;
 	audio_device = -1;
 	music_off = false;
-#ifdef ALLEGRO_RASPBERRYPI
+#ifdef ALLEGRO_RASPBERRYPIXXX
 	reverb = false;
 #else
 	reverb = true;

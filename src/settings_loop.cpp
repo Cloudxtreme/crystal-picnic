@@ -34,7 +34,7 @@ bool Settings_Loop::init()
 
 	tgui::addWidget(language_button);
 	tgui::addWidget(return_button);
-#elif defined ALLEGRO_ANDROID
+#elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
 	gamepad_button->setX(cfg.screen_w/2-maxw/2);
 	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
 	language_button->setX(cfg.screen_w/2-maxw/2);

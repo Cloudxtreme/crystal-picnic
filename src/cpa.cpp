@@ -40,7 +40,7 @@ CPA::CPA(std::string archive_name)
 		count += al_fread(f, bytes+count, sz-count);
 	}
 	al_fclose(f);
-#elif defined ALLEGRO_IPHONE
+#elif defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	ALLEGRO_FILE *f = al_fopen(archive_name.c_str(), "rb");
 	int sz = al_fsize(f);
 	bytes = new uint8_t[sz];

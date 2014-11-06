@@ -22,7 +22,7 @@
 
 #include <allegro5/allegro_opengl.h>
 #include <allegro5/allegro_font.h>
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 #include <allegro5/allegro_image.h>
 #endif
 
@@ -590,7 +590,7 @@ bool Engine::init_allegro()
 	load_cpa();
 
 	al_init_primitives_addon();
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	al_init_image_addon();
 #endif
 	al_init_font_addon();
@@ -3336,7 +3336,7 @@ void Engine::load_cpa()
 #if defined ALLEGRO_ANDROID
 	// Loaded by PHYSFS
 	cpa = new CPA("assets/data.cpa.uncompressed");
-#elif defined ALLEGRO_IPHONE
+#elif defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	cpa = new CPA("data.cpa.uncompressed");
 #else
 	cpa = new CPA("data.cpa");

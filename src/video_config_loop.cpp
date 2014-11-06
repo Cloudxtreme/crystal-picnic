@@ -19,11 +19,6 @@ bool Video_Config_Loop::init()
 	int count = 0;
 	std::vector<std::string> mode_names;
 
-#ifdef ALLEGRO_RASPBERRYPI
-	modes.push_back(std::pair<int, int>(1024, 576));
-	mode_names.push_back("1024x576");
-#endif
-
 	int num_modes = al_get_num_display_modes();
 	for (int i = 0; i < num_modes; i++) {
 		ALLEGRO_DISPLAY_MODE mode;
