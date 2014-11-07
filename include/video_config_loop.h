@@ -27,6 +27,7 @@ public:
 private:
 
 	W_Scrolling_List *mode_list;
+	W_Vertical_Scrollbar *scrollbar;
 	TGUI_Checkbox *checkbox;
 	W_Button *save_button;
 	W_Button *cancel_button;

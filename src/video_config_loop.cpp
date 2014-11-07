@@ -59,6 +59,7 @@ bool Video_Config_Loop::init()
 	mode_list->setWidth(100);
 	mode_list->setHeight(64);
 	mode_list->set_selected(current);
+
 	checkbox = new W_Checkbox(cfg.fullscreen);
 
 	save_button = new W_Button("", t("SAVE_AND_RESTART"));
@@ -71,6 +72,14 @@ bool Video_Config_Loop::init()
 
 	mode_list->setX(cfg.screen_w/2-maxw/2);
 	mode_list->setY(cfg.screen_h/2-mode_list->getHeight());
+
+	scrollbar = new W_Vertical_Scrollbar(mode_list->get_scrollbar_tab_size());
+	scrollbar->setX(mode_list->getX()+mode_list->getWidth()+1);
+	scrollbar->setY(mode_list->getY());
+	scrollbar->setHeight(mode_list->getHeight());
+	mode_list->setSyncedWidget(scrollbar);
+	scrollbar->setSyncedWidget(mode_list);
+
 	checkbox->setX(cfg.screen_w/2-maxw/2);
 	checkbox->setY(cfg.screen_h/2+5);
 	save_button->setX(cfg.screen_w/2-maxw/2);
@@ -79,6 +88,7 @@ bool Video_Config_Loop::init()
 	cancel_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*3);
 
 	tgui::addWidget(mode_list);
+	tgui::addWidget(scrollbar);
 	tgui::addWidget(checkbox);
 	tgui::addWidget(save_button);
 	tgui::addWidget(cancel_button);
@@ -217,6 +227,9 @@ Video_Config_Loop::~Video_Config_Loop()
 {
 	mode_list->remove();
 	delete mode_list;
+
+	scrollbar->remove();
+	delete scrollbar;
 
 	checkbox->remove();
 	delete checkbox;

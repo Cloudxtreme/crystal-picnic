@@ -44,10 +44,19 @@ bool Language_Config_Loop::init()
 
 	language_list->setX(cfg.screen_w/2-maxw/2);
 	language_list->setY(cfg.screen_h/2-language_list->getHeight());
+	
+	scrollbar = new W_Vertical_Scrollbar(language_list->get_scrollbar_tab_size());
+	scrollbar->setX(language_list->getX()+language_list->getWidth()+1);
+	scrollbar->setY(language_list->getY());
+	scrollbar->setHeight(language_list->getHeight());
+	language_list->setSyncedWidget(scrollbar);
+	scrollbar->setSyncedWidget(language_list);
+
 	save_button->setX(cfg.screen_w/2-maxw/2);
 	save_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT));
 
 	tgui::addWidget(language_list);
+	tgui::addWidget(scrollbar);
 	tgui::addWidget(save_button);
 
 	tguiWidgetsSetColors(al_color_name("yellow"), al_map_rgba_f(0.0f, 0.0f, 0.0f, 0.0f));
@@ -123,6 +132,9 @@ Language_Config_Loop::~Language_Config_Loop()
 {
 	language_list->remove();
 	delete language_list;
+	
+	scrollbar->remove();
+	delete scrollbar;
 
 	save_button->remove();
 	delete save_button;
