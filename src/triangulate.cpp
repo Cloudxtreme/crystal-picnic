@@ -8,28 +8,6 @@
 
 namespace Triangulate {
 
-/*
-struct DATA {
-	float *vertices;
-	std::vector<Triangle> *triangle_vec;
-};
-
-void emit_triangle(int i1, int i2, int i3, void *_data)
-{
-	DATA *data = (DATA *)_data;
-	
-	General::Point<float> p1 = General::Point<float>(data->vertices[i1*2], data->vertices[i1*2+1]);
-	General::Point<float> p2 = General::Point<float>(data->vertices[i2*2], data->vertices[i2*2+1]);
-	General::Point<float> p3 = General::Point<float>(data->vertices[i3*2], data->vertices[i3*2+1]);
-
-	Triangle t;
-	t.points[0] = p1;
-	t.points[1] = p2;
-	t.points[2] = p3;
-	data->triangle_vec->push_back(t);
-}
-*/
-
 void get_triangles(std::vector< General::Point<float> > point_vec, std::vector<int> split_vec, std::vector<Triangulate::Triangle> &triangle_vec)
 {
 	if (split_vec.size() == 0 || split_vec[0] <= 0) {

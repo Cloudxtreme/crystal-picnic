@@ -89,7 +89,7 @@ void Configuration::reset(void)
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
 	fullscreen = true;
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	low_graphics = true;
 #else
 	low_graphics = false;
@@ -103,7 +103,7 @@ void Configuration::reset(void)
 	sfx_volume = 1.0f;
 	audio_device = -1;
 	music_off = false;
-#ifdef ALLEGRO_RASPBERRYPIXXX
+#ifdef ALLEGRO_RASPBERRYPI
 	reverb = false;
 #else
 	reverb = true;

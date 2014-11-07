@@ -1041,9 +1041,10 @@ void Battle_Loop::draw()
 		draw();
 		draw_interface = di;
 		do_not_make_screen_copy = false;
-		al_set_target_bitmap(old_target);
 
 		battle_transition_in(pre_battle_screen_bmp, second);
+		
+		al_set_target_bitmap(old_target);
 		
 		Wrap::destroy_bitmap(pre_battle_screen_bmp);
 		Wrap::destroy_bitmap(second);
@@ -1051,7 +1052,6 @@ void Battle_Loop::draw()
 		engine->reset_logic_count();
 	}
 
-	bool dnmsc = do_not_make_screen_copy;
 	if (cfg.low_graphics) {
 		do_not_make_screen_copy = true;
 	}
@@ -1442,10 +1442,6 @@ end_interface:
 			draw();
 		}
 	}
-	
-	if (cfg.low_graphics) {
-		do_not_make_screen_copy = dnmsc;
-	}
 }
 
 void Battle_Loop::set_entity_layer(int layer)
@@ -1460,6 +1456,8 @@ int Battle_Loop::get_entity_layer()
 
 void Battle_Loop::construct(void)
 {
+	do_not_make_screen_copy = false;
+
 	draw_interface = true;
 
 	x_offset_ratio = 1.0f;

@@ -49,9 +49,8 @@ static void draw(std::vector<BMP> &v)
 	for (size_t i = 0; i < v.size(); i++) {
 		BMP &b = v[i];
 		float scale = b.scale - total;
-		if (scale < 1) scale = 1;
 		if (scale <= min_scale) {
-			int sz = BLOCK_SIZE * scale;
+			int sz = BLOCK_SIZE;
 			al_draw_scaled_bitmap(
 				bmp2,
 				b.x*BLOCK_SIZE, b.y*BLOCK_SIZE,
@@ -112,7 +111,7 @@ void battle_transition_in(Wrap::Bitmap *start_bmp, Wrap::Bitmap *end_bmp)
 	
 	double start = al_get_time();
 
-	while (total < (max_scale-1.0f)) {
+	while (total < diff) {
 		al_set_target_bitmap(buf->bitmap);
 
 		al_clear_to_color(al_color_name("black"));
@@ -127,9 +126,8 @@ void battle_transition_in(Wrap::Bitmap *start_bmp, Wrap::Bitmap *end_bmp)
 
 		double now = al_get_time();
 		double elapsed = now - start;
-		start = now;
 		double percent = elapsed / length;
-		total += diff * percent;
+		total = diff * percent;
 		al_rest(1.0 / 60.0);
 	}
 

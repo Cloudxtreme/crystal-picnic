@@ -9,11 +9,7 @@
 #include <cmath>
 
 // FIXME: DON'T USE THIS IN EDITOR
-#ifdef ALLEGRO_RASPBERRYPI
-const int SKELETON_UPDATE_TIME = 5;
-#else
 const int SKELETON_UPDATE_TIME = 3;
-#endif
 
 static int curr_part_name = 0;
 
@@ -139,7 +135,7 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 					Bones::Bone &b = src[j];
 					std::vector< General::Point<float> > &outline = b.get_outline();
 					std::vector< General::Point<float> > new_outline;
-
+					
 					int bmp_w = al_get_bitmap_width(l->part->get_bitmap(j)->bitmap);
 					int bmp_h = al_get_bitmap_height(l->part->get_bitmap(j)->bitmap);
 
@@ -153,11 +149,33 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 						new_outline.push_back(General::Point<float>(x, y));
 					}
 
+					std::vector<Triangulate::Triangle> &triangles = b.get();
+					std::vector<Triangulate::Triangle> new_triangles;
+
+					for (size_t k = 0; k < triangles.size(); k++) {
+						Triangulate::Triangle t;
+						for (int l = 0; l < 3; l++) {
+							General::Point<float> p = triangles[k].points[l];
+							float x = p.x;
+							float y = p.y;
+							x += bmp_w/2;
+							y += bmp_h;
+							al_transform_coordinates(&bone_trans, &x, &y);
+							t.points[l] = General::Point<float>(x, y);
+						}
+						new_triangles.push_back(t);
+					}
+					
+					Bones::Bone new_bone = Bones::Bone(b.type, new_outline, new_triangles, General::Size<int>(bmp_w, bmp_h));
+
+
+					/*
 					std::vector<int> splits;
 					splits.push_back(new_outline.size());
 					std::vector<Triangulate::Triangle> triangles;
 					Triangulate::get_triangles(new_outline, splits, triangles);
 					Bones::Bone new_bone = Bones::Bone(b.type, new_outline, triangles, General::Size<int>(bmp_w, bmp_h));
+					*/
 					dst.push_back(new_bone);
 				}
 				transformed_bones.push_back(dst);
