@@ -1,1 +1,0 @@
-cmake .. -DUSER_INCLUDE_PATH=/c/Users/trent/bin/gcc-4.6.3-eglibc-2.13/arm-linux-gnueabihf/usr/local/include -DUSER_LIBRARY_PATH=/c/Users/trent/bin/gcc-4.6.3-eglibc-2.13/arm-linux-gnueabihf/usr/local/lib:/c/opt/vc/lib -G "Unix Makefiles" -DRASPBERRYPI=on -DCMAKE_TOOLCHAIN_FILE=../raspberrypi-toolchain.cmake
