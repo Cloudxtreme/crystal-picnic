@@ -58,9 +58,6 @@ ALLEGRO_SHADER *my_create_shader(std::string vertex_source, std::string pixel_so
 		pixel_source = pbuf;
 	}
 
-	printf("- vert -\n%s\n-\n", vertex_source.c_str());
-	printf("- pix -\n%s\n-\n", pixel_source.c_str());
-
 	if (!al_attach_shader_source(
 		s,
 		ALLEGRO_VERTEX_SHADER,

@@ -83,11 +83,6 @@ void side_swipe_in(ALLEGRO_COLOR color, float percent)
 		cfg.screen_w, cfg.screen_h,
 		al_map_rgb(r, g, b)
 	);
-	
-	// Don't know why but my netbook needs this
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_OPENGL) {
-		//glFlush();
-	}
 }
 
 void side_swipe_out(ALLEGRO_COLOR color, float percent)
@@ -152,11 +147,6 @@ void side_swipe_out(ALLEGRO_COLOR color, float percent)
 		x-SWIPE_SLANT, cfg.screen_h,
 		al_map_rgb(r, g, b)
 	);
-	
-	// Don't know why but my netbook needs this
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_OPENGL) {
-		//glFlush();
-	}
 }
 
 void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
@@ -210,21 +200,10 @@ void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 
 	float x1, x2;
 	float y1, y2;
-#ifdef ALLEGRO_WINDOWS_XXX
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		x1 = 0;
-		y1 = 0.5f - y;
-		x2 = 1;
-		y2 = 0.5f + y;
-	}
-	else
-#endif
-	{
-		x1 = -x;
-		y1 = -y;
-		x2 = x;
-		y2 = y;
-	}
+	x1 = -x;
+	y1 = -y;
+	x2 = x;
+	y2 = y;
 
 	ALLEGRO_VERTEX v[4];
 	v[0].x = x1;
@@ -392,10 +371,6 @@ void draw_gauge(int x, int y, int width, bool thick, float percent, ALLEGRO_COLO
 		darker.b = MAX(0, darker.b-0.25f);
 		al_draw_filled_rectangle(startx, y+1, startx+length, y+2, darker);
 		al_draw_filled_rectangle(startx, y+2, startx+length, y+3+(thick ? 1 : 0), color);
-		// Don't know why but my netbook needs this
-		//if (al_get_display_flags(engine->get_display()) & ALLEGRO_OPENGL) {
-			//glFlush();
-		//}
 	}
 
 	Animation_Set *anim_set;
@@ -479,26 +454,6 @@ void capture_target(ALLEGRO_BITMAP *tmp)
 	ALLEGRO_BITMAP *target = al_get_target_bitmap();
 
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
-	/*
-	int flags = al_get_new_bitmap_flags();
-	int format = al_get_new_bitmap_format();
-	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-	al_set_new_bitmap_format(al_get_bitmap_format(target));
-	ALLEGRO_BITMAP *mem = al_create_bitmap(
-		al_get_bitmap_width(target),
-		al_get_bitmap_height(target)
-	);
-	al_set_new_bitmap_flags(flags);
-	al_set_new_bitmap_format(format);
-
-	al_set_target_bitmap(mem);
-	al_draw_bitmap(target, 0, 0, 0);
-	al_set_target_bitmap(tmp);
-	al_draw_bitmap(mem, 0, 0, 0);
-	al_set_target_bitmap(target);
-
-	al_destroy_bitmap(mem);
-	*/
 	const int MAX_SIZE = 512;
 
 	int w = al_get_bitmap_width(target);
@@ -557,14 +512,6 @@ void draw_tinted_bitmap_region_depth_yellow_glow(
 	int r1, int g1, int b1,
 	int r2, int g2, int b2)
 {
-	/*
-	ALLEGRO_TRANSFORM t, backup;
-	al_copy_transform(&backup, al_get_current_transform());
-	al_copy_transform(&t, al_get_current_transform());
-	al_translate_transform_3d(&t, 0, 0, depth);
-	al_use_transform(&t);
-	*/
-
 	float p = fmod(al_get_time(), 2.0);
 	if (p >= 1.0f) {
 		p = 1.0f - (p - 1.0f);
@@ -592,8 +539,6 @@ void draw_tinted_bitmap_region_depth_yellow_glow(
 
 	al_draw_tinted_bitmap_region(bitmap->bitmap, tint, sx, sy, sw, sh, dx, dy, flags);
 	Shader::use(NULL);
-
-	//al_use_transform(&backup);
 }
 
 void get_texture_size(ALLEGRO_BITMAP *bmp, int *outw, int *outh)
