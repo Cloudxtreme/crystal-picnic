@@ -338,6 +338,7 @@ else(WIN32)
 #				/usr/lib/x86_64-linux-gnu/libfreetype.a
 #				/usr/lib/x86_64-linux-gnu/libz.a
 				/usr/local/lib/liblua5.2.a
+				/usr/lib/libpng.a
 				/usr/lib/libfreetype.a
 				/usr/lib/libz.a
 				/home/trent/code/crystalpicnic/build/libbass.so
