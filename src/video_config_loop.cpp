@@ -123,6 +123,17 @@ bool Video_Config_Loop::handle_event(ALLEGRO_EVENT *event)
 			}
 		}
 	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
+		if (event->joystick.button == cfg.joy_ability[2]) {
+			if (!list_was_activated) {
+				std::vector<Loop *> loops;
+				loops.push_back(this);
+				engine->fade_out(loops);
+				engine->unblock_mini_loop();
+				return true;
+			}
+		}
+	}
 
 	return false;
 }

@@ -1,7 +1,7 @@
 #include "crystalpicnic.h"
 #include "whack_a_skunk_loop.h"
 
-void draw_centered_text(Animation_Set *font, ALLEGRO_COLOR c, const char *s, int x, int y)
+static void draw_centered_text(Animation_Set *font, ALLEGRO_COLOR c, const char *s, int x, int y)
 {
 	int one_w = font->get_current_animation()->get_current_frame()->get_width();
 	int tot_w = one_w * strlen(s);
