@@ -440,8 +440,14 @@ void Area_Loop::draw(void)
 			Graphics::turn_bitmap(turn_bitmap, angle);
 			al_flip_display();
 			al_rest(1.0/60.0);
-
-			players[0]->set_input_disabled(!enable_input);
+	
+			// This stops controls from popping back up after first battle on touch (HACK)
+			if (!engine->milestone_is_complete("heading_west_guards")) {
+				players[0]->set_input_disabled(true);
+			}
+			else {
+				players[0]->set_input_disabled(!enable_input);
+			}
 		}
 
 		Wrap::destroy_bitmap(last_battle_screenshot);

@@ -277,6 +277,10 @@ void Player::handle_event(ALLEGRO_EVENT *event)
 
 void Player::logic(void)
 {
+	if (!input_disabled && !role) {
+		engine->set_can_move(true);
+	}
+
 	if (role && dynamic_cast<NoOp_Character_Role *>(role) == NULL) {
 		character_logic();
 		return;

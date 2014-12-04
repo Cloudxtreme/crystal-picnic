@@ -225,6 +225,8 @@ public:
 	void switch_music_out();
 	void switch_music_in();
 
+	void set_can_move(bool can_move);
+
 	Engine();
 	~Engine();
 
@@ -367,8 +369,12 @@ protected:
 	Wrap::Bitmap *touch_bitmaps[10];
 	std::vector<Touch> touches;
 	bool draw_touch_controls;
+	float last_direction;
+	Wrap::Bitmap *helping_hand;
 
 	std::vector<ALLEGRO_EVENT> extra_events;
+
+	bool can_move;
 };
 
 extern Engine *engine;

@@ -196,7 +196,9 @@ Engine::Engine() :
 	_loaded_video(NULL),
 	send_tgui_events(true),
 	save_number_last_used(0),
-	draw_touch_controls(true)
+	draw_touch_controls(true),
+	last_direction(-1),
+	can_move(false)
 {
         resource_manager = new Resource_Manager;
 
@@ -943,6 +945,7 @@ bool Engine::init()
 	touch_bitmaps[TOUCH_ANALOGBASE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/analogbase.cpi");
 	touch_bitmaps[TOUCH_ATTACK] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/attack.cpi");
 	touch_bitmaps[TOUCH_JUMP] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/jump.cpi");
+	helping_hand = Wrap::load_bitmap("misc_graphics/interface/touch_ui/helping_hand.cpi");
 #endif
 
 	return true;
@@ -975,6 +978,7 @@ void Engine::shutdown()
 	for (int i = 0; i < TOUCH_NONE; i++) {
 		Wrap::destroy_bitmap(touch_bitmaps[i]);
 	}
+	Wrap::destroy_bitmap(helping_hand);
 #endif
 
 	remove_event_source((ALLEGRO_EVENT_SOURCE *)&event_source);
@@ -1185,6 +1189,8 @@ loop_end:
 
 		bool stop_draw = false;
 
+		can_move = false;
+
 		if (new_loops.size() > 0) {
 			stop_draw = true;
 			logic_count = 0;
@@ -1389,6 +1395,7 @@ loop_end:
 			do_acknowledge_resize = false;
 		}
 
+		can_move = false;
 		if (cfg.debugmode && logic_count > 1) {
 			logic_count = 1;
 		}
@@ -1880,6 +1887,62 @@ void Engine::finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target
 							}
 							draw_touch_input_stick();
 						}
+
+						// Draw "help" for first battle
+
+						Battle_Loop *bl = GET_BATTLE_LOOP;
+
+						if (bl && !dynamic_cast<Runner_Loop *>(bl) && !engine->milestone_is_complete("heading_west_guards")) {
+							float f = fmod(al_get_time(), 4);
+							int dx, dy;
+							if (f < 1) {
+								dx = 0;
+								dy = -1;
+							}
+							else if (f < 2) {
+								dx = 1;
+								dy = 0;
+								f -= 1;
+							}
+							else if (f < 3) {
+								dx = 0;
+								dy = 1;
+								f -= 2;
+							}
+							else {
+								dx = -1;
+								dy = 0;
+								f -= 3;
+							}
+
+							float x = 50 + dx * 50 * f;
+							float y = 100 + dy * 50 * f;
+
+							Wrap::Bitmap *bmp = helping_hand;
+							int bmpw = al_get_bitmap_width(bmp->bitmap);
+							int bmph = al_get_bitmap_height(bmp->bitmap);
+
+							float screen_w = al_get_display_width(display);
+							float screen_h = al_get_display_height(display);
+							float scalex = screen_w / cfg.screen_w;
+							float scaley = screen_h / cfg.screen_h;
+
+							int height = scaley * TOUCH_BUTTON_RADIUS * 2;
+
+							ALLEGRO_COLOR tint = al_map_rgba_f(0.5f, 0.5f, 0.5f, 0.5f);
+
+							al_draw_tinted_scaled_bitmap(
+								bmp->bitmap,
+								tint,
+								0, 0, bmpw, bmph,
+								x * scalex,
+								y * scaley,
+								scaley * TOUCH_BUTTON_RADIUS * 2,
+								height,
+								0
+							);
+						}
+
 						break;
 					}
 					case TOUCHINPUT_MAP: {
@@ -1889,11 +1952,13 @@ void Engine::finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target
 						break;
 					}
 					case TOUCHINPUT_AREA: {
-						draw_touch_input_button(1, TOUCH_SPECIAL);
-						draw_touch_input_button(3, TOUCH_ACTIVATE);
-						draw_touch_input_button(4, TOUCH_MENU);
-						draw_touch_input_button(5, TOUCH_SWITCH);
-						draw_touch_input_stick();
+						if (can_move) {
+							draw_touch_input_button(1, TOUCH_SPECIAL);
+							draw_touch_input_button(3, TOUCH_ACTIVATE);
+							draw_touch_input_button(4, TOUCH_MENU);
+							draw_touch_input_button(5, TOUCH_SWITCH);
+							draw_touch_input_stick();
+						}
 						break;
 					}
 				}
@@ -3492,7 +3557,6 @@ void Engine::get_touch_input_button_position(int location, int *x, int *y)
 
 void Engine::draw_touch_input_button(int location, TouchType bitmap)
 {
-	// make above a function get_touch_input_button_position
 	int x, y;
 
 	get_touch_input_button_position(location, &x, &y);
@@ -3605,6 +3669,8 @@ int Engine::find_touch(int id)
 
 void Engine::update_touch(ALLEGRO_EVENT *event)
 {
+	// This moves the controls to top or bottom but we don't want that anymore.
+	/*
 	if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN) {
 		if (event->touch.x >= cfg.screen_w/2-25 && event->touch.x <= cfg.screen_w/2+25) {
 			if (event->touch.y < cfg.screen_h/2) {
@@ -3616,72 +3682,267 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 			return;
 		}
 	}
+	*/
 
-	if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN || event->type == ALLEGRO_EVENT_TOUCH_MOVE) {
-		int x, y;
-		get_touch_input_button_position(-1, &x, &y);
-		x += TOUCH_STICK_RADIUS;
-		y += TOUCH_STICK_RADIUS;
-		bool go = false;
-		if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN) {
-			if (General::distance(x, y, event->touch.x, event->touch.y) <= TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL) {
-				for (size_t i = 0; i < touches.size(); i++) {
-					if (touches[i].location == -1) {
-						// Don't put multiple touches on stick
-						return;
+	// Battle stick code
+	if (GET_BATTLE_LOOP) {
+		if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN || event->type == ALLEGRO_EVENT_TOUCH_MOVE) {
+			bool go = true;
+			for (int i = 0; i < 6; i++) {
+				if (touch_is_on_button(event, i)) {
+					go = false;
+					break;
+				}
+			}
+			if (go) {
+				go = false;
+
+				if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN) {
+					for (size_t i = 0; i < touches.size(); i++) {
+						if (touches[i].location == -1) {
+							// Don't put multiple touches on stick
+							return;
+						}
+					}
+					add_touch(event, -1);
+
+					Area_Loop *al = GET_AREA_LOOP;
+					Battle_Loop *bl = GET_BATTLE_LOOP;
+					if (bl) {
+						Battle_Player *player = bl->get_active_player();
+						if (player->is_facing_right()) {
+							last_direction = 0;
+						}
+						else {
+							last_direction = M_PI;
+						}
+					}
+					else if (al) {
+						Area_Manager *area = al->get_area();
+						Map_Entity *player = area->get_entity(0);
+						General::Direction dir = player->get_direction();
+						switch (dir) {
+							case General::DIR_N:
+								last_direction = M_PI * 1.5;
+								break;
+							case General::DIR_NE:
+								last_direction = M_PI * 1.5 + M_PI / 4;
+								break;
+							case General::DIR_E:
+								last_direction = 0;
+								break;
+							case General::DIR_SE:
+								last_direction = M_PI / 4;
+								break;
+							case General::DIR_S:
+								last_direction = M_PI / 2;
+								break;
+							case General::DIR_SW:
+								last_direction = M_PI / 2 + M_PI / 4;
+								break;
+							case General::DIR_W:
+								last_direction = M_PI;
+								break;
+							default:
+								last_direction = M_PI + M_PI / 4;
+								break;
+						}
+					}
+					else {
+						last_direction = 0;
 					}
 				}
-				add_touch(event, -1);
-				go = true;
+				else {
+					int index = find_touch(event->touch.id);
+					if (index >= 0 && touches[index].location == -1) {
+						float old_x = touches[index].x;
+						float old_y = touches[index].y;
+						float x = event->touch.x;
+						float y = event->touch.y;
+
+						float dx = x - old_x;
+						float dy = y - old_y;
+
+						int dw = al_get_display_width(display);
+						int dh = al_get_display_height(display);
+						int sm = MIN(dw, dh);
+
+						if (General::distance(x, y, old_x, old_y) >= (sm * (GET_BATTLE_LOOP ? 0.005f: 0.01f))) {
+							touches[index].x = x;
+							touches[index].y = y;
+
+							float a = atan2(dy, dx);
+
+							while (a < 0) a += M_PI*2;
+							while (a >= M_PI*2) a -= M_PI*2;
+
+							if (GET_BATTLE_LOOP) {
+								if (a >= M_PI*1.5 + M_PI/4 || a < M_PI/4) {
+									a = 0;
+								}
+								else if (a < M_PI/4*3) {
+									a = M_PI/2;
+								}
+								else if (a < M_PI/4*5) {
+									a = M_PI;
+								}
+								else {
+									a = M_PI*1.5;
+								}
+							}
+							else {
+								if (GET_AREA_LOOP && GET_AREA_LOOP->get_area()->get_entity(0)->get_inputs()[Map_Entity::X] == 0 && GET_AREA_LOOP->get_area()->get_entity(0)->get_inputs()[Map_Entity::Y] == 0) {
+									if (General::angle_difference(a, 0) <= M_PI/4) {
+										a = 0;
+									}
+									else if (General::angle_difference(a, M_PI/2) <= M_PI/4) {
+										a = M_PI/2;
+									}
+									else if (General::angle_difference(a, M_PI) <= M_PI/4) {
+										a = M_PI;
+									}
+									else {
+										a = M_PI * 1.5;
+									}
+								}
+								else {
+									if (General::angle_difference(last_direction, a) < M_PI/4) {
+										a = last_direction;
+									}
+									else if (General::angle_difference_clockwise(last_direction, a) < M_PI/2) {
+										a = last_direction + M_PI / 4;
+									}
+									else if (General::angle_difference_counter_clockwise(last_direction, a) < M_PI/2) {
+										a = last_direction - M_PI / 4;
+									}
+									else {
+										if (General::angle_difference(a, 0) <= M_PI/4) {
+											a = 0;
+										}
+										else if (General::angle_difference(a, M_PI/2) <= M_PI/4) {
+											a = M_PI/2;
+										}
+										else if (General::angle_difference(a, M_PI) <= M_PI/4) {
+											a = M_PI;
+										}
+										else {
+											a = M_PI * 1.5;
+										}
+									}
+								}
+							}
+
+							while (a < 0) a += M_PI*2;
+							while (a >= M_PI*2) a -= M_PI*2;
+
+							last_direction = a;
+
+							float xx = cos(a);
+							float yy = sin(a);
+
+							event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+							event->joystick.stick = 0;
+							event->joystick.axis = 0;
+							event->joystick.pos = xx;
+							ALLEGRO_EVENT extra;
+							extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+							extra.joystick.stick = 0;
+							extra.joystick.axis = 1;
+							extra.joystick.pos = yy;
+							extra_events.push_back(extra);
+						}
+					}
+				}
+
+				return;
 			}
 		}
 		else {
 			int index = find_touch(event->touch.id);
 			if (index >= 0 && touches[index].location == -1) {
-				touches[index].x = event->touch.x;
-				touches[index].y = event->touch.y;
-				go = true;
+				touches.erase(touches.begin() + index);
+				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.stick = 0;
+				event->joystick.axis = 0;
+				event->joystick.pos = 0;
+				ALLEGRO_EVENT extra;
+				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.stick = 0;
+				extra.joystick.axis = 1;
+				extra.joystick.pos = 0;
+				extra_events.push_back(extra);
+				last_direction = -1;
+				return;
 			}
 		}
-
-		if (go) {
-			float xx = event->touch.x - x;
-			float yy = event->touch.y - y;
-			xx /= (TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL)/2;
-			yy /= (TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL)/2;
-			if (xx < -1) xx = -1;
-			if (xx > 1) xx = 1;
-			if (yy < -1) yy = -1;
-			if (yy > 1) yy = 1;
-			event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
-			event->joystick.stick = 0;
-			event->joystick.axis = 0;
-			event->joystick.pos = xx;
-			ALLEGRO_EVENT extra;
-			extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
-			extra.joystick.stick = 0;
-			extra.joystick.axis = 1;
-			extra.joystick.pos = yy;
-			extra_events.push_back(extra);
-		
-			return;
-		}
 	}
-	else {
-		int index = find_touch(event->touch.id);
-		if (index >= 0 && touches[index].location == -1) {
-			touches.erase(touches.begin() + index);
-			event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
-			event->joystick.stick = 0;
-			event->joystick.axis = 0;
-			event->joystick.pos = 0;
-			ALLEGRO_EVENT extra;
-			extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
-			extra.joystick.stick = 0;
-			extra.joystick.axis = 1;
-			extra.joystick.pos = 0;
-			extra_events.push_back(extra);
-			return;
+	else { // Other stick code
+		if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN || event->type == ALLEGRO_EVENT_TOUCH_MOVE) {
+			int x, y;
+			get_touch_input_button_position(-1, &x, &y);
+			x += TOUCH_STICK_RADIUS;
+			y += TOUCH_STICK_RADIUS;
+			bool go = false;
+			if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN) {
+				if (General::distance(x, y, event->touch.x, event->touch.y) <= TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL) {
+					for (size_t i = 0; i < touches.size(); i++) {
+						if (touches[i].location == -1) {
+							// Don't put multiple touches on stick
+							return;
+						}
+					}
+					add_touch(event, -1);
+					go = true;
+				}
+			}
+			else {
+				int index = find_touch(event->touch.id);
+				if (index >= 0 && touches[index].location == -1) {
+					touches[index].x = event->touch.x;
+					touches[index].y = event->touch.y;
+					go = true;
+				}
+			}
+
+			if (go) {
+				float xx = event->touch.x - x;
+				float yy = event->touch.y - y;
+				xx /= (TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL)/2;
+				yy /= (TOUCH_STICK_RADIUS+TOUCH_STICK_TRAVEL)/2;
+				if (xx < -1) xx = -1;
+				if (xx > 1) xx = 1;
+				if (yy < -1) yy = -1;
+				if (yy > 1) yy = 1;
+				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.stick = 0;
+				event->joystick.axis = 0;
+				event->joystick.pos = xx;
+				ALLEGRO_EVENT extra;
+				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.stick = 0;
+				extra.joystick.axis = 1;
+				extra.joystick.pos = yy;
+				extra_events.push_back(extra);
+			
+				return;
+			}
+		}
+		else {
+			int index = find_touch(event->touch.id);
+			if (index >= 0 && touches[index].location == -1) {
+				touches.erase(touches.begin() + index);
+				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.stick = 0;
+				event->joystick.axis = 0;
+				event->joystick.pos = 0;
+				ALLEGRO_EVENT extra;
+				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.stick = 0;
+				extra.joystick.axis = 1;
+				extra.joystick.pos = 0;
+				extra_events.push_back(extra);
+				return;
+			}
 		}
 	}
 	
@@ -3910,6 +4171,10 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 
 void Engine::draw_touch_input_stick()
 {
+	if (GET_BATTLE_LOOP) {
+		return;
+	}
+
 	int index = -1;
 
 	for (size_t i = 0; i < touches.size(); i++) {
@@ -4004,5 +4269,10 @@ void Engine::switch_music_in()
 			play_sample(p.first);
 		}
 	}
+}
+
+void Engine::set_can_move(bool can_move)
+{
+	this->can_move = can_move;
 }
 

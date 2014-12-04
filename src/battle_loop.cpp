@@ -1415,7 +1415,7 @@ void Battle_Loop::draw()
 			0
 		);
 	}
-	
+
 end_interface:
 	if ((cart_battle || dynamic_cast<Runner_Loop *>(this)) && !battle_transition_done) {
 		double p = al_get_time() - battle_start_time;

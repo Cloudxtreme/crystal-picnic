@@ -38,11 +38,7 @@ void init(void)
 	BASS_SetConfig(BASS_CONFIG_IOS_MIXAUDIO, 5);
 #endif
 
-#ifdef ALLEGRO_RASPBERRYPI
-	if (!BASS_Init(cfg.audio_device, 22050, 0, NULL, NULL)) {
-#else
 	if (!BASS_Init(cfg.audio_device, 44100, 0, NULL, NULL)) {
-#endif
 		int code = BASS_ErrorGetCode();
 				ALLEGRO_DEBUG("BASS_Init failed (%d). Failing or falling back", code);
 	}
