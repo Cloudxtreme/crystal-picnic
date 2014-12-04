@@ -16,6 +16,7 @@ bool Credits_Loop::init()
 	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/2.cpi"));
 	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/3.cpi"));
 	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/4.cpi"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/indiegogo.cpi"));
 	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/nooskewl.cpi"));
 
 	std::vector<std::string> v1;
@@ -42,6 +43,15 @@ bool Credits_Loop::init()
 	v1.push_back("");
 	v1.push_back(t("CREDITS_ADDITIONAL_LEVEL_DESIGN"));
 	v1.push_back("Bradley Stapleton");
+	strings.push_back(v1);
+	v1.clear();
+	v1.push_back("Richard Pett");
+	v1.push_back("Aaron Bolyard");
+	v1.push_back("Josh Larouche");
+	v1.push_back("cdoty");
+	v1.push_back("Carl Olsson");
+	v1.push_back("William Browne");
+	v1.push_back("");
 	strings.push_back(v1);
 	v1.clear();
 	v1.push_back("\xc2\xa9 2014 Nooskewl");
@@ -97,7 +107,7 @@ void Credits_Loop::draw()
 
 	y += cfg.screen_h;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 6; i++) {
 		y += draw_bitmap(i, y);
 		y += draw_strings(i, y);
 	}

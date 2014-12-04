@@ -23,16 +23,16 @@ ALLEGRO_BITMAP *my_load_bitmap(std::string filename)
 		return NULL;
 	}
 	ALLEGRO_BITMAP *bmp;
-#if defined ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
+//#if defined ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	bmp = al_load_bitmap_f(f, ".png");
-#else
+/*#else
 	if (!engine || !cpa) {
 		bmp = al_load_bitmap_f(f, ".png");
 	}
 	else {
 		bmp = al_load_bitmap_f(f, ".cpi");
 	}
-#endif
+#endif*/
 	al_fclose(f);
 	return bmp;
 }

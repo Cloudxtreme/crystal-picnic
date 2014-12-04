@@ -22,9 +22,7 @@
 
 #include <allegro5/allegro_opengl.h>
 #include <allegro5/allegro_font.h>
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 #include <allegro5/allegro_image.h>
-#endif
 
 #include <bass.h>
 
@@ -592,9 +590,7 @@ bool Engine::init_allegro()
 	load_cpa();
 
 	al_init_primitives_addon();
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	al_init_image_addon();
-#endif
 	al_init_font_addon();
 	al_init_ttf_addon();
 
@@ -677,8 +673,8 @@ bool Engine::init_allegro()
 
 	General::log_message("OpenGL: " + General::itos(cfg.force_opengl));
 	
-	al_register_bitmap_loader_f(".cpi", load_cpi_f);
-	al_register_bitmap_loader(".cpi", load_cpi);
+	//al_register_bitmap_loader_f(".cpi", load_cpi_f);
+	//al_register_bitmap_loader(".cpi", load_cpi);
 
 #ifdef ALLEGRO_WINDOWS
 	// With OpenGL driver, crashes if icon is not a memory bitmap

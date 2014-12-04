@@ -219,6 +219,7 @@ if(WIN32)
 		allegro_color${ALLEG_SUFFIX}
 		allegro_memfile${ALLEG_SUFFIX}
 		allegro_dialog${ALLEG_SUFFIX}
+		allegro_image${ALLEG_SUFFIX}
 		allegro${ALLEG_SUFFIX}
 		${ALLEGRO_MAIN_LIB}
 		${LUA_LIB}
@@ -245,6 +246,7 @@ else(WIN32)
 			allegro_color${ALLEG_SUFFIX}
 			allegro_memfile${ALLEG_SUFFIX}
 			allegro_dialog${ALLEG_SUFFIX}
+			allegro_image${ALLEG_SUFFIX}
 			allegro${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB}
 			/Users/trent/code/local/lib/liblua.a
 			${EXTRA_LIBS}
@@ -327,6 +329,7 @@ else(WIN32)
 				allegro_primitives${ALLEG_SUFFIX}
 				allegro_color${ALLEG_SUFFIX}
 				allegro_memfile${ALLEG_SUFFIX}
+				allegro_image${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xpm GL GLU

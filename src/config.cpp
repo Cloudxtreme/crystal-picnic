@@ -79,16 +79,11 @@ void Configuration::reset(void)
 	language = "English";
 
 	vsync = true;
-#ifdef ALLEGRO_RASPBERRYPI
 	screen_w = 1024;
 	screen_h = 576;
-#else
-	screen_w = 1280;
-	screen_h = 720;
-#endif
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
-	fullscreen = true;
+	fullscreen = false;
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
 	low_graphics = true;
 #else
