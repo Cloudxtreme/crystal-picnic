@@ -148,7 +148,7 @@ bool Crystal_Loop::logic()
 							engine->play_sample("sfx/spend_crystal.ogg");
 							Game_Specific_Globals::crystals--;
 							players[current_player]->get_battle_attributes().abilities.hp++;
-							players[current_player]->get_battle_attributes().max_hp += 10;
+							players[current_player]->get_battle_attributes().max_hp += 10 * cfg.difficulty_mult();
 							copy_abilities();
 						}
 					}

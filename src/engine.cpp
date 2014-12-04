@@ -2431,6 +2431,9 @@ void Engine::save_game(int number)
 		Lua::add_saved_lua_line(line);
 	}
 
+	snprintf(line, 1000, "difficulty(%d)\n", (int)cfg.difficulty);
+	Lua::add_saved_lua_line(line);
+
 	Lua::store_battle_attributes(players);
 	Lua::add_battle_attributes_lines();
 
@@ -3681,7 +3684,7 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 	*/
 
 	// Battle stick code
-	if (GET_BATTLE_LOOP) {
+	if (GET_BATTLE_LOOP && !dynamic_cast<Runner_Loop *>(GET_BATTLE_LOOP)) {
 		if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN || event->type == ALLEGRO_EVENT_TOUCH_MOVE) {
 			bool go = true;
 			for (int i = 0; i < 6; i++) {

@@ -6,6 +6,15 @@
 
 class Configuration {
 public:
+	enum Difficulty {
+		EASY = 0,
+		NORMAL = 1,
+		HARD = 2
+	};
+
+	Difficulty difficulty;
+	bool cancelled;
+
 	bool vsync;
 	int screen_w;
 	int screen_h;
@@ -70,6 +79,16 @@ public:
 	void reset();
 	bool load();
 	bool save();
+
+	int difficulty_mult() {
+		if (difficulty == EASY) {
+			return 3;
+		}
+		else if (difficulty == NORMAL) {
+			return 2;
+		}
+		return 1;
+	}
 
 	Configuration();
 private:

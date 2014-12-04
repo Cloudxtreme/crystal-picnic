@@ -106,6 +106,7 @@ set(COMMON_SRCS
 	src/cpa.cpp
 	src/credits_loop.cpp
 	src/crystal_loop.cpp
+	src/difficulty_loop.cpp
 	src/direct3d.cpp
 	src/enemy_avatar.cpp
 	src/enemy_avatar_wander_character_role.cpp

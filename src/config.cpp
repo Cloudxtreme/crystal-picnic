@@ -76,6 +76,8 @@ void Configuration::reset_gamepad_controls()
 
 void Configuration::reset(void)
 {
+	difficulty = HARD;
+
 	language = "English";
 
 	vsync = true;

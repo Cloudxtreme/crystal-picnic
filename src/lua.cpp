@@ -91,8 +91,8 @@ std::vector<std::string> get_saved_players()
 void init_battle_attributes()
 {
 	for (int i = 0; i < 3; i++) {
-		battle_attributes[i].second.max_hp = 10;
-		battle_attributes[i].second.hp = 10;
+		battle_attributes[i].second.max_hp = 10 * cfg.difficulty_mult();
+		battle_attributes[i].second.hp = 10 * cfg.difficulty_mult();
 		battle_attributes[i].second.max_mp = 5;
 		battle_attributes[i].second.mp = 5;
 		battle_attributes[i].second.attack = 1;
@@ -213,8 +213,8 @@ void add_battle_attributes_lines()
 			2000,
 			"set_attributes(%d, %d, %d, %d, %d, %d, %d, %d)\n",
 			i,
-			battle_attributes[i].second.hp,
-			battle_attributes[i].second.max_hp,
+			battle_attributes[i].second.hp / cfg.difficulty_mult(),
+			battle_attributes[i].second.max_hp / cfg.difficulty_mult(),
 			battle_attributes[i].second.mp,
 			battle_attributes[i].second.max_mp,
 			battle_attributes[i].second.attack,
@@ -4440,8 +4440,8 @@ int c_set_name(lua_State *stack)
 int c_set_attributes(lua_State *stack)
 {
 	int index = lua_tonumber(stack, 1);
-	battle_attributes[index].second.hp = lua_tonumber(stack, 2);
-	battle_attributes[index].second.max_hp = lua_tonumber(stack, 3);
+	battle_attributes[index].second.hp = lua_tonumber(stack, 2) * cfg.difficulty_mult();
+	battle_attributes[index].second.max_hp = lua_tonumber(stack, 3) * cfg.difficulty_mult();
 	battle_attributes[index].second.mp = lua_tonumber(stack, 4);
 	battle_attributes[index].second.max_mp = lua_tonumber(stack, 5);
 	battle_attributes[index].second.attack = lua_tonumber(stack, 6);
@@ -4560,7 +4560,7 @@ int c_revive_everyone(lua_State *stack)
 int c_increase_hp(lua_State *stack)
 {
 	int id = lua_tonumber(stack, 1);
-	int amount = lua_tonumber(stack, 2);
+	int amount = lua_tonumber(stack, 2) * cfg.difficulty_mult();
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
@@ -5308,6 +5308,12 @@ int c_credits(lua_State *stack)
 	return 0;
 }
 
+int c_difficulty(lua_State *stack)
+{
+	cfg.difficulty = (Configuration::Difficulty)((int)lua_tonumber(stack, 0));
+	return 0;
+}
+
 void register_c_functions(lua_State *lua_state)
 {
 	#define REGISTER_FUNCTION(name) \
@@ -5530,6 +5536,7 @@ void register_c_functions(lua_State *lua_state)
 	REGISTER_FUNCTION(is_burrowing);
 	REGISTER_FUNCTION(kill_enemy);
 	REGISTER_FUNCTION(hurt_enemy);
+	REGISTER_FUNCTION(difficulty);
 
 	// Generic
 	REGISTER_FUNCTION(set_area_loop_input_paused);

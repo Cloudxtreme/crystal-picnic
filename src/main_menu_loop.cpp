@@ -66,7 +66,7 @@ static void draw_character_preview_box(Player *p, bool selected, Wrap::Bitmap *b
 	Game_Specific_Globals::get_accessory_effects(attr.equipment.accessory.name, &max_hp, &max_mp, NULL, NULL);
 
 	float percent;
-	percent = attr.hp / (float)max_hp;
+	percent = (attr.hp/cfg.difficulty_mult()) / (float)(max_hp/cfg.difficulty_mult());
 	Graphics::draw_gauge(x+x1, y1, remain_w, true, percent, hilight, al_color_name("lime"));
 	percent = attr.mp / (float)max_mp;
 	Graphics::draw_gauge(x+x1, y1+gauge_span, remain_w, false, percent, hilight, al_color_name("cyan"));
@@ -905,7 +905,7 @@ void Main_Menu_Main_Loop::draw()
 	attack += attr.equipment.weapon.name == "" ? 0 : attr.equipment.weapon.attack;
 	defense += attr.equipment.armor.name == "" ? 0 : attr.equipment.armor.defense;
 	float percent;
-	percent = (float)attr.hp / max_hp;
+	percent = (float)(attr.hp/cfg.difficulty_mult()) / (max_hp/cfg.difficulty_mult());
 	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, true, percent, hilight, al_color_name("lime"));
 	text_y += text_h + gauge_h + 1;
 	percent = (float)attr.mp / max_mp;
@@ -920,7 +920,7 @@ void Main_Menu_Main_Loop::draw()
 	// Then text
 	text_y = 10 + text_h;
 	General::draw_text(t("HEALTH"), ox+text_x, oy+text_y, 0);
-	General::draw_text(General::itos(attr.hp), ox+text_x+text_w, oy+text_y, ALLEGRO_ALIGN_RIGHT);
+	General::draw_text(General::itos(attr.hp/cfg.difficulty_mult()), ox+text_x+text_w, oy+text_y, ALLEGRO_ALIGN_RIGHT);
 	text_y += text_h + gauge_h + 1;
 	General::draw_text(t("MAGIC"), ox+text_x, oy+text_y, 0);
 	General::draw_text(General::itos(attr.mp), ox+text_x+text_w, oy+text_y, ALLEGRO_ALIGN_RIGHT);
@@ -2118,7 +2118,7 @@ void Main_Menu_Equip_Loop::draw()
 		t("DEFENSE")
 	};
 
-	int max_hp = attr.max_hp;
+	int max_hp = attr.max_hp / cfg.difficulty_mult();
 	int max_mp = attr.max_mp;
 	int attack = attr.attack;
 	int defense = attr.defense;

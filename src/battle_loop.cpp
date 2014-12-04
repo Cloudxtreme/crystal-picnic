@@ -51,7 +51,7 @@ static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 		y+profile_h/2-6,
 		w,
 		true,
-		(float)attr.hp/max_hp, hilight,
+		(float)(attr.hp/cfg.difficulty_mult())/(max_hp/cfg.difficulty_mult()), hilight,
 		al_color_name("lime")
 	);
 	Graphics::draw_gauge(

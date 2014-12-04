@@ -8,6 +8,7 @@
 #include "hqm_loop.h"
 #include "runner_loop.h"
 #include "settings_loop.h"
+#include "difficulty_loop.h"
 
 // FIXME:
 #include "credits_loop.h"
@@ -388,14 +389,32 @@ void Main::execute()
 					fade(1.0, false);
 				}
 				else if (widget == new_game_button) {
+					cfg.cancelled = false;
+					Difficulty_Loop *l = new Difficulty_Loop();
 					fade(1.0, true);
-					Game_Specific_Globals::elapsed_time = 0;
-					engine->reset_game();
-					engine->set_game_just_loaded(false);
-					engine->set_continued_or_saved(false);
-					break;
+					tgui::hide();
+					tgui::push(); // popped in ~Difficulty_Loop()
+					std::vector<Loop *> loops;
+					l->init();
+					loops.push_back(l);
+					engine->start_timers();
+					engine->fade_in(loops);
+					engine->do_blocking_mini_loop(loops, NULL);
+					engine->stop_timers();
+					if (!cfg.cancelled) {
+						Game_Specific_Globals::elapsed_time = 0;
+						engine->reset_game();
+						engine->set_game_just_loaded(false);
+						engine->set_continued_or_saved(false);
+						break;
+					}
+					else {
+						fade(1.0, false);
+					}
 				}
 				else if (widget == continue_button) {
+					// This sets the default to HARD for old games pre-difficulty setting
+					cfg.difficulty = Configuration::HARD;
 					fade(1.0, true);
 					tgui::hide();
 					tgui::push(); // popped in ~SaveLoad_Loop()

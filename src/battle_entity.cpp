@@ -2879,10 +2879,10 @@ void Battle_Enemy::take_damage(Battle_Entity *hitter, Hit_Direction direction, b
 			else {
 				damage = attr.attack + accessory_attack;
 			}
-			attributes.hp -= damage * multiplier;
+			attributes.hp -= damage * multiplier * cfg.difficulty_mult();
 		}
 		else {
-			attributes.hp -= particle_damage * multiplier;
+			attributes.hp -= particle_damage * multiplier * cfg.difficulty_mult();
 		}
 		if (attributes.hp <= 0) {
 			engine->play_sample("sfx/enemy_die.ogg");

@@ -428,13 +428,13 @@ void use_item(std::string name, Battle_Attributes &attributes, bool sound)
 	get_accessory_effects(attributes.equipment.accessory.name, &max_hp, &max_mp, NULL, NULL);
 
 	if (name == "HEALTHVIAL") {
-		INC_MAX_IF(attributes.hp, max_hp, 10)
+		INC_MAX_IF(attributes.hp, max_hp, 10 * cfg.difficulty_mult())
 	}
 	else if (name == "HEALTHJAR") {
-		INC_MAX_IF(attributes.hp, max_hp, 20)
+		INC_MAX_IF(attributes.hp, max_hp, 20 * cfg.difficulty_mult())
 	}
 	else if (name == "HEALTHFLASK") {
-		INC_MAX_IF(attributes.hp, max_hp, 50)
+		INC_MAX_IF(attributes.hp, max_hp, 50 * cfg.difficulty_mult())
 	}
 	else if (name == "MAGICVIAL") {
 		INC_MAX(attributes.mp, max_mp, 10)
