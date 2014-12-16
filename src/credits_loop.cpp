@@ -43,6 +43,10 @@ bool Credits_Loop::init()
 	v1.push_back("");
 	v1.push_back(t("CREDITS_ADDITIONAL_LEVEL_DESIGN"));
 	v1.push_back("Bradley Stapleton");
+	v1.push_back("");
+	v1.push_back("");
+	v1.push_back(t("CREDITS_TRANSLATIONS"));
+	v1.push_back("Thomas Faust");
 	strings.push_back(v1);
 	v1.clear();
 	v1.push_back("Richard Pett");
