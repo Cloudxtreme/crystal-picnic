@@ -50,7 +50,6 @@ bool Difficulty_Loop::handle_event(ALLEGRO_EVENT *event)
 			|| event->keyboard.keycode == ALLEGRO_KEY_BACK
 #endif
 		) {
-			cfg.cancelled = true;
 			std::vector<Loop *> loops;
 			loops.push_back(this);
 			engine->fade_out(loops);
@@ -60,7 +59,6 @@ bool Difficulty_Loop::handle_event(ALLEGRO_EVENT *event)
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
 		if (event->joystick.button == cfg.joy_ability[2]) {
-			cfg.cancelled = true;
 			std::vector<Loop *> loops;
 			loops.push_back(this);
 			engine->fade_out(loops);
@@ -82,6 +80,7 @@ bool Difficulty_Loop::logic()
 		loops.push_back(this);
 		engine->fade_out(loops);
 		engine->unblock_mini_loop();
+		cfg.cancelled = false;
 		return true;
 	}
 	else if (w == normal_button) {
@@ -90,6 +89,7 @@ bool Difficulty_Loop::logic()
 		loops.push_back(this);
 		engine->fade_out(loops);
 		engine->unblock_mini_loop();
+		cfg.cancelled = false;
 		return true;
 	}
 	else if (w == hard_button) {
@@ -98,6 +98,7 @@ bool Difficulty_Loop::logic()
 		loops.push_back(this);
 		engine->fade_out(loops);
 		engine->unblock_mini_loop();
+		cfg.cancelled = false;
 		return true;
 	}
 

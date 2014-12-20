@@ -389,7 +389,7 @@ void Main::execute()
 					fade(1.0, false);
 				}
 				else if (widget == new_game_button) {
-					cfg.cancelled = false;
+					cfg.cancelled = true;
 					Difficulty_Loop *l = new Difficulty_Loop();
 					fade(1.0, true);
 					tgui::hide();
@@ -426,7 +426,32 @@ void Main::execute()
 					engine->fade_in(loops);
 					engine->do_blocking_mini_loop(loops, NULL);
 					engine->stop_timers();
+					cfg.cancelled = true;
 					if (engine->get_continued_or_saved()) {
+						engine->set_continued_or_saved(false);
+						if (engine->get_started_new_game()) {
+							Difficulty_Loop *l = new Difficulty_Loop();
+							tgui::hide();
+							tgui::push(); // popped in ~Difficulty_Loop()
+							std::vector<Loop *> loops2;
+							l->init();
+							loops2.push_back(l);
+							engine->start_timers();
+							engine->fade_in(loops2);
+							engine->do_blocking_mini_loop(loops2, NULL);
+							engine->stop_timers();
+							if (!cfg.cancelled) {
+								Game_Specific_Globals::elapsed_time = 0;
+								engine->reset_game();
+								engine->set_game_just_loaded(false);
+								engine->set_continued_or_saved(false);
+							}
+						}
+						else {
+							cfg.cancelled = false;
+						}
+					}
+					if (!cfg.cancelled) {
 						break;
 					}
 					else {

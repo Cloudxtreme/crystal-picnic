@@ -227,6 +227,8 @@ public:
 
 	void set_can_move(bool can_move);
 
+	bool get_started_new_game();
+
 	Engine();
 	~Engine();
 
@@ -375,6 +377,9 @@ protected:
 	std::vector<ALLEGRO_EVENT> extra_events;
 
 	bool can_move;
+
+	// This is only set from the Continue screen (NOT New Game)
+	bool started_new_game;
 };
 
 extern Engine *engine;

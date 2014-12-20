@@ -196,7 +196,8 @@ Engine::Engine() :
 	save_number_last_used(0),
 	draw_touch_controls(true),
 	last_direction(-1),
-	can_move(false)
+	can_move(false),
+	started_new_game(false)
 {
         resource_manager = new Resource_Manager;
 
@@ -1447,6 +1448,7 @@ loop_end:
 	}
 
 end:
+
 	for (size_t i = 0; i < loops.size(); i++) {
 		delete loops[i];
 	}
@@ -2512,9 +2514,13 @@ void Engine::load_game(int number)
 	Lua::load_global_scripts(lua_state);
 
 	if (!luaL_loadfile(lua_state, save_filename.c_str())) {
+		started_new_game = false;
 		if (lua_pcall(lua_state, 0, 0, 0)) {
 			Lua::dump_lua_stack(lua_state);
 		}
+	}
+	else {
+		started_new_game = true;
 	}
 
 	lua_close(lua_state);
@@ -4273,5 +4279,10 @@ void Engine::switch_music_in()
 void Engine::set_can_move(bool can_move)
 {
 	this->can_move = can_move;
+}
+
+bool Engine::get_started_new_game()
+{
+	return started_new_game;
 }
 
