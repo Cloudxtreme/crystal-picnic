@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # Options
 
-option(EDITOR "Build with in game editor" off)
+option(EDITOR "Build battle level editor" off)
 option(TOOLS "Build extra tools" off)
 option(WELL512 "Use well512 RNG" off)
 option(RASPBERRYPI "Build for Raspberry Pi" off)

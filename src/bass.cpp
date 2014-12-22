@@ -1,12 +1,8 @@
+#include "bass_crystalpicnic.h"
+
 #include <allegro5/allegro.h>
 
-// FIXME: new MinGW needs this
-#ifdef ALLEGRO_WINDOWS
-#include <windows.h>
-#endif
-
 #include <bass.h>
-#include "bass_crystalpicnic.h"
 #include "bass_fileprocs.h"
 #include "general.h"
 #include "engine.h"

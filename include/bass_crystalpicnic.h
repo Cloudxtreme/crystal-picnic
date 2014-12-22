@@ -3,6 +3,11 @@
 
 #include <allegro5/allegro.h>
 
+// FIXME: new MinGW needs this
+#ifdef ALLEGRO_WINDOWS
+#include <windows.h>
+#endif
+
 #include <bass.h>
 
 namespace BASS
