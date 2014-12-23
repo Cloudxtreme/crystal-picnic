@@ -72,7 +72,7 @@ bool Input_Config_Loop::init()
 	if (keyboard) {
 		for (int i = 0; i < 11; i++) {
 			buttons[i] = new W_Button("", "Key");
-			buttons[i]->setX(80);
+			buttons[i]->setX(90);
 			buttons[i]->setY(5+12*i);
 			buttons[i]->setHeight(buttons[i]->getHeight()-5);
 			buttons[i]->set_text_yoffset(-1);
@@ -82,7 +82,7 @@ bool Input_Config_Loop::init()
 	else {
 		for (int i = 0; i < 12; i++) {
 			buttons[i] = new W_Button("", "Button");
-			buttons[i]->setX(80);
+			buttons[i]->setX(90);
 			buttons[i]->setY(5+12*i);
 			buttons[i]->setHeight(buttons[i]->getHeight()-5);
 			buttons[i]->set_text_yoffset(-1);
@@ -225,9 +225,9 @@ void Input_Config_Loop::draw()
 	al_clear_to_color(General::UI_GREEN);
 
 	for (int i = 0; i < num; i++) {
-		General::draw_text(labels[i], buttons[i]->getX()-General::get_text_width(General::FONT_LIGHT, labels[i])-10, buttons[i]->getY()-1, 0);
+		General::draw_text(labels[i], buttons[i]->getX()-General::get_text_width(General::FONT_LIGHT, labels[i])-5, buttons[i]->getY()-1, 0);
 		int val = keyboard ? *keys[i] : *gamepad_buttons[i];
-		General::draw_text(keyboard ? al_keycode_to_name(val) : General::itos(val), buttons[i]->getX()+buttons[i]->getWidth()+10, buttons[i]->getY()-1, 0);
+		General::draw_text(keyboard ? al_keycode_to_name(val) : General::itos(val), buttons[i]->getX()+buttons[i]->getWidth()+5, buttons[i]->getY()-1, 0);
 	}
 
 	tgui::draw();
