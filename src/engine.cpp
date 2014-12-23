@@ -72,6 +72,7 @@ static void do_modal(
 
 		while (!al_event_queue_is_empty(queue)) {
 			al_wait_for_event(queue, &event);
+			process_dpad_events(&event);
 
 			if (event.type == ALLEGRO_EVENT_TIMER && event.timer.source != logic_timer) {
 				continue;
@@ -1070,6 +1071,7 @@ void Engine::do_event_loop()
 loop_top:
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
+		process_dpad_events(&event);
 
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -1301,6 +1303,7 @@ void Engine::do_blocking_mini_loop(std::vector<Loop *> loops, const char *cb)
 loop_top:
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
+		process_dpad_events(&event);
 
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -4284,5 +4287,57 @@ void Engine::set_can_move(bool can_move)
 bool Engine::get_started_new_game()
 {
 	return started_new_game;
+}
+
+void process_dpad_events(ALLEGRO_EVENT *event)
+{
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_l) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 0;
+		event->joystick.pos = -1;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_r) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 0;
+		event->joystick.pos = 1;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_u) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 1;
+		event->joystick.pos = -1;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_d) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 1;
+		event->joystick.pos = 1;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_l) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 0;
+		event->joystick.pos = 0;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_r) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 0;
+		event->joystick.pos = 0;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_u) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 1;
+		event->joystick.pos = 0;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_d) {
+		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.stick = 0;
+		event->joystick.axis = 1;
+		event->joystick.pos = 0;
+	}
 }
 

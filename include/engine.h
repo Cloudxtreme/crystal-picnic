@@ -384,6 +384,8 @@ protected:
 
 extern Engine *engine;
 
+void process_dpad_events(ALLEGRO_EVENT *event);
+
 // Convenience
 #define t(s) engine->t(s)
 

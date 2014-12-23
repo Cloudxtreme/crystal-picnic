@@ -86,6 +86,7 @@ public:
 	void set_sample_name(std::string name);
 	void set_enabled(bool enabled);
 	void set_text_color(ALLEGRO_COLOR text_color);
+	void set_text_yoffset(int ty) { text_yoffset = ty; }
 
 	W_Button(int x, int y, int width, int height);
 	W_Button(std::string filename);
@@ -102,6 +103,7 @@ protected:
 	bool enabled;
 	std::string text;
 	ALLEGRO_COLOR text_color;
+	int text_yoffset;
 };
 
 class W_Title_Screen_Icon : public W_Button {

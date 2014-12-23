@@ -329,6 +329,7 @@ void Main::execute()
 				while (!al_event_queue_is_empty(event_queue)) {
 					ALLEGRO_EVENT event;
 					al_get_next_event(event_queue, &event);
+					process_dpad_events(&event);
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 					if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 						done = true;

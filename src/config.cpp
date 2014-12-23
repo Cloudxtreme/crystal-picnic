@@ -50,6 +50,10 @@ void Configuration::reset_gamepad_controls()
 	cfg.joy_switch = 5;
 	cfg.joy_arrange_up = 6;
 	cfg.joy_arrange_down = 5;
+	cfg.joy_dpad_l = -1;
+	cfg.joy_dpad_r = -1;
+	cfg.joy_dpad_u = -1;
+	cfg.joy_dpad_d = -1;
 #else
 	cfg.joy_ability[0] = 3;
 	cfg.joy_ability[1] = 2;
@@ -60,16 +64,28 @@ void Configuration::reset_gamepad_controls()
 	cfg.joy_switch = 5;
 	cfg.joy_arrange_up = 4;
 	cfg.joy_arrange_down = 5;
+	cfg.joy_dpad_l = -1;
+	cfg.joy_dpad_r = -1;
+	cfg.joy_dpad_u = -1;
+	cfg.joy_dpad_d = -1;
 #elif defined ALLEGRO_MACOSX
 	cfg.joy_menu = 8;
 	cfg.joy_switch = 5;
 	cfg.joy_arrange_up = 4;
 	cfg.joy_arrange_down = 5;
+	cfg.joy_dpad_l = -1;
+	cfg.joy_dpad_r = -1;
+	cfg.joy_dpad_u = -1;
+	cfg.joy_dpad_d = -1;
 #else
 	cfg.joy_menu = 9;
 	cfg.joy_switch = 4;
 	cfg.joy_arrange_up = 5;
 	cfg.joy_arrange_down = 4;
+	cfg.joy_dpad_l = 11;
+	cfg.joy_dpad_r = 10;
+	cfg.joy_dpad_u = 13;
+	cfg.joy_dpad_d = 12;
 #endif
 #endif
 }
@@ -440,6 +456,54 @@ bool Configuration::load(void)
 		else {
 			LOG("Warning: joy_ability[3] not present.");
 		}
+		const char *v_joy_arrange_up = al_get_config_value(acfg, "input", "joy_arrange_up");
+		if (v_joy_arrange_up) {
+			joy_arrange_up = atoi(v_joy_arrange_up);
+			LOG("Read joy_arrange_up: " + std::string(v_joy_arrange_up));
+		}
+		else {
+			LOG("Warning: joy_arrange_up not present.");
+		}
+		const char *v_joy_arrange_down = al_get_config_value(acfg, "input", "joy_arrange_down");
+		if (v_joy_arrange_down) {
+			joy_arrange_down = atoi(v_joy_arrange_down);
+			LOG("Read joy_arrange_down: " + std::string(v_joy_arrange_down));
+		}
+		else {
+			LOG("Warning: joy_arrange_down not present.");
+		}
+		const char *v_joy_dpad_l = al_get_config_value(acfg, "input", "joy_dpad_l");
+		if (v_joy_dpad_l) {
+			joy_dpad_l = atoi(v_joy_dpad_l);
+			LOG("Read joy_dpad_l: " + std::string(v_joy_dpad_l));
+		}
+		else {
+			LOG("Warning: joy_dpad_l not present.");
+		}
+		const char *v_joy_dpad_r = al_get_config_value(acfg, "input", "joy_dpad_r");
+		if (v_joy_dpad_r) {
+			joy_dpad_r = atoi(v_joy_dpad_r);
+			LOG("Read joy_dpad_r: " + std::string(v_joy_dpad_r));
+		}
+		else {
+			LOG("Warning: joy_dpad_r not present.");
+		}
+		const char *v_joy_dpad_u = al_get_config_value(acfg, "input", "joy_dpad_u");
+		if (v_joy_dpad_u) {
+			joy_dpad_u = atoi(v_joy_dpad_u);
+			LOG("Read joy_dpad_u: " + std::string(v_joy_dpad_u));
+		}
+		else {
+			LOG("Warning: joy_dpad_u not present.");
+		}
+		const char *v_joy_dpad_d = al_get_config_value(acfg, "input", "joy_dpad_d");
+		if (v_joy_dpad_d) {
+			joy_dpad_d = atoi(v_joy_dpad_d);
+			LOG("Read joy_dpad_d: " + std::string(v_joy_dpad_d));
+		}
+		else {
+			LOG("Warning: joy_dpad_d not present.");
+		}
 	}
 
 	const char *v_language = al_get_config_value(acfg, "miscellaneous", "language");
@@ -571,6 +635,36 @@ bool Configuration::save(void)
 	ss.str("");
 	ss << joy_switch;
 	al_set_config_value(acfg, "input", "joy_switch", ss.str().c_str());
+	ss.str("");
+	ss << joy_ability[0];
+	al_set_config_value(acfg, "input", "joy_ability0", ss.str().c_str());
+	ss.str("");
+	ss << joy_ability[1];
+	al_set_config_value(acfg, "input", "joy_ability1", ss.str().c_str());
+	ss.str("");
+	ss << joy_ability[2];
+	al_set_config_value(acfg, "input", "joy_ability2", ss.str().c_str());
+	ss.str("");
+	ss << joy_ability[3];
+	al_set_config_value(acfg, "input", "joy_ability3", ss.str().c_str());
+	ss.str("");
+	ss << joy_arrange_up;
+	al_set_config_value(acfg, "input", "joy_arrange_up", ss.str().c_str());
+	ss.str("");
+	ss << joy_arrange_down;
+	al_set_config_value(acfg, "input", "joy_arrange_down", ss.str().c_str());
+	ss.str("");
+	ss << joy_dpad_l;
+	al_set_config_value(acfg, "input", "joy_dpad_l", ss.str().c_str());
+	ss.str("");
+	ss << joy_dpad_r;
+	al_set_config_value(acfg, "input", "joy_dpad_r", ss.str().c_str());
+	ss.str("");
+	ss << joy_dpad_u;
+	al_set_config_value(acfg, "input", "joy_dpad_u", ss.str().c_str());
+	ss.str("");
+	ss << joy_dpad_d;
+	al_set_config_value(acfg, "input", "joy_dpad_d", ss.str().c_str());
 
 	al_add_config_section(acfg, "miscellaneous");
 	ss.str("");

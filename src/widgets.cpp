@@ -67,7 +67,7 @@ void W_Button::draw(int abs_x, int abs_y)
 		al_draw_bitmap(disabled_image->bitmap, abs_x+offset.x, abs_y+offset.y, flags);
 	}
 	else if (enabled) {
-		General::draw_text(text, text_color, abs_x+offset.x+2, abs_y+offset.y+2, 0);
+		General::draw_text(text, text_color, abs_x+offset.x+2, abs_y+offset.y+text_yoffset, 0);
 	}
 }
 
@@ -126,6 +126,7 @@ W_Button::W_Button(int x, int y, int width, int height) :
 	this->height = height;
 	sample_name = "sfx/menu_select.ogg";
 	this->text_color = al_color_name("lightgrey");
+	text_yoffset = 2;
 }
 
 W_Button::W_Button(std::string filename) :
@@ -141,6 +142,7 @@ W_Button::W_Button(std::string filename) :
 	width = 0;
 	height = 0;
 	sample_name = "sfx/menu_select.ogg";
+	text_yoffset = 2;
 
 	if (filename != "") {
 		image = resource_manager->reference_bitmap(filename);
@@ -165,6 +167,7 @@ W_Button::W_Button(std::string filename, std::string text) :
 	width = 0;
 	height = 0;
 	sample_name = "sfx/menu_select.ogg";
+	text_yoffset = 2;
 
 	if (filename != "") {
 		image = resource_manager->reference_bitmap(filename);

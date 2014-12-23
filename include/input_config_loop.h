@@ -29,12 +29,12 @@ private:
 	int getting_key;
 	int getting_button;
 
-	W_Button *buttons[11];
+	W_Button *buttons[12];
 	W_Button *defaults_button;
 	W_Button *done_button;
 
 	int *keys[11];
-	int *gamepad_buttons[8];
+	int *gamepad_buttons[12];
 
 	std::vector<std::string> labels;
 };

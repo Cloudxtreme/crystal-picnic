@@ -56,6 +56,10 @@ public:
 	int joy_ability[4];
 	int joy_arrange_up;
 	int joy_arrange_down;
+	int joy_dpad_l;
+	int joy_dpad_r;
+	int joy_dpad_u;
+	int joy_dpad_d;
 
 	int key_left;
 	int key_right;

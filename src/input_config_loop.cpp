@@ -48,6 +48,10 @@ bool Input_Config_Loop::init()
 		labels.push_back(t("CFG_SWITCH"));
 		labels.push_back(t("CFG_ARRANGE_UP"));
 		labels.push_back(t("CFG_ARRANGE_DOWN"));
+		labels.push_back(t("CFG_DPAD_L"));
+		labels.push_back(t("CFG_DPAD_R"));
+		labels.push_back(t("CFG_DPAD_U"));
+		labels.push_back(t("CFG_DPAD_D"));
 	
 		gamepad_buttons[0] = &cfg.joy_ability[0];
 		gamepad_buttons[1] = &cfg.joy_ability[1];
@@ -57,6 +61,10 @@ bool Input_Config_Loop::init()
 		gamepad_buttons[5] = &cfg.joy_switch;
 		gamepad_buttons[6] = &cfg.joy_arrange_up;
 		gamepad_buttons[7] = &cfg.joy_arrange_down;
+		gamepad_buttons[8] = &cfg.joy_dpad_l;
+		gamepad_buttons[9] = &cfg.joy_dpad_r;
+		gamepad_buttons[10] = &cfg.joy_dpad_u;
+		gamepad_buttons[11] = &cfg.joy_dpad_d;
 	}
 	
 	tgui::setNewWidgetParent(NULL);
@@ -64,28 +72,32 @@ bool Input_Config_Loop::init()
 	if (keyboard) {
 		for (int i = 0; i < 11; i++) {
 			buttons[i] = new W_Button("", "Key");
-			buttons[i]->setX(cfg.screen_w/2);
-			buttons[i]->setY(11*i);
+			buttons[i]->setX(80);
+			buttons[i]->setY(5+12*i);
+			buttons[i]->setHeight(buttons[i]->getHeight()-5);
+			buttons[i]->set_text_yoffset(-1);
 			tgui::addWidget(buttons[i]);
 		}
 	}
 	else {
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 12; i++) {
 			buttons[i] = new W_Button("", "Button");
-			buttons[i]->setX(cfg.screen_w/2);
-			buttons[i]->setY(11*i);
+			buttons[i]->setX(80);
+			buttons[i]->setY(5+12*i);
+			buttons[i]->setHeight(buttons[i]->getHeight()-5);
+			buttons[i]->set_text_yoffset(-1);
 			tgui::addWidget(buttons[i]);
 		}
 	}
 
 	defaults_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", "Defaults");
-	defaults_button->setX(cfg.screen_w/2-defaults_button->getWidth()-1);
-	defaults_button->setY(cfg.screen_h-18-defaults_button->getHeight()/2);
+	defaults_button->setX(cfg.screen_w-defaults_button->getWidth()-5);
+	defaults_button->setY(cfg.screen_h-defaults_button->getHeight()-10);
 	tgui::addWidget(defaults_button);
 
 	done_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", "Return");
-	done_button->setX(cfg.screen_w/2+1);
-	done_button->setY(cfg.screen_h-18-done_button->getHeight()/2);
+	done_button->setX(cfg.screen_w-done_button->getWidth()-5);
+	done_button->setY(cfg.screen_h-defaults_button->getHeight()-done_button->getHeight()-15);
 	tgui::addWidget(done_button);
 	
 	tgui::setFocus(done_button);
@@ -179,7 +191,7 @@ bool Input_Config_Loop::logic()
 		}
 	}
 	else {
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 12; i++) {
 			if (w == buttons[i]) {
 				getting_button = i;
 				engine->set_send_tgui_events(false);
@@ -208,14 +220,14 @@ bool Input_Config_Loop::logic()
 
 void Input_Config_Loop::draw()
 {
-	int num = keyboard ? 11 : 8;
+	int num = keyboard ? 11 : 12;
 
 	al_clear_to_color(General::UI_GREEN);
 
 	for (int i = 0; i < num; i++) {
-		General::draw_text(labels[i], buttons[i]->getX()-General::get_text_width(General::FONT_LIGHT, labels[i])-10, buttons[i]->getY()+2, 0);
+		General::draw_text(labels[i], buttons[i]->getX()-General::get_text_width(General::FONT_LIGHT, labels[i])-10, buttons[i]->getY()-1, 0);
 		int val = keyboard ? *keys[i] : *gamepad_buttons[i];
-		General::draw_text(keyboard ? al_keycode_to_name(val) : General::itos(val), buttons[i]->getX()+buttons[i]->getWidth()+10, buttons[i]->getY()+2, 0);
+		General::draw_text(keyboard ? al_keycode_to_name(val) : General::itos(val), buttons[i]->getX()+buttons[i]->getWidth()+10, buttons[i]->getY()-1, 0);
 	}
 
 	tgui::draw();
@@ -256,12 +268,15 @@ Input_Config_Loop::Input_Config_Loop(bool keyboard) :
 
 Input_Config_Loop::~Input_Config_Loop()
 {
-	int num = keyboard ? 11 : 8;
+	int num = keyboard ? 11 : 12;
 
 	for (int i = 0; i < num; i++) {
 		buttons[i]->remove();
 		delete buttons[i];
 	}
+
+	defaults_button->remove();
+	delete defaults_button;
 
 	done_button->remove();
 	delete done_button;
