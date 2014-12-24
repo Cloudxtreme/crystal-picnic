@@ -153,10 +153,10 @@ public:
 	ALLEGRO_BITMAP *set_draw_target(bool force_no_target_change);
 	void finish_draw(bool force_no_target_change, ALLEGRO_BITMAP *old_target);
 
-	void fade_out(double time = 1.0);
-	void fade_in(double time = 1.0);
-	void fade_out(std::vector<Loop *> loops, double time = 1.0);
-	void fade_in(std::vector<Loop *> loops, double time = 1.0);
+	void fade_out(double time = 0.5);
+	void fade_in(double time = 0.5);
+	void fade_out(std::vector<Loop *> loops, double time = 0.5);
+	void fade_in(std::vector<Loop *> loops, double time = 0.5);
 
 	CPA *get_cpa() { return cpa; }
 	void load_cpa();

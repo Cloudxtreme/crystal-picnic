@@ -377,7 +377,7 @@ void Main::execute()
 
 				if (widget == config_button) {
 					Settings_Loop *l = new Settings_Loop();
-					fade(1.0, true);
+					fade(0.5, true);
 					tgui::hide();
 					tgui::push(); // popped in ~Settings_Loop()
 					std::vector<Loop *> loops;
@@ -387,12 +387,12 @@ void Main::execute()
 					engine->fade_in(loops);
 					engine->do_blocking_mini_loop(loops, NULL);
 					engine->stop_timers();
-					fade(1.0, false);
+					fade(0.5, false);
 				}
 				else if (widget == new_game_button) {
 					cfg.cancelled = true;
 					Difficulty_Loop *l = new Difficulty_Loop();
-					fade(1.0, true);
+					fade(0.5, true);
 					tgui::hide();
 					tgui::push(); // popped in ~Difficulty_Loop()
 					std::vector<Loop *> loops;
@@ -410,13 +410,13 @@ void Main::execute()
 						break;
 					}
 					else {
-						fade(1.0, false);
+						fade(0.5, false);
 					}
 				}
 				else if (widget == continue_button) {
 					// This sets the default to HARD for old games pre-difficulty setting
 					cfg.difficulty = Configuration::HARD;
-					fade(1.0, true);
+					fade(0.5, true);
 					tgui::hide();
 					tgui::push(); // popped in ~SaveLoad_Loop()
 					std::vector<Loop *> loops;
@@ -456,7 +456,7 @@ void Main::execute()
 						break;
 					}
 					else {
-						fade(1.0, false);
+						fade(0.5, false);
 					}
 				}
 #if defined OUYA || defined FIRETV
@@ -480,7 +480,7 @@ void Main::execute()
 				}
 #endif
 				else if (widget && widget == hqm_button) {
-					fade(1.0, true);
+					fade(0.5, true);
 					tgui::hide();
 					tgui::push(); // popped in ~HQM_Loop()
 					std::vector<Loop *> loops;
@@ -491,11 +491,11 @@ void Main::execute()
 					engine->fade_in(loops);
 					engine->do_blocking_mini_loop(loops, NULL);
 					engine->stop_timers();
-					fade(1.0, false);
+					fade(0.5, false);
 				}
 				else if (widget && widget == bonus_game_button) {
 					Music::play("music/runner.mid");
-					fade(1.0, true);
+					fade(0.5, true);
 					tgui::hide();
 					tgui::push(); // popped in ~Runner_Loop()
 					std::vector<Loop *> loops;
@@ -515,7 +515,7 @@ void Main::execute()
 					engine->do_blocking_mini_loop(loops, NULL);
 					engine->stop_timers();
 					Music::play("music/title.mid");
-					fade(1.0, false);
+					fade(0.5, false);
 					Wrap::destroy_bitmap(ss);
 					delete bisou;
 				}
