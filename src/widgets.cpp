@@ -962,6 +962,14 @@ void W_Scrolling_List::mouseMove(int rel_x, int rel_y, int abs_x, int abs_y)
 	}
 }
 
+void W_Scrolling_List::show_selected()
+{
+	y_offset = MIN(max_y_offset, General::get_font_line_height(font)*selected);
+	if (synced_widget) {
+		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+	}
+}
+
 void W_Scrolling_List::draw(int abs_x, int abs_y)
 {
 	int clip_x, clip_y, clip_w, clip_h;

@@ -79,6 +79,7 @@ bool Video_Config_Loop::init()
 	scrollbar->setHeight(mode_list->getHeight());
 	mode_list->setSyncedWidget(scrollbar);
 	scrollbar->setSyncedWidget(mode_list);
+	mode_list->show_selected();
 
 	checkbox->setX(cfg.screen_w/2-maxw/2);
 	checkbox->setY(cfg.screen_h/2+5);
@@ -157,6 +158,32 @@ bool Video_Config_Loop::logic()
 			cfg.save();
 
 #ifdef ALLEGRO_WINDOWS
+			/* Weird behaviour: if button pressed with gamepad, it doesn't restart, so wait
+			 * until buttons are released.
+			 */
+
+			if (al_is_joystick_installed()) {
+				while (true) {
+					bool done = true;
+					if (al_get_num_joysticks() < 1) {
+						break;
+					}
+					for (int i = 0; i < al_get_num_joysticks(); i++) {
+						ALLEGRO_JOYSTICK *joy = al_get_joystick(i);
+						ALLEGRO_JOYSTICK_STATE state;
+						al_get_joystick_state(joy, &state);
+						for (int j = 0; j < al_get_joystick_num_buttons(joy); j++) {
+							if (state.button[j]) {
+								done = false;
+							}
+						}
+					}
+					if (done) {
+						break;
+					}
+				}
+			}
+
 			STARTUPINFO sui;
 			PROCESS_INFORMATION pi;
 
@@ -184,6 +211,7 @@ bool Video_Config_Loop::logic()
 				&sui,
 				&pi
 			);
+
 			exit(0);
 #else
 			ALLEGRO_PATH *exe = al_get_standard_path(ALLEGRO_EXENAME_PATH);

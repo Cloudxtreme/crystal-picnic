@@ -306,6 +306,7 @@ public:
 	virtual void mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, int mb);
 	virtual void mouseUp(int rel_x, int rel_y, int abs_x, int abs_y, int mb);
 	virtual void mouseMove(int rel_x, int rel_y, int abs_x, int abs_y);
+	void show_selected();
 	virtual void draw(int abs_x, int abs_y);
 	virtual TGUIWidget *update();
 	void set_value(float v);

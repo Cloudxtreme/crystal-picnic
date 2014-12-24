@@ -51,6 +51,7 @@ bool Language_Config_Loop::init()
 	scrollbar->setHeight(language_list->getHeight());
 	language_list->setSyncedWidget(scrollbar);
 	scrollbar->setSyncedWidget(language_list);
+	language_list->show_selected();
 
 	save_button->setX(cfg.screen_w/2-maxw/2);
 	save_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT));
