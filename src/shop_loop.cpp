@@ -127,6 +127,7 @@ bool Shop_Loop::logic()
 
 			int max;
 			int existing_index = -1;
+			int cost_each = atoi(buy_prices[sel].c_str());
 
 			if (is_item_shop) {
 				max = 99;
@@ -142,12 +143,13 @@ bool Shop_Loop::logic()
 				max = 3;
 			}
 
+			max = MIN(max, Game_Specific_Globals::cash / cost_each);
+
 			std::vector<std::string> v;
 			v.push_back(t("BUY_HOW_MANY"));
 			int n = engine->get_number(v, max == 0 ? 0 : 1, max, max == 0 ? 0 : 1);
 
 			if (n > 0) {
-				int cost_each = atoi(buy_prices[sel].c_str());
 				int total = cost_each * n;
 				if (total > Game_Specific_Globals::cash) {
 					engine->play_sample("sfx/error.ogg");

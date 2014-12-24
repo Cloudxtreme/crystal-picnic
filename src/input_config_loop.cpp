@@ -137,7 +137,7 @@ bool Input_Config_Loop::handle_event(ALLEGRO_EVENT *event)
 				// Do nothing (stop further actions below)
 			}
 			else if (event->keyboard.keycode == ALLEGRO_KEY_BACKSPACE) {
-				*gamepad_buttons[getting_button] = 0;
+				*gamepad_buttons[getting_button] = -1;
 			}
 			getting_button = -1;
 		}
