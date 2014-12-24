@@ -20,16 +20,18 @@ bool Difficulty_Loop::init()
 	maxw = MAX(maxw, normal_button->getWidth());
 	maxw = MAX(maxw, hard_button->getWidth());
 
-	easy_button->setX(cfg.screen_w/2-maxw/2);
-	easy_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
-	normal_button->setX(cfg.screen_w/2-maxw/2);
-	normal_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*0.5f);
-	hard_button->setX(cfg.screen_w/2-maxw/2);
-	hard_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*0.5f);
+	tgui::TGUIWidget *w[] = {
+		easy_button,
+		normal_button,
+		hard_button
+	};
+	int nw = 3;
 
-	tgui::addWidget(easy_button);
-	tgui::addWidget(normal_button);
-	tgui::addWidget(hard_button);
+	for (int i = 0; i < nw; i++) {
+		w[i]->setX(cfg.screen_w/2-maxw/2);
+		w[i]->setY(cfg.screen_h/2-((General::get_font_line_height(General::FONT_LIGHT)+4)*nw)/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*i+2);
+		tgui::addWidget(w[i]);
+	}
 
 	tgui::setFocus(normal_button);
 

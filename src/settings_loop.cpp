@@ -27,42 +27,34 @@ bool Settings_Loop::init()
 	maxw = MAX(maxw, return_button->getWidth());
 
 #ifdef ALLEGRO_IPHONE
-	language_button->setX(cfg.screen_w/2-maxw/2);
-	language_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT));
-	return_button->setX(cfg.screen_w/2-maxw/2);
-	return_button->setY(cfg.screen_h/2);
-
-	tgui::addWidget(language_button);
-	tgui::addWidget(return_button);
+	tgui::TGUIWidget *w[] = {
+		language_button,
+		return_button
+	};
+	int nw = 2;
 #elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
-	gamepad_button->setX(cfg.screen_w/2-maxw/2);
-	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
-	language_button->setX(cfg.screen_w/2-maxw/2);
-	language_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*0.5f);
-	return_button->setX(cfg.screen_w/2-maxw/2);
-	return_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*0.5f);
-
-	tgui::addWidget(gamepad_button);
-	tgui::addWidget(language_button);
-	tgui::addWidget(return_button);
+	tgui::TGUIWidget *w[] = {
+		gamepad_button,
+		language_button,
+		return_button
+	};
+	int nw = 3;
 #else
-	video_button->setX(cfg.screen_w/2-maxw/2);
-	video_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*2.5f);
-	keyboard_button->setX(cfg.screen_w/2-maxw/2);
-	keyboard_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*1.5f);
-	gamepad_button->setX(cfg.screen_w/2-maxw/2);
-	gamepad_button->setY(cfg.screen_h/2-General::get_font_line_height(General::FONT_LIGHT)*0.5f);
-	language_button->setX(cfg.screen_w/2-maxw/2);
-	language_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*0.5f);
-	return_button->setX(cfg.screen_w/2-maxw/2);
-	return_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*1.5f);
-
-	tgui::addWidget(video_button);
-	tgui::addWidget(keyboard_button);
-	tgui::addWidget(gamepad_button);
-	tgui::addWidget(language_button);
-	tgui::addWidget(return_button);
+	tgui::TGUIWidget *w[] = {
+		video_button,
+		keyboard_button,
+		gamepad_button,
+		language_button,
+		return_button
+	};
+	int nw = 5;
 #endif
+
+	for (int i = 0; i < nw; i++) {
+		w[i]->setX(cfg.screen_w/2-maxw/2);
+		w[i]->setY(cfg.screen_h/2-((General::get_font_line_height(General::FONT_LIGHT)+4)*nw)/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*i+2);
+		tgui::addWidget(w[i]);
+	}
 
 	tgui::setFocus(return_button);
 
