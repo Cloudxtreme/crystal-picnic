@@ -32,6 +32,9 @@
 
 ALLEGRO_DEBUG_CHANNEL("CrystalPicnic")
 
+// We must keep track of all joystick axis state based on events and our own mucking around
+static ALLEGRO_JOYSTICK_STATE joystate;
+
 #ifdef ALLEGRO_IPHONE
 bool gamepadConnected()
 {
@@ -546,6 +549,7 @@ bool Engine::init_allegro()
 
 	if (al_install_joystick()) {
 		General::log_message("Joystick driver installed.");
+		memset(&joystate, 0, sizeof(joystate));
 		choose_joystick();
 	}
 
@@ -4246,6 +4250,11 @@ bool Engine::get_started_new_game()
 	return started_new_game;
 }
 
+void Engine::add_extra_event(ALLEGRO_EVENT event)
+{
+	extra_events.push_back(event);
+}
+
 void process_dpad_events(ALLEGRO_EVENT *event)
 {
 	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_l) {
@@ -4295,6 +4304,38 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = 0;
+	}
+	else {
+		if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS) {
+			joystate.stick[event->joystick.stick].axis[event->joystick.axis] = event->joystick.pos;
+		}
+		return;
+	}
+	
+	joystate.stick[event->joystick.stick].axis[event->joystick.axis] = event->joystick.pos;
+
+	int opposite_axis = event->joystick.axis == 0 ? 1 : 0;
+
+	if  (fabs(joystate.stick[0].axis[opposite_axis]) > 0.5) {
+		if (event->joystick.pos != 0) {
+			event->joystick.pos *= 0.71f;
+			if (fabs(joystate.stick[0].axis[opposite_axis]) == 1) {
+				ALLEGRO_EVENT new_event;
+				new_event.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				new_event.joystick.stick = 0;
+				new_event.joystick.axis = opposite_axis;
+				new_event.joystick.pos = joystate.stick[0].axis[opposite_axis] * 0.71f;
+				engine->add_extra_event(new_event);
+			}
+		}
+		else {
+			ALLEGRO_EVENT new_event;
+			new_event.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+			new_event.joystick.stick = 0;
+			new_event.joystick.axis = opposite_axis;
+			new_event.joystick.pos = General::sign(joystate.stick[0].axis[opposite_axis]);
+			engine->add_extra_event(new_event);
+		}
 	}
 }
 

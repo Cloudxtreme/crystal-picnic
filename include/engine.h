@@ -229,6 +229,8 @@ public:
 
 	bool get_started_new_game();
 
+	void add_extra_event(ALLEGRO_EVENT event);
+
 	Engine();
 	~Engine();
 
@@ -384,9 +386,9 @@ protected:
 
 extern Engine *engine;
 
-void process_dpad_events(ALLEGRO_EVENT *event);
-
 // Convenience
 #define t(s) engine->t(s)
+
+void process_dpad_events(ALLEGRO_EVENT *event);
 
 #endif // ENGINE_H
