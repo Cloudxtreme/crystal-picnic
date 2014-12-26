@@ -138,44 +138,6 @@ done:
 	al_destroy_timer(logic_timer);
 }
 
-static ALLEGRO_BITMAP *load_cpi_f(ALLEGRO_FILE *f, int flags)
-{
-	int save_flags = al_get_new_bitmap_flags();
-	al_set_new_bitmap_flags(flags);
-
-	int w = al_fread32le(f);
-	int h = al_fread32le(f);
-
-	ALLEGRO_BITMAP *b = al_create_bitmap(w, h);
-	if (!b) return NULL;
-
-	ALLEGRO_LOCKED_REGION *lr = al_lock_bitmap(b, ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE, ALLEGRO_LOCK_WRITEONLY);
-	if (!lr) {
-		al_destroy_bitmap(b);
-		return NULL;
-	}
-
-	for (int y = 0; y < h; y++) {
-		uint8_t *p = (uint8_t *)lr->data + lr->pitch * y;
-		al_fread(f, p, w*4);
-	}
-
-	al_unlock_bitmap(b);
-
-	al_set_new_bitmap_flags(save_flags);
-
-	return b;
-}
-
-static ALLEGRO_BITMAP *load_cpi(const char *filename, int flags)
-{
-	ALLEGRO_FILE *f = al_fopen(filename, "rb");
-	if (!f) return NULL;
-	ALLEGRO_BITMAP *b = load_cpi_f(f, flags);
-	al_fclose(f);
-	return b;
-}
-	
 // This should be the only thing global in the game
 Engine *engine;
 
@@ -358,7 +320,7 @@ void Engine::add_loop(Loop *loop)
 
 void Engine::choose_joystick()
 {
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
+#if defined ALLEGRO_IPHONE
        cfg.use_joy = true;
        return;
 #endif
@@ -903,10 +865,6 @@ bool Engine::init()
 {	
 	if (!init_allegro())
 		return false;
-
-#if defined ALLEGRO_ANDROID
-	grab_input();
-#endif
 
 	Graphics::init();
 
@@ -2285,7 +2243,6 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	General::load_fonts();
 	load_translation();
 	Wrap::reload_loaded_bitmaps();
-	grab_input();
 	glDisable(GL_DITHER);
 	switch_music_in();
 #endif

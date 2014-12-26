@@ -176,24 +176,14 @@ const char * get_sdcarddir()
 	return buf;
 }
 
-void grab_input()
-{
-	_jni_callVoidMethodV(
-		_al_android_get_jnienv(),
-		_al_android_activity_object(),
-		"grabInput",
-		"()V"
-	);
-}
-
 bool gamepadConnected()
 {
 	bool ret = _jni_callBooleanMethod(
 		_al_android_get_jnienv(),
 		_al_android_activity_object(),
-		"gamepadConnected"
+		"gamepadAlwaysConnected"
 	);
 
-	return ret;
+	return ret || (al_is_joystick_installed() && al_get_num_joysticks() > 1);
 }
 

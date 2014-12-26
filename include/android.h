@@ -11,7 +11,6 @@ int isPurchased();
 void queryPurchased();
 void doIAP();
 int checkPurchased();
-void grab_input();
 bool gamepadConnected();
 
 #ifdef __cplusplus

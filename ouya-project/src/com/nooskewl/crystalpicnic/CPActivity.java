@@ -25,13 +25,9 @@ import android.app.Activity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.view.View.OnGenericMotionListener;
-import android.view.MotionEvent;
-import org.liballeg.android.KeyListener;
-import android.view.InputDevice;
 import android.content.IntentFilter;
 
-public class CPActivity extends AllegroActivity implements OnGenericMotionListener {
+public class CPActivity extends AllegroActivity {
 
 	/* load libs */
 	static {
@@ -48,9 +44,6 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		System.loadLibrary("android_extras");
 	}
 
-	native void pushButtonEvent(int button, boolean down);
-	native void pushAxisEvent(int axis, float value);
-	
 	MyBroadcastReceiver bcr;
 
 	public CPActivity()
@@ -134,98 +127,6 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		return clipdata;
 	}
 
-	public void grabInput() {
-		surface.setOnKeyListener(new KeyListener(this) {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				int code = getCode(keyCode);
-				if (code == -1) {
-					return surface.key_listener.onKey(v, keyCode, event);
-				}
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					if (event.getRepeatCount() == 0) {
-						pushButtonEvent(code, true);
-					}
-				}
-				else {
-					pushButtonEvent(code, false);
-				}
-				return true;
-			}
-		});
-
-		surface.setOnGenericMotionListener(this);
-	}
-
-	float axis_x = 0.0f;
-	float axis_y = 0.0f;
-	float axis_hat_x = 0.0f;
-	float axis_hat_y = 0.0f;
-
-	@Override
-	public boolean onGenericMotion(View v, MotionEvent event) {
-		int bits = event.getSource();
-		if ((bits & InputDevice.SOURCE_GAMEPAD) != 0 || (bits & InputDevice.SOURCE_JOYSTICK) != 0) {
-			float ax = event.getAxisValue(MotionEvent.AXIS_X, 0);
-			float ay = event.getAxisValue(MotionEvent.AXIS_Y, 0);
-			float ahx = event.getAxisValue(MotionEvent.AXIS_HAT_X, 0);
-			float ahy = event.getAxisValue(MotionEvent.AXIS_HAT_Y, 0);
-			if (ax != axis_x || ay != axis_y) {
-				pushAxisEvent(0, ax);
-				pushAxisEvent(1, ay);
-				axis_x = ax;
-				axis_y = ay;
-			}
-			else if (ahx != axis_hat_x || ahy != axis_hat_y) {
-				pushAxisEvent(0, ahx);
-				pushAxisEvent(1, ahy);
-				axis_hat_x = ahx;
-				axis_hat_y = ahy;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	static final int joy_ability0 = 0;
-	static final int joy_ability1 = 1;
-	static final int joy_ability2 = 2;
-	static final int joy_ability3 = 3;
-	static final int joy_menu = 4;
-	static final int joy_switch = 5;
-	static final int joy_arrange_up = 6;
-
-	static int getCode(int keyCode) {
-		int code = -1;
-		if (keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
-			code = joy_ability0;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BUTTON_X) {
-			code = joy_ability1;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BUTTON_B) {
-			code = joy_ability2;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BUTTON_A) {
-			code = joy_ability3;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_MENU) {
-			code = joy_menu;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BUTTON_L1) {
-			code = joy_arrange_up;
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BUTTON_R1) {
-			code = joy_switch;
-		}
-		return code;
-	}
-
-	public boolean gamepadConnected()
-	{
-		return true;
-	}
-	
 	static String keyS = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfPZLeoBrfkrbt2s3fK5BVvsqMkQI4vuBps0wFiZk3ST9L7YKKNWV8qwoXvF3WGp33hA4FkumgUzm4xjFzEKUKV8XEoQkl7Kh+2tC2SUpvkb0hDMkg2fct8TimbcAoET7l1MlIyRV7dBTo1XXImKYtG+Zr9B+SfBwRG8Fpa8G30QIDAQAB";
 
 	static HashMap<String, Product> mOutstandingPurchaseRequests = new HashMap<String, Product>();
@@ -499,6 +400,10 @@ public class CPActivity extends AllegroActivity implements OnGenericMotionListen
 		super.onPause();
 
 		unregisterReceiver(bcr);
+	}
+
+	public boolean gamepadAlwaysConnected() {
+		return true;
 	}
 }
 

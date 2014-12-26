@@ -42,18 +42,18 @@ void Configuration::reset_keyboard_controls()
 void Configuration::reset_gamepad_controls()
 {
 #ifdef ALLEGRO_ANDROID
-	cfg.joy_ability[0] = 0;
-	cfg.joy_ability[1] = 1;
-	cfg.joy_ability[2] = 2;
-	cfg.joy_ability[3] = 3;
-	cfg.joy_menu = 4;
+	cfg.joy_ability[0] = 3;
+	cfg.joy_ability[1] = 2;
+	cfg.joy_ability[2] = 1;
+	cfg.joy_ability[3] = 0;
+	cfg.joy_menu = 10;
 	cfg.joy_switch = 5;
-	cfg.joy_arrange_up = 6;
+	cfg.joy_arrange_up = 4;
 	cfg.joy_arrange_down = 5;
-	cfg.joy_dpad_l = -1;
-	cfg.joy_dpad_r = -1;
-	cfg.joy_dpad_u = -1;
-	cfg.joy_dpad_d = -1;
+	cfg.joy_dpad_l = 6;
+	cfg.joy_dpad_r = 7;
+	cfg.joy_dpad_u = 8;
+	cfg.joy_dpad_d = 9;
 #else
 	cfg.joy_ability[0] = 3;
 	cfg.joy_ability[1] = 2;
@@ -398,7 +398,12 @@ bool Configuration::load(void)
 		LOG("Warning: key_ability[3] not present.");
 	}
 
+#ifdef ALLEGRO_ANDROID
+	/* Controls changed on Android when adding proper controller support to Allegro */
+	if (start_version > 2) {
+#else
 	if (start_version != 1) {
+#endif
 		const char *v_joy_stick = al_get_config_value(acfg, "input", "joy_stick");
 		if (v_joy_stick) {
 			joy_stick = atoi(v_joy_stick);
@@ -546,7 +551,7 @@ bool Configuration::save(void)
 {
 	LOG("Saving configuration file.");
 
-	version = 2;
+	version = 3;
 
 	save_screen_w = loaded_w;
 	save_screen_h = loaded_h;
