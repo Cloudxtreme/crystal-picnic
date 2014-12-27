@@ -41,7 +41,6 @@ public class CPActivity extends AllegroActivity {
 		System.loadLibrary("allegro_physfs");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
-		System.loadLibrary("android_extras");
 	}
 
 	MyBroadcastReceiver bcr;

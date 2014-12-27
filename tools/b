@@ -1,1 +1,0 @@
-g++ -g mkobjs.cpp -o mkobjs -L/Users/trent/local/lib -I/Users/trent/local/include -lallegro_image -lallegro -lallegro_main
