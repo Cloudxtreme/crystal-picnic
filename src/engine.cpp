@@ -633,10 +633,6 @@ bool Engine::init_allegro()
 	}
 #endif
 
-#if defined ALLEGRO_ANDROID
-	//glDisable(GL_DITHER);
-#endif
-
 	al_clear_to_color(al_map_rgb_f(0, 0, 0));
 	al_flip_display();
 
@@ -681,17 +677,10 @@ bool Engine::init_allegro()
 #endif
 
 	if (al_get_display_flags(display) & ALLEGRO_OPENGL) {
-#if defined ALLEGRO_ANDROID_XXX
-		General::noalpha_bmp_format = ALLEGRO_PIXEL_FORMAT_RGB_565;
-		General::font_bmp_format = ALLEGRO_PIXEL_FORMAT_RGBA_5551;
-		General::default_bmp_format = ALLEGRO_PIXEL_FORMAT_RGBA_4444;
-#else
 		General::noalpha_bmp_format = ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE;
 		General::font_bmp_format = ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE;
 		General::default_bmp_format = ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE;
-#endif
 		cfg.opengl = true;
-		//glDisable(GL_DITHER);
 	}
 	else {
 		General::noalpha_bmp_format = ALLEGRO_PIXEL_FORMAT_XRGB_8888;
@@ -2248,7 +2237,6 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	General::load_fonts();
 	load_translation();
 	Wrap::reload_loaded_bitmaps();
-	//glDisable(GL_DITHER);
 	switch_music_in();
 #endif
 }
