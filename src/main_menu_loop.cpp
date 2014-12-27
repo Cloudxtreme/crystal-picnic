@@ -214,7 +214,7 @@ bool Main_Menu_Loop::init()
 	transition_start = al_get_time();
 	transition_percent = 0.0f;
 
-	reload_graphics();
+	create_bg();
 
 	return true;
 }
@@ -414,7 +414,7 @@ void Main_Menu_Loop::draw()
 	al_set_shader_float("color_r", 112.0f/112.0f);
 	al_set_shader_float("color_g", 66.0f/112.0f);
 	al_set_shader_float("color_b", 20.0f/112.0f);
-	al_draw_bitmap(bg->bitmap, 0, 0, 0);
+	al_draw_bitmap(bg, 0, 0, 0);
 	Shader::use(NULL);
 	al_use_transform(&backup_transform);
 
@@ -608,7 +608,7 @@ Main_Menu_Loop::~Main_Menu_Loop()
 		resource_manager->release_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.cpi");
 	}
 
-	destroy_graphics();
+	al_destroy_bitmap(bg);
 
 	engine->set_send_tgui_events(true);
 	
@@ -726,18 +726,39 @@ int Main_Menu_Loop::get_win_h()
 
 void Main_Menu_Loop::destroy_graphics()
 {
-	Wrap::destroy_bitmap(bg);
 }
 
 void Main_Menu_Loop::reload_graphics()
 {
+}
+
+void Main_Menu_Loop::create_bg()
+{
 	ALLEGRO_BITMAP *rb = engine->get_render_buffer()->bitmap;
-	ALLEGRO_BITMAP *bg_bmp = al_create_bitmap(al_get_bitmap_width(rb), al_get_bitmap_height(rb));
+	bool preserve;
+#ifdef ALLEGRO_ANDROID
+	preserve = true;
+#else
+	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+		preserve = true;
+	}
+	else {
+		preserve = false;
+	}
+#endif
+	preserve = true;
+	int flags = al_get_new_bitmap_flags();
+	if (preserve) {
+		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+	}
+	bg = al_create_bitmap(al_get_bitmap_width(rb), al_get_bitmap_height(rb));
+	if (preserve) {
+		al_set_new_bitmap_flags(flags);
+	}
 	ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
-	al_set_target_bitmap(bg_bmp);
+	al_set_target_bitmap(bg);
 	al_draw_bitmap(rb, 0, 0, 0);
 	al_set_target_bitmap(old_target);
-	bg = new Wrap::Bitmap(bg_bmp, "");
 }
 
 //-----------------------------------------------------
@@ -2112,7 +2133,6 @@ void Main_Menu_Equip_Loop::draw()
 	}
 
 	Battle_Attributes &attr = players[sel]->get_battle_attributes();
-	Equipment::Equipment &equip = attr.equipment;
 
 	int attr_x = green_x + 9;
 	int attr_y = green_y + 10 + top_box_h;

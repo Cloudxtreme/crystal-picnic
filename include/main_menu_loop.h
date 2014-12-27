@@ -69,6 +69,7 @@ protected:
 	void setup_current_menu();
 	void set_widget_offsets();
 	void start_transition_in(std::string sample_name = "");
+	void create_bg();
 
 	Loop *sub_loop;
 	Menu_ID current_menu;
@@ -111,7 +112,7 @@ protected:
 
 	bool esc_pressed;
 
-	Wrap::Bitmap *bg;
+	ALLEGRO_BITMAP *bg;
 };
 
 class I_Main_Menu_Parent {
