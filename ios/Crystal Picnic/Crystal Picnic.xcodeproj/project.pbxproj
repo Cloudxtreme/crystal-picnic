@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		962E88C91A33EFAA0004DE04 /* difficulty_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */; };
 		9670B12119C5F2F9008001FD /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11D19C5F2F9008001FD /* icon29.png */; };
 		9670B12219C5F2F9008001FD /* icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11E19C5F2F9008001FD /* icon40.png */; };
 		9670B12319C5F2F9008001FD /* icon76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11F19C5F2F9008001FD /* icon76.png */; };
@@ -141,6 +142,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = difficulty_loop.cpp; path = ../../src/difficulty_loop.cpp; sourceTree = "<group>"; };
 		9670B11D19C5F2F9008001FD /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = ../../icon29.png; sourceTree = "<group>"; };
 		9670B11E19C5F2F9008001FD /* icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon40.png; path = ../../icon40.png; sourceTree = "<group>"; };
 		9670B11F19C5F2F9008001FD /* icon76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon76.png; path = ../../icon76.png; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 		96BD8DC119AFE7CA001BDCE2 = {
 			isa = PBXGroup;
 			children = (
+				962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */,
 				96C4541419F172E300D8FCFF /* video_config_loop.cpp */,
 				96C4541219F1729900D8FCFF /* settings_loop.cpp */,
 				96C4541019F16F7500D8FCFF /* language_config_loop.cpp */,
@@ -598,6 +601,7 @@
 				96D091EF19AFFA4B0084C11A /* weaponized_entity.cpp in Sources */,
 				96D091B019AFFA4B0084C11A /* area_loop.cpp in Sources */,
 				96D091E319AFFA4B0084C11A /* saveload_loop.cpp in Sources */,
+				962E88C91A33EFAA0004DE04 /* difficulty_loop.cpp in Sources */,
 				96D091DE19AFFA4B0084C11A /* npc.cpp in Sources */,
 				96D091D319AFFA4B0084C11A /* hqm.c in Sources */,
 				96D091CA19AFFA4B0084C11A /* engine.cpp in Sources */,
@@ -738,8 +742,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -753,8 +757,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2cc679bb-2e60-40d8-8b55-5289faa95455";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -765,8 +770,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -779,8 +784,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2cc679bb-2e60-40d8-8b55-5289faa95455";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

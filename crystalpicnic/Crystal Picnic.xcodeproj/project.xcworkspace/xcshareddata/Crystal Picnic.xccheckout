@@ -10,46 +10,52 @@
 	<string>Crystal Picnic</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</key>
-		<string>ssh://192.168.1.110/mnt/git/crystalpicnic.git</string>
-		<key>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</key>
+		<key>f4189080-a3fe-f748-8954-90d10a85fca3++1610</key>
 		<string>https://www.nooskewl.com/svn/monster2/trunk/morpgpc</string>
+		<key>f4189080-a3fe-f748-8954-90d10a85fca3++8111</key>
+		<string>https://www.nooskewl.com/svn</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>crystalpicnic/crystalpicnic/Crystal Picnic.xcodeproj/project.xcworkspace</string>
+	<string>crystalpicnic/Crystal Picnic.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</key>
-		<string>../../..</string>
-		<key>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</key>
+		<key>f4189080-a3fe-f748-8954-90d10a85fca3++1610</key>
 		<string>../../../..</string>
+		<key>f4189080-a3fe-f748-8954-90d10a85fca3++8111</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
-		<key>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</key>
+		<key>f4189080-a3fe-f748-8954-90d10a85fca3++1610</key>
 		<string>https://www.nooskewl.com/svn</string>
 	</dict>
-	<key>IDESourceControlProjectURL</key>
-	<string>ssh://192.168.1.110/mnt/git/crystalpicnic.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</string>
+	<string>f4189080-a3fe-f748-8954-90d10a85fca3++8111</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.subversion</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>FE54B2CC-29D2-4203-BF71-D7CB4795CDD0</string>
+			<string>f4189080-a3fe-f748-8954-90d10a85fca3++1610</string>
 			<key>IDESourceControlWCCName</key>
-			<string>code</string>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>f4189080-a3fe-f748-8954-90d10a85fca3++8111</string>
+			<key>IDESourceControlWCCName</key>
+			<string>crystalpicnic</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B8FF0CF6-C52F-4BA8-9529-7FAB9ABC00A6</string>
+			<string>f4189080-a3fe-f748-8954-90d10a85fca3++8111</string>
 			<key>IDESourceControlWCCName</key>
 			<string>crystalpicnic</string>
 		</dict>

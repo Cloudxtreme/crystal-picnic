@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		962E88C71A33EA1C0004DE04 /* difficulty_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 962E88C61A33EA1C0004DE04 /* difficulty_loop.cpp */; };
 		96463D2D19BF8CBA0028EF95 /* settings_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */; };
 		96463D2E19BF8CBA0028EF95 /* video_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */; };
 		9672069219A5973D008F7DB1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069119A5973D008F7DB1 /* Cocoa.framework */; };
@@ -150,6 +151,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		962E88C61A33EA1C0004DE04 /* difficulty_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = difficulty_loop.cpp; path = ../src/difficulty_loop.cpp; sourceTree = "<group>"; };
 		96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = settings_loop.cpp; path = ../src/settings_loop.cpp; sourceTree = "<group>"; };
 		96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video_config_loop.cpp; path = ../src/video_config_loop.cpp; sourceTree = "<group>"; };
 		9672068E19A5973D008F7DB1 /* Crystal Picnic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crystal Picnic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -309,6 +311,7 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
+				962E88C61A33EA1C0004DE04 /* difficulty_loop.cpp */,
 				96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */,
 				96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */,
 				96463D2C19BF8CBA0028EF95 /* video_config_loop.cpp */,
@@ -627,6 +630,7 @@
 				9672073219A5978D008F7DB1 /* frame.cpp in Sources */,
 				9672074419A5978D008F7DB1 /* player.cpp in Sources */,
 				9672075219A5978D008F7DB1 /* video_player.cpp in Sources */,
+				962E88C71A33EA1C0004DE04 /* difficulty_loop.cpp in Sources */,
 				9672075519A5978D008F7DB1 /* well512.c in Sources */,
 				9672072519A5978D008F7DB1 /* collision_detection.cpp in Sources */,
 				9672071619A5978D008F7DB1 /* astar_character_role.cpp in Sources */,
@@ -775,7 +779,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";
@@ -790,7 +794,9 @@
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -800,7 +806,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";
@@ -814,7 +820,9 @@
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
