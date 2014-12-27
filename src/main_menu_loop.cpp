@@ -731,7 +731,13 @@ void Main_Menu_Loop::destroy_graphics()
 
 void Main_Menu_Loop::reload_graphics()
 {
-	bg = new Wrap::Bitmap(al_clone_bitmap(engine->get_render_buffer()->bitmap), "");
+	ALLEGRO_BITMAP *rb = engine->get_render_buffer()->bitmap;
+	ALLEGRO_BITMAP *bg_bmp = al_create_bitmap(al_get_bitmap_width(rb), al_get_bitmap_height(rb));
+	ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
+	al_set_target_bitmap(bg_bmp);
+	al_draw_bitmap(rb, 0, 0, 0);
+	al_set_target_bitmap(old_target);
+	bg = new Wrap::Bitmap(bg_bmp, "");
 }
 
 //-----------------------------------------------------
