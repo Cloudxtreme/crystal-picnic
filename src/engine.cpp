@@ -2614,6 +2614,9 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 	al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
 	draw_touch_controls = false;
 	if (cfg.linear_filtering) {
+#ifdef ALLEGRO_IPHONE
+		bg = render_buffer;
+#else
 		al_set_new_bitmap_flags((flags & ~ALLEGRO_NO_PRESERVE_TEXTURE) | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 		bg = al_create_bitmap(
 			al_get_bitmap_width(render_buffer->bitmap),
@@ -2621,6 +2624,7 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 		);
 		al_set_target_bitmap(bg);
 		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+#endif
 	}
 	else {
 		bg = al_create_bitmap(
@@ -2658,7 +2662,9 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 		NULL
 	);
 
+#ifndef ALLEGRO_IPHONE
 	al_destroy_bitmap(bg);
+#endif
 	al_set_target_bitmap(old_target);
 
 	frame->remove();
@@ -2790,6 +2796,9 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 	al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
 	draw_touch_controls = false;
 	if (cfg.linear_filtering) {
+#ifdef ALLEGRO_IPHONE
+		bg = render_buffer;
+#else
 		al_set_new_bitmap_flags((flags & ~ALLEGRO_NO_PRESERVE_TEXTURE) | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 		bg = al_create_bitmap(
 			al_get_bitmap_width(render_buffer->bitmap),
@@ -2797,6 +2806,7 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 		);
 		al_set_target_bitmap(bg);
 		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+#endif
 	}
 	else {
 		bg = al_create_bitmap(
@@ -2834,7 +2844,9 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 		NULL
 	);
 
+#ifndef ALLEGRO_IPHONE
 	al_destroy_bitmap(bg);
+#endif
 	al_set_target_bitmap(old_target);
 
 	frame->remove();
@@ -2973,6 +2985,9 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 	al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
 	draw_touch_controls = false;
 	if (cfg.linear_filtering) {
+#ifdef ALLEGRO_IPHONE
+		bg = render_buffer;
+#else
 		al_set_new_bitmap_flags((flags & ~ALLEGRO_NO_PRESERVE_TEXTURE) | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 		bg = al_create_bitmap(
 			al_get_bitmap_width(render_buffer->bitmap),
@@ -2980,6 +2995,7 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 		);
 		al_set_target_bitmap(bg);
 		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+#endif
 	}
 	else {
 		bg = al_create_bitmap(
@@ -3017,7 +3033,9 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 		NULL
 	);
 
+#ifndef ALLEGRO_IPHONE
 	al_destroy_bitmap(bg);
+#endif
 	al_set_target_bitmap(old_target);
 
 	frame->remove();
@@ -3190,6 +3208,9 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 	al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
 	draw_touch_controls = false;
 	if (cfg.linear_filtering) {
+#ifdef ALLEGRO_IPHONE
+		bg = render_buffer;
+#else
 		al_set_new_bitmap_flags((flags & ~ALLEGRO_NO_PRESERVE_TEXTURE) | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 		bg = al_create_bitmap(
 			al_get_bitmap_width(render_buffer->bitmap),
@@ -3197,6 +3218,7 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 		);
 		al_set_target_bitmap(bg);
 		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+#endif
 	}
 	else {
 		bg = al_create_bitmap(
@@ -3234,7 +3256,9 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 		NULL
 	);
 
+#ifndef ALLEGRO_IPHONE
 	al_destroy_bitmap(bg);
+#endif
 	al_set_target_bitmap(old_target);
 
 	frame->remove();
