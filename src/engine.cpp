@@ -15,6 +15,7 @@
 #include "video_player.h"
 #include "shaders.h"
 #include "collision_detection.h"
+#include "input_config_loop.h"
 
 #ifdef ALLEGRO_ANDROID
 #include "android.h"
@@ -633,7 +634,7 @@ bool Engine::init_allegro()
 #endif
 
 #if defined ALLEGRO_ANDROID
-	glDisable(GL_DITHER);
+	//glDisable(GL_DITHER);
 #endif
 
 	al_clear_to_color(al_map_rgb_f(0, 0, 0));
@@ -680,7 +681,7 @@ bool Engine::init_allegro()
 #endif
 
 	if (al_get_display_flags(display) & ALLEGRO_OPENGL) {
-#if defined ALLEGRO_ANDROID
+#if defined ALLEGRO_ANDROID_XXX
 		General::noalpha_bmp_format = ALLEGRO_PIXEL_FORMAT_RGB_565;
 		General::font_bmp_format = ALLEGRO_PIXEL_FORMAT_RGBA_5551;
 		General::default_bmp_format = ALLEGRO_PIXEL_FORMAT_RGBA_4444;
@@ -690,7 +691,7 @@ bool Engine::init_allegro()
 		General::default_bmp_format = ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE;
 #endif
 		cfg.opengl = true;
-		glDisable(GL_DITHER);
+		//glDisable(GL_DITHER);
 	}
 	else {
 		General::noalpha_bmp_format = ALLEGRO_PIXEL_FORMAT_XRGB_8888;
@@ -2247,7 +2248,7 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	General::load_fonts();
 	load_translation();
 	Wrap::reload_loaded_bitmaps();
-	glDisable(GL_DITHER);
+	//glDisable(GL_DITHER);
 	switch_music_in();
 #endif
 }
@@ -4257,6 +4258,10 @@ void Engine::add_extra_event(ALLEGRO_EVENT event)
 
 void process_dpad_events(ALLEGRO_EVENT *event)
 {
+	if (dont_process_dpad_events) {
+		return;
+	}
+
 	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_l) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
 		event->joystick.stick = 0;

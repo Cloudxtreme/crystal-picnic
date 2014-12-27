@@ -33,10 +33,12 @@ private:
 	W_Button *defaults_button;
 	W_Button *done_button;
 
-	int *keys[11];
-	int *gamepad_buttons[12];
+	int keys[11];
+	int gamepad_buttons[12];
 
 	std::vector<std::string> labels;
 };
+
+extern bool dont_process_dpad_events;
 
 #endif // INPUT_CONFIG_LOOP_H
