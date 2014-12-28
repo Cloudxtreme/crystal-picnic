@@ -60,7 +60,7 @@ void Configuration::reset_gamepad_controls()
 	cfg.joy_ability[2] = 1;
 	cfg.joy_ability[3] = 0;
 #if defined __linux__
-	cfg.joy_menu = 7;
+	cfg.joy_menu = 6;
 	cfg.joy_switch = 5;
 	cfg.joy_arrange_up = 4;
 	cfg.joy_arrange_down = 5;
