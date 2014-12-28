@@ -458,8 +458,15 @@ void Map_Entity::logic(void)
 				}
 			}
 			else {
-				dx = input[X] * curr_speed;
-				dy = input[Y] * curr_speed;
+				float xx = input[X];
+				float yy = input[Y];
+				float len = sqrt(xx*xx + yy*yy);
+				if (len > 1) {
+					xx /= len;
+					yy /= len;
+				}
+				dx = xx * curr_speed;
+				dy = yy * curr_speed;
 			}
 		}
 	}
