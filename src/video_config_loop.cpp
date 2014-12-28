@@ -104,9 +104,9 @@ bool Video_Config_Loop::init()
 	checkbox->setX(cfg.screen_w/2-maxw/2);
 	checkbox->setY(cfg.screen_h/2+5);
 	save_button->setX(cfg.screen_w/2-maxw/2);
-	save_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*2);
+	save_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2);
 	cancel_button->setX(cfg.screen_w/2-maxw/2);
-	cancel_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT)*3);
+	cancel_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*3);
 
 	tgui::addWidget(mode_list);
 	tgui::addWidget(scrollbar);

@@ -73,7 +73,7 @@ bool Input_Config_Loop::init()
 
 	if (keyboard) {
 		for (int i = 0; i < 11; i++) {
-			buttons[i] = new W_Button("", "Key");
+			buttons[i] = new W_Button("", t("KEY"));
 			buttons[i]->setX(90);
 			buttons[i]->setY(5+12*i);
 			buttons[i]->setHeight(buttons[i]->getHeight()-5);
@@ -83,7 +83,7 @@ bool Input_Config_Loop::init()
 	}
 	else {
 		for (int i = 0; i < 12; i++) {
-			buttons[i] = new W_Button("", "Button");
+			buttons[i] = new W_Button("", t("BUTTON"));
 			buttons[i]->setX(90);
 			buttons[i]->setY(5+12*i);
 			buttons[i]->setHeight(buttons[i]->getHeight()-5);
