@@ -2632,10 +2632,13 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 #ifdef ALLEGRO_ANDROID
 		no_preserve_flag = 0;
 #else
+#ifdef ALLEGRO_WINDOWS
 		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
 			no_preserve_flag = 0;
 		}
-		else {
+		else
+#endif
+		{
 			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
 		}
 #endif
@@ -2819,10 +2822,13 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 #ifdef ALLEGRO_ANDROID
 		no_preserve_flag = 0;
 #else
+#ifdef ALLEGRO_WINDOWS
 		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
 			no_preserve_flag = 0;
 		}
-		else {
+		else
+#endif
+		{
 			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
 		}
 #endif
@@ -3013,10 +3019,13 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 #ifdef ALLEGRO_ANDROID
 		no_preserve_flag = 0;
 #else
+#ifdef ALLEGRO_WINDOWS
 		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
 			no_preserve_flag = 0;
 		}
-		else {
+		else
+#endif
+		{
 			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
 		}
 #endif
@@ -3241,10 +3250,13 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 #ifdef ALLEGRO_ANDROID
 		no_preserve_flag = 0;
 #else
+#ifdef ALLEGRO_WINDOWS
 		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
 			no_preserve_flag = 0;
 		}
-		else {
+		else
+#endif
+		{
 			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
 		}
 #endif

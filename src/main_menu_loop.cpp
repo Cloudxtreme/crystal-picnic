@@ -739,10 +739,13 @@ void Main_Menu_Loop::create_bg()
 #ifdef ALLEGRO_ANDROID
 	preserve = true;
 #else
+#ifdef ALLEGRO_WINDOWS
 	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
 		preserve = true;
 	}
-	else {
+	else
+#endif
+	{
 		preserve = false;
 	}
 #endif
