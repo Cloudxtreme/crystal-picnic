@@ -7,5 +7,3 @@ of it. If there is a companion full
 version, you must obtain a license for
 it and comply with it to use it.
 
-(c) 2014 Nooskewl
-
