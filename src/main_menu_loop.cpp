@@ -749,7 +749,6 @@ void Main_Menu_Loop::create_bg()
 		preserve = false;
 	}
 #endif
-	preserve = true;
 	int flags = al_get_new_bitmap_flags();
 	if (preserve) {
 		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
