@@ -90,8 +90,8 @@
 		9672075B19A59860008F7DB1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069419A5973D008F7DB1 /* AppKit.framework */; };
 		9672075D19A59861008F7DB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672075C19A59861008F7DB1 /* AudioToolbox.framework */; };
 		9672076019A59875008F7DB1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672075E19A59875008F7DB1 /* OpenGL.framework */; };
-		9672076519A598DA008F7DB1 /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9672076319A598DA008F7DB1 /* libbass.dylib */; };
-		9672076619A598DA008F7DB1 /* libbassmidi.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9672076419A598DA008F7DB1 /* libbassmidi.dylib */; };
+		9672076519A598DA008F7DB1 /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9672076319A598DA008F7DB1 /* libbass.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9672076619A598DA008F7DB1 /* libbassmidi.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9672076419A598DA008F7DB1 /* libbassmidi.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9672076919A598F2008F7DB1 /* data.cpa in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9672076819A598F2008F7DB1 /* data.cpa */; };
 		9672076B19A59952008F7DB1 /* liballegro_color-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672076A19A59952008F7DB1 /* liballegro_color-static.a */; };
 		9672076D19A59962008F7DB1 /* liballegro_dialog-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672076C19A59962008F7DB1 /* liballegro_dialog-static.a */; };
@@ -528,7 +528,7 @@
 		9672068619A5973C008F7DB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Nooskewl;
 				TargetAttributes = {
 					9672068D19A5973D008F7DB1 = {
@@ -795,7 +795,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -821,7 +821,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "Crystal Picnic";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -837,7 +837,6 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "crystalpicnic/crystalpicnic-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -859,7 +858,6 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "crystalpicnic/crystalpicnic-Prefix.pch";
 				INFOPLIST_FILE = "crystalpicnicTests/Crystal PicnicTests-Info.plist";
 				PRODUCT_NAME = "Crystal PicnicTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
