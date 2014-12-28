@@ -1146,7 +1146,12 @@ void W_Scrolling_List::set_selected(int sel) {
 void W_Scrolling_List::setHeight(int h) {
 	TGUIWidget::setHeight(h);
 
-	max_y_offset = (General::get_font_line_height(font)*item_names.size()) - height + 1;
+	if (General::get_font_line_height(font)*item_names.size() <= height) {
+		max_y_offset = 0;
+	}
+	else {
+		max_y_offset = (General::get_font_line_height(font)*item_names.size()) - height + 1;
+	}
 }
 
 void W_Scrolling_List::setNotifier(W_Notifier n, void *data)
