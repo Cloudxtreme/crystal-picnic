@@ -25,13 +25,18 @@ public:
 	virtual ~Video_Config_Loop();
 
 private:
+	struct Mode {
+		int width;
+		int height;
+		bool windowed_only;
+	};
 
 	W_Scrolling_List *mode_list;
 	W_Vertical_Scrollbar *scrollbar;
 	TGUI_Checkbox *checkbox;
 	W_Button *save_button;
 	W_Button *cancel_button;
-	std::vector< std::pair<int, int> > modes;
+	std::vector<Mode> modes;
 	bool list_was_activated;
 };
 

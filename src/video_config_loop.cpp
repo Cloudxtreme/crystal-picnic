@@ -15,14 +15,28 @@ bool Video_Config_Loop::init()
 	}
 	Loop::init();
 
-	int current = 0;
-	int count = 0;
 	std::vector<std::string> mode_names;
 
 	int num_modes = al_get_num_display_modes();
-	for (int i = 0; i < num_modes; i++) {
+	for (int i = 0; i < num_modes+2; i++) {
 		ALLEGRO_DISPLAY_MODE mode;
-		al_get_display_mode(i, &mode);
+		Mode my_mode;
+		/* Here we insert some windowed only modes */
+		if (i >= num_modes) {
+			if (i == num_modes) {
+				mode.width = 240;
+				mode.height = 160;
+			}
+			else if (i == num_modes+1) {
+				mode.width = 1024;
+				mode.height = 576;
+			}
+			my_mode.windowed_only = true;
+		}
+		else {
+			al_get_display_mode(i, &mode);
+			my_mode.windowed_only = false;
+		}
 		float low = 4.0f / 3.0f * 0.95f;
 		float high = 16.0f / 9.0f * 1.05f;
 		float aspect = mode.width / (float)mode.height;
@@ -32,14 +46,14 @@ bool Video_Config_Loop::init()
 		int insert = 0;
 		bool found = false;
 		for (size_t j = 0; j < modes.size(); j++) {
-			if (modes[j].first == mode.width && modes[j].second == mode.height) {
+			if (modes[j].width == mode.width && modes[j].height == mode.height) {
 				found = true;
 				break;
 			}
-			if (modes[j].first > mode.width) {
+			if (modes[j].width > mode.width) {
 				break;
 			}
-			if (modes[j].first == mode.width && modes[j].second > mode.height) {
+			if (modes[j].width == mode.width && modes[j].height > mode.height) {
 				break;
 			}
 			insert++;
@@ -47,12 +61,18 @@ bool Video_Config_Loop::init()
 		if (found) {
 			continue;
 		}
-		modes.insert(modes.begin()+insert, std::pair<int, int>(mode.width, mode.height));
-		mode_names.insert(mode_names.begin()+insert, General::itos(mode.width) + "x" + General::itos(mode.height));
-		if (mode.width == cfg.save_screen_w && mode.height == cfg.save_screen_h) {
-			current = count;
+		my_mode.width = mode.width;
+		my_mode.height = mode.height;
+		modes.insert(modes.begin()+insert, my_mode);
+		mode_names.insert(mode_names.begin()+insert, General::itos(mode.width) + "x" + General::itos(mode.height) + (my_mode.windowed_only ? " WINDOWED" : ""));
+	}
+
+	int current = 0;
+	for (int i = 0; i < modes.size(); i++) {
+		if (modes[i].width == cfg.save_screen_w && modes[i].height == cfg.save_screen_h) {
+			current = i;
+			break;
 		}
-		count++;
 	}
 	
 	mode_list = new W_Scrolling_List(mode_names, std::vector<std::string>(), std::vector<std::string>(), std::vector<bool>(), General::FONT_LIGHT, true);
@@ -152,9 +172,9 @@ bool Video_Config_Loop::logic()
 
 	if (w == save_button) {
 		if (modes.size() > 0) {
-			cfg.loaded_w = modes[mode_list->get_selected()].first;
-			cfg.loaded_h = modes[mode_list->get_selected()].second;
-			cfg.loaded_fullscreen = checkbox->getChecked();
+			cfg.loaded_w = modes[mode_list->get_selected()].width;
+			cfg.loaded_h = modes[mode_list->get_selected()].height;
+			cfg.loaded_fullscreen = modes[mode_list->get_selected()].windowed_only ? false : checkbox->getChecked();
 			cfg.save();
 
 #ifdef ALLEGRO_WINDOWS
