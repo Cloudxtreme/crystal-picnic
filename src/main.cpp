@@ -329,6 +329,11 @@ void Main::execute()
 				while (!al_event_queue_is_empty(event_queue)) {
 					ALLEGRO_EVENT event;
 					al_get_next_event(event_queue, &event);
+
+					if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS && al_get_joystick_num_buttons((ALLEGRO_JOYSTICK *)event.joystick.id) == 0) {
+						continue;
+					}
+
 					process_dpad_events(&event);
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 					if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -345,7 +350,6 @@ void Main::execute()
 #endif
 					if (event.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
 						al_reconfigure_joysticks();
-						engine->choose_joystick();
 					}
 #if defined ALLEGRO_IPHONE || defined ALLEGRO_ANDROID
 					else if (event.type == ALLEGRO_EVENT_DISPLAY_SWITCH_OUT) {

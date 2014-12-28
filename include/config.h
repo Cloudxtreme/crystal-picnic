@@ -46,11 +46,6 @@ public:
 
 	std::string language;
 
-	bool use_mouse;
-	bool use_joy;
-	ALLEGRO_JOYSTICK *allegro_joystick;
-	int joy_stick;
-	int joy_stick_dont_save;
 	int joy_menu;
 	int joy_switch;
 	int joy_ability[4];

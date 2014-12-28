@@ -11,7 +11,6 @@ import java.io.File;
 import android.util.Log;
 import android.app.ActivityManager;
 import android.os.Bundle;
-import tv.ouya.console.api.*;
 import org.json.*;
 import java.security.*;
 import java.io.*;

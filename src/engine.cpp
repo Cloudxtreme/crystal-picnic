@@ -76,6 +76,11 @@ static void do_modal(
 
 		while (!al_event_queue_is_empty(queue)) {
 			al_wait_for_event(queue, &event);
+
+			if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS && event.joystick.id && al_get_joystick_num_buttons((ALLEGRO_JOYSTICK *)event.joystick.id) == 0) {
+				continue;
+			}
+
 			process_dpad_events(&event);
 
 			if (event.type == ALLEGRO_EVENT_TIMER && event.timer.source != logic_timer) {
@@ -105,7 +110,6 @@ static void do_modal(
 			}
 			else if (event.type == ALLEGRO_EVENT_DISPLAY_HALT_DRAWING) {
 				engine->handle_halt(&event);
-				al_set_target_bitmap(engine->get_render_buffer()->bitmap);
 			}
 #endif
 
@@ -122,6 +126,8 @@ static void do_modal(
 
 		if (!lost && redraw && (!check_draw_callback || check_draw_callback())) {
 			redraw = 0;
+
+			al_set_target_bitmap(engine->get_render_buffer()->bitmap);
 
 			al_clear_to_color(al_map_rgb_f(0.0f, 0.0f, 0.0f));
 			ALLEGRO_TRANSFORM t, backup;
@@ -334,43 +340,6 @@ void Engine::add_loop(Loop *loop)
 	loops.push_back(loop);
 }
 
-void Engine::choose_joystick()
-{
-#if defined ALLEGRO_IPHONE
-       cfg.use_joy = true;
-       return;
-#endif
-
-	int num_joysticks = al_get_num_joysticks();
-	if (num_joysticks > 0) {
-		General::log_message(General::itos(num_joysticks) + " joystick(s) found.");
-		for (int i = 0; i < num_joysticks; i++) {
-			ALLEGRO_JOYSTICK *joy = al_get_joystick(i);
-			if (al_get_joystick_num_buttons(joy) > 0) {
-				cfg.use_joy = true;
-				cfg.allegro_joystick = joy;
-				if (cfg.joy_stick == -1) {
-					cfg.joy_stick_dont_save = 0;
-					int num_sticks = al_get_joystick_num_sticks(joy);
-					for (int j = 0; j < num_sticks; j++) {
-						if (al_get_joystick_stick_flags(joy, j) & ALLEGRO_JOYFLAG_ANALOGUE) {
-							cfg.joy_stick_dont_save = j;
-							break;
-						}
-					}
-				}
-				else {
-					cfg.joy_stick_dont_save = cfg.joy_stick;
-				}
-				return;
-			}
-		}
-	}
-
-	cfg.use_joy = false;
-	General::log_message("No joysticks found.");
-}
-
 #ifdef ALLEGRO_WINDOWS
 void Engine::load_d3d_resources()
 {
@@ -563,7 +532,6 @@ bool Engine::init_allegro()
 	if (al_install_joystick()) {
 		General::log_message("Joystick driver installed.");
 		memset(&joystate, 0, sizeof(joystate));
-		choose_joystick();
 	}
 
 	ALLEGRO_DEBUG("Input drivers installed");
@@ -1035,6 +1003,11 @@ void Engine::do_event_loop()
 loop_top:
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
+
+		if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS && event.joystick.id && al_get_joystick_num_buttons((ALLEGRO_JOYSTICK *)event.joystick.id) == 0) {
+			continue;
+		}
+
 		process_dpad_events(&event);
 
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
@@ -1045,7 +1018,6 @@ loop_top:
 #endif
 		if (event.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
 			al_reconfigure_joysticks();
-			choose_joystick();
 		}
 
 		process_touch_input(&event);
@@ -1267,6 +1239,11 @@ void Engine::do_blocking_mini_loop(std::vector<Loop *> loops, const char *cb)
 loop_top:
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
+
+		if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS && event.joystick.id && al_get_joystick_num_buttons((ALLEGRO_JOYSTICK *)event.joystick.id) == 0) {
+			continue;
+		}
+
 		process_dpad_events(&event);
 
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
@@ -1278,7 +1255,6 @@ loop_top:
 #endif
 		if (event.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
 			al_reconfigure_joysticks();
-			choose_joystick();
 		}
 
 		process_touch_input(&event);
@@ -2215,6 +2191,8 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 
 	Wrap::destroy_bitmap(render_buffer);
 	render_buffer = NULL;
+	Wrap::destroy_bitmap(work_bitmap);
+	work_bitmap = NULL;
 #endif
 
 	al_acknowledge_drawing_halt(display);
@@ -3870,11 +3848,13 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 							float yy = sin(a);
 
 							event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+							event->joystick.id = 0;
 							event->joystick.stick = 0;
 							event->joystick.axis = 0;
 							event->joystick.pos = xx;
 							ALLEGRO_EVENT extra;
 							extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+							extra.joystick.id = 0;
 							extra.joystick.stick = 0;
 							extra.joystick.axis = 1;
 							extra.joystick.pos = yy;
@@ -3891,11 +3871,13 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 			if (index >= 0 && touches[index].location == -1) {
 				touches.erase(touches.begin() + index);
 				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.id = 0;
 				event->joystick.stick = 0;
 				event->joystick.axis = 0;
 				event->joystick.pos = 0;
 				ALLEGRO_EVENT extra;
 				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.id = 0;
 				extra.joystick.stick = 0;
 				extra.joystick.axis = 1;
 				extra.joystick.pos = 0;
@@ -3943,11 +3925,13 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 				if (yy < -1) yy = -1;
 				if (yy > 1) yy = 1;
 				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.id = 0;
 				event->joystick.stick = 0;
 				event->joystick.axis = 0;
 				event->joystick.pos = xx;
 				ALLEGRO_EVENT extra;
 				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.id = 0;
 				extra.joystick.stick = 0;
 				extra.joystick.axis = 1;
 				extra.joystick.pos = yy;
@@ -3961,11 +3945,13 @@ void Engine::update_touch(ALLEGRO_EVENT *event)
 			if (index >= 0 && touches[index].location == -1) {
 				touches.erase(touches.begin() + index);
 				event->type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				event->joystick.id = 0;
 				event->joystick.stick = 0;
 				event->joystick.axis = 0;
 				event->joystick.pos = 0;
 				ALLEGRO_EVENT extra;
 				extra.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				extra.joystick.id = 0;
 				extra.joystick.stick = 0;
 				extra.joystick.axis = 1;
 				extra.joystick.pos = 0;
@@ -4323,48 +4309,56 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 
 	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_l) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 0;
 		event->joystick.pos = -1;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_r) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 0;
 		event->joystick.pos = 1;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_u) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = -1;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event->joystick.button == cfg.joy_dpad_d) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = 1;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_l) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 0;
 		event->joystick.pos = 0;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_r) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 0;
 		event->joystick.pos = 0;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_u) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = 0;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP && event->joystick.button == cfg.joy_dpad_d) {
 		event->joystick.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+		event->joystick.id = 0;
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = 0;
@@ -4386,6 +4380,7 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 			if (fabs(joystate.stick[0].axis[opposite_axis]) == 1) {
 				ALLEGRO_EVENT new_event;
 				new_event.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+				new_event.joystick.id = 0;
 				new_event.joystick.stick = 0;
 				new_event.joystick.axis = opposite_axis;
 				new_event.joystick.pos = joystate.stick[0].axis[opposite_axis] * 0.71f;
@@ -4395,6 +4390,7 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 		else {
 			ALLEGRO_EVENT new_event;
 			new_event.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+			new_event.joystick.id = 0;
 			new_event.joystick.stick = 0;
 			new_event.joystick.axis = opposite_axis;
 			new_event.joystick.pos = General::sign(joystate.stick[0].axis[opposite_axis]);

@@ -152,15 +152,13 @@ bool Whack_a_Skunk_Loop::handle_event(ALLEGRO_EVENT *event)
 		}
 	}
 
-	if (cfg.use_joy) {
-		if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0) {
-			axes[event->joystick.axis] = fabs(event->joystick.pos) > 0.25 ? General::sign(event->joystick.pos) : 0;
-		}
-		else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
-			if (event->joystick.button == cfg.joy_ability[3])
-				if (!bashing)
-					bashing = true;
-		}
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0) {
+		axes[event->joystick.axis] = fabs(event->joystick.pos) > 0.25 ? General::sign(event->joystick.pos) : 0;
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
+		if (event->joystick.button == cfg.joy_ability[3])
+			if (!bashing)
+				bashing = true;
 	}
 
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE

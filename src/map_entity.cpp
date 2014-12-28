@@ -430,7 +430,7 @@ void Map_Entity::logic(void)
 	float dy = 0;
 	if (!dynamic_cast<Player *>(this) || !((Player *)this)->is_attacking()) {
 		if (!input_disabled) {
-			if (!cfg.use_joy && area->is_isometric()) {
+			if (area->is_isometric()) {
 				std::vector<Loop *> loops = engine->get_loops();
 				Area_Loop *al = General::find_in_vector<Area_Loop *, Loop *>(loops);
 				if (al) {

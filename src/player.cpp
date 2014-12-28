@@ -186,52 +186,50 @@ void Player::handle_event(ALLEGRO_EVENT *event)
 			break;
 	}
 
-	if (cfg.use_joy) {
-		if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0) {
-			if (event->joystick.axis == 0) {
-				input[X] = event->joystick.pos * pan_factor;
-			}
-			else {
-				input[Y] = event->joystick.pos * pan_factor;
-			}
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0) {
+		if (event->joystick.axis == 0) {
+			input[X] = event->joystick.pos * pan_factor;
+		}
+		else {
+			input[Y] = event->joystick.pos * pan_factor;
+		}
 
-			if (fabs(input[X]) > 0.2f || fabs(input[Y]) > 0.2f) {
-				if (fabs(input[Y]) > fabs(input[X])) {
-					if (input[Y] < 0.0f) {
-						direction = General::DIR_N;
-					}
-					else {
-						direction = General::DIR_S;
-					}
+		if (fabs(input[X]) > 0.2f || fabs(input[Y]) > 0.2f) {
+			if (fabs(input[Y]) > fabs(input[X])) {
+				if (input[Y] < 0.0f) {
+					direction = General::DIR_N;
 				}
 				else {
-					if (input[X] < 0.0f) {
-						direction = General::DIR_W;
-					}
-					else {
-						direction = General::DIR_E;
-					}
+					direction = General::DIR_S;
 				}
-			}
-			if (General::distance(0, 0, input[X], input[Y]) > 0.71f) {
-				input[BUTTON1] = 1;
 			}
 			else {
-				input[BUTTON1] = 0;
-			}
-		}
-		if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP) {
-			for (int i = 0; i < 4; i++) {
-				if (event->joystick.button == cfg.joy_ability[i]) {
-					execute_ability(get_selected_abilities(false, false, false)[i], false);
+				if (input[X] < 0.0f) {
+					direction = General::DIR_W;
+				}
+				else {
+					direction = General::DIR_E;
 				}
 			}
 		}
-		if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
-			for (int i = 0; i < 4; i++) {
-				if (event->joystick.button == cfg.joy_ability[i]) {
-					execute_ability(get_selected_abilities(false, false, false)[i], true);
-				}
+		if (General::distance(0, 0, input[X], input[Y]) > 0.71f) {
+			input[BUTTON1] = 1;
+		}
+		else {
+			input[BUTTON1] = 0;
+		}
+	}
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP) {
+		for (int i = 0; i < 4; i++) {
+			if (event->joystick.button == cfg.joy_ability[i]) {
+				execute_ability(get_selected_abilities(false, false, false)[i], false);
+			}
+		}
+	}
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
+		for (int i = 0; i < 4; i++) {
+			if (event->joystick.button == cfg.joy_ability[i]) {
+				execute_ability(get_selected_abilities(false, false, false)[i], true);
 			}
 		}
 	}

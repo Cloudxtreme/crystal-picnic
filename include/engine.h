@@ -177,8 +177,6 @@ public:
 	void set_game_over(bool game_over);
 	bool game_is_over();
 	
-	void choose_joystick();
-
 	bool get_lost_boss_battle() { return lost_boss_battle; }
 	void set_lost_boss_battle(bool lost_boss_battle) { this->lost_boss_battle = lost_boss_battle; }
 

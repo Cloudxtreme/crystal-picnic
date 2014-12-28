@@ -35,39 +35,35 @@ bool Speech_Loop::handle_event(ALLEGRO_EVENT *event)
 {
 	bool prev_next = next;
 
-	if (cfg.use_mouse) {
-		if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN && !autoscroll) {
+	if (event->type == ALLEGRO_EVENT_TOUCH_BEGIN && !autoscroll) {
+		next = true;
+		next_terminates = true;
+		next_touch_id = event->touch.id;
+	}
+	else if (event->type == ALLEGRO_EVENT_TOUCH_END &&
+			event->touch.id == next_touch_id) {
+		next = false;
+	}
+	else if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
+		if (event->keyboard.keycode == cfg.key_ability[3] && !autoscroll) {
 			next = true;
 			next_terminates = true;
-			next_touch_id = event->touch.id;
 		}
-		else if (event->type == ALLEGRO_EVENT_TOUCH_END &&
-				event->touch.id == next_touch_id) {
+	}
+	else if (event->type == ALLEGRO_EVENT_KEY_UP) {
+		if (event->keyboard.keycode == cfg.key_ability[3]) {
 			next = false;
 		}
 	}
-	else {
-		if (event->type == ALLEGRO_EVENT_KEY_DOWN) {
-			if (event->keyboard.keycode == cfg.key_ability[3] && !autoscroll) {
-				next = true;
-				next_terminates = true;
-			}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
+		if (event->joystick.button == cfg.joy_ability[3] && !autoscroll) {
+			next = true;
+			next_terminates = true;
 		}
-		else if (event->type == ALLEGRO_EVENT_KEY_UP) {
-			if (event->keyboard.keycode == cfg.key_ability[3]) {
-				next = false;
-			}
-		}
-		else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
-			if (event->joystick.button == cfg.joy_ability[3] && !autoscroll) {
-				next = true;
-				next_terminates = true;
-			}
-		}
-		else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP) {
-			if (event->joystick.button == cfg.joy_ability[3]) {
-				next = false;
-			}
+	}
+	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_UP) {
+		if (event->joystick.button == cfg.joy_ability[3]) {
+			next = false;
 		}
 	}
 

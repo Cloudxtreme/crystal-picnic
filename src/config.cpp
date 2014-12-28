@@ -122,12 +122,6 @@ void Configuration::reset(void)
 	reverb = true;
 #endif
 
-	use_mouse = false;
-
-	cfg.allegro_joystick = NULL;
-	cfg.joy_stick = -1;
-	cfg.joy_stick_dont_save = 0;
-
 	reset_keyboard_controls();
 	reset_gamepad_controls();
 
@@ -404,15 +398,6 @@ bool Configuration::load(void)
 #else
 	if (start_version != 1) {
 #endif
-		const char *v_joy_stick = al_get_config_value(acfg, "input", "joy_stick");
-		if (v_joy_stick) {
-			joy_stick = atoi(v_joy_stick);
-			LOG("Read joy_stick: " + std::string(v_joy_stick));
-		}
-		else {
-			LOG("Warning: joy_stick not present.");
-		}
-
 		const char *v_joy_menu = al_get_config_value(acfg, "input", "joy_menu");
 		if (v_joy_menu) {
 			joy_menu = atoi(v_joy_menu);
@@ -631,9 +616,6 @@ bool Configuration::save(void)
 	ss << key_switch;
 	al_set_config_value(acfg, "input", "key_switch", ss.str().c_str());
 
-	ss.str("");
-	ss << joy_stick;
-	al_set_config_value(acfg, "input", "joy_stick", ss.str().c_str());
 	ss.str("");
 	ss << joy_menu;
 	al_set_config_value(acfg, "input", "joy_menu", ss.str().c_str());
