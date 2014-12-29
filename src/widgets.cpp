@@ -964,7 +964,12 @@ void W_Scrolling_List::mouseMove(int rel_x, int rel_y, int abs_x, int abs_y)
 
 void W_Scrolling_List::show_selected()
 {
-	y_offset = MIN(max_y_offset, General::get_font_line_height(font)*selected);
+	int line_height = General::get_font_line_height(font);
+	y_offset = MIN(max_y_offset, line_height*selected);
+	y_offset -= (int)y_offset % line_height;
+	if (y_offset < 0) {
+		y_offset = 0;
+	}
 	if (synced_widget) {
 		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
 	}
@@ -1027,7 +1032,7 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 			icons_x = x+offset.x+width-2-9;
 		}
 		int max_w = icons_x - (icon_w+x+3+offset.x);
-		if (right_justified_text.size() > i) {
+		if ((int)right_justified_text.size() > i) {
 			max_w -= General::get_text_width(font, right_justified_text[i]);
 		}
 		max_w -= 2;
@@ -1073,7 +1078,7 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 			icons_x = x+offset.x+width-2-9;
 		}
 		int max_w = icons_x - (icon_w+x+3+offset.x);
-		if (right_justified_text.size() > i) {
+		if ((int)right_justified_text.size() > i) {
 			max_w -= General::get_text_width(font, right_justified_text[i]);
 		}
 		max_w -= 2;
