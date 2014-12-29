@@ -152,7 +152,7 @@ bool Whack_a_Skunk_Loop::handle_event(ALLEGRO_EVENT *event)
 		}
 	}
 
-	if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0) {
+	if (event->type == ALLEGRO_EVENT_JOYSTICK_AXIS && event->joystick.stick == 0 && event->joystick.axis < 2) {
 		axes[event->joystick.axis] = fabs(event->joystick.pos) > 0.25 ? General::sign(event->joystick.pos) : 0;
 	}
 	else if (event->type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN) {
