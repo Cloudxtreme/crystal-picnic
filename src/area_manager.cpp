@@ -715,7 +715,7 @@ void Area_Manager::draw_layer_isometric(int layer)
 	else
 		end_y = iso_tiles_in_screen.y;
 	
-	int tx, ty, next_x = 0 /* silence warning */, next_y;
+	int tx = 0, ty = 0, next_x = 0 /* silence warning */, next_y;
 
 	for (int y = 0; y < end_y; y++) {
 		int end = ceil(curr_width);

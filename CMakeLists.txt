@@ -272,7 +272,7 @@ else(WIN32)
 				set(LUA_LIB "lua5.2")
 			endif()
 
-			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,.")
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
 			set(MAIN_LIBS
 				crystalpicnic-engine
 				wrap
@@ -319,7 +319,7 @@ else(WIN32)
 				set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 			endif()
-			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,.")
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
 			set(MAIN_LIBS
 				crystalpicnic-engine
 				wrap

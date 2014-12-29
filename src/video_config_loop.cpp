@@ -68,7 +68,7 @@ bool Video_Config_Loop::init()
 	}
 
 	int current = 0;
-	for (int i = 0; i < modes.size(); i++) {
+	for (int i = 0; i < (int)modes.size(); i++) {
 		if (modes[i].width == cfg.save_screen_w && modes[i].height == cfg.save_screen_h) {
 			current = i;
 			break;
@@ -246,11 +246,12 @@ bool Video_Config_Loop::logic()
 				path[strlen(path)-1] = 0;
 			}
 #else
-			strncpy(path, al_path_cstr(exe, '/'), 5000);
+			snprintf(path, 5000, "\"%s\"", al_path_cstr(exe, '/'));
 #endif
 			al_destroy_path(exe);
 			if (fork() == 0) {
-				system(path);
+				int result = system(path);
+				(void)result;
 			}
 			else {
 				exit(0);

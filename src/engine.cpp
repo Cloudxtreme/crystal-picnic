@@ -712,110 +712,137 @@ void Engine::load_sfx()
 	Sample s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/chest_open.ogg");;
 	sfx["sfx/chest_open.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/error.ogg");;
 	sfx["sfx/error.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/menu_select.ogg");;
 	sfx["sfx/menu_select.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/main_menu.ogg");;
 	sfx["sfx/main_menu.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/quack.ogg");;
 	sfx["sfx/quack.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/ribbit.ogg");;
 	sfx["sfx/ribbit.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/pyou.ogg");;
 	sfx["sfx/pyou.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/bisou.ogg");;
 	sfx["sfx/bisou.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/open_door.ogg");;
 	sfx["sfx/open_door.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/item_found.ogg");;
 	sfx["sfx/item_found.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/exit_battle.ogg");;
 	sfx["sfx/exit_battle.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/enter_area.ogg");;
 	sfx["sfx/enter_area.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/land.ogg");;
 	sfx["sfx/land.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/use_item.ogg");;
 	sfx["sfx/use_item.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/switch_to_bisou.ogg");;
 	sfx["sfx/switch_to_bisou.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/switch_to_egbert.ogg");;
 	sfx["sfx/switch_to_egbert.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/switch_to_frogbert.ogg");;
 	sfx["sfx/switch_to_frogbert.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/healing_item.ogg");;
 	sfx["sfx/healing_item.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/single_jump.ogg");;
 	sfx["sfx/single_jump.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/enemy_alerted.ogg");;
 	sfx["sfx/enemy_alerted.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/trip.ogg");;
 	sfx["sfx/trip.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/slip.ogg");;
 	sfx["sfx/slip.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/npc.ogg");;
 	sfx["sfx/npc.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/coin.ogg");;
 	sfx["sfx/coin.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/throw.ogg");;
 	sfx["sfx/throw.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/swing_weapon.ogg");;
 	sfx["sfx/swing_weapon.ogg"] = s;
 
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load("sfx/poison_again.ogg");;
 	sfx["sfx/poison_again.ogg"] = s;
 }
@@ -1448,6 +1475,7 @@ void Engine::load_sample(std::string name, bool loop)
 	
 	Sample s;
 	s.count = 1;
+	s.looping = false;
 	s.sample = Sound::load(name, loop);
 	if (s.sample != NULL) {
 		sfx[name] = s;
@@ -3404,8 +3432,12 @@ void Engine::load_cpa()
 #if defined ALLEGRO_ANDROID
 	// Loaded by PHYSFS
 	cpa = new CPA("assets/data.cpa.uncompressed");
-#elif defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
+#elif defined ALLEGRO_IPHONE
 	cpa = new CPA("data.cpa.uncompressed");
+#elif defined ALLEGRO_RASPBERRYPI
+	cpa = new CPA("stuff/data.cpa.uncompressed");
+#elif defined __linux__
+	cpa = new CPA("stuff/data.cpa");
 #else
 	cpa = new CPA("data.cpa");
 #endif
