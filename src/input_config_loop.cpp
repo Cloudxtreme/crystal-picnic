@@ -206,6 +206,35 @@ bool Input_Config_Loop::logic()
 	}
 
 	if (w == done_button) {
+		// Saves the controls
+		if (keyboard) {
+			cfg.key_left = keys[0];
+			cfg.key_right = keys[1];
+			cfg.key_up = keys[2];
+			cfg.key_down = keys[3];
+			cfg.key_menu = keys[4];
+			cfg.key_run = keys[5];
+			cfg.key_switch = keys[6];
+			cfg.key_ability[0] = keys[7];
+			cfg.key_ability[1] = keys[8];
+			cfg.key_ability[2] = keys[9];
+			cfg.key_ability[3] = keys[10];
+		}
+		else {
+			cfg.joy_ability[0] = gamepad_buttons[0];
+			cfg.joy_ability[1] = gamepad_buttons[1];
+			cfg.joy_ability[2] = gamepad_buttons[2];
+			cfg.joy_ability[3] = gamepad_buttons[3];
+			cfg.joy_menu = gamepad_buttons[4];
+			cfg.joy_switch = gamepad_buttons[5];
+			cfg.joy_arrange_up = gamepad_buttons[6];
+			cfg.joy_arrange_down = gamepad_buttons[7];
+			cfg.joy_dpad_l = gamepad_buttons[8];
+			cfg.joy_dpad_r = gamepad_buttons[9];
+			cfg.joy_dpad_u = gamepad_buttons[10];
+			cfg.joy_dpad_d = gamepad_buttons[11];
+		}
+
 		std::vector<Loop *> loops;
 		loops.push_back(this);
 		engine->fade_out(loops);
@@ -362,33 +391,5 @@ Input_Config_Loop::~Input_Config_Loop()
 	tgui::unhide();
 
 	dont_process_dpad_events = false;
-
-	if (keyboard) {
-		cfg.key_left = keys[0];
-		cfg.key_right = keys[1];
-		cfg.key_up = keys[2];
-		cfg.key_down = keys[3];
-		cfg.key_menu = keys[4];
-		cfg.key_run = keys[5];
-		cfg.key_switch = keys[6];
-		cfg.key_ability[0] = keys[7];
-		cfg.key_ability[1] = keys[8];
-		cfg.key_ability[2] = keys[9];
-		cfg.key_ability[3] = keys[10];
-	}
-	else {
-		cfg.joy_ability[0] = gamepad_buttons[0];
-		cfg.joy_ability[1] = gamepad_buttons[1];
-		cfg.joy_ability[2] = gamepad_buttons[2];
-		cfg.joy_ability[3] = gamepad_buttons[3];
-		cfg.joy_menu = gamepad_buttons[4];
-		cfg.joy_switch = gamepad_buttons[5];
-		cfg.joy_arrange_up = gamepad_buttons[6];
-		cfg.joy_arrange_down = gamepad_buttons[7];
-		cfg.joy_dpad_l = gamepad_buttons[8];
-		cfg.joy_dpad_r = gamepad_buttons[9];
-		cfg.joy_dpad_u = gamepad_buttons[10];
-		cfg.joy_dpad_d = gamepad_buttons[11];
-	}
 }
 
