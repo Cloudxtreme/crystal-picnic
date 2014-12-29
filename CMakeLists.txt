@@ -322,9 +322,10 @@ else(WIN32)
 			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
 			set(MAIN_LIBS
 				crystalpicnic-engine
-				wrap
-				my_load_bitmap
 				atlas
+				wrap
+				tgui2
+				my_load_bitmap
 				allegro_ttf${ALLEG_SUFFIX}
 				allegro_font${ALLEG_SUFFIX}
 				allegro_primitives${ALLEG_SUFFIX}
@@ -333,22 +334,15 @@ else(WIN32)
 				allegro_image${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
-				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xpm GL GLU
-#				/usr/lib/x86_64-linux-gnu/liblua5.2.a
-#				/usr/lib/x86_64-linux-gnu/libfreetype.a
-#				/usr/lib/x86_64-linux-gnu/libz.a
+				Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
 				/usr/local/lib/liblua5.2.a
-				/usr/lib/libpng.a
-				/usr/lib/libfreetype.a
-				/usr/lib/libz.a
+				/usr/local/lib/libpng.a
+				/usr/local/lib/libfreetype.a
+				/usr/local/lib/libz.a
 				/home/trent/code/crystalpicnic/build/libbass.so
 				/home/trent/code/crystalpicnic/build/libbassmidi.so
-				curl
-				atlas
-				tgui2
-				wrap
+				/usr/local/lib/libcurl.a
 				/usr/local/lib/libpoly2tri.a
-				dl
 			)
 		endif()
 	endif(APPLE)
