@@ -4359,8 +4359,5 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 		event->joystick.axis = 1;
 		event->joystick.pos = 0;
 	}
-	else if (event->type != ALLEGRO_EVENT_JOYSTICK_AXIS) {
-		return;
-	}
 }
 
