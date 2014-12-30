@@ -44,11 +44,13 @@ Sample *load_set(std::string filename, std::string extension)
 		if (!s)
 			break;
 		sample->set.push_back(s);
-		BASS_ChannelGetAttribute(
-			BASS_SampleGetChannel(sample->sample, false),
-			BASS_ATTRIB_FREQ,
-			&sample->freq
-		);
+		if (sample->set.size() == 1) {
+			BASS_ChannelGetAttribute(
+				BASS_SampleGetChannel(sample->set[sample->set.size()-1], false),
+				BASS_ATTRIB_FREQ,
+				&sample->freq
+			);
+		}
 	}
 
 	sample->is_set = true;
