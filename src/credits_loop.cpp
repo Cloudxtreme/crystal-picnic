@@ -58,7 +58,7 @@ bool Credits_Loop::init()
 	v1.push_back("");
 	strings.push_back(v1);
 	v1.clear();
-	v1.push_back("\xc2\xa9 2014 Nooskewl");
+	v1.push_back("\xc2\xa9 2015 Nooskewl");
 	strings.push_back(v1);
 
 	total_offset = cfg.screen_h * 1.5f;
