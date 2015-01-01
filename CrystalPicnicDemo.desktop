@@ -5,11 +5,11 @@
 Encoding=UTF-8
 Value=1.0
 Type=Application
-Name=Crystal Picnic
-GenericName=Crystal Picnic
-Comment=Crystal Picnic
+Name=Crystal Picnic Demo
+GenericName=Crystal Picnic Demo
+Comment=Crystal Picnic Demo
 Icon=/home/trent/Crystal Picnic Demo 1.5.1 (64 bit)/stuff/icon.png
-Exec="/home/trent/Crystal Picnic Demo 1.5.1 (64 bit)/CrystalPicnic"
+Exec="/home/trent/Crystal Picnic Demo 1.5.1 (64 bit)/CrystalPicnicDemo"
 Categories=Game;
 Path=/home/trent/Crystal Picnic Demo 1.5.1 (64 bit)
 
