@@ -247,7 +247,6 @@ void Main::execute()
 #ifdef DEMO
 			add_continue = false;
 			add_bonus = false;
-			button_inc = 16;
 #else
 			add_continue = true;
 			add_bonus = cfg.beat_game;

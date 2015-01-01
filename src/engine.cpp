@@ -637,7 +637,7 @@ bool Engine::init_allegro()
 	halt_mutex = al_create_mutex();
 	halt_cond = al_create_cond();
 
-	al_set_window_title(display, "Egbert and Frogbert's Crystal Picnic");
+	al_set_window_title(display, "Crystal Picnic");
 
 	tgui::init(display);
 	ALLEGRO_DEBUG("TGUI initialized");
