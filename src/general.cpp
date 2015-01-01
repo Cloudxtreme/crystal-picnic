@@ -22,8 +22,6 @@
 
 #include <cctype>
 
-#include "hqm.h"
-
 #ifdef ALLEGRO_ANDROID
 #include <allegro5/allegro_android.h>
 #include "android.h"
@@ -330,8 +328,6 @@ void init()
 	}
 
 	Game_Specific_Globals::init();
-
-	hqm_set_download_path(get_download_path().c_str());
 }
 
 void shutdown()

@@ -5,7 +5,6 @@
 #include "widgets.h"
 #include "game_specific_globals.h"
 #include "saveload_loop.h"
-#include "hqm_loop.h"
 #include "runner_loop.h"
 #include "settings_loop.h"
 #include "difficulty_loop.h"
@@ -226,13 +225,11 @@ void Main::execute()
 			engine->set_game_over(false);
 
 			bool add_continue;
-			bool add_hqm;
 			bool add_bonus;
 
 			int button_inc = 0;
 
 			W_Title_Screen_Button *buy_button = NULL;
-			W_Title_Screen_Button *restore_button = NULL;
 
 #if defined OUYA || defined FIRETV
 			if (!engine->get_purchased()) {
@@ -240,23 +237,19 @@ void Main::execute()
 				buy_button->setX(20);
 				buy_button->setY(132);
 				add_continue = false;
-				add_hqm = false;
 				add_bonus = false;
 			}
 			else {
 				add_continue = true;
-				add_hqm = true;
 				add_bonus = cfg.beat_game;
 			}
 #else
 #ifdef DEMO
 			add_continue = false;
-			add_hqm = false;
 			add_bonus = false;
 			button_inc = 16;
 #else
 			add_continue = true;
-			add_hqm = true;
 			add_bonus = cfg.beat_game;
 #endif
 #endif
@@ -271,13 +264,12 @@ void Main::execute()
 			
 			W_Title_Screen_Button *new_game_button = new W_Title_Screen_Button("NEW_GAME");
 			new_game_button->setX(20);
-			new_game_button->setY(100+button_inc+(add_continue ? 0 : 16));
+			new_game_button->setY(116+button_inc+(add_continue ? 0 : 16));
 			W_Title_Screen_Button *continue_button = new W_Title_Screen_Button("CONTINUE");
 			continue_button->setX(20);
-			continue_button->setY(116+button_inc);
+			continue_button->setY(132+button_inc);
 
 			W_Title_Screen_Button *bonus_game_button = NULL;
-			W_Title_Screen_Button *hqm_button = new W_Title_Screen_Button("HQM");
 
 			if (add_bonus) {
 				bonus_game_button = new W_Title_Screen_Button("BONUS_GAME");
@@ -291,14 +283,6 @@ void Main::execute()
 			}
 			if (buy_button) {
 				tgui::addWidget(buy_button);
-			}
-			if (restore_button) {
-				tgui::addWidget(restore_button);
-			}
-			if (hqm_button && add_hqm) {
-				hqm_button->setX(20);
-				hqm_button->setY(132+button_inc);
-				tgui::addWidget(hqm_button);
 			}
 			if (bonus_game_button) {
 				bonus_game_button->setX(20);
@@ -474,29 +458,11 @@ void Main::execute()
 						add_continue = true;
 						tgui::addWidget(continue_button);
 						new_game_button->setY(new_game_button->getY()-16);
-						add_hqm = true;
-						hqm_button->setX(20);
-						hqm_button->setY(132);
-						tgui::addWidget(hqm_button);
 					}
 					engine->switch_in();
 					Music::play("music/title.ogg");
 				}
 #endif
-				else if (widget && widget == hqm_button) {
-					fade(0.5, true);
-					tgui::hide();
-					tgui::push(); // popped in ~HQM_Loop()
-					std::vector<Loop *> loops;
-					HQM_Loop *l = new HQM_Loop();
-					l->init();
-					loops.push_back(l);
-					engine->start_timers();
-					engine->fade_in(loops);
-					engine->do_blocking_mini_loop(loops, NULL);
-					engine->stop_timers();
-					fade(0.5, false);
-				}
 				else if (widget && widget == bonus_game_button) {
 					Music::play("music/runner.mid");
 					fade(0.5, true);
@@ -556,14 +522,6 @@ void Main::execute()
 				buy_button->remove();
 				delete buy_button;
 			}
-			if (restore_button) {
-				restore_button->remove();
-				delete restore_button;
-			}
-			if (add_hqm) {
-				hqm_button->remove();
-			}
-			delete hqm_button;
 			if (bonus_game_button) {
 				bonus_game_button->remove();
 				delete bonus_game_button;

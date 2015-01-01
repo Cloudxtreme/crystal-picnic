@@ -118,8 +118,6 @@ set(COMMON_SRCS
 	src/game_specific_globals.cpp
 	src/general.cpp
 	src/graphics.cpp
-	src/hqm.c
-	src/hqm_loop.cpp
 	src/input_config_loop.cpp
 	src/language_config_loop.cpp
 	src/lua.cpp
@@ -189,7 +187,7 @@ if(APPLE)
 	FIND_LIBRARY(APPKIT_LIBRARY AppKit)
 	FIND_LIBRARY(IOKIT_LIBRARY IOKit)
 	FIND_LIBRARY(AUDIOTOOLBOX_LIBRARY AudioToolbox)
-	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} bass bassmidi curl atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
+	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} bass bassmidi atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
 endif(APPLE)
 
 if(WIN32)
@@ -228,7 +226,6 @@ if(WIN32)
 		${ZLIB_LIB_NAME}
 		bassmidi
 		bass
-		curl
 		poly2tri
 		${EXTRA_LIBS}
 		"c:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3dx9.lib"
@@ -300,7 +297,6 @@ else(WIN32)
 				bcm_host GLESv2 EGL m pthread
 				/Users/trent/code/crystalpicnic/build-raspberrypi/libbassmidi.so
 				/Users/trent/code/crystalpicnic/build-raspberrypi/libbass.so
-				curl
 				${LUA_LIB}
 				png
 				freetype
@@ -341,7 +337,6 @@ else(WIN32)
 				/usr/local/lib/libz.a
 				/home/trent/code/crystalpicnic/build/libbass.so
 				/home/trent/code/crystalpicnic/build/libbassmidi.so
-				/usr/local/lib/libcurl.a
 				/usr/local/lib/libpoly2tri.a
 			)
 		endif()

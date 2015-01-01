@@ -617,7 +617,6 @@ bool Engine::init_allegro()
 	//al_register_bitmap_loader_f(".cpi", load_cpi_f);
 	//al_register_bitmap_loader(".cpi", load_cpi);
 
-#ifdef ALLEGRO_WINDOWS
 	// With OpenGL driver, crashes if icon is not a memory bitmap
 	int flags = al_get_new_bitmap_flags();
 	al_set_new_bitmap_flags(flags | ALLEGRO_MEMORY_BITMAP);
@@ -625,7 +624,6 @@ bool Engine::init_allegro()
 	al_set_display_icon(display, icon_tmp->bitmap);
 	Wrap::destroy_bitmap(icon_tmp);
 	al_set_new_bitmap_flags(flags);
-#endif
 
 	al_set_new_bitmap_flags(ALLEGRO_NO_PRESERVE_TEXTURE);
 

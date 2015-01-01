@@ -4,8 +4,6 @@
 #include "bass_fileprocs.h"
 #include "bassmidi.h"
 
-#include "hqm.h"
-
 #ifdef ALLEGRO_ANDROID
 #include "android.h"
 #include <jni.h>
@@ -74,152 +72,111 @@ void play(std::string filename, float volume, bool loop)
 		delete[] delete_bytes;
 		delete_bytes = NULL;
 	}
-	
+
 	if (cfg.music_off) return;
-
-	bool is_ogg;
-
-	if (hqm_get_status(NULL) == HQM_STATUS_COMPLETE) {
-		std::string s = filename.substr(6);
-		s = General::get_download_path() + "/" + s.replace(s.length()-3, 3, "ogg");
-		if (al_filename_exists(s.c_str())) {
-			is_ogg = true;
-			filename = s;
-		}
-		else {
-			is_ogg = false;
-		}
-	}
-	else {
-		is_ogg = false;
-	}
 
 	int sz;
 	unsigned char *bytes;
 
-	if (is_ogg) {
-		bytes = General::slurp_real_file(filename, &sz, false, false);
-	}
-	else {
-		bytes = General::slurp(filename, &sz, false, false);
-	}
+	bytes = General::slurp(filename, &sz, false, false);
 
 	if (bytes) {
-		if (strstr(filename.c_str(), ".ogg")) {
-			music = BASS_StreamCreateFile(
-				TRUE,
-				bytes,
-				0,
-				sz,
-				(loop ? BASS_SAMPLE_LOOP : 0)
-			);
+		music = BASS_MIDI_StreamCreateFile(
+			TRUE,
+			bytes,
+			0,
+			sz,
+			(loop ? BASS_SAMPLE_LOOP : 0),
+			0
+		);
 
-			BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, 0.0f);
-			BASS_ChannelPlay(music, FALSE);
-			ramp_up(0.5);
+		delete[] bytes;
 
-			delete_bytes = bytes;
+		BASS_MIDI_FONT f;
+		f.font = sf2;
+		f.preset = -1;
+		f.bank = 0;
 
-			music_playing = true;
+		BASS_MIDI_StreamSetFonts(music, &f, 1);
+		BASS_MIDI_StreamLoadSamples(music);
+
+
+		HFX fx = 0;
+		if (cfg.reverb) {
+			fx = BASS_ChannelSetFX(music, BASS_FX_DX8_REVERB, 1);
 		}
-		else {
-			music = BASS_MIDI_StreamCreateFile(
-				TRUE,
-				bytes,
-				0,
-				sz,
-				(loop ? BASS_SAMPLE_LOOP : 0),
-				0
-			);
 
-			delete[] bytes;
-			
-			BASS_MIDI_FONT f;
-			f.font = sf2;
-			f.preset = -1;
-			f.bank = 0;
-
-			BASS_MIDI_StreamSetFonts(music, &f, 1);
-			BASS_MIDI_StreamLoadSamples(music);
-
-			
-			HFX fx = 0;
-			if (cfg.reverb) {
-				fx = BASS_ChannelSetFX(music, BASS_FX_DX8_REVERB, 1);
+		char basename[1000];
+		for (int i = strlen(filename.c_str())-1; i >= 0; i--) {
+			if (filename.c_str()[i] == '/' || filename.c_str()[i] == '\\') {
+				i++;
+				for (int j = i; filename.c_str()[j] != '.'; j++) {
+					basename[j-i] = filename.c_str()[j];
+					basename[j-i+1] = 0;
+				}
+				break;
 			}
-
-			char basename[1000];
-			for (int i = strlen(filename.c_str())-1; i >= 0; i--) {
-				if (filename.c_str()[i] == '/' || filename.c_str()[i] == '\\') {
-					i++;
-					for (int j = i; filename.c_str()[j] != '.'; j++) {
-						basename[j-i] = filename.c_str()[j];
-						basename[j-i+1] = 0;
-					}
-					break;
-				}
-			}
-
-			if (cfg.reverb) {
-				std::string basename_string = basename;
-				float val;
-				bool set = true;
-				if (basename_string == "abw") {
-					val = 0.1f;
-				}
-				else if (basename_string == "abw2") {
-					val = 0.15f;
-				}
-				else if (basename_string == "boss") {
-					val = 0.1f;
-				}
-				else if (basename_string == "castle") {
-					val = 0.15f;
-				}
-				else if (basename_string == "game_over") {
-					val = 0.4f;
-				}
-				else if (basename_string == "map") {
-					val = 0.05f;
-				}
-				else if (basename_string == "old_forest") {
-					val = 0.4f;
-				}
-				else if (basename_string == "other") {
-					val = 0.2f;
-				}
-				else if (basename_string == "river_town") {
-					val = 0.4f;
-				}
-				else if (basename_string == "stonecrater") {
-					val = 0.1f;
-				}
-				else if (basename_string == "title") {
-					val = 0.1f;
-				}
-				else if (basename_string == "whack_a_skunk") {
-					val = 0.05f;
-				}
-				else {
-					set = false;
-				}
-				if (set) {
-					val *= 2999999;
-					val = val + 1;
-					val /= 1000;
-					BASS_DX8_REVERB reverb_params;
-					BASS_FXGetParameters(fx, (void *)&reverb_params);
-					reverb_params.fReverbTime = val;
-					BASS_FXSetParameters(fx, (void *)&reverb_params);
-				}
-			}
-
-			BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, 0.0f);
-			BASS_ChannelPlay(music, FALSE);
-			ramp_up(0.5);
-
-			music_playing = true;
 		}
+
+		if (cfg.reverb) {
+			std::string basename_string = basename;
+			float val;
+			bool set = true;
+			if (basename_string == "abw") {
+				val = 0.1f;
+			}
+			else if (basename_string == "abw2") {
+				val = 0.15f;
+			}
+			else if (basename_string == "boss") {
+				val = 0.1f;
+			}
+			else if (basename_string == "castle") {
+				val = 0.15f;
+			}
+			else if (basename_string == "game_over") {
+				val = 0.4f;
+			}
+			else if (basename_string == "map") {
+				val = 0.05f;
+			}
+			else if (basename_string == "old_forest") {
+				val = 0.4f;
+			}
+			else if (basename_string == "other") {
+				val = 0.2f;
+			}
+			else if (basename_string == "river_town") {
+				val = 0.4f;
+			}
+			else if (basename_string == "stonecrater") {
+				val = 0.1f;
+			}
+			else if (basename_string == "title") {
+				val = 0.1f;
+			}
+			else if (basename_string == "whack_a_skunk") {
+				val = 0.05f;
+			}
+			else {
+				set = false;
+			}
+			if (set) {
+				val *= 2999999;
+				val = val + 1;
+				val /= 1000;
+				BASS_DX8_REVERB reverb_params;
+				BASS_FXGetParameters(fx, (void *)&reverb_params);
+				reverb_params.fReverbTime = val;
+				BASS_FXSetParameters(fx, (void *)&reverb_params);
+			}
+		}
+
+		BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, 0.0f);
+		BASS_ChannelPlay(music, FALSE);
+		ramp_up(0.5);
+
+		music_playing = true;
 	}
 	else {
 		music = 0;
