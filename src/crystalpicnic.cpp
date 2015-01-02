@@ -1,10 +1,13 @@
 #include "crystalpicnic.h"
 
+bool restart_game;
+
 int main(int argc, char **argv)
 {
 	General::argc = argc;
 	General::argv = argv;
 
+top:
 	Main* m = NULL;
 
 	try {
@@ -19,11 +22,11 @@ int main(int argc, char **argv)
 			<< std::endl;
 	}
 
-	if (cfg.save())
-		General::log_message("Configuration saved.");
-	else
-		General::log_message("Warning: Configuration not saved.");
-	
 	delete m;
+
+	if (restart_game) {
+		restart_game = false;
+		goto top;
+	}
 	return 0;
 }

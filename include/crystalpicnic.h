@@ -21,4 +21,6 @@
 #define mkdir(a, b) mkdir(a)
 #endif
 
+extern bool restart_game;
+
 #endif

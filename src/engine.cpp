@@ -557,9 +557,9 @@ bool Engine::init_allegro()
 		| ALLEGRO_PROGRAMMABLE_PIPELINE
 		| (cfg.force_opengl ? ALLEGRO_OPENGL : 0)
 #if defined USE_FULLSCREEN_WINDOW
-		| (cfg.fullscreen ? ALLEGRO_FULLSCREEN_WINDOW : 0)
+		| (cfg.fullscreen ? ALLEGRO_FULLSCREEN_WINDOW : ALLEGRO_WINDOWED)
 #else
-		| (cfg.fullscreen ? ALLEGRO_FULLSCREEN : 0)
+		| (cfg.fullscreen ? ALLEGRO_FULLSCREEN : ALLEGRO_WINDOWED)
 #endif
 	);
 
@@ -965,6 +965,13 @@ void Engine::shutdown()
 
 	al_destroy_mutex(halt_mutex);
 	al_destroy_cond(halt_cond);
+
+	if (cfg.save())
+		General::log_message("Configuration saved.");
+	else
+		General::log_message("Warning: Configuration not saved.");
+	
+	al_uninstall_system();
 }
 
 static void destroy_event(ALLEGRO_USER_EVENT *u)

@@ -373,6 +373,9 @@ void Main::execute()
 					engine->start_timers();
 					engine->fade_in(loops);
 					engine->do_blocking_mini_loop(loops, NULL);
+					if (restart_game) {
+						goto end;
+					}
 					engine->stop_timers();
 					fade(0.5, false);
 				}
@@ -595,6 +598,7 @@ void Main::execute()
 			}
 		}
 	}
+end:;
 }
 
 

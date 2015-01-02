@@ -53,8 +53,6 @@
 		9672073319A5978D008F7DB1 /* game_specific_globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206E919A5978D008F7DB1 /* game_specific_globals.cpp */; };
 		9672073419A5978D008F7DB1 /* general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206EA19A5978D008F7DB1 /* general.cpp */; };
 		9672073519A5978D008F7DB1 /* graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206EB19A5978D008F7DB1 /* graphics.cpp */; };
-		9672073619A5978D008F7DB1 /* hqm_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206EC19A5978D008F7DB1 /* hqm_loop.cpp */; };
-		9672073719A5978D008F7DB1 /* hqm.c in Sources */ = {isa = PBXBuildFile; fileRef = 967206ED19A5978D008F7DB1 /* hqm.c */; };
 		9672073819A5978D008F7DB1 /* input_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206EE19A5978D008F7DB1 /* input_config_loop.cpp */; };
 		9672073919A5978D008F7DB1 /* lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206EF19A5978D008F7DB1 /* lua.cpp */; };
 		9672073A19A5978D008F7DB1 /* main_menu_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967206F019A5978D008F7DB1 /* main_menu_loop.cpp */; };
@@ -105,7 +103,6 @@
 		9672078419A5998B008F7DB1 /* liballegro_ttf-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077519A5998B008F7DB1 /* liballegro_ttf-static.a */; };
 		9672078519A5998B008F7DB1 /* liballegro-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077619A5998B008F7DB1 /* liballegro-static.a */; };
 		9672078619A5998B008F7DB1 /* libatlas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077719A5998B008F7DB1 /* libatlas.a */; };
-		9672078719A5998B008F7DB1 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077819A5998B008F7DB1 /* libcurl.a */; };
 		9672078819A5998B008F7DB1 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077919A5998B008F7DB1 /* libfreetype.a */; };
 		9672078919A5998B008F7DB1 /* liblua5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077A19A5998B008F7DB1 /* liblua5.2.a */; };
 		9672078A19A5998B008F7DB1 /* libpoly2tri.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077B19A5998B008F7DB1 /* libpoly2tri.a */; };
@@ -203,8 +200,6 @@
 		967206E919A5978D008F7DB1 /* game_specific_globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = game_specific_globals.cpp; path = ../src/game_specific_globals.cpp; sourceTree = "<group>"; };
 		967206EA19A5978D008F7DB1 /* general.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = general.cpp; path = ../src/general.cpp; sourceTree = "<group>"; };
 		967206EB19A5978D008F7DB1 /* graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics.cpp; path = ../src/graphics.cpp; sourceTree = "<group>"; };
-		967206EC19A5978D008F7DB1 /* hqm_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hqm_loop.cpp; path = ../src/hqm_loop.cpp; sourceTree = "<group>"; };
-		967206ED19A5978D008F7DB1 /* hqm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hqm.c; path = ../src/hqm.c; sourceTree = "<group>"; };
 		967206EE19A5978D008F7DB1 /* input_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = input_config_loop.cpp; path = ../src/input_config_loop.cpp; sourceTree = "<group>"; };
 		967206EF19A5978D008F7DB1 /* lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lua.cpp; path = ../src/lua.cpp; sourceTree = "<group>"; };
 		967206F019A5978D008F7DB1 /* main_menu_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main_menu_loop.cpp; path = ../src/main_menu_loop.cpp; sourceTree = "<group>"; };
@@ -253,7 +248,6 @@
 		9672077519A5998B008F7DB1 /* liballegro_ttf-static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "liballegro_ttf-static.a"; path = "../../local/lib/liballegro_ttf-static.a"; sourceTree = "<group>"; };
 		9672077619A5998B008F7DB1 /* liballegro-static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "liballegro-static.a"; path = "../../local/lib/liballegro-static.a"; sourceTree = "<group>"; };
 		9672077719A5998B008F7DB1 /* libatlas.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libatlas.a; path = ../../local/lib/libatlas.a; sourceTree = "<group>"; };
-		9672077819A5998B008F7DB1 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../local/lib/libcurl.a; sourceTree = "<group>"; };
 		9672077919A5998B008F7DB1 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../local/lib/libfreetype.a; sourceTree = "<group>"; };
 		9672077A19A5998B008F7DB1 /* liblua5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua5.2.a; path = ../../local/lib/liblua5.2.a; sourceTree = "<group>"; };
 		9672077B19A5998B008F7DB1 /* libpoly2tri.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpoly2tri.a; path = ../../local/lib/libpoly2tri.a; sourceTree = "<group>"; };
@@ -279,7 +273,6 @@
 				9672078419A5998B008F7DB1 /* liballegro_ttf-static.a in Frameworks */,
 				9672078519A5998B008F7DB1 /* liballegro-static.a in Frameworks */,
 				9672078619A5998B008F7DB1 /* libatlas.a in Frameworks */,
-				9672078719A5998B008F7DB1 /* libcurl.a in Frameworks */,
 				9672078819A5998B008F7DB1 /* libfreetype.a in Frameworks */,
 				9672078919A5998B008F7DB1 /* liblua5.2.a in Frameworks */,
 				9672078A19A5998B008F7DB1 /* libpoly2tri.a in Frameworks */,
@@ -358,8 +351,6 @@
 				967206E919A5978D008F7DB1 /* game_specific_globals.cpp */,
 				967206EA19A5978D008F7DB1 /* general.cpp */,
 				967206EB19A5978D008F7DB1 /* graphics.cpp */,
-				967206EC19A5978D008F7DB1 /* hqm_loop.cpp */,
-				967206ED19A5978D008F7DB1 /* hqm.c */,
 				967206EE19A5978D008F7DB1 /* input_config_loop.cpp */,
 				967206EF19A5978D008F7DB1 /* lua.cpp */,
 				967206F019A5978D008F7DB1 /* main_menu_loop.cpp */,
@@ -419,7 +410,6 @@
 				9672077519A5998B008F7DB1 /* liballegro_ttf-static.a */,
 				9672077619A5998B008F7DB1 /* liballegro-static.a */,
 				9672077719A5998B008F7DB1 /* libatlas.a */,
-				9672077819A5998B008F7DB1 /* libcurl.a */,
 				9672077919A5998B008F7DB1 /* libfreetype.a */,
 				9672077A19A5998B008F7DB1 /* liblua5.2.a */,
 				9672077B19A5998B008F7DB1 /* libpoly2tri.a */,
@@ -535,7 +525,7 @@
 						DevelopmentTeam = ZCLK6CUZ99;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -626,7 +616,6 @@
 				9672075719A5978D008F7DB1 /* widgets.cpp in Sources */,
 				9672072919A5978D008F7DB1 /* crystal_loop.cpp in Sources */,
 				9672074319A5978D008F7DB1 /* particle.cpp in Sources */,
-				9672073719A5978D008F7DB1 /* hqm.c in Sources */,
 				9672073219A5978D008F7DB1 /* frame.cpp in Sources */,
 				9672074419A5978D008F7DB1 /* player.cpp in Sources */,
 				9672075219A5978D008F7DB1 /* video_player.cpp in Sources */,
@@ -657,7 +646,6 @@
 				9672073919A5978D008F7DB1 /* lua.cpp in Sources */,
 				9672072D19A5978D008F7DB1 /* enemy_avatar.cpp in Sources */,
 				9672074819A5978D008F7DB1 /* shaders.cpp in Sources */,
-				9672073619A5978D008F7DB1 /* hqm_loop.cpp in Sources */,
 				9672073E19A5978D008F7DB1 /* map_loop.cpp in Sources */,
 				9672073119A5978D008F7DB1 /* follow_character_role.cpp in Sources */,
 				96C4540F19F16A1C00D8FCFF /* language_config_loop.cpp in Sources */,
@@ -778,8 +766,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";
@@ -805,8 +793,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";

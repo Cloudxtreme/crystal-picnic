@@ -1,5 +1,6 @@
 #include <tgui2.hpp>
 
+#include "crystalpicnic.h"
 #include "video_config_loop.h"
 #include "engine.h"
 #include "widgets.h"
@@ -82,7 +83,7 @@ bool Video_Config_Loop::init()
 
 	checkbox = new W_Checkbox(cfg.fullscreen);
 
-	save_button = new W_Button("", t("SAVE_AND_RESTART"));
+	save_button = new W_Button("", t("SAVE"));
 	cancel_button = new W_Button("", t("CANCEL"));
 
 	int maxw = mode_list->getWidth();
@@ -177,86 +178,13 @@ bool Video_Config_Loop::logic()
 			cfg.loaded_fullscreen = modes[mode_list->get_selected()].windowed_only ? false : checkbox->getChecked();
 			cfg.save();
 
-#ifdef ALLEGRO_WINDOWS
-			/* Weird behaviour: if button pressed with gamepad, it doesn't restart, so wait
-			 * until buttons are released.
-			 */
-
-			if (al_is_joystick_installed()) {
-				while (true) {
-					bool done = true;
-					if (al_get_num_joysticks() < 1) {
-						break;
-					}
-					for (int i = 0; i < al_get_num_joysticks(); i++) {
-						ALLEGRO_JOYSTICK *joy = al_get_joystick(i);
-						ALLEGRO_JOYSTICK_STATE state;
-						al_get_joystick_state(joy, &state);
-						for (int j = 0; j < al_get_joystick_num_buttons(joy); j++) {
-							if (state.button[j]) {
-								done = false;
-							}
-						}
-					}
-					if (done) {
-						break;
-					}
-				}
+			if (al_get_display_flags(engine->get_display()) & ALLEGRO_FULLSCREEN_WINDOW) {
+				al_set_display_flag(engine->get_display(), ALLEGRO_FULLSCREEN_WINDOW, false);
 			}
 
-			STARTUPINFO sui;
-			PROCESS_INFORMATION pi;
-
-			memset(&sui, 0, sizeof(sui));
-			sui.cb = sizeof(sui);
-
-			char exename[1000];
-
-			if (al_filename_exists("CrystalPicnic.exe")) {
-				strncpy(exename, "CrystalPicnic.exe", 1000);
-			}
-			else {
-				strncpy(exename, "CrystalPicnicDemo.exe", 1000);
-			}
-
-			CreateProcess(
-				NULL,
-				exename,
-				NULL,
-				NULL,
-				FALSE,
-				0,
-				NULL,
-				NULL,
-				&sui,
-				&pi
-			);
-
-			exit(0);
-#else
-			ALLEGRO_PATH *exe = al_get_standard_path(ALLEGRO_EXENAME_PATH);
-			char path[5000];
-#ifdef ALLEGRO_MACOSX
-			for (int i = 0; i < 2; i++) {
-				al_drop_path_tail(exe);
-			}
-			al_set_path_filename(exe, "");
-			snprintf(path, 5000, "open \"%s\"", al_path_cstr(exe, '/'));
-			if (path[strlen(path)-1] == '/') {
-				path[strlen(path)-1] = 0;
-			}
-#else
-			snprintf(path, 5000, "\"%s\"", al_path_cstr(exe, '/'));
-#endif
-			al_destroy_path(exe);
-			if (fork() == 0) {
-				int result = system(path);
-				(void)result;
-			}
-			else {
-				exit(0);
-			}
-#endif
+			engine->unblock_mini_loop();
+			restart_game = true;
+			return true;
 		}
 	}
 	else if (w == cancel_button) {

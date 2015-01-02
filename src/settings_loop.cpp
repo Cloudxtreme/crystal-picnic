@@ -1,5 +1,6 @@
 #include <tgui2.hpp>
 
+#include "crystalpicnic.h"
 #include "settings_loop.h"
 #include "engine.h"
 #include "widgets.h"
@@ -111,6 +112,10 @@ bool Settings_Loop::logic()
 		loops.push_back(l);
 		engine->fade_in(loops);
 		engine->do_blocking_mini_loop(loops, NULL);
+		if (restart_game) {
+			engine->unblock_mini_loop();
+			return true;
+		}
 		engine->fade_in(this_loop);
 	}
 	else if (w == keyboard_button) {
