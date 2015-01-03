@@ -374,6 +374,7 @@ void Main::execute()
 					engine->fade_in(loops);
 					engine->do_blocking_mini_loop(loops, NULL);
 					if (restart_game) {
+						done = true;
 						goto end;
 					}
 					engine->stop_timers();
@@ -511,6 +512,7 @@ void Main::execute()
 				al_rest(1.0/60.0);
 			}
 
+end:
 			Wrap::destroy_bitmap(title);
 			Wrap::destroy_bitmap(title_glow);
 			config_button->remove();
@@ -598,7 +600,6 @@ void Main::execute()
 			}
 		}
 	}
-end:;
 }
 
 
