@@ -34,6 +34,5 @@
     <uses-feature android:glEsVersion="0x00020000"/>
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
     <uses-feature android:name="android.hardware.gamepad" android:required="false"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-sdk android:minSdkVersion="12"/>
 </manifest> 
