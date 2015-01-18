@@ -33,6 +33,4 @@
     <uses-feature android:glEsVersion="0x00020000"/>
     <uses-sdk android:minSdkVersion="16"/>
     <uses-sdk android:targetSdkVersion="16"/>
-    <uses-permission android:name="tv.ouya.DIRECT_INPUT_ACCESS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest> 
