@@ -50,6 +50,7 @@ public class CPActivity extends AllegroActivity {
 		System.loadLibrary("allegro_physfs");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
+		System.loadLibrary("crystalpicnic");
 	}
    
 	native void pushButtonEvent(int button, boolean down);
