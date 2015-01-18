@@ -81,7 +81,7 @@ bool Video_Config_Loop::init()
 	mode_list->setHeight(64);
 	mode_list->set_selected(current);
 
-	checkbox = new W_Checkbox(cfg.fullscreen);
+	checkbox = new W_Checkbox(0, 0, cfg.fullscreen, t("CONFIG_FULLSCREEN"));
 
 	save_button = new W_Button("", t("SAVE"));
 	cancel_button = new W_Button("", t("CANCEL"));
@@ -201,8 +201,6 @@ bool Video_Config_Loop::logic()
 void Video_Config_Loop::draw()
 {
 	al_clear_to_color(General::UI_GREEN);
-
-	General::draw_text(t("CONFIG_FULLSCREEN"), checkbox->getX()+checkbox->getWidth()+2, checkbox->getY()-2, 0);
 
 	tgui::draw();
 }

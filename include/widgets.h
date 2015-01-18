@@ -642,8 +642,12 @@ public:
 	void keyDown(int keycode);
 	void joyButtonDown(int keycode);
 	bool acceptsFocus();
+	void draw(int abs_x, int abs_y);
 
-	W_Checkbox(bool checked) : TGUI_Checkbox(0, 0, 8, 8, checked) {}
+	W_Checkbox(int x, int y, bool checked, std::string text);
+
+private:
+	std::string text;
 };
 
 #endif // WIDGETS_H

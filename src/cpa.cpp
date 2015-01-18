@@ -30,6 +30,7 @@ CPA::CPA(std::string archive_name)
 	PHYSFS_addToSearchPath(al_path_cstr(apkname, '/'), 1);
 	al_destroy_path(apkname);
 	al_set_physfs_file_interface();
+
 	ALLEGRO_FILE *f = al_fopen(archive_name.c_str(), "rb");
 	al_set_standard_file_interface();
 	al_set_standard_fs_interface();

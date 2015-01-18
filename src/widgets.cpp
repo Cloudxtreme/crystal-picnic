@@ -1367,6 +1367,26 @@ W_Scrolling_List::~W_Scrolling_List() {
 	}
 }
 
+void W_Checkbox::draw(int abs_x, int abs_y)
+{
+	int sz = General::get_font_line_height(General::FONT_LIGHT) - 4;
+	int cx = abs_x + 2;
+	int cy = abs_y + 4;
+
+	ALLEGRO_COLOR fore, back;
+
+	tguiWidgetsGetColors(&fore, &back);
+
+	al_draw_filled_rectangle(cx, cy, cx+sz, cy+sz, back);
+	al_draw_rectangle(cx+0.5f, cy+0.5f, cx+sz-0.5f, cy+sz-0.5f, fore, 1);
+	if (checked) {
+		al_draw_line(cx+0.5f, cy+0.5f, cx+sz-0.5f, cy+sz-0.5f, fore, 1);
+		al_draw_line(cx+0.5f, cy+sz-0.5f, cx+sz-0.5f, cy+0.5f, fore, 1);
+	}
+
+	General::draw_text(text, al_color_name("lightgrey"), abs_x+sz+6, abs_y+2, 0);
+}
+
 void W_Checkbox::keyDown(int keycode)
 {
 	if (this == tgui::getFocussedWidget() && (keycode == cfg.key_ability[3] || keycode == ALLEGRO_KEY_ENTER)) {
@@ -1379,6 +1399,15 @@ void W_Checkbox::joyButtonDown(int button)
 	if (this == tgui::getFocussedWidget()) {
 		checked = !checked;
 	}
+}
+
+W_Checkbox::W_Checkbox(int x, int y, bool checked, std::string text) :
+	TGUI_Checkbox(x, y, 0, 0, checked),
+	text(text)
+{
+	int sz = General::get_font_line_height(General::FONT_LIGHT);
+	width = sz + General::get_text_width(General::FONT_LIGHT, text) + 4;
+	height = sz + 4;
 }
 
 bool W_Checkbox::acceptsFocus()
