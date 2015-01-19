@@ -1210,12 +1210,20 @@ Map_Entity::~Map_Entity(void)
 		delete skeleton;
 	}
 	if (astar_thread) {
+		if (ati) {
+			ati->done = true;
+			al_signal_cond(ati->cond);
+		}
 		al_destroy_thread(astar_thread);
 		astar_thread = NULL;
 	}
 
-	delete ati;
-	ati = NULL;
+	if (ati) {
+		al_destroy_mutex(ati->mutex);
+		al_destroy_cond(ati->cond);
+		delete ati;
+		ati = NULL;
+	}
 
 	if (lua_state) {
 		lua_close(lua_state);

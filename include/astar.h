@@ -52,7 +52,10 @@ struct A_Star_Thread_Info {
 	General::Point<float> start_pos;
 	General::Point<float> end_pos;
 	std::vector<Bones::Bone> bones;
+	ALLEGRO_MUTEX *mutex;
+	ALLEGRO_COND *cond;
 	bool go;
+	bool done;
 };
 
 A_Star_Info *create();

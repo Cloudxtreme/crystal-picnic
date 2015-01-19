@@ -426,11 +426,18 @@ void *real_astar(ALLEGRO_THREAD *thread, void *void_ati)
 	A_Star_Thread_Info *ati = (A_Star_Thread_Info *)void_ati;
 
 	while (!al_get_thread_should_stop(thread)) {
-		while (ati->go == false && !al_get_thread_should_stop(thread)) {
-			al_rest(0.1);
+		ALLEGRO_TIMEOUT timeout;
+		al_init_timeout(&timeout, 0.1);
+
+		al_lock_mutex(ati->mutex);
+		while (!ati->go && !ati->done) {
+			al_wait_cond_until(ati->cond, ati->mutex, &timeout);
 		}
+		al_unlock_mutex(ati->mutex);
 		ati->go = false;
-		if (al_get_thread_should_stop(thread)) {
+
+		if (al_get_thread_should_stop(thread) || ati->done) {
+			ati->done = false;
 			break;
 		}
 
@@ -475,7 +482,10 @@ void astar(
 	bool thread_exists = thread != NULL;
 	if (!thread_exists) {
 		ati = new A_Star_Thread_Info;
+		ati->mutex = al_create_mutex();
+		ati->cond = al_create_cond();
 		ati->go = false;
+		ati->done = false;
 		thread = al_create_thread(real_astar, (void *)ati);
 		al_start_thread(thread);
 		calling_entity->set_astar_thread_info(thread, ati);
@@ -499,7 +509,9 @@ void astar(
 	ati->start_pos = start_pos;
 	ati->end_pos = end_pos;
 	ati->bones = bones;
+
 	ati->go = true;
+	al_signal_cond(ati->cond);
 }
 
 void stop(A_Star_Info *info)
