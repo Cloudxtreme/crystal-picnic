@@ -605,6 +605,7 @@ end:
 
 void Main::shutdown()
 {
+	cfg.save();
 	engine->shutdown();
 	delete engine;
 }

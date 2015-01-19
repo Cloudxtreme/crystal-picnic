@@ -33,7 +33,8 @@ private:
 
 	W_Scrolling_List *mode_list;
 	W_Vertical_Scrollbar *scrollbar;
-	TGUI_Checkbox *checkbox;
+	TGUI_Checkbox *fs_checkbox;
+	TGUI_Checkbox *linear_checkbox;
 	W_Button *save_button;
 	W_Button *cancel_button;
 	std::vector<Mode> modes;

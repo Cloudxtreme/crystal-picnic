@@ -10,6 +10,8 @@ int main(int argc, char **argv)
 top:
 	Main* m = NULL;
 
+	cfg.reset();
+
 	try {
 		m = new Main();
 		if (m->init()) {
@@ -28,5 +30,6 @@ top:
 		restart_game = false;
 		goto top;
 	}
+
 	return 0;
 }

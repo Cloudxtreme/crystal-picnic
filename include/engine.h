@@ -210,6 +210,8 @@ public:
 
 	bool is_render_buffer(ALLEGRO_BITMAP *bmp);
 	Wrap::Bitmap *get_render_buffer() { return render_buffer; }
+	void destroy_render_buffer();
+	void create_render_buffer();
 
 	bool in_mini_loop();
 	std::vector<Loop *> get_mini_loops();

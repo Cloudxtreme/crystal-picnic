@@ -136,7 +136,6 @@ void Configuration::reset(void)
 	loaded_fullscreen = fullscreen;
 	loaded_force_opengl = force_opengl;
 	loaded_linear_filtering = linear_filtering;
-
 	loaded_reverb = reverb;
 }
 
@@ -670,6 +669,5 @@ bool Configuration::save(void)
 
 Configuration::Configuration(void)
 {
-	reset();
 }
 

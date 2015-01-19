@@ -81,13 +81,15 @@ bool Video_Config_Loop::init()
 	mode_list->setHeight(64);
 	mode_list->set_selected(current);
 
-	checkbox = new W_Checkbox(0, 0, cfg.fullscreen, t("CONFIG_FULLSCREEN"));
+	fs_checkbox = new W_Checkbox(0, 0, cfg.fullscreen, t("CONFIG_FULLSCREEN"));
+	linear_checkbox = new W_Checkbox(0, 0, cfg.linear_filtering, t("LINEAR_FILTERING"));
 
 	save_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
 	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("CANCEL"));
 
 	int maxw = mode_list->getWidth();
-	maxw = MAX(maxw, checkbox->getWidth());
+	maxw = MAX(maxw, fs_checkbox->getWidth());
+	maxw = MAX(maxw, linear_checkbox->getWidth());
 	maxw = MAX(maxw, save_button->getWidth());
 	maxw = MAX(maxw, cancel_button->getWidth());
 
@@ -102,19 +104,23 @@ bool Video_Config_Loop::init()
 	scrollbar->setSyncedWidget(mode_list);
 	mode_list->show_selected();
 
-	checkbox->setX(cfg.screen_w/2-checkbox->getWidth()/2);
-	checkbox->setY(cfg.screen_h/2+5);
+	fs_checkbox->setX(cfg.screen_w/2-maxw/2);
+	fs_checkbox->setY(cfg.screen_h/2+5);
+
+	linear_checkbox->setX(cfg.screen_w/2-maxw/2);
+	linear_checkbox->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4));
 
 	int button_width = save_button->getWidth() + cancel_button->getWidth() + 5;
 
 	save_button->setX(cfg.screen_w/2-button_width/2);
-	save_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2);
+	save_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2+5);
 	cancel_button->setX(cfg.screen_w/2-button_width/2+save_button->getWidth()+5);
-	cancel_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2);
+	cancel_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2+5);
 
 	tgui::addWidget(mode_list);
 	tgui::addWidget(scrollbar);
-	tgui::addWidget(checkbox);
+	tgui::addWidget(fs_checkbox);
+	tgui::addWidget(linear_checkbox);
 	tgui::addWidget(save_button);
 	tgui::addWidget(cancel_button);
 
@@ -178,12 +184,8 @@ bool Video_Config_Loop::logic()
 		if (modes.size() > 0) {
 			cfg.loaded_w = modes[mode_list->get_selected()].width;
 			cfg.loaded_h = modes[mode_list->get_selected()].height;
-			cfg.loaded_fullscreen = modes[mode_list->get_selected()].windowed_only ? false : checkbox->getChecked();
-			cfg.save();
-
-			if (al_get_display_flags(engine->get_display()) & ALLEGRO_FULLSCREEN_WINDOW) {
-				al_set_display_flag(engine->get_display(), ALLEGRO_FULLSCREEN_WINDOW, false);
-			}
+			cfg.loaded_fullscreen = modes[mode_list->get_selected()].windowed_only ? false : fs_checkbox->getChecked();
+			cfg.loaded_linear_filtering = linear_checkbox->getChecked();
 
 			engine->unblock_mini_loop();
 			restart_game = true;
@@ -220,8 +222,11 @@ Video_Config_Loop::~Video_Config_Loop()
 	scrollbar->remove();
 	delete scrollbar;
 
-	checkbox->remove();
-	delete checkbox;
+	fs_checkbox->remove();
+	delete fs_checkbox;
+
+	linear_checkbox->remove();
+	delete linear_checkbox;
 
 	save_button->remove();
 	delete save_button;
