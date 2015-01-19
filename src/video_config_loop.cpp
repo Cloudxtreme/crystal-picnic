@@ -83,8 +83,8 @@ bool Video_Config_Loop::init()
 
 	checkbox = new W_Checkbox(0, 0, cfg.fullscreen, t("CONFIG_FULLSCREEN"));
 
-	save_button = new W_Button("", t("SAVE"));
-	cancel_button = new W_Button("", t("CANCEL"));
+	save_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
+	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("CANCEL"));
 
 	int maxw = mode_list->getWidth();
 	maxw = MAX(maxw, checkbox->getWidth());
@@ -102,12 +102,15 @@ bool Video_Config_Loop::init()
 	scrollbar->setSyncedWidget(mode_list);
 	mode_list->show_selected();
 
-	checkbox->setX(cfg.screen_w/2-maxw/2);
+	checkbox->setX(cfg.screen_w/2-checkbox->getWidth()/2);
 	checkbox->setY(cfg.screen_h/2+5);
-	save_button->setX(cfg.screen_w/2-maxw/2);
+
+	int button_width = save_button->getWidth() + cancel_button->getWidth() + 5;
+
+	save_button->setX(cfg.screen_w/2-button_width/2);
 	save_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2);
-	cancel_button->setX(cfg.screen_w/2-maxw/2);
-	cancel_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*3);
+	cancel_button->setX(cfg.screen_w/2-button_width/2+save_button->getWidth()+5);
+	cancel_button->setY(cfg.screen_h/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*2);
 
 	tgui::addWidget(mode_list);
 	tgui::addWidget(scrollbar);

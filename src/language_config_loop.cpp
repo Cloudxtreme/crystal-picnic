@@ -37,7 +37,7 @@ bool Language_Config_Loop::init()
 	language_list->setHeight(64);
 	language_list->set_selected(current);
 
-	save_button = new W_Button("", t("SAVE"));
+	save_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
 
 	int maxw = language_list->getWidth();
 	maxw = MAX(maxw, save_button->getWidth());
@@ -53,7 +53,7 @@ bool Language_Config_Loop::init()
 	scrollbar->setSyncedWidget(language_list);
 	language_list->show_selected();
 
-	save_button->setX(cfg.screen_w/2-maxw/2);
+	save_button->setX(cfg.screen_w/2-save_button->getWidth()/2);
 	save_button->setY(cfg.screen_h/2+General::get_font_line_height(General::FONT_LIGHT));
 
 	tgui::addWidget(language_list);
