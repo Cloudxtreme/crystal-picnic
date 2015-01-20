@@ -1810,12 +1810,7 @@ void Area_Manager::shake_bushes(Map_Entity *entity, General::Point<float> entity
 			Tile_Group *tg = tile_groups[layer][i];
 			if (tg->flags & TILE_GROUP_BUSHES) {
 				for (size_t i = 0; i < bones.size(); i++) {
-
 					// Do a quick check to try and avoid a long one
-					General::Point<float> bottom_right(
-						tg->top_left.x + tg->size.w,
-						tg->top_left.y + tg->size.h
-					);
 					if (General::distance(pos.x, pos.y, tg->top_left.x, tg->top_left.y) < 100) {
 						std::vector< General::Point<float> > outline;
 						if (entity->is_facing_right()) {
@@ -1824,8 +1819,16 @@ void Area_Manager::shake_bushes(Map_Entity *entity, General::Point<float> entity
 						else {
 							outline = bones[i].get_outline_mirrored();
 						}
+						General::Point<float> top_left(
+							tg->top_left.x,
+							tg->top_left.y - 8
+						);
+						General::Point<float> bottom_right(
+							tg->top_left.x + tg->size.w,
+							tg->top_left.y + tg->size.h - 8
+						);
 						if (checkcoll_box_polygon(
-							tg->top_left,
+							top_left,
 							bottom_right,
 							outline,
 							pos,
