@@ -75,6 +75,8 @@ private:
 	std::vector<std::string> battle_abilities;
 
 	float magic_regen_count;
+
+	bool polled_joystick;
 };
 
 #endif // PLAYER_H

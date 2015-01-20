@@ -41,6 +41,75 @@ void Player::handle_event(ALLEGRO_EVENT *event)
 	if (no_direction_change_end_time > al_current_time()) {
 		change_axis = false;
 	}
+	/* Make sure directionals and run key stay across areas */
+	else if (polled_joystick == false) {
+		polled_joystick = true;
+		if (al_is_joystick_installed()) {
+			int numjoy = al_get_num_joysticks();
+			for (int i = 0; i < numjoy; i++) {
+				ALLEGRO_JOYSTICK *joy = al_get_joystick(i);
+				if (al_get_joystick_num_buttons(joy) != 0) {
+					ALLEGRO_JOYSTICK_STATE joystate;
+					al_get_joystick_state(joy, &joystate);
+					float x = joystate.stick[0].axis[0];
+					float y = joystate.stick[0].axis[1];
+					if (joystate.button[cfg.joy_dpad_l]) {
+						x = -1;
+					}
+					if (joystate.button[cfg.joy_dpad_r]) {
+						x = 1;
+					}
+					if (joystate.button[cfg.joy_dpad_u]) {
+						y = -1;
+					}
+					if (joystate.button[cfg.joy_dpad_d]) {
+						y = 1;
+					}
+					ALLEGRO_EVENT e;
+					e.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+					e.joystick.stick = 0;
+					e.joystick.axis = 0;
+					e.joystick.pos = x;
+					handle_event(&e);
+					e.type = ALLEGRO_EVENT_JOYSTICK_AXIS;
+					e.joystick.stick = 0;
+					e.joystick.axis = 1;
+					e.joystick.pos = y;
+					handle_event(&e);
+				}
+			}
+		}
+		if (al_is_keyboard_installed()) {
+			ALLEGRO_KEYBOARD_STATE kbstate;
+			al_get_keyboard_state(&kbstate);
+			ALLEGRO_EVENT e;
+			if (al_key_down(&kbstate, cfg.key_run)) {
+				e.type = ALLEGRO_EVENT_KEY_DOWN;
+				e.keyboard.keycode = cfg.key_run;
+				handle_event(&e);
+			}
+			if (al_key_down(&kbstate, cfg.key_left)) {
+				e.type = ALLEGRO_EVENT_KEY_DOWN;
+				e.keyboard.keycode = cfg.key_left;
+				handle_event(&e);
+			}
+			if (al_key_down(&kbstate, cfg.key_right)) {
+				e.type = ALLEGRO_EVENT_KEY_DOWN;
+				e.keyboard.keycode = cfg.key_right;
+				handle_event(&e);
+			}
+			if (al_key_down(&kbstate, cfg.key_up)) {
+				e.type = ALLEGRO_EVENT_KEY_DOWN;
+				e.keyboard.keycode = cfg.key_up;
+				handle_event(&e);
+			}
+			if (al_key_down(&kbstate, cfg.key_down)) {
+				e.type = ALLEGRO_EVENT_KEY_DOWN;
+				e.keyboard.keycode = cfg.key_down;
+				handle_event(&e);
+			}
+		}
+	}
 
 	float pan_factor;
 
@@ -440,7 +509,8 @@ Player::Player(std::string name) :
 	no_direction_change_end_time(0),
 	called_attacked(false),
 	attacking(false),
-	magic_regen_count(0.0f)
+	magic_regen_count(0.0f),
+	polled_joystick(false)
 {
 	for (int i = 0; i < 4; i++) {
 		battle_abilities.push_back("");
@@ -470,6 +540,7 @@ void Player::start_area(void)
 {
 	input[X] = input[Y] = 0;
 	no_direction_change_end_time = al_current_time()+0.25;
+	polled_joystick = false;
 }
 
 bool Player::is_panning(void)
