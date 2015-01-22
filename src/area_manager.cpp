@@ -219,10 +219,16 @@ void Area_Manager::draw_layer_tiled_groups(int layer)
 {
 	draw_layer_tiled_ungrouped(layer);
 
+	/* NOTE: group_drawn is only set on visible groups, ie there's a bunch of extra allocated space
+	 * that is never used at the end of the array.
+	 */
+
 	if (group_drawn[layer] == NULL) {
 		group_drawn[layer] = new bool[tile_groups[layer].size()];
 	}
 	memset(group_drawn[layer], 0, sizeof(bool) * tile_groups[layer].size());
+
+	std::vector<Tile_Group *> visible_groups;
 
 	int sz = tile_groups[layer].size();
 	for (int i = 0; i < sz; i++) {
@@ -230,10 +236,12 @@ void Area_Manager::draw_layer_tiled_groups(int layer)
 		General::Point<float> top_left(tg->top_left_tile_pixel.x, tg->top_left_tile_pixel.y);
 		General::Point<float> bottom_right(tg->bottom_right_tile_pixel.x, tg->bottom_right_tile_pixel.y);
 		General::Point<float> bottom_right2(top.x+cfg.screen_w, top.y+cfg.screen_h);
-		if (!checkcoll_box_box(top_left, bottom_right, top, bottom_right2)) {
-			group_drawn[layer][i] = true;
+		if (checkcoll_box_box(top_left, bottom_right, top, bottom_right2)) {
+			visible_groups.push_back(tg);
 		}
 	}
+
+	sz = visible_groups.size();
 	
 	al_hold_bitmap_drawing(true);
 	
@@ -248,12 +256,12 @@ void Area_Manager::draw_layer_tiled_groups(int layer)
 		for (int j = 0; j < sz; j++) {
 			if (group_drawn[layer][j])
 				continue;
-			Tile_Group *tg = tile_groups[layer][j];
+			Tile_Group *tg = visible_groups[j];
 			if (tg->top_left.y+tg->size.h < entity_pos.y) {
 				// draw it
 				ALLEGRO_TRANSFORM backup;
-				al_copy_transform(&backup, al_get_current_transform());
 				if (tg->duration > 0) {
+					al_copy_transform(&backup, al_get_current_transform());
 					const float max = D2R(1);
 					double ti = fmod(al_get_time(), 0.1);
 					float theta;
@@ -315,7 +323,9 @@ void Area_Manager::draw_layer_tiled_groups(int layer)
 					);
 				}
 				group_drawn[layer][j] = true;
-				al_use_transform(&backup);
+				if (tg->duration > 0) {
+					al_use_transform(&backup);
+				}
 			}
 		}
 		/* draw entity i */
@@ -330,10 +340,13 @@ void Area_Manager::draw_layer_tiled_groups(int layer)
 			continue;
 
 		// draw it
-		int sz = tile_groups[layer][j]->tiles.size();
+
+		Tile_Group *tg = visible_groups[j];
+
+		int sz = tg->tiles.size();
 		for (int k = 0; k < sz; k++) {
-			int x = tile_groups[layer][j]->tiles[k].x;
-			int y = tile_groups[layer][j]->tiles[k].y;
+			int x = tg->tiles[k].x;
+			int y = tg->tiles[k].y;
 
 			int curr_sheet = tiled_layers[layer]->tiles[y][x].sheet;
 			Tiled_Layer::Tile *t = &tiled_layers[layer]->tiles[y][x];
@@ -944,13 +957,13 @@ void Area_Manager::draw_entity(Map_Entity *entity, bool draw_shadow, General::Po
 {
 	General::Point<float> entity_pos = entity->get_position();
 
+	if (!entity->is_visible())
+		return;
+
 	// Don't draw if not close to screen
 	if (entity_pos.x < top.x-General::TILE_SIZE*5 || entity_pos.y < top.y-General::TILE_SIZE*5 || entity_pos.x > top.x+cfg.screen_w+General::TILE_SIZE*5 || entity_pos.y > top.y+cfg.screen_h+General::TILE_SIZE*5) {
 		return;
 	}
-
-	if (!entity->is_visible())
-		return;
 
 	Skeleton::Skeleton *skeleton = entity->get_skeleton();
 	Animation_Set *anim_set = entity->get_animation_set();
