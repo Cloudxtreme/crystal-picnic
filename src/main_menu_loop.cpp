@@ -734,33 +734,46 @@ void Main_Menu_Loop::reload_graphics()
 
 void Main_Menu_Loop::create_bg()
 {
-	ALLEGRO_BITMAP *rb = engine->get_render_buffer()->bitmap;
-	bool preserve;
+	if (!cfg.linear_filtering) {
+		ALLEGRO_TRANSFORM t;
+		al_copy_transform(&t, al_get_current_transform());
+		ALLEGRO_DISPLAY *display = engine->get_display();
+		bg = al_create_bitmap(al_get_display_width(display), al_get_display_height(display));
+		ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
+		al_set_target_bitmap(bg);
+		al_use_transform(&t);
+		engine->draw_all(engine->get_loops(), true);
+		al_set_target_bitmap(old_target);
+	}
+	else {
+		ALLEGRO_BITMAP *rb = engine->get_render_buffer()->bitmap;
+		bool preserve;
 #ifdef ALLEGRO_ANDROID
-	preserve = true;
+		preserve = true;
 #else
 #ifdef ALLEGRO_WINDOWS
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		preserve = true;
-	}
-	else
+		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+			preserve = true;
+		}
+		else
 #endif
-	{
-		preserve = false;
-	}
+		{
+			preserve = false;
+		}
 #endif
-	int flags = al_get_new_bitmap_flags();
-	if (preserve) {
-		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		int flags = al_get_new_bitmap_flags();
+		if (preserve) {
+			al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		}
+		bg = al_create_bitmap(al_get_bitmap_width(rb), al_get_bitmap_height(rb));
+		if (preserve) {
+			al_set_new_bitmap_flags(flags);
+		}
+		ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
+		al_set_target_bitmap(bg);
+		al_draw_bitmap(rb, 0, 0, 0);
+		al_set_target_bitmap(old_target);
 	}
-	bg = al_create_bitmap(al_get_bitmap_width(rb), al_get_bitmap_height(rb));
-	if (preserve) {
-		al_set_new_bitmap_flags(flags);
-	}
-	ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
-	al_set_target_bitmap(bg);
-	al_draw_bitmap(rb, 0, 0, 0);
-	al_set_target_bitmap(old_target);
 }
 
 //-----------------------------------------------------

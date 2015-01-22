@@ -124,7 +124,12 @@ static void do_modal(
 		if (!lost && redraw && (!check_draw_callback || check_draw_callback())) {
 			redraw = 0;
 
-			al_set_target_bitmap(engine->get_render_buffer()->bitmap);
+			if (engine->get_render_buffer()) {
+				al_set_target_bitmap(engine->get_render_buffer()->bitmap);
+			}
+			else {
+				al_set_target_backbuffer(engine->get_display());
+			}
 
 			al_clear_to_color(al_map_rgb_f(0.0f, 0.0f, 0.0f));
 			ALLEGRO_TRANSFORM t, backup;
@@ -386,24 +391,46 @@ void Engine::setup_screen_size()
 	float r = h / General::RENDER_H;
 	float r2 = w / h;
 	
-	r = (int)r;
+	if (cfg.linear_filtering) {
+		r = (int)r;
+	}
 
 	cfg.screen_w = General::RENDER_H * r2;
 	cfg.screen_h = General::RENDER_H;
 
-	cfg.screens_w = r;
-	cfg.screens_h = r;
+	if (cfg.linear_filtering) {
+		cfg.screens_w = r;
+		cfg.screens_h = r;
 #ifdef OUYA
-	// On OUYA we use setFixedSize(1280, 720) in Java but that doesn't change mouse coords, this fixes it.
-	tgui::setScale(1920.0f/cfg.screen_w, 1080.0f/cfg.screen_h);
+		// On OUYA we use setFixedSize(1280, 720) in Java but that doesn't change mouse coords, this fixes it.
+		tgui::setScale(1920.0f/cfg.screen_w, 1080.0f/cfg.screen_h);
 #else
-	tgui::setScale(w/cfg.screen_w, h/cfg.screen_h);
+		tgui::setScale(w/cfg.screen_w, h/cfg.screen_h);
 #endif
+	}
+	else {
+		r += r * 0.5f / cfg.screen_w;
+		cfg.screens_w = r;
+		cfg.screens_h = r;
+		tgui::setScale(r, r);
+	}
 
 	tgui::setOffset(0, 0);
 
-	destroy_render_buffer();
-	create_render_buffer();
+	if (render_buffer) {
+		Wrap::destroy_bitmap(render_buffer);
+		render_buffer = NULL;
+	}
+
+	if (cfg.linear_filtering) {
+		int flags = al_get_new_bitmap_flags();
+		al_set_new_bitmap_flags(ALLEGRO_NO_PRESERVE_TEXTURE | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+		render_buffer = Wrap::create_bitmap_no_preserve(
+			cfg.screen_w * cfg.screens_w,
+			cfg.screen_h * cfg.screens_h
+		);
+		al_set_new_bitmap_flags(flags);
+	}
 
 	ALLEGRO_BITMAP *target = al_get_target_bitmap();
 	if (render_buffer) {
@@ -2617,28 +2644,43 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 	ALLEGRO_BITMAP *bg;
 	int flags = al_get_new_bitmap_flags();
 	draw_touch_controls = false;
-	int no_preserve_flag;
+	if (cfg.linear_filtering) {
+		int no_preserve_flag;
 #ifdef ALLEGRO_ANDROID
-	no_preserve_flag = 0;
+		no_preserve_flag = 0;
 #else
 #ifdef ALLEGRO_WINDOWS
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		no_preserve_flag = 0;
-	}
-	else
+		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+			no_preserve_flag = 0;
+		}
+		else
 #endif
-	{
-		no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
-	}
+		{
+			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
+		}
 #endif
-	int linear = cfg.linear_filtering ? ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR : 0;
-	al_set_new_bitmap_flags(no_preserve_flag | linear);
-	bg = al_create_bitmap(
-		al_get_bitmap_width(render_buffer->bitmap),
-		al_get_bitmap_height(render_buffer->bitmap)
-	);
-	al_set_target_bitmap(bg);
-	draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+		al_set_new_bitmap_flags(no_preserve_flag | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+		bg = al_create_bitmap(
+			al_get_bitmap_width(render_buffer->bitmap),
+			al_get_bitmap_height(render_buffer->bitmap)
+		);
+		al_set_target_bitmap(bg);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
+	else {
+		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		bg = al_create_bitmap(
+			al_get_display_width(display),
+			al_get_display_height(display)
+		);
+		al_set_target_bitmap(bg);
+		ALLEGRO_TRANSFORM t;
+		al_identity_transform(&t);
+		float scale = (float)al_get_display_width(display) / cfg.screen_w;
+		al_scale_transform(&t, scale, scale);
+		al_use_transform(&t);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
 	draw_touch_controls = true;
 	al_set_new_bitmap_flags(flags);
 
@@ -2792,28 +2834,43 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 	ALLEGRO_BITMAP *bg;
 	int flags = al_get_new_bitmap_flags();
 	draw_touch_controls = false;
-	int no_preserve_flag;
+	if (cfg.linear_filtering) {
+		int no_preserve_flag;
 #ifdef ALLEGRO_ANDROID
-	no_preserve_flag = 0;
+		no_preserve_flag = 0;
 #else
 #ifdef ALLEGRO_WINDOWS
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		no_preserve_flag = 0;
-	}
-	else
+		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+			no_preserve_flag = 0;
+		}
+		else
 #endif
-	{
-		no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
-	}
+		{
+			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
+		}
 #endif
-	int linear = cfg.linear_filtering ? ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR : 0;
-	al_set_new_bitmap_flags(no_preserve_flag | linear);
-	bg = al_create_bitmap(
-		al_get_bitmap_width(render_buffer->bitmap),
-		al_get_bitmap_height(render_buffer->bitmap)
-	);
-	al_set_target_bitmap(bg);
-	draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+		al_set_new_bitmap_flags(no_preserve_flag | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+		bg = al_create_bitmap(
+			al_get_bitmap_width(render_buffer->bitmap),
+			al_get_bitmap_height(render_buffer->bitmap)
+		);
+		al_set_target_bitmap(bg);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
+	else {
+		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		bg = al_create_bitmap(
+			al_get_display_width(display),
+			al_get_display_height(display)
+		);
+		al_set_target_bitmap(bg);
+		ALLEGRO_TRANSFORM t;
+		al_identity_transform(&t);
+		float scale = (float)al_get_display_width(display) / cfg.screen_w;
+		al_scale_transform(&t, scale, scale);
+		al_use_transform(&t);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
 	draw_touch_controls = true;
 	al_set_new_bitmap_flags(flags);
 	
@@ -2974,28 +3031,43 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 	ALLEGRO_BITMAP *bg;
 	int flags = al_get_new_bitmap_flags();
 	draw_touch_controls = false;
-	int no_preserve_flag;
+	if (cfg.linear_filtering) {
+		int no_preserve_flag;
 #ifdef ALLEGRO_ANDROID
-	no_preserve_flag = 0;
+		no_preserve_flag = 0;
 #else
 #ifdef ALLEGRO_WINDOWS
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		no_preserve_flag = 0;
-	}
-	else
+		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+			no_preserve_flag = 0;
+		}
+		else
 #endif
-	{
-		no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
-	}
+		{
+			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
+		}
 #endif
-	int linear = cfg.linear_filtering ? ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR : 0;
-	al_set_new_bitmap_flags(no_preserve_flag | linear);
-	bg = al_create_bitmap(
-		al_get_bitmap_width(render_buffer->bitmap),
-		al_get_bitmap_height(render_buffer->bitmap)
-	);
-	al_set_target_bitmap(bg);
-	draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+		al_set_new_bitmap_flags(no_preserve_flag | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+		bg = al_create_bitmap(
+			al_get_bitmap_width(render_buffer->bitmap),
+			al_get_bitmap_height(render_buffer->bitmap)
+		);
+		al_set_target_bitmap(bg);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
+	else {
+		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		bg = al_create_bitmap(
+			al_get_display_width(display),
+			al_get_display_height(display)
+		);
+		al_set_target_bitmap(bg);
+		ALLEGRO_TRANSFORM t;
+		al_identity_transform(&t);
+		float scale = (float)al_get_display_width(display) / cfg.screen_w;
+		al_scale_transform(&t, scale, scale);
+		al_use_transform(&t);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
 	draw_touch_controls = true;
 	al_set_new_bitmap_flags(flags);
 	
@@ -3190,28 +3262,43 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 	ALLEGRO_BITMAP *bg;
 	int flags = al_get_new_bitmap_flags();
 	draw_touch_controls = false;
-	int no_preserve_flag;
+	if (cfg.linear_filtering) {
+		int no_preserve_flag;
 #ifdef ALLEGRO_ANDROID
-	no_preserve_flag = 0;
+		no_preserve_flag = 0;
 #else
 #ifdef ALLEGRO_WINDOWS
-	if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
-		no_preserve_flag = 0;
-	}
-	else
+		if (al_get_display_flags(engine->get_display()) & ALLEGRO_DIRECT3D) {
+			no_preserve_flag = 0;
+		}
+		else
 #endif
-	{
-		no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
-	}
+		{
+			no_preserve_flag = ALLEGRO_NO_PRESERVE_TEXTURE;
+		}
 #endif
-	int linear = cfg.linear_filtering ? ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR : 0;
-	al_set_new_bitmap_flags(no_preserve_flag | linear);
-	bg = al_create_bitmap(
-		al_get_bitmap_width(render_buffer->bitmap),
-		al_get_bitmap_height(render_buffer->bitmap)
-	);
-	al_set_target_bitmap(bg);
-	draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+		al_set_new_bitmap_flags(no_preserve_flag | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+		bg = al_create_bitmap(
+			al_get_bitmap_width(render_buffer->bitmap),
+			al_get_bitmap_height(render_buffer->bitmap)
+		);
+		al_set_target_bitmap(bg);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
+	else {
+		al_set_new_bitmap_flags(flags & ~ALLEGRO_NO_PRESERVE_TEXTURE);
+		bg = al_create_bitmap(
+			al_get_display_width(display),
+			al_get_display_height(display)
+		);
+		al_set_target_bitmap(bg);
+		ALLEGRO_TRANSFORM t;
+		al_identity_transform(&t);
+		float scale = (float)al_get_display_width(display) / cfg.screen_w;
+		al_scale_transform(&t, scale, scale);
+		al_use_transform(&t);
+		draw_all(loops_to_draw == NULL ? loops : *loops_to_draw, false);
+	}
 	draw_touch_controls = true;
 	al_set_new_bitmap_flags(flags);
 		
@@ -4318,26 +4405,6 @@ void process_dpad_events(ALLEGRO_EVENT *event)
 		event->joystick.stick = 0;
 		event->joystick.axis = 1;
 		event->joystick.pos = 0;
-	}
-}
-
-void Engine::create_render_buffer()
-{
-	int flags = al_get_new_bitmap_flags();
-	int linear = cfg.linear_filtering ? ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR : 0;
-	al_set_new_bitmap_flags(ALLEGRO_NO_PRESERVE_TEXTURE | linear);
-	render_buffer = Wrap::create_bitmap_no_preserve(
-		cfg.screen_w * cfg.screens_w,
-		cfg.screen_h * cfg.screens_h
-	);
-	al_set_new_bitmap_flags(flags);
-}
-
-void Engine::destroy_render_buffer()
-{
-	if (render_buffer) {
-		Wrap::destroy_bitmap(render_buffer);
-		render_buffer = NULL;
 	}
 }
 
