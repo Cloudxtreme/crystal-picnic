@@ -8,9 +8,6 @@
 
 #include <cmath>
 
-// FIXME: DON'T USE THIS IN EDITOR
-const int SKELETON_UPDATE_TIME = 3;
-
 static int curr_part_name = 0;
 
 static void update_parts(Skeleton::Link *l)
@@ -62,25 +59,29 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 
 	Wrap::Bitmap *bitmap = l->part->get_bitmap();
 
-	ALLEGRO_TRANSFORM new_trans;
-	al_copy_transform(&new_trans, combine_transforms(&t, l->part->get_transforms()));
+	ALLEGRO_TRANSFORM bone_trans;
 
-	ALLEGRO_TRANSFORM final_trans, bone_trans;
-	al_identity_transform(&final_trans);
-	al_compose_transform(&final_trans, &new_trans);
-	if (flip_it) {
-		al_scale_transform(&final_trans, -1, 1);
+	if (!draw_it) {
+		al_copy_transform(&l->new_trans, combine_transforms(&t, l->part->get_transforms()));
+
+		al_identity_transform(&l->final_trans);
+		al_compose_transform(&l->final_trans, &l->new_trans);
+		if (flip_it) {
+			al_scale_transform(&l->final_trans, -1, 1);
+		}
+		al_copy_transform(&bone_trans, &l->final_trans);
+		al_translate_transform(&l->final_trans, offset.x, offset.y);
 	}
-	al_copy_transform(&bone_trans, &final_trans);
-	al_translate_transform(&final_trans, offset.x, offset.y);
-	al_compose_transform(&final_trans, al_get_current_transform());
 
 	if (l->part->get_layer() == layer) {
 		if (draw_it) {
-			ALLEGRO_TRANSFORM backup;
+			ALLEGRO_TRANSFORM t, backup;
+
 			al_copy_transform(&backup, al_get_current_transform());
 
-			al_use_transform(&final_trans);
+			al_copy_transform(&t, &l->final_trans);
+			al_compose_transform(&t, al_get_current_transform());
+			al_use_transform(&t);
 
 			al_draw_tinted_bitmap(bitmap->bitmap, tint, 0, 0, 0);
 
@@ -184,7 +185,7 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 	}
 	
 	for (int i = 0; i < l->num_children; i++) {
-		recurse(offset, l->children[i], new_trans, draw_it, flip_it, layer, tint, reversed);
+		recurse(offset, l->children[i], l->new_trans, draw_it, flip_it, layer, tint, reversed);
 	}
 }
 
@@ -335,11 +336,7 @@ void Skeleton::draw(General::Point<float> offset, bool flip, ALLEGRO_COLOR tint)
 
 void Skeleton::transform(General::Point<float> offset, bool flip)
 {
-	transform_count++;
-	if (transform_count == SKELETON_UPDATE_TIME) {
-		transform_count = 0;
-		do_recurse(offset, false, flip, al_color_name("white"));
-	}
+	do_recurse(offset, false, flip, al_color_name("white"));
 }
 
 void Skeleton::update(int millis)
@@ -374,14 +371,12 @@ Skeleton::Skeleton()
 {
 	curr_anim = 0;
 	reversed = false;
-	transform_count = General::rand() % SKELETON_UPDATE_TIME;
 }
 
 Skeleton::Skeleton(const std::string &filename)
 {
 	curr_anim = 0;
 	reversed = false;
-	transform_count = General::rand() % SKELETON_UPDATE_TIME;
 
 	this->filename = "skeletons/xml/" + filename;
 }

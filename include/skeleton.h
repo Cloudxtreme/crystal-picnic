@@ -80,6 +80,8 @@ struct Link
 	int num_children;
 	Link **children;
 	Part *part;
+	ALLEGRO_TRANSFORM new_trans;
+	ALLEGRO_TRANSFORM final_trans;
 };
 
 struct Animation
@@ -134,8 +136,6 @@ private:
 	std::string filename;
 
 	bool reversed;
-
-	int transform_count;
 };
 
 } // End namespace Skeleton
