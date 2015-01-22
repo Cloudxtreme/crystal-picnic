@@ -426,11 +426,10 @@ void *real_astar(ALLEGRO_THREAD *thread, void *void_ati)
 	A_Star_Thread_Info *ati = (A_Star_Thread_Info *)void_ati;
 
 	while (!al_get_thread_should_stop(thread)) {
-		ALLEGRO_TIMEOUT timeout;
-		al_init_timeout(&timeout, 0.1);
-
 		al_lock_mutex(ati->mutex);
 		while (!ati->go && !ati->done) {
+			ALLEGRO_TIMEOUT timeout;
+			al_init_timeout(&timeout, 0.1);
 			al_wait_cond_until(ati->cond, ati->mutex, &timeout);
 		}
 		al_unlock_mutex(ati->mutex);
