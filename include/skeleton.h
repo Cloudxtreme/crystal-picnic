@@ -136,6 +136,8 @@ private:
 	std::string filename;
 
 	bool reversed;
+
+	int transform_count;
 };
 
 } // End namespace Skeleton

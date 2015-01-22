@@ -8,6 +8,13 @@
 
 #include <cmath>
 
+// FIXME: set to 1 for skeled
+#ifdef ALLEGRO_RASPBERRYPI
+#define TRANSFORM_UPDATE 3
+#else
+#define TRANSFORM_UPDATE 1
+#endif
+
 static int curr_part_name = 0;
 
 static void update_parts(Skeleton::Link *l)
@@ -124,6 +131,7 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 		}
 		else {
 			std::vector< std::vector<Bones::Bone> > &bones = l->part->get_bones();
+			// side effect?
 			std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
 
 			transformed_bones.clear();
@@ -169,14 +177,6 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 					
 					Bones::Bone new_bone = Bones::Bone(b.type, new_outline, new_triangles, General::Size<int>(bmp_w, bmp_h));
 
-
-					/*
-					std::vector<int> splits;
-					splits.push_back(new_outline.size());
-					std::vector<Triangulate::Triangle> triangles;
-					Triangulate::get_triangles(new_outline, splits, triangles);
-					Bones::Bone new_bone = Bones::Bone(b.type, new_outline, triangles, General::Size<int>(bmp_w, bmp_h));
-					*/
 					dst.push_back(new_bone);
 				}
 				transformed_bones.push_back(dst);
@@ -336,7 +336,11 @@ void Skeleton::draw(General::Point<float> offset, bool flip, ALLEGRO_COLOR tint)
 
 void Skeleton::transform(General::Point<float> offset, bool flip)
 {
-	do_recurse(offset, false, flip, al_color_name("white"));
+	transform_count++;
+	if (transform_count == TRANSFORM_UPDATE) {
+		transform_count = 0;
+		do_recurse(offset, false, flip, al_color_name("white"));
+	}
 }
 
 void Skeleton::update(int millis)
@@ -371,12 +375,14 @@ Skeleton::Skeleton()
 {
 	curr_anim = 0;
 	reversed = false;
+	transform_count = 0;
 }
 
 Skeleton::Skeleton(const std::string &filename)
 {
 	curr_anim = 0;
 	reversed = false;
+	transform_count = 0;
 
 	this->filename = "skeletons/xml/" + filename;
 }
