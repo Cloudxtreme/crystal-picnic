@@ -261,7 +261,14 @@ void W_Equipment_List::use_button(int button)
 				int yoffs = y_offset;
 				y_offset -= yoffs % line_height;
 				if (synced_widget) {
-					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					if (max_y_offset == 0) {
+						y_offset = 0;
+						max_y_offset = 0;
+						synced_widget->set_value(0);
+					}
+					else {
+						synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					}
 				}
 			}
 		}
@@ -302,7 +309,14 @@ void W_Equipment_List::use_button(int button)
 					y_offset -= line_height;
 				}
 				if (synced_widget) {
-					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					if (max_y_offset == 0) {
+						y_offset = 0;
+						max_y_offset = 0;
+						synced_widget->set_value(0);
+					}
+					else {
+						synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					}
 				}
 				if (active_column == 1 && descriptions[selected] == "") {
 					active_column = 0;
@@ -323,7 +337,14 @@ void W_Equipment_List::use_button(int button)
 					y_offset += line_height;
 				}
 				if (synced_widget) {
-					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					if (max_y_offset == 0) {
+						y_offset = 0;
+						max_y_offset = 0;
+						synced_widget->set_value(0);
+					}
+					else {
+						synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					}
 				}
 				if (active_column == 1 && descriptions[selected] == "") {
 					active_column = 0;
@@ -551,7 +572,14 @@ void W_Equipment_List::insert_item(int pos, std::string icon_filename, std::stri
 	this->disabled.insert(this->disabled.begin()+pos, disabled);
 	setHeight(height);
 	if (synced_widget) {
-		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		if (max_y_offset == 0) {
+			y_offset = 0;
+			max_y_offset = 0;
+			synced_widget->set_value(0);
+		}
+		else {
+			synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		}
 	}
 }
 
@@ -575,7 +603,14 @@ void W_Equipment_List::remove_item(int index)
 	}
 	setHeight(height);
 	if (synced_widget) {
-		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		if (max_y_offset == 0) {
+			y_offset = 0;
+			max_y_offset = 0;
+			synced_widget->set_value(0);
+		}
+		else {
+			synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		}
 	}
 	if (item_names.size() == 0) {
 		activated = false;
@@ -715,7 +750,14 @@ void W_Scrolling_List::use_button(int button)
 			int yoffs = y_offset;
 			y_offset -= yoffs % line_height;
 			if (synced_widget) {
-				synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+				if (max_y_offset == 0) {
+					y_offset = 0;
+					max_y_offset = 0;
+					synced_widget->set_value(0);
+				}
+				else {
+					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+				}
 			}
 		}
 	}
@@ -743,7 +785,14 @@ void W_Scrolling_List::use_button(int button)
 					y_offset -= line_height;
 				}
 				if (synced_widget) {
-					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					if (max_y_offset == 0) {
+						y_offset = 0;
+						max_y_offset = 0;
+						synced_widget->set_value(0);
+					}
+					else {
+						synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					}
 				}
 			}
 		}
@@ -754,7 +803,14 @@ void W_Scrolling_List::use_button(int button)
 					y_offset += line_height;
 				}
 				if (synced_widget) {
-					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					if (max_y_offset == 0) {
+						y_offset = 0;
+						max_y_offset = 0;
+						synced_widget->set_value(0);
+					}
+					else {
+						synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+					}
 				}
 			}
 		}
@@ -971,7 +1027,14 @@ void W_Scrolling_List::show_selected()
 		y_offset = 0;
 	}
 	if (synced_widget) {
-		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		if (max_y_offset == 0) {
+			y_offset = 0;
+			max_y_offset = 0;
+			synced_widget->set_value(0);
+		}
+		else {
+			synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		}
 	}
 }
 
@@ -1120,7 +1183,14 @@ tgui::TGUIWidget *W_Scrolling_List::update()
 			y_offset = max_y_offset;
 		}
 		if (synced_widget) {
-			synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+			if (max_y_offset == 0) {
+				y_offset = 0;
+				max_y_offset = 0;
+				synced_widget->set_value(0);
+			}
+			else {
+				synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+			}
 		}
 	}
 	else if (mouse_is_down && move_points.size() > 0) {
@@ -1129,7 +1199,14 @@ tgui::TGUIWidget *W_Scrolling_List::update()
 			y_offset -= move_points[end].second.y - mouse_down_point.y;
 			mouse_down_point = move_points[end].second;
 			if (synced_widget) {
-				synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+				if (max_y_offset == 0) {
+					y_offset = 0;
+					max_y_offset = 0;
+					synced_widget->set_value(0);
+				}
+				else {
+					synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+				}
 			}
 		}
 	}
@@ -1200,7 +1277,14 @@ void W_Scrolling_List::remove_item(int index)
 	}
 	setHeight(height);
 	if (synced_widget) {
-		synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		if (max_y_offset == 0) {
+			y_offset = 0;
+			max_y_offset = 0;
+			synced_widget->set_value(0);
+		}
+		else {
+			synced_widget->set_value(MAX(0.0, MIN(1.0, (float)y_offset/max_y_offset)));
+		}
 	}
 	if (item_names.size() == 0) {
 		activated = false;
