@@ -2027,7 +2027,8 @@ void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 			}
 			else {
 				if (slow_frames == 5) {
-					running_slow = true;
+					// NOTE: this could be useful?
+					//running_slow = true;
 				}
 			}
 		}
