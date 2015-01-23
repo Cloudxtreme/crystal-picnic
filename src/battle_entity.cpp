@@ -691,7 +691,12 @@ bool Battle_Entity::ground_entity_logic()
 						skeleton->set_curr_anim("battle-idle");
 					}
 					else {
-						anim_set->set_sub_animation("battle-idle");
+						if ((name == "bisou" && weapon_anim_set && sub_name == (attack_name + "-down")) || (General::is_hero(name) && sub_name == (attack_name + "-up"))) {
+							anim_set->set_sub_animation("jump-in-air");
+						}
+						else {
+							anim_set->set_sub_animation("battle-idle");
+						}
 						anim_set->reset();
 					}
 				}
