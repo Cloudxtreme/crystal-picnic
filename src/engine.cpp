@@ -193,6 +193,8 @@ Engine::Engine() :
 
 	frames_drawn = 0;
 	curr_fps = 0;
+	slow_frames = 0;
+	running_slow = false;
 
 	translation = NULL;
 
@@ -1169,7 +1171,7 @@ loop_end:
 			logic_count = 0;
 		}
 		else {
-			if (cfg.debugmode && logic_count > 1) {
+			if (running_slow && logic_count > 1) {
 				logic_count = 1;
 			}
 			while (logic_count > 0) {
@@ -1374,7 +1376,7 @@ loop_end:
 		}
 
 		can_move = false;
-		if (cfg.debugmode && logic_count > 1) {
+		if (running_slow && logic_count > 1) {
 			logic_count = 1;
 		}
 		while (logic_count > 0) {
@@ -2002,10 +2004,32 @@ void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 	if (cfg.show_fps) {
 		now = al_get_time();
 		double elapsed = now - first_frame_time;
-		if (elapsed >= 3) {
+		if (elapsed >= 1) {
 			curr_fps = round(frames_drawn / elapsed);
 			frames_drawn = 0;
 			first_frame_time = now;
+
+			if (curr_fps < 15) {
+				if (slow_frames < 5) {
+					slow_frames++;
+				}
+			}
+			else {
+				if (slow_frames > 0) {
+					slow_frames--;
+				}
+			}
+
+			if (running_slow) {
+				if (slow_frames == 0) {
+					running_slow = false;
+				}
+			}
+			else {
+				if (slow_frames == 5) {
+					running_slow = true;
+				}
+			}
 		}
 		General::draw_text(
 			General::itos(curr_fps),

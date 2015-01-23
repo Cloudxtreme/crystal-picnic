@@ -127,8 +127,6 @@ void Configuration::reset(void)
 
 	beat_game = false;
 
-	debugmode = false;
-
 	adapter = ALLEGRO_DEFAULT_DISPLAY_ADAPTER;
 
 	loaded_w = screen_w;
@@ -504,15 +502,6 @@ bool Configuration::load(void)
 		LOG("Warning: language not present.");
 	}
 
-	const char *v_debugmode = al_get_config_value(acfg, "miscellaneous", "debugmode");
-	if (v_debugmode) {
-		debugmode = !strcmp(v_debugmode, "true");
-		LOG("Read debugmode: " + std::string(v_debugmode));
-	}
-	else {
-		LOG("Warning: debugmode not present.");
-	}
-
 	const char *v_important = al_get_config_value(acfg, "miscellaneous", "important");
 	if (v_important) {
 		beat_game = !strcmp(v_important, "true");
@@ -657,7 +646,6 @@ bool Configuration::save(void)
 	ss << version;
 	al_set_config_value(acfg, "miscellaneous", "version", ss.str().c_str());
 	al_set_config_value(acfg, "miscellaneous", "language", language.c_str());
-	al_set_config_value(acfg, "miscellaneous", "debugmode", debugmode ? "true" : "false");
 	al_set_config_value(acfg, "miscellaneous", "important", beat_game ? "true" : "false");
 
 	bool ret = al_save_config_file(cfg_path().c_str(), acfg);

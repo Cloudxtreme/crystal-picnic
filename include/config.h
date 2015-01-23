@@ -67,8 +67,6 @@ public:
 
 	bool beat_game;
 
-	bool debugmode;
-
 	int adapter;
 
 	int version;

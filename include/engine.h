@@ -334,6 +334,8 @@ protected:
 	int frames_drawn;
 	double first_frame_time;
 	int curr_fps;
+	int slow_frames;
+	bool running_slow;
 
 	Wrap::Bitmap *hero_shadow_bmp;
 	Wrap::Bitmap *big_shadow_bmp;
