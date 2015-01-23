@@ -52,3 +52,26 @@ Items List:
 
 
 * If unlocked
+
+
+
+
+   =============
+  == Credits ==
+ =============
+
+
+Some SFX are modified versions of SFX found on www.freesound.org.
+
+boing.ogg - plingativator
+quack.ogg - digitopia
+ribbit.ogg - juskiddink
+open_door.ogg - Zabuhailo
+splat_hit.ogg - MWLANDI
+splat.ogg - MWLANDI
+kaching.ogg - Benboncan
+slip.ogg - soundscapel.com
+
+
+Core team members are credited in the in-game credits.
+
