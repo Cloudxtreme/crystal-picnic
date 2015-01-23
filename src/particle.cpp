@@ -157,7 +157,14 @@ void Particle::draw()
 			start = bullet_time_start;
 		}
 
-		float perp = M_PI/2.0f;
+		float perp;
+
+		if (dy != 0) {
+			perp = M_PI;
+		}
+		else {
+			perp = M_PI/2.0f;
+		}
 
 		start.x += cos(perp)*-2.0f;
 		start.y += sin(perp)*-2.0f;
@@ -169,7 +176,12 @@ void Particle::draw()
 		);
 
 		al_hold_bitmap_drawing(false);
-		battle_loop->draw_bullet_time(start, end, 4.0f);
+		if (dy != 0) {
+			battle_loop->draw_bullet_time_v(start, end, 4.0f);
+		}
+		else {
+			battle_loop->draw_bullet_time(start, end, 4.0f);
+		}
 		al_hold_bitmap_drawing(true);
 	}
 

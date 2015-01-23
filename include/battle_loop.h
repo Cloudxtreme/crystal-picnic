@@ -112,6 +112,7 @@ public:
 	int get_entity_layer();
 
 	void draw_bullet_time(General::Point<float> start, General::Point<float> end, float width);
+	void draw_bullet_time_v(General::Point<float> start, General::Point<float> end, float width);
 
 	int get_next_id();
 
@@ -240,6 +241,7 @@ protected:
 
 	Wrap::Shader *shield_shader;
 	Wrap::Shader *bullet_time_shader;
+	Wrap::Shader *bullet_time_v_shader;
 
 	bool making_screen_copy;
 	Wrap::Bitmap *screen_copy_bmp;

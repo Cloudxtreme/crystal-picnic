@@ -65,13 +65,12 @@ static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 	);
 }
 
-// area coords passed in
 void Battle_Loop::draw_bullet_time(General::Point<float> start, General::Point<float> end, float width)
 {
 	if (cfg.low_graphics || al_get_target_bitmap() == screen_copy_bmp->bitmap) {
 		return;
 	}
-	
+
 	float offset = al_get_time() * (0.75 / (1.0 / 60.0));
 
 	float X1 = start.x;
@@ -86,6 +85,32 @@ void Battle_Loop::draw_bullet_time(General::Point<float> start, General::Point<f
 	al_set_shader_float("y2", Y2);
 	al_set_shader_float("offset", offset);
 	al_set_shader_float("target_h", al_get_bitmap_height(al_get_target_bitmap()));
+	al_draw_bitmap_region(screen_copy_bmp->bitmap, X1, Y1, X2-X1, Y2-Y1, X1, Y1, 0);
+	Shader::use(NULL);
+}
+
+void Battle_Loop::draw_bullet_time_v(General::Point<float> start, General::Point<float> end, float width)
+{
+	if (cfg.low_graphics || al_get_target_bitmap() == screen_copy_bmp->bitmap) {
+		return;
+	}
+
+	float offset = al_get_time() * (0.75 / (1.0 / 60.0));
+
+	float X1 = start.x;
+	float Y1 = start.y;
+	float X2 = end.x;
+	float Y2 = end.y;
+
+	printf("%f %f %f %f\n", X1, Y1, X2, Y2);
+
+	Shader::use(bullet_time_v_shader);
+	al_set_shader_float("x1", X1);
+	al_set_shader_float("y1", Y1);
+	al_set_shader_float("x2", X2);
+	al_set_shader_float("y2", Y2);
+	al_set_shader_float("offset", offset);
+	al_set_shader_float("target_w", al_get_bitmap_width(al_get_target_bitmap()));
 	al_draw_bitmap_region(screen_copy_bmp->bitmap, X1, Y1, X2-X1, Y2-Y1, X1, Y1, 0);
 	Shader::use(NULL);
 }
@@ -120,6 +145,7 @@ bool Battle_Loop::init(void)
 	}
 
 	bullet_time_shader = Shader::get("bullet_time");
+	bullet_time_v_shader = Shader::get("bullet_time_v");
 
 	active_players = 0;
 	for (size_t i = 0; i < players.size(); i++) {
@@ -1569,6 +1595,7 @@ Battle_Loop::~Battle_Loop(void)
 	*end_player = get_active_player()->get_name();
 
 	Shader::destroy(bullet_time_shader);
+	Shader::destroy(bullet_time_v_shader);
 
 	// Transfer stats back to Players
 	for (size_t i = 0; i < players.size(); i++) {

@@ -723,6 +723,7 @@ bool Battle_Entity::ground_entity_logic()
 							false,
 							false // FIXME: Make special arrows hard hitting
 						);
+						p->bullet_time_len = cfg.screen_w/4.0f;
 						if (sub_name == (attack_name + "-up")) {
 							p->set_position(General::Point<float>(pos.x, pos.y-24));
 							p->draw_offset = General::Point<int>(0, 0);
@@ -749,6 +750,7 @@ bool Battle_Entity::ground_entity_logic()
 							facing_right,
 							false // FIXME: Make special arrows hard hitting
 						);
+						p->bullet_time_len = cfg.screen_w/4.0f;
 						if (facing_right) {
 							p->set_position(General::Point<float>(pos.x+8, pos.y-12));
 							p->draw_offset = General::Point<int>(-15/2, 0);
