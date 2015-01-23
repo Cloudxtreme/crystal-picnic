@@ -403,7 +403,11 @@ void Map_Entity::logic(void)
 	if (skeleton) {
 		skeleton->update(General::LOGIC_MILLIS);
 		General::Point<float> top = area->get_top();
-		skeleton->transform(General::Point<float>(pos.x-top.x, pos.y-top.y), facing_right);
+		General::Point<float> rumble_offset = area->get_rumble_offset();
+		top.x += area->_offset.x + rumble_offset.x;
+		top.y += area->_offset.y + rumble_offset.y;
+		top.y += z;
+		skeleton->transform(General::Point<float>(pos.x-top.x, pos.y-top.y), !facing_right);
 	}
 	else if (anim_set) {
 		if (!colliding_with_ladder) {

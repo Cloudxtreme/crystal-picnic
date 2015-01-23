@@ -138,6 +138,8 @@ private:
 	bool reversed;
 
 	int transform_count;
+	General::Point<float> last_transform_offset;
+	bool last_transform_flip;
 };
 
 } // End namespace Skeleton

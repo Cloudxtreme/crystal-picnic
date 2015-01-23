@@ -1217,7 +1217,7 @@ void Battle_Loop::draw()
 				}
 				t = t - 7;
 				Animation *a = cart_wheel->get_current_animation();
-				a->draw(cfg.screen_w+16-t*100, cfg.screen_h-32, 0);
+				a->draw(cfg.screen_w+16-t*100+rumble_offset.x, cfg.screen_h-32+rumble_offset.y, 0);
 			}
 		}
 	}

@@ -341,6 +341,9 @@ void Skeleton::transform(General::Point<float> offset, bool flip)
 		transform_count = 0;
 		do_recurse(offset, false, flip, al_color_name("white"));
 	}
+
+	last_transform_offset = offset;
+	last_transform_flip = flip;
 }
 
 void Skeleton::update(int millis)
@@ -597,6 +600,10 @@ bool Skeleton::load()
 void Skeleton::set_curr_anim(int index)
 {
 	curr_anim = (index >= 0 && index < (int)animations.size()) ? index : 0;
+
+	interpolate_now();
+
+	transform(last_transform_offset, last_transform_flip);
 }
 
 void Skeleton::set_curr_anim(const std::string &name)
@@ -604,6 +611,10 @@ void Skeleton::set_curr_anim(const std::string &name)
 	for (size_t i = 0; i < animations.size(); i++) {
 		if (animations[i]->name == name) {
 			curr_anim = i;
+
+			interpolate_now();
+
+			transform(last_transform_offset, last_transform_flip);
 
 			return;
 		}

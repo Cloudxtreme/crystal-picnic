@@ -182,6 +182,7 @@ public:
 	bool point_collides(int layer, General::Point<float> p);
 
 	void set_rumble_offset(General::Point<float> rumble_offset);
+	General::Point<float> get_rumble_offset() { return rumble_offset; }
 
 	Area_Manager();
 	virtual ~Area_Manager(); // should this be virtual ie deleted as Camera of Offsetable? doubt it
