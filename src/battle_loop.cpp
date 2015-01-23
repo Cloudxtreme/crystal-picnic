@@ -102,8 +102,6 @@ void Battle_Loop::draw_bullet_time_v(General::Point<float> start, General::Point
 	float X2 = end.x;
 	float Y2 = end.y;
 
-	printf("%f %f %f %f\n", X1, Y1, X2, Y2);
-
 	Shader::use(bullet_time_v_shader);
 	al_set_shader_float("x1", X1);
 	al_set_shader_float("y1", Y1);
