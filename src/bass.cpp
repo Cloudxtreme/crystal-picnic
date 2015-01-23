@@ -34,14 +34,14 @@ void init(void)
 	BASS_SetConfig(BASS_CONFIG_IOS_MIXAUDIO, 5);
 #endif
 
+#ifdef ALLEGRO_RASPBERRYPI
+	if (!BASS_Init(cfg.audio_device, 11025, 0, NULL, NULL)) {
+#else
 	if (!BASS_Init(cfg.audio_device, 44100, 0, NULL, NULL)) {
+#endif
 		int code = BASS_ErrorGetCode();
 				ALLEGRO_DEBUG("BASS_Init failed (%d). Failing or falling back", code);
 	}
-
-#ifdef ALLEGRO_RASPBERRPI_XXX
-	//BASS_PluginLoad("libbassmidi.so", 0);
-#endif
 }
 
 static HSTREAM get_decode_stream(const char *name, unsigned char **buf)

@@ -31,7 +31,11 @@ void init()
 
 	BASS::init();
 
-	BASS_SetConfig(BASS_CONFIG_MIDI_VOICES, 20);
+#ifdef ALLEGRO_RASPBERRYPI
+	BASS_SetConfig(BASS_CONFIG_MIDI_VOICES, 8);
+#else
+	BASS_SetConfig(BASS_CONFIG_MIDI_VOICES, 24);
+#endif
 	BASS_SetConfig(BASS_CONFIG_MIDI_COMPACT, FALSE);
 
 	ALLEGRO_FILE *file = engine->get_cpa()->load("music/retro.sf2");
