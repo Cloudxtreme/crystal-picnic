@@ -1617,6 +1617,7 @@ Battle_Loop::~Battle_Loop(void)
 	delete[] pathfinding_nodes;
 	delete[] pathfinding_edges;
 
+	Lua::call_lua(lua_state, "stop", ">");
 	lua_close(lua_state);
 	
 	for (int i = 0; i < 4; i++) {
