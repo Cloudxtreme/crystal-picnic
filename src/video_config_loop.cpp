@@ -18,25 +18,48 @@ bool Video_Config_Loop::init()
 
 	std::vector<std::string> mode_names;
 
+	const int num_extra_modes = 6;
+
 	int num_modes = al_get_num_display_modes();
-	for (int i = 0; i < num_modes+2; i++) {
+	for (int i = 0; i < num_modes+num_extra_modes; i++) {
 		ALLEGRO_DISPLAY_MODE mode;
 		Mode my_mode;
 		/* Here we insert some windowed only modes */
 		if (i >= num_modes) {
+			int mult = 0;
 			if (i == num_modes) {
-				mode.width = 240;
-				mode.height = 160;
+				mult = 1;
 			}
 			else if (i == num_modes+1) {
+				mult = 2;
+			}
+			else if (i == num_modes+2) {
+				mult = 3;
+			}
+			else if (i == num_modes+3) {
+				mult = 4;
+			}
+			else if (i == num_modes+5) {
+				mult = 5;
+			}
+			else if (i == num_modes+4) {
 				mode.width = 1024;
 				mode.height = 576;
 			}
 			my_mode.windowed_only = true;
+			if (mult == 0) {
+				my_mode.exact = false;
+			}
+			else {
+				mode.width = mult * 285;
+				mode.height = mult * 160;
+				my_mode.exact = true;
+			}
 		}
 		else {
 			al_get_display_mode(i, &mode);
 			my_mode.windowed_only = false;
+			my_mode.exact = (mode.height % 160 == 0);
 		}
 		float low = 4.0f / 3.0f * 0.95f;
 		float high = 16.0f / 9.0f * 1.05f;
@@ -65,7 +88,7 @@ bool Video_Config_Loop::init()
 		my_mode.width = mode.width;
 		my_mode.height = mode.height;
 		modes.insert(modes.begin()+insert, my_mode);
-		mode_names.insert(mode_names.begin()+insert, General::itos(mode.width) + "x" + General::itos(mode.height) + (my_mode.windowed_only ? " WINDOWED" : ""));
+		mode_names.insert(mode_names.begin()+insert, General::itos(mode.width) + "x" + General::itos(mode.height) + (my_mode.exact ? "*" : "") + (my_mode.windowed_only ? " WINDOWED" : ""));
 	}
 
 	int current = 0;

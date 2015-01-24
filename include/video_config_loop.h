@@ -29,6 +29,7 @@ private:
 		int width;
 		int height;
 		bool windowed_only;
+		bool exact;
 	};
 
 	W_Scrolling_List *mode_list;
