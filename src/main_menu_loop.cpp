@@ -298,7 +298,7 @@ bool Main_Menu_Loop::logic()
 					next_player = -1;
 				}
 				setup_current_menu();
-				skip_draw = true;
+				skip_post_draw = true;
 				start_transition_in("sfx/enter_submenu.ogg");
 			}
 		}
@@ -401,10 +401,6 @@ bool Main_Menu_Loop::logic()
 
 void Main_Menu_Loop::draw()
 {
-	if (skip_draw) {
-		return;
-	}
-
 	ALLEGRO_TRANSFORM backup_transform, t;
 	al_copy_transform(&backup_transform, al_get_current_transform());
 	al_identity_transform(&t);
@@ -535,8 +531,8 @@ void Main_Menu_Loop::draw()
 
 void Main_Menu_Loop::post_draw()
 {
-	if (skip_draw) {
-		skip_draw = false;
+	if (skip_post_draw) {
+		skip_post_draw = false;
 		return;
 	}
 
@@ -556,7 +552,7 @@ void Main_Menu_Loop::set_main_menu_loop_button_pressed(bool pressed)
 Main_Menu_Loop::Main_Menu_Loop(std::vector<Player *> players, std::vector<Loop *> background_draw_loops) :
 	sub_loop(NULL),
 	current_menu(MAIN),
-	skip_draw(false),
+	skip_post_draw(false),
 	players(players),
 	selected_player(0),
 	do_not_transition_in_again(false),

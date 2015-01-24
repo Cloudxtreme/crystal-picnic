@@ -73,7 +73,7 @@ protected:
 
 	Loop *sub_loop;
 	Menu_ID current_menu;
-	bool skip_draw;
+	bool skip_post_draw;
 
 	std::vector<Player *> players;
 	
