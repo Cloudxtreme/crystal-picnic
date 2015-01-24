@@ -215,6 +215,8 @@ void Speech_Loop::post_draw()
 		}
 	}
 
+	alpha *= 0.85f;
+
 	bool draw_star;
 	if (autoscroll)
 		draw_star = false;
