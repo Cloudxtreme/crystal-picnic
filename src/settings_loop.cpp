@@ -19,43 +19,45 @@ bool Settings_Loop::init()
 	keyboard_button = new W_Translated_Button("CONFIG_KEYBOARD");
 	gamepad_button = new W_Translated_Button("CONFIG_GAMEPAD");
 	language_button = new W_Translated_Button("CONFIG_LANGUAGE");
-	return_button = new W_Translated_Button("RETURN");
+
+	return_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("RETURN"));
 
 	int maxw = video_button->getWidth();
 	maxw = MAX(maxw, keyboard_button->getWidth());
 	maxw = MAX(maxw, gamepad_button->getWidth());
 	maxw = MAX(maxw, language_button->getWidth());
-	maxw = MAX(maxw, return_button->getWidth());
 
 #ifdef ALLEGRO_IPHONE
 	tgui::TGUIWidget *w[] = {
 		language_button,
-		return_button
 	};
-	int nw = 2;
+	int nw = 1;
 #elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
 	tgui::TGUIWidget *w[] = {
 		gamepad_button,
 		language_button,
-		return_button
 	};
-	int nw = 3;
+	int nw = 2;
 #else
 	tgui::TGUIWidget *w[] = {
 		video_button,
 		keyboard_button,
 		gamepad_button,
 		language_button,
-		return_button
 	};
-	int nw = 5;
+	int nw = 4;
 #endif
 
 	for (int i = 0; i < nw; i++) {
 		w[i]->setX(cfg.screen_w/2-maxw/2);
-		w[i]->setY(cfg.screen_h/2-((General::get_font_line_height(General::FONT_LIGHT)+4)*nw)/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*i+2);
+		w[i]->setY(cfg.screen_h/2-((General::get_font_line_height(General::FONT_LIGHT)+4)*(nw+3))/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*i+2);
 		tgui::addWidget(w[i]);
 	}
+
+	return_button->setX(cfg.screen_w/2-return_button->getWidth()/2);
+	return_button->setY(cfg.screen_h/2-((General::get_font_line_height(General::FONT_LIGHT)+4)*(nw+3))/2+(General::get_font_line_height(General::FONT_LIGHT)+4)*(nw+1)+2);
+
+	tgui::addWidget(return_button);
 
 	tgui::setFocus(return_button);
 
@@ -158,6 +160,8 @@ bool Settings_Loop::logic()
 		loops.push_back(l);
 		engine->fade_in(loops);
 		engine->do_blocking_mini_loop(loops, NULL);
+		// Change return button
+		return_button->set_text(t("RETURN"));
 		engine->fade_in(this_loop);
 	}
 	else if (w == return_button) {

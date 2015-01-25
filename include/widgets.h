@@ -87,6 +87,7 @@ public:
 	void set_enabled(bool enabled);
 	void set_text_color(ALLEGRO_COLOR text_color);
 	void set_text_yoffset(int ty) { text_yoffset = ty; }
+	void set_text(std::string text) { this->text = text; }
 
 	W_Button(int x, int y, int width, int height);
 	W_Button(std::string filename);

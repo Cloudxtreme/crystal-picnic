@@ -28,7 +28,7 @@ private:
 	W_Translated_Button *keyboard_button;
 	W_Translated_Button *gamepad_button;
 	W_Translated_Button *language_button;
-	W_Translated_Button *return_button;
+	W_Button *return_button;
 };
 
 #endif // SETTINGS_LOOP_H
