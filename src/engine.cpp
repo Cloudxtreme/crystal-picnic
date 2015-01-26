@@ -1966,34 +1966,6 @@ void Engine::draw_to_display(ALLEGRO_BITMAP *cfg_screen_sized_bitmap)
 
 void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 {
-	Area_Loop *l = GET_AREA_LOOP;
-	double now = al_get_time();
-        if (now >= _shake.start && now <= _shake.start+_shake.duration) {
-		int x = General::rand() % (_shake.amount);
-		int y = General::rand() % (_shake.amount);
-		if (l) {
-			l->get_area()->set_rumble_offset(General::Point<float>(x, y));
-		}
-		else {
-			Battle_Loop *loop = GET_BATTLE_LOOP;
-			if (loop) {
-				loop->set_rumble_offset(General::Point<float>(x, y));
-			}
-		}
-	}
-	else if (shaking && now >= _shake.start) {
-		if (l) {
-			l->get_area()->set_rumble_offset(General::Point<float>(0, 0));
-		}
-		else {
-			Battle_Loop *loop = GET_BATTLE_LOOP;
-			if (loop) {
-				loop->set_rumble_offset(General::Point<float>(0, 0));
-			}
-		}
-		shaking = false;
-	}
-
 	ALLEGRO_BITMAP *old_target = set_draw_target(force_no_target_change);
 
 	draw_loops(loops);
@@ -2002,7 +1974,7 @@ void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 
 	// draw fps
 	if (cfg.show_fps) {
-		now = al_get_time();
+		double now = al_get_time();
 		double elapsed = now - first_frame_time;
 		if (elapsed >= 1) {
 			curr_fps = round(frames_drawn / elapsed);
@@ -2042,7 +2014,8 @@ void Engine::draw_all(std::vector<Loop *> loops, bool force_no_target_change)
 
 	finish_draw(force_no_target_change, old_target);
 
-	l = GET_AREA_LOOP;
+	/* started in logic */
+	Area_Loop *l = GET_AREA_LOOP;
 	if (l) {
 		l->get_area()->set_rumble_offset(General::Point<float>(0, 0));
 	}
@@ -2550,6 +2523,33 @@ void Engine::reset_game()
 
 void Engine::logic()
 {
+	Area_Loop *l = GET_AREA_LOOP;
+	double now = al_get_time();
+        if (now >= _shake.start && now <= _shake.start+_shake.duration) {
+		int x = General::rand() % (_shake.amount);
+		int y = General::rand() % (_shake.amount);
+		if (l) {
+			l->get_area()->set_rumble_offset(General::Point<float>(x, y));
+		}
+		else {
+			Battle_Loop *loop = GET_BATTLE_LOOP;
+			if (loop) {
+				loop->set_rumble_offset(General::Point<float>(x, y));
+			}
+		}
+	}
+	else if (shaking && now >= _shake.start) {
+		if (l) {
+			l->get_area()->set_rumble_offset(General::Point<float>(0, 0));
+		}
+		else {
+			Battle_Loop *loop = GET_BATTLE_LOOP;
+			if (loop) {
+				loop->set_rumble_offset(General::Point<float>(0, 0));
+			}
+		}
+		shaking = false;
+	}
 }
 
 void Engine::flush_event_queue()

@@ -12,7 +12,9 @@ enum Speech_Type {
 enum Speech_Location {
 	SPEECH_LOC_TOP,
 	SPEECH_LOC_BOTTOM,
-	SPEECH_LOC_ANY
+	SPEECH_LOC_ANY,
+	SPEECH_LOC_FORCE_TOP,
+	SPEECH_LOC_FORCE_BOTTOM
 };
 
 #endif

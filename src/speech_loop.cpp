@@ -199,6 +199,7 @@ void Speech_Loop::post_draw()
 
 	if (wstate == FADING_IN) {
 		alpha = (float)in_count / FADE_TIME;
+		alpha *= 0.85f;
 	}
 	else if (wstate == FADED_IN) {
 		alpha = 1;
@@ -214,8 +215,6 @@ void Speech_Loop::post_draw()
 			}
 		}
 	}
-
-	alpha *= 0.85f;
 
 	bool draw_star;
 	if (autoscroll)
@@ -361,9 +360,9 @@ Speech_Loop::Speech_Loop(
 
 	bool top;
 
-	if (loc == SPEECH_LOC_TOP)
+	if (loc == SPEECH_LOC_TOP || loc == SPEECH_LOC_FORCE_TOP)
 		top = true;
-	else if (loc == SPEECH_LOC_BOTTOM) {
+	else if (loc == SPEECH_LOC_BOTTOM || loc == SPEECH_LOC_FORCE_BOTTOM) {
 		top = false;
 	}
 	else {
@@ -489,20 +488,28 @@ void Speech_Loop::gesture(bool first)
 			ent->get_animation_set()->reset();
 			float y = ent->get_position().y - ent->get_z();
 			y -= area->get_top().y + area->_offset.y;
-			if ((y > (cfg.screen_h/2 - 50)) && (y < (cfg.screen_h/2 + 50))) {
-				General::Direction d = ent->get_direction();
-				if (d == General::DIR_S || d == General::DIR_SW || d == General::DIR_SE) {
-					at_top = true;
-				}
-				else {
-					at_top = false;
-				}
+			if (loc == SPEECH_LOC_FORCE_TOP) {
+				at_top = true;
 			}
-			else if (y < cfg.screen_h/2) {
+			else if (loc == SPEECH_LOC_FORCE_BOTTOM) {
 				at_top = false;
 			}
 			else {
-				at_top = true;
+				if ((y > (cfg.screen_h/2 - 50)) && (y < (cfg.screen_h/2 + 50))) {
+					General::Direction d = ent->get_direction();
+					if (d == General::DIR_S || d == General::DIR_SW || d == General::DIR_SE) {
+						at_top = true;
+					}
+					else {
+						at_top = false;
+					}
+				}
+				else if (y < cfg.screen_h/2) {
+					at_top = false;
+				}
+				else {
+					at_top = true;
+				}
 			}
 			set_y((General::get_font_line_height(General::FONT_LIGHT)+1)*3+INSET*2);
 
