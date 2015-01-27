@@ -1052,6 +1052,7 @@ loop_top:
 
 #if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			done = true;
 			goto end;
 		}
 		else
@@ -1271,7 +1272,7 @@ void Engine::do_blocking_mini_loop(std::vector<Loop *> loops, const char *cb)
 	logic_count = 0;
 	int draw_count = 0;
 
-	while (true) {
+	while (!done) {
 		top();
 
 		bool do_acknowledge_resize = false;

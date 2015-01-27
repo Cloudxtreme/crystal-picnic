@@ -510,6 +510,8 @@ void Main::execute()
 					al_flip_display();
 				}
 				al_rest(1.0/60.0);
+
+				engine->set_done(false);
 			}
 
 end:
