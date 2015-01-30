@@ -622,13 +622,10 @@ bool Engine::init_allegro()
 
 	General::log_message("OpenGL: " + General::itos(cfg.force_opengl));
 	
-	//al_register_bitmap_loader_f(".cpi", load_cpi_f);
-	//al_register_bitmap_loader(".cpi", load_cpi);
-
 	// With OpenGL driver, crashes if icon is not a memory bitmap
 	int flags = al_get_new_bitmap_flags();
 	al_set_new_bitmap_flags(flags | ALLEGRO_MEMORY_BITMAP);
-	Wrap::Bitmap *icon_tmp = Wrap::load_bitmap("misc_graphics/icon.cpi");
+	Wrap::Bitmap *icon_tmp = Wrap::load_bitmap("misc_graphics/icon.png");
 	al_set_display_icon(display, icon_tmp->bitmap);
 	Wrap::destroy_bitmap(icon_tmp);
 	al_set_new_bitmap_flags(flags);
@@ -894,21 +891,21 @@ bool Engine::init()
 
 	ALLEGRO_DEBUG("Emoticons loaded");
 
-	hero_shadow_bmp = Wrap::load_bitmap("misc_graphics/normal_character_shadow.cpi");
-	big_shadow_bmp = Wrap::load_bitmap("misc_graphics/big_character_shadow.cpi");
+	hero_shadow_bmp = Wrap::load_bitmap("misc_graphics/normal_character_shadow.png");
+	big_shadow_bmp = Wrap::load_bitmap("misc_graphics/big_character_shadow.png");
 
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
-	touch_bitmaps[TOUCH_ACTIVATE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/activate.cpi");
-	touch_bitmaps[TOUCH_ANALOGSTICK] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/analogstick.cpi");
-	touch_bitmaps[TOUCH_MENU] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/menu.cpi");
-	touch_bitmaps[TOUCH_SPECIAL] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/special.cpi");
-	touch_bitmaps[TOUCH_SWITCH] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/switch.cpi");
-	touch_bitmaps[TOUCH_USE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/use.cpi");
-	touch_bitmaps[TOUCH_ADVANCE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/advance.cpi");
-	touch_bitmaps[TOUCH_ANALOGBASE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/analogbase.cpi");
-	touch_bitmaps[TOUCH_ATTACK] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/attack.cpi");
-	touch_bitmaps[TOUCH_JUMP] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/jump.cpi");
-	helping_hand = Wrap::load_bitmap("misc_graphics/interface/touch_ui/helping_hand.cpi");
+	touch_bitmaps[TOUCH_ACTIVATE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/activate.png");
+	touch_bitmaps[TOUCH_ANALOGSTICK] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/analogstick.png");
+	touch_bitmaps[TOUCH_MENU] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/menu.png");
+	touch_bitmaps[TOUCH_SPECIAL] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/special.png");
+	touch_bitmaps[TOUCH_SWITCH] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/switch.png");
+	touch_bitmaps[TOUCH_USE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/use.png");
+	touch_bitmaps[TOUCH_ADVANCE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/advance.png");
+	touch_bitmaps[TOUCH_ANALOGBASE] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/analogbase.png");
+	touch_bitmaps[TOUCH_ATTACK] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/attack.png");
+	touch_bitmaps[TOUCH_JUMP] = Wrap::load_bitmap("misc_graphics/interface/touch_ui/jump.png");
+	helping_hand = Wrap::load_bitmap("misc_graphics/interface/touch_ui/helping_hand.png");
 #endif
 
 	return true;
@@ -3225,9 +3222,9 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 	number_widget = new W_Integer(start);
 	number_widget->setX(framex+w/2);
 	number_widget->setY(framey+th*(2+texts.size())+th/2);
-	get_number_down_button = new W_Button("misc_graphics/interface/small_down_arrow.cpi");
+	get_number_down_button = new W_Button("misc_graphics/interface/small_down_arrow.png");
 	tgui::centerWidget(get_number_down_button, framex+w/2 - 25, framey+th*(2+texts.size())+th/2);
-	get_number_up_button = new W_Button("misc_graphics/interface/small_up_arrow.cpi");
+	get_number_up_button = new W_Button("misc_graphics/interface/small_up_arrow.png");
 	tgui::centerWidget(get_number_up_button, framex+w/2 + 25, framey+th*(2+texts.size())+th/2);
 
 	main_color = Graphics::change_brightness(main_color, 1.1f);

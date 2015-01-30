@@ -45,7 +45,7 @@ Particle_Group::~Particle_Group()
 
 	if (num_bitmaps > 0) {
 		for (int i = 0; i < num_bitmaps; i++) {
-			resource_manager->release_bitmap("misc_graphics/particles/" + bitmap_names[i] + ".cpi");
+			resource_manager->release_bitmap("misc_graphics/particles/" + bitmap_names[i] + ".png");
 		}
 		delete[] bitmaps;
 	}
@@ -100,7 +100,7 @@ void Particle_Group::init_bitmaps(std::string type)
 	num_bitmaps = bitmap_names.size();
 	bitmaps = new Wrap::Bitmap *[num_bitmaps];
 	for (int i = 0; i < num_bitmaps; i++) {
-		bitmaps[i] = resource_manager->reference_bitmap("misc_graphics/particles/" + bitmap_names[i] + ".cpi");
+		bitmaps[i] = resource_manager->reference_bitmap("misc_graphics/particles/" + bitmap_names[i] + ".png");
 	}
 }
 

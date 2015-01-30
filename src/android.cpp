@@ -78,7 +78,7 @@ static jobject _jni_callObjectMethod(JNIEnv *env, jobject object, const char *na
    jmethodID method_id = _jni_call(env, jmethodID, GetMethodID, class_id, name, sig);
    jobject ret = _jni_call(env, jobject, CallObjectMethod, object, method_id);
    _jni_callv(env, DeleteLocalRef, class_id);
-   
+
    return ret;
 }
 
@@ -95,7 +95,7 @@ void logString(const char *s)
 		"(Ljava/lang/String;)V",
 		S
 	);
-	
+
 	env->DeleteLocalRef(S);
 }
 
@@ -158,13 +158,13 @@ const char * get_sdcarddir()
 		(jstring)_jni_callObjectMethod(
 			_al_android_get_jnienv(),
 			_al_android_activity_object(),
-   			"getSDCardPrivateDir",
+			"getSDCardPrivateDir",
 			"()Ljava/lang/String;"
 		);
-	
+
 	if (s == NULL)
 		return "";
-	
+
 	const char *native = _al_android_get_jnienv()->GetStringUTFChars(s, 0);
 
 	strcpy(buf, native);

@@ -202,10 +202,10 @@ bool Animation_Set::load()
 		int frames = atoi(framesS.c_str());
 		for (int i = 0; i < frames; i++) {
 			char fn[500];
-			snprintf(fn, 500, "%s/%s/%d.cpi", load_path.c_str(), name.c_str(), i+1);
+			snprintf(fn, 500, "%s/%s/%d.png", load_path.c_str(), name.c_str(), i+1);
 			Wrap::Bitmap *bmp = resource_manager->reference_bitmap(fn);
 			if (!bmp) {
-				strcpy(fn, "misc_graphics/interface/x_icon.cpi");
+				strcpy(fn, "misc_graphics/interface/x_icon.png");
 				bmp = resource_manager->reference_bitmap(fn);
 			}
 			to_delete.push_back(fn);

@@ -34,7 +34,7 @@ static void draw_character_preview_box(Player *p, bool selected, Wrap::Bitmap *b
 		return;
 	}
 	
-	Wrap::Bitmap *icon = resource_manager->reference_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.cpi");
+	Wrap::Bitmap *icon = resource_manager->reference_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.png");
 	
 	al_draw_bitmap(
 		icon->bitmap,
@@ -71,7 +71,7 @@ static void draw_character_preview_box(Player *p, bool selected, Wrap::Bitmap *b
 	percent = attr.mp / (float)max_mp;
 	Graphics::draw_gauge(x+x1, y1+gauge_span, remain_w, false, percent, hilight, al_color_name("cyan"));
 	
-	resource_manager->release_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.png");
 }
 
 static void get_green_window_offsets(Main_Menu_Loop::State state, int transition_type, float transition_percent, float *ox, float *oy)
@@ -140,11 +140,11 @@ bool Main_Menu_Loop::init()
 	engine->load_sample("sfx/enter_submenu.ogg");
 	engine->load_sample("sfx/exit_submenu.ogg");
 
-	character_preview_box = resource_manager->reference_bitmap("misc_graphics/interface/character_preview_box.cpi");
-	money_time_box = resource_manager->reference_bitmap("misc_graphics/interface/money_time_box.cpi");
-	nine_crystal = resource_manager->reference_bitmap("misc_graphics/interface/9crystal.cpi");
-	nine_coin = resource_manager->reference_bitmap("misc_graphics/interface/9coin.cpi");
-	nine_clock = resource_manager->reference_bitmap("misc_graphics/interface/9clock.cpi");
+	character_preview_box = resource_manager->reference_bitmap("misc_graphics/interface/character_preview_box.png");
+	money_time_box = resource_manager->reference_bitmap("misc_graphics/interface/money_time_box.png");
+	nine_crystal = resource_manager->reference_bitmap("misc_graphics/interface/9crystal.png");
+	nine_coin = resource_manager->reference_bitmap("misc_graphics/interface/9coin.png");
+	nine_clock = resource_manager->reference_bitmap("misc_graphics/interface/9clock.png");
 
 	extra_x = cfg.screen_w - General::RENDER_W;
 	extra_y = cfg.screen_h - General::RENDER_H;
@@ -156,14 +156,14 @@ bool Main_Menu_Loop::init()
 	remaining_height = cfg.screen_h - lowest;
 
 	if ((float)cfg.screen_w/cfg.screen_h < 3.0f/2.0f) {
-		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button_narrow.cpi", "");	
-		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button_narrow.cpi", "");	
-		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button_narrow.cpi", "");
+		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button_narrow.png", "");	
+		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button_narrow.png", "");	
+		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button_narrow.png", "");
 	}
 	else {
-		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/save_icon.cpi");	
-		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button.cpi", "misc_graphics/interface/x_icon.cpi");	
-		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button.cpi", "misc_graphics/interface/return_icon.cpi");
+		save_button = new W_Icon_Button(t("SAVE"), "misc_graphics/interface/fat_blue_button.png", "misc_graphics/interface/save_icon.png");	
+		quit_button = new W_Icon_Button(t("QUIT"), "misc_graphics/interface/fat_blue_button.png", "misc_graphics/interface/x_icon.png");	
+		return_button = new W_Icon_Button(t("RETURN"), "misc_graphics/interface/fat_red_button.png", "misc_graphics/interface/return_icon.png");
 	}
 	
 	int width = GREEN_WIN_BASE_W + extra_x;
@@ -447,12 +447,12 @@ void Main_Menu_Loop::draw()
 			p = players[i];
 		}
 		if (p && p->get_battle_attributes().status.name == "POISON") {
-			Wrap::Bitmap *icon = resource_manager->reference_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.cpi");
+			Wrap::Bitmap *icon = resource_manager->reference_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.png");
 			General::draw_poison_bubbles(General::Point<float>(
 				ox+5+al_get_bitmap_width(icon->bitmap)/2,
 				oy+1+i+al_get_bitmap_height(character_preview_box->bitmap)*i+al_get_bitmap_height(character_preview_box->bitmap)/2-al_get_bitmap_height(icon->bitmap)/2
 			));
-			resource_manager->release_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.cpi");
+			resource_manager->release_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.png");
 		}
 	}
 	
@@ -565,17 +565,17 @@ Main_Menu_Loop::Main_Menu_Loop(std::vector<Player *> players, std::vector<Loop *
 	crystal_button = NULL;
 
 	for (size_t i = 0; i < players.size(); i++) {
-		resource_manager->reference_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.cpi");
+		resource_manager->reference_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.png");
 	}
 }
 
 Main_Menu_Loop::~Main_Menu_Loop()
 {
-	resource_manager->release_bitmap("misc_graphics/interface/character_preview_box.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/money_time_box.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/9crystal.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/9coin.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/9clock.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/character_preview_box.png");
+	resource_manager->release_bitmap("misc_graphics/interface/money_time_box.png");
+	resource_manager->release_bitmap("misc_graphics/interface/9crystal.png");
+	resource_manager->release_bitmap("misc_graphics/interface/9coin.png");
+	resource_manager->release_bitmap("misc_graphics/interface/9clock.png");
 
 	save_button->remove();
 	quit_button->remove();
@@ -601,7 +601,7 @@ Main_Menu_Loop::~Main_Menu_Loop()
 	delete sub_loop;
 	
 	for (size_t i = 0; i < players.size(); i++) {
-		resource_manager->release_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.cpi");
+		resource_manager->release_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.png");
 	}
 
 	al_destroy_bitmap(bg);
@@ -803,12 +803,12 @@ bool Main_Menu_Main_Loop::init()
 
 	for (size_t i = 0; i < players.size(); i++) {
 		std::string name = players[i]->get_name();
-		profiles.push_back(Wrap::load_bitmap("misc_graphics/interface/" + name + "_profile.cpi"));
+		profiles.push_back(Wrap::load_bitmap("misc_graphics/interface/" + name + "_profile.png"));
 	}
 	
-	equip_button = new W_Icon_Button(t("EQUIP"), "misc_graphics/interface/medium_blue_button.cpi", "misc_graphics/interface/equip_icon.cpi");
-	items_button = new W_Icon_Button(t("ITEMS"), "misc_graphics/interface/medium_blue_button.cpi", "misc_graphics/interface/items_icon.cpi");
-	abilities_button = new W_Icon_Button(t("ABILITIES"), "misc_graphics/interface/medium_blue_button.cpi", "misc_graphics/interface/abilities_icon.cpi");
+	equip_button = new W_Icon_Button(t("EQUIP"), "misc_graphics/interface/medium_blue_button.png", "misc_graphics/interface/equip_icon.png");
+	items_button = new W_Icon_Button(t("ITEMS"), "misc_graphics/interface/medium_blue_button.png", "misc_graphics/interface/items_icon.png");
+	abilities_button = new W_Icon_Button(t("ABILITIES"), "misc_graphics/interface/medium_blue_button.png", "misc_graphics/interface/abilities_icon.png");
 
 	int button_w = equip_button->getWidth();
 	int button_h = equip_button->getHeight();
@@ -1053,8 +1053,8 @@ bool Main_Menu_Abilities_Loop::init()
 	float ox, oy;
 
 	get_green_window_offsets(main_menu_loop->get_state(), TRANSITION_HORIZONTAL, main_menu_loop->get_transition_percent(), &ox, &oy);
-	abilities_button = Wrap::load_bitmap("misc_graphics/interface/abilities_button.cpi");
-	abilities_button_grey = Wrap::load_bitmap("misc_graphics/interface/abilities_button_grey.cpi");
+	abilities_button = Wrap::load_bitmap("misc_graphics/interface/abilities_button.png");
+	abilities_button_grey = Wrap::load_bitmap("misc_graphics/interface/abilities_button_grey.png");
 
 	abilities_button_w = al_get_bitmap_width(abilities_button->bitmap);
 	abilities_button_h = al_get_bitmap_height(abilities_button->bitmap);
@@ -1385,12 +1385,12 @@ bool Main_Menu_Items_Loop::init()
 
 	for (size_t i = 0; i < items.size(); i++) {
 		item_names.push_back(t(items[i].name.c_str()));
-		std::string icon_filename = "misc_graphics/interface/items_icon_white.cpi";
+		std::string icon_filename = "misc_graphics/interface/items_icon_white.png";
 		icon_filenames.push_back(icon_filename);
 		Wrap::Bitmap *bmp = resource_manager->reference_bitmap(items[i].image_filename);
 		item_images.push_back(bmp);
 		right_justified_text.push_back(General::itos(items[i].quantity));
-		right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
+		right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
 	}
 
 	info_panel_h = General::get_font_line_height(General::FONT_LIGHT)*2 + 2;
@@ -1651,11 +1651,11 @@ static void equipped_equip_notifier(void *data, float row_y_pixel)
 			if (sel == 0) {
 				std::vector<Equipment::Weapon> &v = Game_Specific_Globals::get_weapons();
 				if (equip.weapon.attachments.size() > 0) {
-					list2->update_item(sel, false, "", true, "misc_graphics/interface/weapon_icon.cpi", false, "");
+					list2->update_item(sel, false, "", true, "misc_graphics/interface/weapon_icon.png", false, "");
 					list2->update_description(sel, "");
 					for (int i = equip.weapon.attachments.size()-1; i >= 0; i--) {
 						v.insert(v.begin(), equip.weapon.attachments[i]);
-						list->insert_item(0, "misc_graphics/interface/weapon_icon.cpi", equip.weapon.attachments[i].name, "misc_graphics/interface/x_icon.cpi", Equipment::WEAPON, std::string(t("QUANTITY")) + ": " + General::itos(equip.weapon.attachments[i].quantity), false);
+						list->insert_item(0, "misc_graphics/interface/weapon_icon.png", equip.weapon.attachments[i].name, "misc_graphics/interface/x_icon.png", Equipment::WEAPON, std::string(t("QUANTITY")) + ": " + General::itos(equip.weapon.attachments[i].quantity), false);
 					}
 					equip.weapon.attachments.clear();
 					// NOTE: HACK!!! Trick the code below so the weapon stays focussed (there will always be one!)
@@ -1664,7 +1664,7 @@ static void equipped_equip_notifier(void *data, float row_y_pixel)
 				else {
 					v.insert(v.begin(), equip.weapon);
 					list2->update_item(sel, true, "", false, "", false, "");
-					list->insert_item(0, "misc_graphics/interface/weapon_icon.cpi", equip.weapon.name, "misc_graphics/interface/x_icon.cpi", Equipment::WEAPON, "", false);
+					list->insert_item(0, "misc_graphics/interface/weapon_icon.png", equip.weapon.name, "misc_graphics/interface/x_icon.png", Equipment::WEAPON, "", false);
 					equip.weapon.name = "";
 					equip.weapon.attack = 0;
 					equip.weapon.element = Equipment::ELEMENT_NONE;
@@ -1677,7 +1677,7 @@ static void equipped_equip_notifier(void *data, float row_y_pixel)
 				std::vector<Equipment::Armor> &v = Game_Specific_Globals::get_armor();
 				v.insert(v.begin(), equip.armor);
 				list2->update_item(sel, true, "", false, "", false, "");
-				list->insert_item(idx, "misc_graphics/interface/armor_icon.cpi", equip.armor.name, "misc_graphics/interface/x_icon.cpi", Equipment::ARMOR, "", false);
+				list->insert_item(idx, "misc_graphics/interface/armor_icon.png", equip.armor.name, "misc_graphics/interface/x_icon.png", Equipment::ARMOR, "", false);
 				equip.armor.name = "";
 				equip.armor.defense = 0;
 				equip.armor.element = Equipment::ELEMENT_NONE;
@@ -1687,7 +1687,7 @@ static void equipped_equip_notifier(void *data, float row_y_pixel)
 				std::vector<Equipment::Accessory> &v = Game_Specific_Globals::get_accessories();
 				v.insert(v.begin(), equip.accessory);
 				list2->update_item(sel, true, "", false, "", false, "");
-				list->insert_item(idx, "misc_graphics/interface/accessory_icon.cpi", equip.accessory.name, "misc_graphics/interface/x_icon.cpi", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(equip.accessory.name), false);
+				list->insert_item(idx, "misc_graphics/interface/accessory_icon.png", equip.accessory.name, "misc_graphics/interface/x_icon.png", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(equip.accessory.name), false);
 				equip.accessory.name = "";
 			}
 			int first = sel + 1;
@@ -1851,8 +1851,8 @@ bool Main_Menu_Equip_Loop::init()
 
 	for (size_t i = 0; i < weapons.size(); i++) {
 		item_names.push_back(weapons[i].name);
-		icon_filenames.push_back("misc_graphics/interface/weapon_icon.cpi");
-		right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
+		icon_filenames.push_back("misc_graphics/interface/weapon_icon.png");
+		right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
 		equipment_type.push_back(Equipment::WEAPON);
 		if (Game_Specific_Globals::weapon_is_attachment(weapons[i].name)) {
 			descriptions.push_back(std::string(t("QUANTITY")) + ": " + General::itos(weapons[i].quantity));
@@ -1869,16 +1869,16 @@ bool Main_Menu_Equip_Loop::init()
 	}
 	for (size_t i = 0; i < armor.size(); i++) {
 		item_names.push_back(armor[i].name);
-		icon_filenames.push_back("misc_graphics/interface/armor_icon.cpi");
-		right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
+		icon_filenames.push_back("misc_graphics/interface/armor_icon.png");
+		right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
 		equipment_type.push_back(Equipment::ARMOR);
 		descriptions.push_back("");
 		disabled.push_back(false);
 	}
 	for (size_t i = 0; i < accessories.size(); i++) {
 		item_names.push_back(accessories[i].name);
-		icon_filenames.push_back("misc_graphics/interface/accessory_icon.cpi");
-		right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
+		icon_filenames.push_back("misc_graphics/interface/accessory_icon.png");
+		right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
 		equipment_type.push_back(Equipment::ACCESSORY);
 		descriptions.push_back(Game_Specific_Globals::get_item_description(accessories[i].name));
 		disabled.push_back(false);
@@ -1913,16 +1913,16 @@ bool Main_Menu_Equip_Loop::init()
 	item_names.push_back(equip.armor.name);
 	item_names.push_back(equip.accessory.name);
 	if (equip.weapon.attachments.size() > 0) {
-		icon_filenames.push_back("misc_graphics/interface/attached_weapon_icon.cpi");
+		icon_filenames.push_back("misc_graphics/interface/attached_weapon_icon.png");
 	}
 	else {
-		icon_filenames.push_back("misc_graphics/interface/weapon_icon.cpi");
+		icon_filenames.push_back("misc_graphics/interface/weapon_icon.png");
 	}
-	icon_filenames.push_back("misc_graphics/interface/armor_icon.cpi");
-	icon_filenames.push_back("misc_graphics/interface/accessory_icon.cpi");
-	right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
-	right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
-	right_icon_filenames.push_back("misc_graphics/interface/x_icon.cpi");
+	icon_filenames.push_back("misc_graphics/interface/armor_icon.png");
+	icon_filenames.push_back("misc_graphics/interface/accessory_icon.png");
+	right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
+	right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
+	right_icon_filenames.push_back("misc_graphics/interface/x_icon.png");
 	equipment_type.push_back(Equipment::WEAPON);
 	equipment_type.push_back(Equipment::ARMOR);
 	equipment_type.push_back(Equipment::ACCESSORY);
@@ -2061,7 +2061,7 @@ bool Main_Menu_Equip_Loop::logic()
 			n = 2;
 		}
 		if (swap_update_icon) {
-			list2->update_item(n, false, "", true, "misc_graphics/interface/attached_weapon_icon.cpi", false, "");
+			list2->update_item(n, false, "", true, "misc_graphics/interface/attached_weapon_icon.png", false, "");
 			std::vector<Player *> players = main_menu_loop->get_players();
 			int sel = main_menu_loop->get_selected_player();
 			Battle_Attributes &attr = players[sel]->get_battle_attributes();
@@ -2279,7 +2279,7 @@ void Main_Menu_Equip_Loop::start_swap(int selected, float ystart)
 		int this_idx = selected - Game_Specific_Globals::get_weapons().size();
 		Equipment::Armor armor = Game_Specific_Globals::get_armor()[this_idx];
 		if (orig_string != "") {
-			list->insert_item(selected, "misc_graphics/interface/armor_icon.cpi", orig_string.c_str(), "misc_graphics/interface/x_icon.cpi", Equipment::ARMOR, "", false);
+			list->insert_item(selected, "misc_graphics/interface/armor_icon.png", orig_string.c_str(), "misc_graphics/interface/x_icon.png", Equipment::ARMOR, "", false);
 			Game_Specific_Globals::get_armor()[this_idx] = equip.armor;
 		}
 		else {
@@ -2296,7 +2296,7 @@ void Main_Menu_Equip_Loop::start_swap(int selected, float ystart)
 		int this_idx = selected - Game_Specific_Globals::get_weapons().size() - Game_Specific_Globals::get_armor().size();
 		Equipment::Accessory accessory = Game_Specific_Globals::get_accessories()[this_idx];
 		if (orig_string != "") {
-			list->insert_item(selected, "misc_graphics/interface/accessory_icon.cpi", orig_string.c_str(), "misc_graphics/interface/x_icon.cpi", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(accessory.name), false);
+			list->insert_item(selected, "misc_graphics/interface/accessory_icon.png", orig_string.c_str(), "misc_graphics/interface/x_icon.png", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(accessory.name), false);
 			Game_Specific_Globals::get_accessories()[this_idx] = equip.accessory;
 		}
 		else {
@@ -2333,11 +2333,11 @@ void Main_Menu_Equip_Loop::start_swap(int selected, float ystart)
 			int this_idx = selected;
 			if (orig_string != "") {
 				for (int i = equip.weapon.attachments.size()-1; i >= 0; i--) {
-					list->insert_item(selected, "misc_graphics/interface/weapon_icon.cpi", equip.weapon.attachments[i].name.c_str(), "misc_graphics/interface/x_icon.cpi", Equipment::WEAPON, std::string(t("QUANTITY")) + ": " + General::itos(equip.weapon.attachments[i].quantity), false);
+					list->insert_item(selected, "misc_graphics/interface/weapon_icon.png", equip.weapon.attachments[i].name.c_str(), "misc_graphics/interface/x_icon.png", Equipment::WEAPON, std::string(t("QUANTITY")) + ": " + General::itos(equip.weapon.attachments[i].quantity), false);
 					std::vector<Equipment::Weapon> &v = Game_Specific_Globals::get_weapons();
 					v.insert(v.begin()+this_idx, equip.weapon.attachments[i]);
 				}
-				list->insert_item(selected, "misc_graphics/interface/weapon_icon.cpi", orig_string.c_str(), "misc_graphics/interface/x_icon.cpi", Equipment::WEAPON, "", false);
+				list->insert_item(selected, "misc_graphics/interface/weapon_icon.png", orig_string.c_str(), "misc_graphics/interface/x_icon.png", Equipment::WEAPON, "", false);
 				Game_Specific_Globals::get_weapons()[this_idx] = equip.weapon;
 			}
 			else {

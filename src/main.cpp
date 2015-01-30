@@ -256,7 +256,7 @@ void Main::execute()
 			button_inc += add_bonus ? -16 : 0;
 
 
-			W_Title_Screen_Icon *config_button = new W_Title_Screen_Icon("misc_graphics/interface/gear_icon.cpi");
+			W_Title_Screen_Icon *config_button = new W_Title_Screen_Icon("misc_graphics/interface/gear_icon.png");
 			config_button->set_sample_name("sfx/use_item.ogg");
 			config_button->setX(20);
 			config_button->setY(20);
@@ -290,8 +290,8 @@ void Main::execute()
 			}
 			tgui::setFocus(new_game_button);
 
-			title = Wrap::load_bitmap("misc_graphics/title.cpi");
-			title_glow = Wrap::load_bitmap("misc_graphics/title_glow.cpi");
+			title = Wrap::load_bitmap("misc_graphics/title.png");
+			title_glow = Wrap::load_bitmap("misc_graphics/title_glow.png");
 			Music::play("music/title.mid");
 
 			start = al_get_time();

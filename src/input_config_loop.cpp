@@ -92,12 +92,12 @@ bool Input_Config_Loop::init()
 		}
 	}
 
-	defaults_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("DEFAULTS"));
+	defaults_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("DEFAULTS"));
 	defaults_button->setX(cfg.screen_w-defaults_button->getWidth()-5);
 	defaults_button->setY(cfg.screen_h-defaults_button->getHeight()-10);
 	tgui::addWidget(defaults_button);
 
-	done_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
+	done_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
 	done_button->setX(cfg.screen_w-done_button->getWidth()-5);
 	done_button->setY(cfg.screen_h-defaults_button->getHeight()-done_button->getHeight()-15);
 	tgui::addWidget(done_button);

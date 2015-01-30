@@ -3321,7 +3321,7 @@ void Area_Manager::load_sheets()
 
 	for (int i = 0; i < 256; i++) {
 		char tile_filename[500];
-		sprintf(tile_filename, "areas/tiles/%s/tiles%d.cpi", tilemapdir, i);
+		sprintf(tile_filename, "areas/tiles/%s/tiles%d.png", tilemapdir, i);
 		Wrap::Bitmap *sheet = Wrap::load_bitmap(tile_filename);
 		if (!sheet)
 			break;

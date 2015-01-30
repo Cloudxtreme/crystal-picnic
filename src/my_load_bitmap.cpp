@@ -30,7 +30,7 @@ ALLEGRO_BITMAP *my_load_bitmap(std::string filename)
 		bmp = al_load_bitmap_f(f, ".png");
 	}
 	else {
-		bmp = al_load_bitmap_f(f, ".cpi");
+		bmp = al_load_bitmap_f(f, ".png");
 	}
 #endif*/
 	al_fclose(f);

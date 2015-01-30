@@ -640,12 +640,12 @@ W_Equipment_List::W_Equipment_List(std::vector<std::string> item_names, std::vec
 	draw_info_box(false),
 	draw_outline(true)
 {
-	info_bmp = resource_manager->reference_bitmap("misc_graphics/interface/info_icon.cpi");
+	info_bmp = resource_manager->reference_bitmap("misc_graphics/interface/info_icon.png");
 }
 
 W_Equipment_List::~W_Equipment_List()
 {
-	resource_manager->release_bitmap("misc_graphics/interface/info_icon.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/info_icon.png");
 }
 
 void W_SaveLoad_Button::draw(int abs_x, int abs_y)
@@ -700,16 +700,16 @@ W_SaveLoad_Button::W_SaveLoad_Button(int x, int y, int width, int height, std::v
 {
 	num_players = players.size();
 
-	player_bmps[0] = resource_manager->reference_bitmap("misc_graphics/interface/egbert_normal_icon.cpi");
-	player_bmps[1] = resource_manager->reference_bitmap("misc_graphics/interface/frogbert_normal_icon.cpi");
-	player_bmps[2] = resource_manager->reference_bitmap("misc_graphics/interface/bisou_normal_icon.cpi");
+	player_bmps[0] = resource_manager->reference_bitmap("misc_graphics/interface/egbert_normal_icon.png");
+	player_bmps[1] = resource_manager->reference_bitmap("misc_graphics/interface/frogbert_normal_icon.png");
+	player_bmps[2] = resource_manager->reference_bitmap("misc_graphics/interface/bisou_normal_icon.png");
 }
 
 W_SaveLoad_Button::~W_SaveLoad_Button()
 {
-	resource_manager->release_bitmap("misc_graphics/interface/egbert_normal_icon.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/frogbert_normal_icon.cpi");
-	resource_manager->release_bitmap("misc_graphics/interface/bisou_normal_icon.cpi");
+	resource_manager->release_bitmap("misc_graphics/interface/egbert_normal_icon.png");
+	resource_manager->release_bitmap("misc_graphics/interface/frogbert_normal_icon.png");
+	resource_manager->release_bitmap("misc_graphics/interface/bisou_normal_icon.png");
 }
 
 bool W_Scrolling_List::acceptsFocus()

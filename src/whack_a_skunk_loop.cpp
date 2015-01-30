@@ -48,7 +48,7 @@ bool Whack_a_Skunk_Loop::init(void)
 	skunk_size.w = regular_skunk->get_current_animation()->get_current_frame()->get_bitmap()->get_width();
 	skunk_size.h = regular_skunk->get_current_animation()->get_current_frame()->get_bitmap()->get_height();
 
-	bg_bitmap = Wrap::load_bitmap("mini_games/whack_a_skunk/board.cpi");
+	bg_bitmap = Wrap::load_bitmap("mini_games/whack_a_skunk/board.png");
 
 	hand = new Animation_Set();
 	hand->load("mini_games/whack_a_skunk/hands");
@@ -91,18 +91,18 @@ bool Whack_a_Skunk_Loop::init(void)
 	misses = 0;
 	hits = 0;
 
-	star_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/star.cpi");
-	pow_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/pow.cpi");
-	kratch_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/kratch.cpi");
-	mask_front = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-front.cpi");
-	mask_middle = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-middle.cpi");
-	mask_back = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-back.cpi");
-	highlight_front = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-front.cpi");
-	highlight_middle = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-middle.cpi");
-	highlight_back = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-back.cpi");
-	mask_fronthighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-fronthighlight.cpi");
-	mask_middlehighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-middlehighlight.cpi");
-	mask_backhighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-backhighlight.cpi");
+	star_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/star.png");
+	pow_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/pow.png");
+	kratch_bmp = Wrap::load_bitmap("mini_games/whack_a_skunk/kratch.png");
+	mask_front = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-front.png");
+	mask_middle = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-middle.png");
+	mask_back = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-back.png");
+	highlight_front = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-front.png");
+	highlight_middle = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-middle.png");
+	highlight_back = Wrap::load_bitmap("mini_games/whack_a_skunk/highlight-back.png");
+	mask_fronthighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-fronthighlight.png");
+	mask_middlehighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-middlehighlight.png");
+	mask_backhighlight = Wrap::load_bitmap("mini_games/whack_a_skunk/mask-backhighlight.png");
 
 	start_time = al_current_time();
 

@@ -81,7 +81,7 @@ std::vector<Equipment::Accessory> &get_accessories()
 
 std::string get_item_image_name(std::string name)
 {
-	return "misc_graphics/interface/item_icons/" + General::tolower(name) + ".cpi";
+	return "misc_graphics/interface/item_icons/" + General::tolower(name) + ".png";
 }
 
 std::string get_item_description(std::string name)

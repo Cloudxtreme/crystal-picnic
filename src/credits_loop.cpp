@@ -12,12 +12,12 @@ bool Credits_Loop::init()
 	}
 	Loop::init();
 
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/1.cpi"));
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/2.cpi"));
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/3.cpi"));
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/4.cpi"));
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/indiegogo.cpi"));
-	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/nooskewl.cpi"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/1.png"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/2.png"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/3.png"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/4.png"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/indiegogo.png"));
+	bitmaps.push_back(Wrap::load_bitmap("misc_graphics/credits/nooskewl.png"));
 
 	std::vector<std::string> v1;
 	v1.push_back(t("CREDITS_CONCEPT"));

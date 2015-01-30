@@ -37,7 +37,7 @@ bool Language_Config_Loop::init()
 	language_list->setHeight(64);
 	language_list->set_selected(current);
 
-	save_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
+	save_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
 
 	int maxw = language_list->getWidth();
 	maxw = MAX(maxw, save_button->getWidth());

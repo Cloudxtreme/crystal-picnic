@@ -1500,14 +1500,14 @@ void Battle_Loop::construct(void)
 	cart_battle = (level_name == "cart");
 
 	for (int i = 0; i < 4; i++) {
-		burrow_hole_bmps[i] = Wrap::load_bitmap("battle/misc_graphics/gopher_hole/" + General::itos(i+1) + ".cpi");
+		burrow_hole_bmps[i] = Wrap::load_bitmap("battle/misc_graphics/gopher_hole/" + General::itos(i+1) + ".png");
 	}
 
 	if (cart_battle) {
-		cart_parallax[0] = Wrap::load_bitmap("battle/parallax/caverns-tracks-repeating.cpi");
-		cart_parallax[1] = Wrap::load_bitmap("battle/parallax/caverns-jungle-transition.cpi");
-		cart_parallax[2] = Wrap::load_bitmap("battle/parallax/jungle-tracks-repeating.cpi");
-		cart_parallax[3] = Wrap::load_bitmap("battle/parallax/jungle-back.cpi");
+		cart_parallax[0] = Wrap::load_bitmap("battle/parallax/caverns-tracks-repeating.png");
+		cart_parallax[1] = Wrap::load_bitmap("battle/parallax/caverns-jungle-transition.png");
+		cart_parallax[2] = Wrap::load_bitmap("battle/parallax/jungle-tracks-repeating.png");
+		cart_parallax[3] = Wrap::load_bitmap("battle/parallax/jungle-back.png");
 	}
 
 	entity_layer = 0;
@@ -2600,7 +2600,7 @@ void Battle_Loop::reload_graphics()
 		1024, 1024, ATLAS_REPEAT_EDGES, 1, false, false
 	);
 	for (int i = 0; i < ntiles; i++) {
-		Wrap::Bitmap *bmp = Wrap::load_bitmap("battle/tiles/" + names[i] + ".cpi");
+		Wrap::Bitmap *bmp = Wrap::load_bitmap("battle/tiles/" + names[i] + ".png");
 		atlas_add(atlas, bmp, i);
 		bmps.push_back(bmp);
 	}
@@ -2622,7 +2622,7 @@ void Battle_Loop::reload_graphics()
 			add = false;
 		}
 		if (add) {
-			Wrap::Bitmap *bmp = Wrap::load_bitmap("battle/tiles/" + name + ".cpi");
+			Wrap::Bitmap *bmp = Wrap::load_bitmap("battle/tiles/" + name + ".png");
 			atlas_add(atlas, bmp, id);
 			bmps.push_back(bmp);
 		}

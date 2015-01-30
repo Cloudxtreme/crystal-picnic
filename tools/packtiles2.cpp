@@ -10,73 +10,6 @@
 
 #define SHEET_SIZE 1024
 
-static ALLEGRO_BITMAP *load_cpi_f(ALLEGRO_FILE *f, int flags)
-{
-	int save_flags = al_get_new_bitmap_flags();
-	al_set_new_bitmap_flags(flags);
-
-	int w = al_fread32le(f);
-	int h = al_fread32le(f);
-
-	ALLEGRO_BITMAP *b = al_create_bitmap(w, h);
-	if (!b) return NULL;
-
-	ALLEGRO_LOCKED_REGION *lr = al_lock_bitmap(b, ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE, ALLEGRO_LOCK_WRITEONLY);
-	if (!lr) {
-		al_destroy_bitmap(b);
-		return NULL;
-	}
-
-	for (int y = 0; y < h; y++) {
-		uint8_t *p = (uint8_t *)lr->data + lr->pitch * y;
-		al_fread(f, p, w*4);
-	}
-
-	al_unlock_bitmap(b);
-
-	al_set_new_bitmap_flags(save_flags);
-
-	return b;
-}
-
-static ALLEGRO_BITMAP *load_cpi(const char *filename, int flags)
-{
-	ALLEGRO_FILE *f = al_fopen(filename, "rb");
-	if (!f) return NULL;
-	ALLEGRO_BITMAP *b = load_cpi_f(f, flags);
-	al_fclose(f);
-	return b;
-}
-
-bool save_cpi_f(ALLEGRO_FILE *f, ALLEGRO_BITMAP *b)
-{
-	ALLEGRO_LOCKED_REGION *lr = al_lock_bitmap(b, ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE, ALLEGRO_LOCK_READONLY);
-	if (!lr) return false;
-	int w = al_get_bitmap_width(b);
-	int h = al_get_bitmap_height(b);
-
-	al_fwrite32le(f, w);
-	al_fwrite32le(f, h);
-
-	for (int y = 0; y < h; y++) {
-		uint8_t *p = (uint8_t *)lr->data + y * lr->pitch;
-		al_fwrite(f, p, w*4);
-	}
-
-	al_unlock_bitmap(b);
-
-	return true;
-}
-
-bool save_cpi(const char *filename, ALLEGRO_BITMAP *b)
-{
-	ALLEGRO_FILE *f = al_fopen(filename, "wb");
-	if (!f) return false;
-	bool ret = save_cpi_f(f, b);
-	al_fclose(f);
-	return ret;
-}
-
 uint32_t read32bits(FILE *f)
 {
 	int b1 = fgetc(f);
@@ -100,11 +33,6 @@ int main(int argc, char **argv)
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_32_WITH_ALPHA);
 	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
 	
-	al_register_bitmap_loader_f(".cpi", load_cpi_f);
-	al_register_bitmap_loader(".cpi", load_cpi);
-	al_register_bitmap_saver(".cpi", save_cpi);
-	al_register_bitmap_saver_f(".cpi", save_cpi_f);
-
 	const char *EXT = argv[1];
 
 	for (int set = 2; set < argc; set++) {
@@ -112,7 +40,7 @@ int main(int argc, char **argv)
 		int num_sheets = 0;
 		for (int i = 0; i < 256; i++) {
 			char buf[200];
-			sprintf(buf, "%s/tiles%d.cpi", set_name, i);
+			sprintf(buf, "%s/tiles%d.png", set_name, i);
 			if (!al_filename_exists(buf))
 				break;
 			num_sheets++;
@@ -239,7 +167,7 @@ int main(int argc, char **argv)
 
 		for (int i = 0; i < num_sheets; i++) {
 			char buf[1000];
-			sprintf(buf, "%s/tiles%d.cpi", set_name, i);
+			sprintf(buf, "%s/tiles%d.png", set_name, i);
 			ALLEGRO_FILE *file = al_fopen(buf, "rb");
 			ALLEGRO_BITMAP *in_bmp = al_load_bitmap_f(file, EXT);
 			al_fclose(file);
@@ -323,7 +251,7 @@ int main(int argc, char **argv)
 				drawn_tiles++;
 				if (drawn_tiles >= tiles_per_sheet) {
 					char buf2[1000];
-					sprintf(buf2, "%s/tiles%d_new.cpi", set_name, curr_sheet++);
+					sprintf(buf2, "%s/tiles%d_new.png", set_name, curr_sheet++);
 					ALLEGRO_FILE *file = al_fopen(buf2, "wb");
 					al_save_bitmap_f(file, EXT, out_bmp);
 					al_fclose(file);
@@ -337,7 +265,7 @@ int main(int argc, char **argv)
 
 		if (out_bmp && drawn_tiles > 0) {
 			char buf2[1000];
-			sprintf(buf2, "%s/tiles%d_new.cpi", set_name, curr_sheet++);
+			sprintf(buf2, "%s/tiles%d_new.png", set_name, curr_sheet++);
 			ALLEGRO_FILE *file = al_fopen(buf2, "wb");
 			al_save_bitmap_f(file, EXT, out_bmp);
 			al_fclose(file);

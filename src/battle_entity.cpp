@@ -2431,17 +2431,17 @@ Battle_Player::Battle_Player(Battle_Loop *battle_loop, Player *player, std::stri
 
 Battle_Player::~Battle_Player()
 {
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHVIAL.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHJAR.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHFLASK.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/MAGICVIAL.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/MAGICFLASK.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/ANTIDOTE.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/item_icons/DIRTYSOCK.cpi");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHVIAL.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHJAR.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/HEALTHFLASK.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/MAGICVIAL.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/MAGICFLASK.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/ANTIDOTE.png");
+	resource_manager->release_bitmap("battle/misc_graphics/item_icons/DIRTYSOCK.png");
 
-	resource_manager->release_bitmap("battle/misc_graphics/player_icons/egbert.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/player_icons/frogbert.cpi");
-	resource_manager->release_bitmap("battle/misc_graphics/player_icons/bisou.cpi");
+	resource_manager->release_bitmap("battle/misc_graphics/player_icons/egbert.png");
+	resource_manager->release_bitmap("battle/misc_graphics/player_icons/frogbert.png");
+	resource_manager->release_bitmap("battle/misc_graphics/player_icons/bisou.png");
 
 	Wrap::destroy_bitmap(profile_bmp);
 }
@@ -2615,24 +2615,24 @@ void Battle_Player::construct2()
 {
 	first_run = true;
 
-	profile_bmp = Wrap::load_bitmap("battle/misc_graphics/profiles/" + name + "_profile.cpi");
+	profile_bmp = Wrap::load_bitmap("battle/misc_graphics/profiles/" + name + "_profile.png");
 	
 	attributes = player->get_battle_attributes();
 
 	sfx_name_attack = Game_Specific_Globals::get_weapon_swing_sfx(attributes.equipment.weapon.name);
 	sfx_name_hit = Game_Specific_Globals::get_weapon_hit_sfx(attributes.equipment.weapon.name);
 	
-	item_icons["HEALTHVIAL"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHVIAL.cpi");
-	item_icons["HEALTHJAR"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHJAR.cpi");
-	item_icons["HEALTHFLASK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHFLASK.cpi");
-	item_icons["MAGICVIAL"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/MAGICVIAL.cpi");
-	item_icons["MAGICFLASK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/MAGICFLASK.cpi");
-	item_icons["ANTIDOTE"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/ANTIDOTE.cpi");
-	item_icons["DIRTYSOCK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/DIRTYSOCK.cpi");
+	item_icons["HEALTHVIAL"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHVIAL.png");
+	item_icons["HEALTHJAR"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHJAR.png");
+	item_icons["HEALTHFLASK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/HEALTHFLASK.png");
+	item_icons["MAGICVIAL"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/MAGICVIAL.png");
+	item_icons["MAGICFLASK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/MAGICFLASK.png");
+	item_icons["ANTIDOTE"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/ANTIDOTE.png");
+	item_icons["DIRTYSOCK"] = resource_manager->reference_bitmap("battle/misc_graphics/item_icons/DIRTYSOCK.png");
 
-	player_icons["egbert"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/egbert.cpi");
-	player_icons["frogbert"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/frogbert.cpi");
-	player_icons["bisou"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/bisou.cpi");
+	player_icons["egbert"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/egbert.png");
+	player_icons["frogbert"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/frogbert.png");
+	player_icons["bisou"] = resource_manager->reference_bitmap("battle/misc_graphics/player_icons/bisou.png");
 }
 
 void Battle_Player::execute_ability(std::string ability, bool onoff)

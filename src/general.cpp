@@ -320,7 +320,7 @@ void init()
 
 	for (int i = 0; i < 9; i++) {
 		char fn[100];
-		snprintf(fn, 100, "misc_graphics/poison/%d.cpi", i+1);
+		snprintf(fn, 100, "misc_graphics/poison/%d.png", i+1);
 		poison_bmps.push_back(Wrap::load_bitmap(fn));
 	}
 	for (int i = 0; i < 5; i++) {

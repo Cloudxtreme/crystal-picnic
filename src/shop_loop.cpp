@@ -394,26 +394,26 @@ Shop_Loop::Shop_Loop(bool is_item_shop) :
 	int dy = cfg.screen_h - General::RENDER_H;
 
 	std::string name = "egbert"; // FIXME
-	character_bmp = Wrap::load_bitmap("misc_graphics/interface/" + name + "_normal_icon.cpi");
+	character_bmp = Wrap::load_bitmap("misc_graphics/interface/" + name + "_normal_icon.png");
 
 	if (is_item_shop) {
-		flea_bmp = Wrap::load_bitmap("misc_graphics/interface/item_flea.cpi");
+		flea_bmp = Wrap::load_bitmap("misc_graphics/interface/item_flea.png");
 	}
 	else {
-		flea_bmp = Wrap::load_bitmap("misc_graphics/interface/equipment_flea.cpi");
+		flea_bmp = Wrap::load_bitmap("misc_graphics/interface/equipment_flea.png");
 	}
 
 	// create and add widgets
-	buy_button = new W_Button("misc_graphics/interface/fat_purple_button.cpi", t("BUY"));
+	buy_button = new W_Button("misc_graphics/interface/fat_purple_button.png", t("BUY"));
 	buy_button->set_text_color(al_color_name("yellow"));
 	buy_button->setX(3);
 	buy_button->setY(3);
 
-	sell_button = new W_Button("misc_graphics/interface/fat_purple_button.cpi", t("SELL"));
+	sell_button = new W_Button("misc_graphics/interface/fat_purple_button.png", t("SELL"));
 	sell_button->setX(3);
 	sell_button->setY(5+buy_button->getHeight());
 
-	return_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("RETURN"));
+	return_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("RETURN"));
 	return_button->setX(184+dx);
 	return_button->setY(96+dy);
 
@@ -484,7 +484,7 @@ void Shop_Loop::add_item(std::string name, int price)
 	buy_prices.push_back(General::itos(price));
 
 	hold_buy_item_names.push_back(name);
-	hold_buy_item_icon_filenames.push_back("misc_graphics/interface/items_icon_white.cpi");
+	hold_buy_item_icon_filenames.push_back("misc_graphics/interface/items_icon_white.png");
 
 	Game_Specific_Globals::Item item;
 	item.name = name;
@@ -521,7 +521,7 @@ void Shop_Loop::add_equipment(
 			weapon.usable_by = usable_by;
 			weapon.quantity = 1;
 			buy_weapons.push_back(weapon);
-			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/weapon_icon.cpi");
+			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/weapon_icon.png");
 			break;
 		}
 		case Equipment::ARMOR: {
@@ -530,14 +530,14 @@ void Shop_Loop::add_equipment(
 			armor.defense = stat;
 			armor.element = element;
 			buy_armor.push_back(armor);
-			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/armor_icon.cpi");
+			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/armor_icon.png");
 			break;
 		}
 		case Equipment::ACCESSORY: {
 			Equipment::Accessory accessory;
 			accessory.name = name;
 			buy_accessories.push_back(accessory);
-			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/accessory_icon.cpi");
+			hold_buy_equipment_icon_filenames.push_back("misc_graphics/interface/accessory_icon.png");
 			break;
 		}
 	}
@@ -597,7 +597,7 @@ void Shop_Loop::create_sell_list()
 				Game_Specific_Globals::get_item_image_name(items[i].name)
 			);
 			item_names.push_back(items[i].name);
-			icon_filenames.push_back("misc_graphics/interface/items_icon_white.cpi");
+			icon_filenames.push_back("misc_graphics/interface/items_icon_white.png");
 			right_justified_text.push_back(General::itos(items[i].quantity));
 		}
 
@@ -623,7 +623,7 @@ void Shop_Loop::create_sell_list()
 				Game_Specific_Globals::get_item_image_name(weapons[i].name)
 			);
 			item_names.push_back(weapons[i].name);
-			icon_filenames.push_back("misc_graphics/interface/weapon_icon.cpi");
+			icon_filenames.push_back("misc_graphics/interface/weapon_icon.png");
 			equipment_type.push_back(Equipment::WEAPON);
 			right_justified_text.push_back(General::itos(weapons[i].quantity));
 		}
@@ -632,7 +632,7 @@ void Shop_Loop::create_sell_list()
 				Game_Specific_Globals::get_item_image_name(armor[i].name)
 			);
 			item_names.push_back(armor[i].name);
-			icon_filenames.push_back("misc_graphics/interface/armor_icon.cpi");
+			icon_filenames.push_back("misc_graphics/interface/armor_icon.png");
 			equipment_type.push_back(Equipment::ARMOR);
 			right_justified_text.push_back("1");
 		}
@@ -641,7 +641,7 @@ void Shop_Loop::create_sell_list()
 				Game_Specific_Globals::get_item_image_name(accessories[i].name)
 			);
 			item_names.push_back(accessories[i].name);
-			icon_filenames.push_back("misc_graphics/interface/accessory_icon.cpi");
+			icon_filenames.push_back("misc_graphics/interface/accessory_icon.png");
 			equipment_type.push_back(Equipment::ACCESSORY);
 			right_justified_text.push_back("1");
 		}

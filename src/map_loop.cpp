@@ -316,9 +316,9 @@ Map_Loop::Map_Loop(std::string start_place) :
 	Music::play("music/map.mid");
 
 	lua_state = NULL;
-	map_bmp = Wrap::load_bitmap("misc_graphics/map/map.cpi");
-	x_bmp = Wrap::load_bitmap("misc_graphics/map/x.cpi");
-	node_bmp = Wrap::load_bitmap("misc_graphics/map/node.cpi");
+	map_bmp = Wrap::load_bitmap("misc_graphics/map/map.png");
+	x_bmp = Wrap::load_bitmap("misc_graphics/map/x.png");
+	node_bmp = Wrap::load_bitmap("misc_graphics/map/node.png");
 	offset = General::Point<float>(0, 0);
 
 	engine->set_game_just_loaded(false);

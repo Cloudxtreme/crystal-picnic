@@ -107,8 +107,8 @@ bool Video_Config_Loop::init()
 	fs_checkbox = new W_Checkbox(0, 0, cfg.fullscreen, t("CONFIG_FULLSCREEN"));
 	linear_checkbox = new W_Checkbox(0, 0, cfg.linear_filtering, t("LINEAR_FILTERING"));
 
-	save_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("SAVE"));
-	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("CANCEL"));
+	save_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
+	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("CANCEL"));
 
 	int maxw = mode_list->getWidth();
 	maxw = MAX(maxw, fs_checkbox->getWidth());

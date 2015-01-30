@@ -20,7 +20,7 @@ bool Settings_Loop::init()
 	gamepad_button = new W_Translated_Button("CONFIG_GAMEPAD");
 	language_button = new W_Translated_Button("CONFIG_LANGUAGE");
 
-	return_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("RETURN"));
+	return_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("RETURN"));
 
 	int maxw = video_button->getWidth();
 	maxw = MAX(maxw, keyboard_button->getWidth());

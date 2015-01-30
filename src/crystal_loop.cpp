@@ -16,7 +16,7 @@ bool Crystal_Loop::init()
 	engine->load_sample("sfx/spend_crystal.ogg");
 
 	for (size_t i = 0; i < players.size(); i++) {
-		Wrap::Bitmap *b = Wrap::load_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.cpi");
+		Wrap::Bitmap *b = Wrap::load_bitmap("misc_graphics/interface/" + players[i]->get_name() + "_normal_icon.png");
 		player_bmps.push_back(b);
 	}
 
@@ -46,7 +46,7 @@ bool Crystal_Loop::init()
 		tgui::addWidget(mp_buttons[i]);
 	}
 
-	return_button = new W_Button("misc_graphics/interface/fat_red_button.cpi", t("RETURN"));
+	return_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("RETURN"));
 	return_button->setX(5);
 	return_button->setY(cfg.screen_h-5-20-return_button->getHeight()/2);
 	tgui::addWidget(return_button);

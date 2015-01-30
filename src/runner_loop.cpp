@@ -943,7 +943,7 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 
 	// Make Battle_Loop not clear screen
 	bird_bmp = Wrap::load_bitmap(
-		"mini_games/runner/bird.cpi"
+		"mini_games/runner/bird.png"
 	);
 	bird_w = al_get_bitmap_width(bird_bmp->bitmap);
 	bird_h = al_get_bitmap_height(bird_bmp->bitmap);
@@ -955,53 +955,53 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 		General::texture_size, General::texture_size, ATLAS_REPEAT_EDGES, 1, false
 	);
 	Wrap::Bitmap *bmp = Wrap::load_bitmap(
-		"mini_games/runner/left.cpi"
+		"mini_games/runner/left.png"
 	);
 	atlas_add(atlas, bmp, 0);
 	bmps.push_back(bmp);
 	left_bmp_width = al_get_bitmap_width(bmp->bitmap);
 	left_bmp_height = al_get_bitmap_height(bmp->bitmap);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/right.cpi"
+		"mini_games/runner/right.png"
 	);
 	atlas_add(atlas, bmp, 1);
 	bmps.push_back(bmp);
 	right_bmp_width = al_get_bitmap_width(bmp->bitmap);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/rock.cpi"
+		"mini_games/runner/rock.png"
 	);
 	atlas_add(atlas, bmp, 2);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/stump.cpi"
+		"mini_games/runner/stump.png"
 	);
 	atlas_add(atlas, bmp, 3);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/left-bottom.cpi"
+		"mini_games/runner/left-bottom.png"
 	);
 	atlas_add(atlas, bmp, 4);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/mid0-bottom.cpi"
+		"mini_games/runner/mid0-bottom.png"
 	);
 	atlas_add(atlas, bmp, 5);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/right-bottom.cpi"
+		"mini_games/runner/right-bottom.png"
 	);
 	atlas_add(atlas, bmp, 6);
 	bmps.push_back(bmp);
 	num_middle_bmps = 0;
 	for (; num_middle_bmps < 16; num_middle_bmps++) {
 		char name[1000];
-		sprintf(name, "mini_games/runner/mid%d.cpi", num_middle_bmps);
+		sprintf(name, "mini_games/runner/mid%d.png", num_middle_bmps);
 		if (!engine->get_cpa()->exists(name))
 			break;
 	}
 
 	for (int i = 0; i < num_middle_bmps; i++) {
-		Wrap::Bitmap *b = Wrap::load_bitmap("mini_games/runner/mid" + General::itos(i) + ".cpi");
+		Wrap::Bitmap *b = Wrap::load_bitmap("mini_games/runner/mid" + General::itos(i) + ".png");
 		atlas_add(atlas, b, i+7);
 		bmps.push_back(b);
 		mid_bmp_width = al_get_bitmap_width(b->bitmap);
@@ -1009,19 +1009,19 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 
 	tree_bg_i = num_middle_bmps+7;
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_bg.cpi"
+		"mini_games/runner/tree_bg.png"
 	);
 	atlas_add(atlas, bmp, tree_bg_i);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_bg2.cpi"
+		"mini_games/runner/tree_bg2.png"
 	);
 	atlas_add(atlas, bmp, tree_bg_i+1);
 	bmps.push_back(bmp);
 	tree_bg_w = al_get_bitmap_width(bmp->bitmap);
 	tree_bg_h = al_get_bitmap_height(bmp->bitmap);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/mountain1.cpi"
+		"mini_games/runner/mountain1.png"
 	);
 	atlas_add(atlas, bmp, tree_bg_i+2);
 	bmps.push_back(bmp);
@@ -1030,12 +1030,12 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 
 	tree_fg_i = tree_bg_i + 3;
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_fg.cpi"
+		"mini_games/runner/tree_fg.png"
 	);
 	atlas_add(atlas, bmp, tree_fg_i);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_fg2.cpi"
+		"mini_games/runner/tree_fg2.png"
 	);
 	atlas_add(atlas, bmp, tree_fg_i+1);
 	bmps.push_back(bmp);
@@ -1044,13 +1044,13 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 
 	tree_slide_i = tree_fg_i + 2;
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_slide.cpi"
+		"mini_games/runner/tree_slide.png"
 	);
 	tree_slide_h = al_get_bitmap_height(bmp->bitmap);
 	atlas_add(atlas, bmp, tree_slide_i);
 	bmps.push_back(bmp);
 	bmp = Wrap::load_bitmap(
-		"mini_games/runner/tree_slide_upper.cpi"
+		"mini_games/runner/tree_slide_upper.png"
 	);
 	atlas_add(atlas, bmp, tree_slide_i+1);
 	bmps.push_back(bmp);
@@ -1068,20 +1068,20 @@ Runner_Loop::Runner_Loop(std::vector<Player *> bisou, Wrap::Bitmap **end_screens
 	coin_w = coin->get_current_animation()->get_current_frame()->get_width();
 	coin_h = coin->get_current_animation()->get_current_frame()->get_height();
 
-	gradient = Wrap::load_bitmap("mini_games/runner/colorgradient.cpi");
+	gradient = Wrap::load_bitmap("mini_games/runner/colorgradient.png");
 	bee_anim = new Animation_Set();
 	bee_anim->load("mini_games/runner/bee");
-	shield_bmp = Wrap::load_bitmap("mini_games/runner/shield.cpi");
+	shield_bmp = Wrap::load_bitmap("mini_games/runner/shield.png");
 	shield_barrier = new Animation_Set();
 	shield_barrier->load("mini_games/runner/shield_barrier");
 
-	cloud1 = Wrap::load_bitmap("mini_games/runner/clouds1.cpi");
-	cloud2 = Wrap::load_bitmap("mini_games/runner/clouds2.cpi");
-	cloud3 = Wrap::load_bitmap("mini_games/runner/clouds3.cpi");
-	star1 = Wrap::load_bitmap("mini_games/runner/stara1.cpi");
-	star2 = Wrap::load_bitmap("mini_games/runner/stara2.cpi");
-	star3 = Wrap::load_bitmap("mini_games/runner/starb1.cpi");
-	star4 = Wrap::load_bitmap("mini_games/runner/starb2.cpi");
+	cloud1 = Wrap::load_bitmap("mini_games/runner/clouds1.png");
+	cloud2 = Wrap::load_bitmap("mini_games/runner/clouds2.png");
+	cloud3 = Wrap::load_bitmap("mini_games/runner/clouds3.png");
+	star1 = Wrap::load_bitmap("mini_games/runner/stara1.png");
+	star2 = Wrap::load_bitmap("mini_games/runner/stara2.png");
+	star3 = Wrap::load_bitmap("mini_games/runner/starb1.png");
+	star4 = Wrap::load_bitmap("mini_games/runner/starb2.png");
 
 	poof_anim = new Animation_Set();
 	poof_anim->load("mini_games/runner/poof");

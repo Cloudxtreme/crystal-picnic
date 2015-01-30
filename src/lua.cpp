@@ -1371,7 +1371,7 @@ static int c_set_area_player_underlay_bitmap_add(lua_State *stack)
 	if (loop) {
 		Area_Manager *area = loop->get_area();
 		Wrap::Bitmap *bmp;
-		bmp = Wrap::load_bitmap(std::string("misc_graphics/")+name+".cpi");
+		bmp = Wrap::load_bitmap(std::string("misc_graphics/")+name+".png");
 		area->set_player_underlay_bitmap_add(bmp, layer, top_also);
 	}
 

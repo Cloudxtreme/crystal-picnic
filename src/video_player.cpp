@@ -87,7 +87,7 @@ void Video_Player::get_frames(int num)
 		al_store_state(&state, ALLEGRO_STATE_NEW_BITMAP_PARAMETERS);
 		al_set_new_bitmap_format(General::noalpha_bmp_format);
 		char buf[1000];
-		snprintf(buf, 1000, "%s/%06d.cpi", dirname.c_str(), total_frames_loaded+i);
+		snprintf(buf, 1000, "%s/%06d.png", dirname.c_str(), total_frames_loaded+i);
 		Wrap::Bitmap *b = Wrap::load_bitmap(buf);
 		Video_Frame frame;
 		frame.bitmap = b;
@@ -111,7 +111,7 @@ Video_Player::Video_Player(std::string dirname, int buffer_size_in_frames) :
 	total_frames = 0;
 	for (; total_frames < 0xffff /* RANDOM */; total_frames++) {
 		char filename[1000];
-		snprintf(filename, 1000, "%s/%06d.cpi", this->dirname.c_str(), total_frames);
+		snprintf(filename, 1000, "%s/%06d.png", this->dirname.c_str(), total_frames);
 		if (!General::exists(filename)) {
 			break;
 		}
