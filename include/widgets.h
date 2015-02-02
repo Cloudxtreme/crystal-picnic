@@ -554,8 +554,8 @@ public:
 		}
 	}
 	
-	#define TOP_NAME "misc_graphics/interface/vertical_scrollbar_top.cpi"
-	#define MID_NAME "misc_graphics/interface/vertical_scrollbar_middle.cpi"
+	#define TOP_NAME "misc_graphics/interface/vertical_scrollbar_top.png"
+	#define MID_NAME "misc_graphics/interface/vertical_scrollbar_middle.png"
 
 	W_Vertical_Scrollbar(float tab_size) :
 		down(false),

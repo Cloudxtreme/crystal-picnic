@@ -106,15 +106,15 @@ public:
 		this->number = number;
 		this->abilities = abilities;
 
-		crystal_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/crystal.cpi");
-		slot_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/slot.cpi");
-		available_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/available.cpi");
+		crystal_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/crystal.png");
+		slot_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/slot.png");
+		available_bmp = resource_manager->reference_bitmap("misc_graphics/interface/crystal_menu/available.png");
 	}
 
 	virtual ~Crystal_Button() {
-		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/crystal.cpi");
-		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/slot.cpi");
-		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/available.cpi");
+		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/crystal.png");
+		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/slot.png");
+		resource_manager->release_bitmap("misc_graphics/interface/crystal_menu/available.png");
 	}
 
 private:
