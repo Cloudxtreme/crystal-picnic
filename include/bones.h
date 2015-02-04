@@ -28,29 +28,26 @@ struct Bone {
 		size(size)
 	{
 		this->type = type;
+
+		this->outline = outline;
+		this->mirrored_outline = outline;
+		this->triangles = triangles;
+		this->mirrored_triangles = triangles;
 	
 		std::vector< General::Point<float> >::iterator it2;
 
-		for (it2 = outline.begin(); it2 != outline.end(); it2++) {
-			General::Point<float> p = *it2;
-			this->outline.push_back(p);
-			mirrored_outline.push_back(General::Point<float>(
-				-p.x,
-				p.y
-			));
+		for (it2 = this->mirrored_outline.begin(); it2 != this->mirrored_outline.end(); it2++) {
+			General::Point<float> &p = *it2;
+			p.x = -p.x;
 		}
 
 		std::vector<Triangulate::Triangle>::iterator it;
 
-		for (it = triangles.begin(); it != triangles.end(); it++) {
-			this->triangles.push_back(*it);
+		for (it = this->mirrored_triangles.begin(); it != this->mirrored_triangles.end(); it++) {
 			Triangulate::Triangle &t = *it;
-			Triangulate::Triangle t2;
 			for (int i = 0; i < 3; i++) {
-				t2.points[i].x = -t.points[i].x;
-				t2.points[i].y = t.points[i].y;
+				t.points[i].x = -t.points[i].x;
 			}
-			mirrored_triangles.push_back(t2);
 		}
 	}
 
