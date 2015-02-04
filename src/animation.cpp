@@ -13,7 +13,7 @@ void Animation::draw_scaled(int sx, int sy, int sw, int sh, int dx, int dy,
 
 void Animation::draw(int x, int y, int flags)
 {
-	draw_tinted(al_color_name("white"), x, y, flags);
+	draw_tinted(al_map_rgb(0xff, 0xff, 0xff), x, y, flags);
 }
 
 void Animation::draw_tinted_rotated(ALLEGRO_COLOR tint, int x, int y, int flags)
@@ -52,7 +52,7 @@ void Animation::draw_add_tinted_rotated(ALLEGRO_COLOR tint, float p, int x, int 
 	al_set_shader_float("color_b", tint.b);
 	al_draw_tinted_rotated_bitmap(
 		bmp->bitmap,
-		al_color_name("white"),
+		al_map_rgb(0xff, 0xff, 0xff),
 		rotation_center.x, rotation_center.y,
 		x+rotation_center.x, y+rotation_center.y,
 		(flags & ALLEGRO_FLIP_HORIZONTAL) ? -angle : angle,

@@ -81,8 +81,8 @@ bool Shop_Loop::logic()
 	if (w == buy_button && !buying) {
 		buying = true;
 
-		sell_button->set_text_color(al_color_name("lightgrey"));
-		buy_button->set_text_color(al_color_name("yellow"));
+		sell_button->set_text_color(al_map_rgb(0xd3, 0xd3, 0xd3));
+		buy_button->set_text_color(al_map_rgb(0xff, 0xff, 0x00));
 		set_current_list(buy_list);
 
 		for (int i = 0; i < sell_list->get_num_items(); i++) {
@@ -97,8 +97,8 @@ bool Shop_Loop::logic()
 
 		create_sell_list();
 
-		buy_button->set_text_color(al_color_name("lightgrey"));
-		sell_button->set_text_color(al_color_name("yellow"));
+		buy_button->set_text_color(al_map_rgb(0xd3, 0xd3, 0xd3));
+		sell_button->set_text_color(al_map_rgb(0xff, 0xff, 0x00));
 		set_current_list(sell_list);
 	}
 	else if (w == item_icon_button && current_list->get_num_items() > 0) {
@@ -296,7 +296,7 @@ void Shop_Loop::draw()
 		181+dx,
 		60,
 		false,
-		al_color_name("white"),
+		al_map_rgb(0xff, 0xff, 0xff),
 		1
 	);
 
@@ -308,7 +308,7 @@ void Shop_Loop::draw()
 		178+dx,
 		92+dy,
 		false,
-		al_color_name("white"),
+		al_map_rgb(0xff, 0xff, 0xff),
 		1
 	);
 
@@ -334,7 +334,7 @@ void Shop_Loop::draw()
 		resource_manager->release_bitmap(image_name);
 		General::draw_wrapped_text(
 			Game_Specific_Globals::get_item_description(name),
-			al_color_name("white"),
+			al_map_rgb(0xff, 0xff, 0xff),
 			32,
 			107+dy,
 			135+dx,
@@ -346,10 +346,10 @@ void Shop_Loop::draw()
 	int cx = dx + 184 + return_button->getWidth()/2;
 	int cy = dy + 96 + return_button->getHeight() + 3;
 
-	General::draw_text(t("CASH_LABEL"), al_color_name("cyan"), cx, cy, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("CASH_LABEL"), al_map_rgb(0x00, 0xff, 0xff), cx, cy, ALLEGRO_ALIGN_CENTER);
 	General::draw_text(
 		General::itos(Game_Specific_Globals::cash),
-		al_color_name("cyan"),
+		al_map_rgb(0x00, 0xff, 0xff),
 		cx,
 		cy+General::get_font_line_height(General::FONT_LIGHT),
 		ALLEGRO_ALIGN_CENTER
@@ -405,7 +405,7 @@ Shop_Loop::Shop_Loop(bool is_item_shop) :
 
 	// create and add widgets
 	buy_button = new W_Button("misc_graphics/interface/fat_purple_button.png", t("BUY"));
-	buy_button->set_text_color(al_color_name("yellow"));
+	buy_button->set_text_color(al_map_rgb(0xff, 0xff, 0x00));
 	buy_button->setX(3);
 	buy_button->setY(3);
 

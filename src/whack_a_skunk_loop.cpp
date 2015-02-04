@@ -374,7 +374,7 @@ bool Whack_a_Skunk_Loop::logic(void)
 
 void Whack_a_Skunk_Loop::draw(void)
 {
-	al_clear_to_color(al_color_name("black"));
+	al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 	al_draw_bitmap(
 		bg_bitmap->bitmap,
@@ -518,7 +518,7 @@ void Whack_a_Skunk_Loop::draw(void)
 	}
 	char buf[100];
 	snprintf(buf, 100, "%d", hits);
-	draw_centered_text(font, al_color_name("lime"), buf, cfg.screen_w/4-30, 5);
+	draw_centered_text(font, al_map_rgb(0x00, 0xff, 0x00), buf, cfg.screen_w/4-30, 5);
 
 	int hitx;
 	if (hits_in_a_row >= 7) {
@@ -531,7 +531,7 @@ void Whack_a_Skunk_Loop::draw(void)
 		hitx = 1;
 	}
 	snprintf(buf, 100, "x%d", hitx);
-	draw_centered_text(font, al_color_name("gold"), buf, cfg.screen_w*3/4+15, 5);
+	draw_centered_text(font, al_map_rgb(0xff, 0xd7, 0x00), buf, cfg.screen_w*3/4+15, 5);
 
 	std::list<Pow>::iterator pow_it;
 	for (pow_it = pows.begin(); pow_it != pows.end(); pow_it++) {

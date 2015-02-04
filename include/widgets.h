@@ -199,7 +199,7 @@ public:
 	W_Integer(int start) :
 		number(start)
 	{
-		color = al_color_name("black");
+		color = al_map_rgb(0x00, 0x00, 0x00);
 		width = 1;
 		height = 1;
 	}
@@ -230,7 +230,7 @@ public:
 			);
 			General::draw_text(
 				caption,
-				al_color_name("white"),
+				al_map_rgb(0xff, 0xff, 0xff),
 				draw_x + icon_w + 2,
 				y+height/2-General::get_font_line_height(General::FONT_LIGHT)/2+offset.y,
 				ALLEGRO_ALIGN_LEFT,
@@ -240,7 +240,7 @@ public:
 		else {
 			General::draw_text(
 				caption,
-				al_color_name("white"),
+				al_map_rgb(0xff, 0xff, 0xff),
 				x+width/2+offset.x,
 				y+height/2-General::get_font_line_height(General::FONT_LIGHT)/2+offset.y,
 				ALLEGRO_ALIGN_CENTER,

@@ -211,25 +211,25 @@ void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 	v[0].z = 0;
 	v[0].u = low;
 	v[0].v = cfg.screen_h;
-	v[0].color = al_color_name("white");
+	v[0].color = al_map_rgb(0xff, 0xff, 0xff);
 	v[1].x = x1;
 	v[1].y = y1;
 	v[1].z = 0;
 	v[1].u = low;
 	v[1].v = 0;
-	v[1].color = al_color_name("white");
+	v[1].color = al_map_rgb(0xff, 0xff, 0xff);
 	v[2].x = x2;
 	v[2].y = y2;
 	v[2].z = 0;
 	v[2].u = high;
 	v[2].v = cfg.screen_h;
-	v[2].color = al_color_name("white");
+	v[2].color = al_map_rgb(0xff, 0xff, 0xff);
 	v[3].x = x2;
 	v[3].y = y1;
 	v[3].z = 0;
 	v[3].u = high;
 	v[3].v = 0;
-	v[3].color = al_color_name("white");
+	v[3].color = al_map_rgb(0xff, 0xff, 0xff);
 	
 	al_draw_prim(v, 0, bitmap->bitmap, 0, 4, ALLEGRO_PRIM_TRIANGLE_STRIP);
 	
@@ -321,7 +321,7 @@ void draw_info_box(float topright_x, float topright_y, int width, int height, st
 	al_draw_filled_rectangle(
 		5, 5,
 		5+width, 5+height,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	al_set_target_bitmap(old_target);
 	draw_bitmap_shadow_region_no_intermediate(work, 0, 0, width+10, height+10, topright_x-width-5, topright_y-5);
@@ -331,10 +331,10 @@ void draw_info_box(float topright_x, float topright_y, int width, int height, st
 		topright_y,
 		topright_x,
 		topright_y+height,
-		al_color_name("tan")
+		al_map_rgb(0xd2, 0xb4, 0x8c)
 	);
 
-	ALLEGRO_COLOR dark = Graphics::change_brightness(al_color_name("tan"), 0.5f);
+	ALLEGRO_COLOR dark = Graphics::change_brightness(al_map_rgb(0xd2, 0xb4, 0x8c), 0.5f);
 	al_draw_rectangle(
 		topright_x-width+0.5f,
 		topright_y+0.5f,
@@ -344,7 +344,7 @@ void draw_info_box(float topright_x, float topright_y, int width, int height, st
 		1
 	);
 
-	General::draw_wrapped_text(text, al_color_name("black"), topright_x-width+2, topright_y+2, width-4);
+	General::draw_wrapped_text(text, al_map_rgb(0x00, 0x00, 0x00), topright_x-width+2, topright_y+2, width-4);
 }
 
 void draw_gauge(int x, int y, int width, bool thick, float percent, ALLEGRO_COLOR gauge_hilight_color, ALLEGRO_COLOR color)
@@ -361,7 +361,7 @@ void draw_gauge(int x, int y, int width, bool thick, float percent, ALLEGRO_COLO
 	int endx = x+width-2;
 	int length = (endx-startx) * percent;
 	
-	al_draw_filled_rectangle(startx, y+1, endx, y+3+(thick ? 1 : 0), al_color_name("black"));
+	al_draw_filled_rectangle(startx, y+1, endx, y+3+(thick ? 1 : 0), al_map_rgb(0x00, 0x00, 0x00));
 
 	if (length > 0) {
 		if (percent > 0 && length == 0) length = 1;

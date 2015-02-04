@@ -125,7 +125,7 @@ W_Button::W_Button(int x, int y, int width, int height) :
 	this->width = width;
 	this->height = height;
 	sample_name = "sfx/menu_select.ogg";
-	this->text_color = al_color_name("lightgrey");
+	this->text_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 	text_yoffset = 2;
 }
 
@@ -150,7 +150,7 @@ W_Button::W_Button(std::string filename) :
 		height = al_get_bitmap_height(image->bitmap);
 	}
 	
-	this->text_color = al_color_name("lightgrey");
+	this->text_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 }
 
 W_Button::W_Button(std::string filename, std::string text) :
@@ -179,7 +179,7 @@ W_Button::W_Button(std::string filename, std::string text) :
 		height = General::get_font_line_height(General::FONT_LIGHT) + 4;
 	}
 	
-	this->text_color = al_color_name("lightgrey");
+	this->text_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 }
 
 W_Button::~W_Button()
@@ -506,7 +506,7 @@ void W_Equipment_List::draw(int abs_x, int abs_y)
 			color = dark;
 		}
 		else {
-			color = al_color_name("white");
+			color = al_map_rgb(0xff, 0xff, 0xff);
 		}
 		General::draw_text_width(max_w, t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
 	}
@@ -650,7 +650,7 @@ W_Equipment_List::~W_Equipment_List()
 
 void W_SaveLoad_Button::draw(int abs_x, int abs_y)
 {
-	General::draw_speech_window(SPEECH_NORMAL, abs_x, abs_y, width, height, false, al_color_name("white"), 1.0f);
+	General::draw_speech_window(SPEECH_NORMAL, abs_x, abs_y, width, height, false, al_map_rgb(0xff, 0xff, 0xff), 1.0f);
 
 	int max_w = 0;
 	int max_h = 0;
@@ -1061,17 +1061,17 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 		int this_y = yy+(i-start)*line_height;
 		ALLEGRO_COLOR color;
 		if ((int)i == selected) {
-			color = al_color_name("yellow");
+			color = al_map_rgb(0xff, 0xff, 0x00);
 		}
 		else {
-			color = al_color_name("white");
+			color = al_map_rgb(0xff, 0xff, 0xff);
 		}
 		if (icons.size() > 0) {
 			icon_w = 9;
 			if (icons[i]) {
 				ALLEGRO_COLOR c;
 				if (!tint_icons) {
-					c = al_color_name("white");
+					c = al_map_rgb(0xff, 0xff, 0xff);
 				}
 				else {
 					c = color;
@@ -1106,10 +1106,10 @@ void W_Scrolling_List::draw(int abs_x, int abs_y)
 			color = dark;
 		}
 		else if ((int)i == selected) {
-			color = al_color_name("yellow");
+			color = al_map_rgb(0xff, 0xff, 0x00);
 		}
 		else {
-			color = al_color_name("white");
+			color = al_map_rgb(0xff, 0xff, 0xff);
 		}
 		if (translate_item_names) {
 			General::draw_text_width(max_w, t(item_names[i].c_str()), color, icon_w+x+3+offset.x, this_y+offset.y, 0, font);
@@ -1468,7 +1468,7 @@ void W_Checkbox::draw(int abs_x, int abs_y)
 		al_draw_line(cx+0.5f, cy+sz-0.5f, cx+sz-0.5f, cy+0.5f, fore, 1);
 	}
 
-	General::draw_text(text, al_color_name("lightgrey"), abs_x+sz+6, abs_y+2, 0);
+	General::draw_text(text, al_map_rgb(0xd3, 0xd3, 0xd3), abs_x+sz+6, abs_y+2, 0);
 }
 
 void W_Checkbox::keyDown(int keycode)
@@ -1535,7 +1535,7 @@ void W_Translated_Button::mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, 
 void W_Translated_Button::draw(int abs_x, int abs_y)
 {
 	width = General::get_text_width(General::FONT_LIGHT, t(text.c_str())) + 4;
-	General::draw_text(t(text.c_str()), al_color_name("lightgrey"), abs_x+offset.x+2, abs_y+offset.y+2, 0);
+	General::draw_text(t(text.c_str()), al_map_rgb(0xd3, 0xd3, 0xd3), abs_x+offset.x+2, abs_y+offset.y+2, 0);
 }
 
 tgui::TGUIWidget *W_Translated_Button::update()

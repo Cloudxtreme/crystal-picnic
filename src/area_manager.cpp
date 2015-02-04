@@ -984,7 +984,7 @@ void Area_Manager::draw_entity(Map_Entity *entity, bool draw_shadow, General::Po
 				0
 			);
 		}
-		skeleton->draw(General::Point<float>(entity_pos.x-top.x, entity_pos.y-top.y-entity->get_z()), !entity->is_facing_right(), al_color_name("white"));
+		skeleton->draw(General::Point<float>(entity_pos.x-top.x, entity_pos.y-top.y-entity->get_z()), !entity->is_facing_right(), al_map_rgb(0xff, 0xff, 0xff));
 	}
 	else if (anim_set) {
 		Animation *anim = anim_set->get_current_animation();

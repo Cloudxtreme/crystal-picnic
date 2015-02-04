@@ -23,7 +23,7 @@ void Bitmap::set(Wrap::Bitmap *bmp)
 
 void Bitmap::draw_region(float sx, float sy, int sw, int sh, float dx, float dy, int flags)
 {
-	draw_region_tinted(al_color_name("white"), sx, sy, sw, sh, dx, dy, flags);
+	draw_region_tinted(al_map_rgb(0xff, 0xff, 0xff), sx, sy, sw, sh, dx, dy, flags);
 }
 
 void Bitmap::draw_region_tinted_depth(ALLEGRO_COLOR tint, float sx, float sy, int sw, int sh, float dx, float dy, int flags, float depth)

@@ -66,7 +66,7 @@ static double next = 0.0;
 
 static void draw_main_menu()
 {
-	al_clear_to_color(al_color_name("black"));
+	al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 	al_draw_bitmap(
 		title->bitmap,
@@ -117,7 +117,7 @@ public:
 	bool handle_event(ALLEGRO_EVENT *event) { return false; }
 	bool logic() { return false; }
 	void draw() {
-		al_clear_to_color(al_color_name("black"));
+		al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 		al_draw_bitmap(
 			title->bitmap,
@@ -137,7 +137,7 @@ static void fade(double time, bool out)
 	while (true) {
 		ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
 
-		al_clear_to_color(al_color_name("black"));
+		al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 		draw_main_menu();
 
@@ -503,7 +503,7 @@ void Main::execute()
 				if (!lost) {
 					ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
 
-					al_clear_to_color(al_color_name("black"));
+					al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 					draw_main_menu();
 					engine->finish_draw(false, old_target);

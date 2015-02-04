@@ -732,7 +732,7 @@ void draw_text_width(int width, std::string text, ALLEGRO_COLOR color, float x, 
 
 void draw_text(std::string text, float x, float y, int flags, Font_Type font)
 {
-	my_draw_text(get_font(font), al_color_name("lightgrey"), x, y, flags, text.c_str());
+	my_draw_text(get_font(font), al_map_rgb(0xd3, 0xd3, 0xd3), x, y, flags, text.c_str());
 }
 
 int get_text_width(ALLEGRO_FONT *font, std::string text)
@@ -992,7 +992,7 @@ void best_fit_tinted(Wrap::Bitmap *bitmap, ALLEGRO_COLOR tint)
 
 void best_fit(Wrap::Bitmap *bitmap)
 {
-	best_fit_tinted(bitmap, al_color_name("white"));
+	best_fit_tinted(bitmap, al_map_rgb(0xff, 0xff, 0xff));
 }
 
 bool exists(std::string path)

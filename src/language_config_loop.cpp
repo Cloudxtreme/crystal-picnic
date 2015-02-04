@@ -60,7 +60,7 @@ bool Language_Config_Loop::init()
 	tgui::addWidget(scrollbar);
 	tgui::addWidget(save_button);
 
-	tguiWidgetsSetColors(al_color_name("yellow"), al_map_rgba_f(0.0f, 0.0f, 0.0f, 0.0f));
+	tguiWidgetsSetColors(al_map_rgb(0xff, 0xff, 0x00), al_map_rgba_f(0.0f, 0.0f, 0.0f, 0.0f));
 
 	tgui::setFocus(save_button);
 

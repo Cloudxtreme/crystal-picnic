@@ -242,7 +242,7 @@ void Map_Loop::draw()
 					locations[dir].pos.y, \
 					offset.x, \
 					offset.y, \
-					al_color_name("red"), \
+					al_map_rgb(0xff, 0x00, 0x00), \
 					5, \
 					5, \
 					5 \
@@ -282,9 +282,9 @@ void Map_Loop::draw()
 	int th = General::get_font_line_height(General::FONT_HEAVY);
 	int x = 15 + PADDING;
 	int y = cfg.screen_h - 15 - th - PADDING*2;
-	al_draw_filled_rectangle(x, y, x+tw+PADDING*2, y+th+PADDING*2, al_color_name("lightgrey"));
-	Graphics::draw_gradient_rectangle(x+tw+PADDING*2, y, x+tw+PADDING*2+TRAIL, y+th+PADDING*2, al_color_name("lightgrey"), al_map_rgba_f(0, 0, 0, 0), al_map_rgba_f(0, 0, 0, 0), al_color_name("lightgrey"));
-	General::draw_text(t(locations[curr_loc].name.c_str()), al_color_name("black"), x+PADDING, y+PADDING, 0, General::FONT_HEAVY);
+	al_draw_filled_rectangle(x, y, x+tw+PADDING*2, y+th+PADDING*2, al_map_rgb(0xd3, 0xd3, 0xd3));
+	Graphics::draw_gradient_rectangle(x+tw+PADDING*2, y, x+tw+PADDING*2+TRAIL, y+th+PADDING*2, al_map_rgb(0xd3, 0xd3, 0xd3), al_map_rgba_f(0, 0, 0, 0), al_map_rgba_f(0, 0, 0, 0), al_map_rgb(0xd3, 0xd3, 0xd3));
+	General::draw_text(t(locations[curr_loc].name.c_str()), al_map_rgb(0x00, 0x00, 0x00), x+PADDING, y+PADDING, 0, General::FONT_HEAVY);
 }
 
 void Map_Loop::add_location(std::string name, General::Point<int> pos)

@@ -1286,7 +1286,7 @@ void Map_Entity::draw(void)
 				(t.points[1].y+General::BOTTOM_SPRITE_PADDING+pos.y-top.y)*cfg.screens_h,
 				(t.points[2].x+pos.x-top.x)*cfg.screens_w,
 				(t.points[2].y+General::BOTTOM_SPRITE_PADDING+pos.y-top.y)*cfg.screens_h,
-				al_color_name("white"),
+				al_map_rgb(0xff, 0xff, 0xff),
 				1
 			);
 		}

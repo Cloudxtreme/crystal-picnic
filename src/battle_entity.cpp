@@ -67,10 +67,10 @@ static void draw_item_circle_text(int x, int y, std::string text)
 	int w = General::get_text_width(General::FONT_LIGHT, text);
 	int h = General::get_font_line_height(General::FONT_LIGHT);
 	al_hold_bitmap_drawing(true);
-	General::draw_text(text, al_color_name("black"), x-w/2+1, y-h+1);
-	General::draw_text(text, al_color_name("black"), x-w/2+1, y-h);
-	General::draw_text(text, al_color_name("black"), x-w/2, y-h+1);
-	General::draw_text(text, al_color_name("white"), x-w/2, y-h);
+	General::draw_text(text, al_map_rgb(0x00, 0x00, 0x00), x-w/2+1, y-h+1);
+	General::draw_text(text, al_map_rgb(0x00, 0x00, 0x00), x-w/2+1, y-h);
+	General::draw_text(text, al_map_rgb(0x00, 0x00, 0x00), x-w/2, y-h+1);
+	General::draw_text(text, al_map_rgb(0xff, 0xff, 0xff), x-w/2, y-h);
 	al_hold_bitmap_drawing(false);
 }
 
@@ -1899,7 +1899,7 @@ void Battle_Entity::draw()
 					pos.y+t.points[1].y-top.y + General::TILE_SIZE,
 					pos.x+t.points[2].x-top.x,
 					pos.y+t.points[2].y-top.y + General::TILE_SIZE,
-					al_color_name("red"), 1);
+					al_map_rgb(0xff, 0x00, 0x00), 1);
 			}
 		}
 	}
@@ -2191,7 +2191,7 @@ void Battle_Entity::construct()
 	MAX_X_ACCEL_SPECIAL = 4.0f;
 	MAX_X_VEL_SPECIAL = 30.0f;
 
-	tint = al_color_name("white");
+	tint = al_map_rgb(0xff, 0xff, 0xff);
 
 	old_x = pos.x;
 

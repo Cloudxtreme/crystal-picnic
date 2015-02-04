@@ -215,7 +215,6 @@ if(WIN32)
 		allegro_ttf${ALLEG_SUFFIX}
 		allegro_font${ALLEG_SUFFIX}
 		allegro_primitives${ALLEG_SUFFIX}
-		allegro_color${ALLEG_SUFFIX}
 		allegro_memfile${ALLEG_SUFFIX}
 		allegro_dialog${ALLEG_SUFFIX}
 		allegro_image${ALLEG_SUFFIX}
@@ -241,7 +240,6 @@ else(WIN32)
 			allegro_ttf${ALLEG_SUFFIX}
 			allegro_font${ALLEG_SUFFIX}
 			allegro_primitives${ALLEG_SUFFIX}
-			allegro_color${ALLEG_SUFFIX}
 			allegro_memfile${ALLEG_SUFFIX}
 			allegro_dialog${ALLEG_SUFFIX}
 			allegro_image${ALLEG_SUFFIX}
@@ -278,7 +276,6 @@ else(WIN32)
 				allegro_ttf${ALLEG_SUFFIX}
 				allegro_font${ALLEG_SUFFIX}
 				allegro_primitives${ALLEG_SUFFIX}
-				allegro_color${ALLEG_SUFFIX}
 				allegro_memfile${ALLEG_SUFFIX}
 				allegro_image${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}
@@ -325,7 +322,6 @@ else(WIN32)
 				allegro_ttf${ALLEG_SUFFIX}
 				allegro_font${ALLEG_SUFFIX}
 				allegro_primitives${ALLEG_SUFFIX}
-				allegro_color${ALLEG_SUFFIX}
 				allegro_memfile${ALLEG_SUFFIX}
 				allegro_image${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}

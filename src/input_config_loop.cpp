@@ -348,7 +348,7 @@ void Input_Config_Loop::draw()
 		int x = cfg.screen_w/2-w/2;
 		int y = cfg.screen_h/2-h/2;
 
-		ALLEGRO_COLOR main_color = al_color_name("lightgrey");
+		ALLEGRO_COLOR main_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 		ALLEGRO_COLOR dark_color = Graphics::change_brightness(main_color, 0.5f);
 		al_draw_filled_rectangle(
 			x, y,
@@ -361,9 +361,9 @@ void Input_Config_Loop::draw()
 			dark_color,
 			1
 		);
-		General::draw_text(keyboard ? t("PRESS_A_KEY") : t("PRESS_A_BUTTON"), al_color_name("black"), cfg.screen_w/2, y+th, ALLEGRO_ALIGN_CENTER);
-		General::draw_text(t("ESC_CANCEL"), al_color_name("black"), cfg.screen_w/2, y+th*2, ALLEGRO_ALIGN_CENTER);
-		General::draw_text(t("BACKSPACE_CLEAR"), al_color_name("black"), cfg.screen_w/2, y+th*3, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(keyboard ? t("PRESS_A_KEY") : t("PRESS_A_BUTTON"), al_map_rgb(0x00, 0x00, 0x00), cfg.screen_w/2, y+th, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(t("ESC_CANCEL"), al_map_rgb(0x00, 0x00, 0x00), cfg.screen_w/2, y+th*2, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(t("BACKSPACE_CLEAR"), al_map_rgb(0x00, 0x00, 0x00), cfg.screen_w/2, y+th*3, ALLEGRO_ALIGN_CENTER);
 	}
 }
 

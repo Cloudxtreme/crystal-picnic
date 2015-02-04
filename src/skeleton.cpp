@@ -109,10 +109,10 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 						Triangulate::Triangle &t = tris[j];
 						ALLEGRO_COLOR color;
 						if (bone.type == Bones::BONE_ATTACK) {
-							color = al_color_name("green");
+							color = al_map_rgb(0x00, 0x80, 0x00);
 						}
 						else {
-							color = al_color_name("white");
+							color = al_map_rgb(0xff, 0xff, 0xff);
 						}
 						al_draw_triangle(
 							t.points[0].x+offset.x,
@@ -330,7 +330,7 @@ void Skeleton::transform(General::Point<float> offset, bool flip)
 	transform_count++;
 	if (transform_count == TRANSFORM_UPDATE) {
 		transform_count = 0;
-		do_recurse(offset, false, flip, al_color_name("white"));
+		do_recurse(offset, false, flip, al_map_rgb(0xff, 0xff, 0xff));
 	}
 
 	last_transform_offset = offset;

@@ -106,7 +106,7 @@ bool Credits_Loop::logic()
 
 void Credits_Loop::draw()
 {
-	al_clear_to_color(al_color_name("black"));
+	al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 	float y = -offset;
 
 	y += cfg.screen_h;

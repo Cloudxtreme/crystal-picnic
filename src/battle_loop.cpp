@@ -52,7 +52,7 @@ static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 		w,
 		true,
 		(float)(attr.hp/cfg.difficulty_mult())/(max_hp/cfg.difficulty_mult()), hilight,
-		al_color_name("lime")
+		al_map_rgb(0x00, 0xff, 0x00)
 	);
 	Graphics::draw_gauge(
 		x + profile_w + 2,
@@ -61,7 +61,7 @@ static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 		false,
 		(float)attr.mp/max_mp,
 		hilight,
-		al_color_name("cyan")
+		al_map_rgb(0x00, 0xff, 0xff)
 	);
 }
 
@@ -650,7 +650,7 @@ void Battle_Loop::draw_entities(int layer)
 
 			// KEEPME: draw players collision point in cyan
 			al_draw_circle(
-				px, py, 4, al_color_name("cyan"), 1
+				px, py, 4, al_map_rgb(0x00, 0xff, 0xff), 1
 			);
 
 			// KEEPME: Same as below but using the pathfinding info (so some extra lines too for jump points)
@@ -659,7 +659,7 @@ void Battle_Loop::draw_entities(int layer)
 				al_draw_line(
 					dx+e.start->x, dy+e.start->y,
 					dx+e.end->x, dy+e.end->y,
-					al_color_name("lime"), 1
+					al_map_rgb(0x00, 0xff, 0x00), 1
 				);
 			}
 
@@ -671,7 +671,7 @@ void Battle_Loop::draw_entities(int layer)
 						dy+geometry[j][i-1].y,
 						dx+geometry[j][i].x,
 						dy+geometry[j][i].y,
-						al_color_name("yellow"),
+						al_map_rgb(0xff, 0xff, 0x00),
 						4 // FIXME: 1
 					);
 				}
@@ -683,7 +683,7 @@ void Battle_Loop::draw_entities(int layer)
 					al_draw_circle(
 						dx+geometry[j][i].x,
 						dy+geometry[j][i].y,
-						6, al_color_name("magenta"), 1
+						6, al_map_rgb(0xff, 0x00, 0xff), 1
 					);
 				}
 			}
@@ -694,16 +694,16 @@ void Battle_Loop::draw_entities(int layer)
 					if (j == i)
 						continue;
 					Jump_Point &jp = jump_points[j][i];
-					al_draw_filled_circle(dx+jp.x, dy+jp.y, 4, al_color_name("red"));
+					al_draw_filled_circle(dx+jp.x, dy+jp.y, 4, al_map_rgb(0xff, 0x00, 0x00));
 				}
 			}
 
 			// KEEPME: draw start and end pos of pathfinding (testing)
 			al_draw_rectangle(
-				dx+PSX-5, dy+PSY-5, dx+PSX+5, dy+PSY+5, al_color_name("black"), 1
+				dx+PSX-5, dy+PSY-5, dx+PSX+5, dy+PSY+5, al_map_rgb(0x00, 0x00, 0x00), 1
 			);
 			al_draw_rectangle(
-				dx+PEX-5, dy+PEY-5, dx+PEX+5, dy+PEY+5, al_color_name("white"), 1
+				dx+PEX-5, dy+PEY-5, dx+PEX+5, dy+PEY+5, al_map_rgb(0xff, 0xff, 0xff), 1
 			);
 
 			if (path) {
@@ -714,7 +714,7 @@ void Battle_Loop::draw_entities(int layer)
 						al_draw_line(
 							dx+n->x, dy+n->y,
 							dx+prev->x, dy+prev->y,
-							al_color_name("blue"), 1
+							al_map_rgb(0x00, 0x00, 0xff), 1
 						);
 					}
 					prev = n;
@@ -1147,7 +1147,7 @@ void Battle_Loop::draw()
 		if (seventh_hit_time > 0 && !set_cart_transition_start) {
 			cart_transition_start = cart_pixels_travelled + (bmp_w - x);
 			set_cart_transition_start = true;
-			engine->add_flash(1.8, 0.25, 0.0, 0.25, al_color_name("white"));
+			engine->add_flash(1.8, 0.25, 0.0, 0.25, al_map_rgb(0xff, 0xff, 0xff));
 		}
 
 		Wrap::Bitmap *bmp1, *bmp2;
@@ -1427,7 +1427,7 @@ void Battle_Loop::draw()
 		al_set_target_bitmap(old_target);
 		al_draw_tinted_bitmap_region(
 			work_bitmap->bitmap,
-			al_color_name("black"),
+			al_map_rgb(0x00, 0x00, 0x00),
 			0, 0, cfg.screen_w, stats_h,
 			1, 1,
 			0

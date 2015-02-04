@@ -114,7 +114,7 @@ void battle_transition_in(Wrap::Bitmap *start_bmp, Wrap::Bitmap *end_bmp)
 	while (total < diff) {
 		al_set_target_bitmap(buf->bitmap);
 
-		al_clear_to_color(al_color_name("black"));
+		al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 		al_draw_bitmap(bmp, 0, 0, 0);
 		al_hold_bitmap_drawing(true);

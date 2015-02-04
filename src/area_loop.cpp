@@ -387,7 +387,7 @@ void Area_Loop::draw(void)
 		else {
 			ratio = swipe_in_time / SWIPE_TIME_ONE_DIRECTION;
 		}
-		Graphics::side_swipe_in(al_color_name("black"), ratio);
+		Graphics::side_swipe_in(al_map_rgb(0x00, 0x00, 0x00), ratio);
 	}
 	else if (swiping_out) {
 		double ratio;
@@ -398,7 +398,7 @@ void Area_Loop::draw(void)
 		else {
 			ratio = swipe_out_time / SWIPE_TIME_ONE_DIRECTION;
 		}
-		Graphics::side_swipe_out(al_color_name("black"), ratio);
+		Graphics::side_swipe_out(al_map_rgb(0x00, 0x00, 0x00), ratio);
 	}
 	
 	if (last_battle_screenshot && area->get_name() != "caverns7") {

@@ -198,12 +198,12 @@ void Crystal_Loop::draw()
 	al_draw_filled_rectangle((cfg.screen_w-10-80)-40, 60, (cfg.screen_w-10-80)+20*4+5, 60+20, Graphics::change_brightness(General::UI_GREEN, 0.65f));
 	al_draw_filled_rectangle((cfg.screen_w-10-80)-5, 60+20, (cfg.screen_w-10-80)+20*4+5, 60+20*2+10, Graphics::change_brightness(General::UI_GREEN, 0.65f));
 
-	General::draw_text(t("HP"), al_color_name("white"), (cfg.screen_w-10-80)-20, 15-General::get_font_line_height(General::FONT_HEAVY)/2, ALLEGRO_ALIGN_CENTRE, General::FONT_HEAVY);
-	General::draw_text(t("MP"), al_color_name("white"), (cfg.screen_w-10-80)-20, 70-General::get_font_line_height(General::FONT_HEAVY)/2, ALLEGRO_ALIGN_CENTRE, General::FONT_HEAVY);
+	General::draw_text(t("HP"), al_map_rgb(0xff, 0xff, 0xff), (cfg.screen_w-10-80)-20, 15-General::get_font_line_height(General::FONT_HEAVY)/2, ALLEGRO_ALIGN_CENTRE, General::FONT_HEAVY);
+	General::draw_text(t("MP"), al_map_rgb(0xff, 0xff, 0xff), (cfg.screen_w-10-80)-20, 70-General::get_font_line_height(General::FONT_HEAVY)/2, ALLEGRO_ALIGN_CENTRE, General::FONT_HEAVY);
 	*/
 
 	/*
-	General::draw_speech_window(SPEECH_NORMAL, 5, cfg.screen_h-5-40, 120, 40, false, al_color_name("white"), 1.0f);
+	General::draw_speech_window(SPEECH_NORMAL, 5, cfg.screen_h-5-40, 120, 40, false, al_map_rgb(0xff, 0xff, 0xff), 1.0f);
 	tgui::TGUIWidget *w = tgui::getFocussedWidget();
 	if (w) {
 		Crystal_Button *b = dynamic_cast<Crystal_Button *>(w);
@@ -232,8 +232,8 @@ void Crystal_Loop::draw()
 
 	int tier;
 	Abilities::get_tier(abilities, &tier, NULL, NULL);
-	//General::draw_text(std::string(t("TIER_LABEL")) + " " + General::itos(tier+1), al_color_name("white"), return_button->getX()+return_button->getWidth()+5, return_button->getY()+return_button->getHeight()/2-General::get_font_line_height(General::FONT_LIGHT), 0, General::FONT_LIGHT);
-	General::draw_text(std::string(t("CRYSTALS_LABEL")) + " " + General::itos(Game_Specific_Globals::crystals), al_color_name("white"), return_button->getX()+return_button->getWidth()+5, return_button->getY()+return_button->getHeight()/2-General::get_font_line_height(General::FONT_LIGHT)/2, 0, General::FONT_LIGHT);
+	//General::draw_text(std::string(t("TIER_LABEL")) + " " + General::itos(tier+1), al_map_rgb(0xff, 0xff, 0xff), return_button->getX()+return_button->getWidth()+5, return_button->getY()+return_button->getHeight()/2-General::get_font_line_height(General::FONT_LIGHT), 0, General::FONT_LIGHT);
+	General::draw_text(std::string(t("CRYSTALS_LABEL")) + " " + General::itos(Game_Specific_Globals::crystals), al_map_rgb(0xff, 0xff, 0xff), return_button->getX()+return_button->getWidth()+5, return_button->getY()+return_button->getHeight()/2-General::get_font_line_height(General::FONT_LIGHT)/2, 0, General::FONT_LIGHT);
 
 	al_draw_bitmap(
 		player_bmps[current_player]->bitmap,

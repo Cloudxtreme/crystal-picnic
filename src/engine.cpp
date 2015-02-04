@@ -442,7 +442,7 @@ void Engine::setup_screen_size()
 	al_identity_transform(&t);
 	al_scale_transform(&t, r, r);
 	al_use_transform(&t);
-	al_clear_to_color(al_color_name("black"));
+	al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 	al_set_target_bitmap(target);
 
 	if (work_bitmap) {
@@ -1203,7 +1203,7 @@ loop_end:
 		if (!lost && !switched_out && !stop_draw && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
 
-			al_clear_to_color(al_color_name("black"));
+			al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 			draw_all(loops, false);
 			
@@ -1413,7 +1413,7 @@ loop_end:
 		if (!lost && !switched_out && draw_count > 0 && new_loops.size() == 0) {
 			draw_count = 0;
 
-			al_clear_to_color(al_color_name("black"));
+			al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 			draw_all(loops, false);
 
@@ -2604,12 +2604,12 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 	al_draw_filled_rectangle(
 		5, 5,
 		5+w, 5+h,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	al_set_target_bitmap(frame_bmp->bitmap);
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	Graphics::draw_bitmap_shadow_region_no_intermediate(work_bitmap, 0, 0, 10+w, 10+h, 0, 0);
-	ALLEGRO_COLOR main_color = al_color_name("lightgrey");
+	ALLEGRO_COLOR main_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 	ALLEGRO_COLOR dark_color = Graphics::change_brightness(main_color, 0.5f);
 	al_draw_filled_rectangle(
 		5, 5,
@@ -2625,7 +2625,7 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 	for (size_t i = 0; i < texts.size(); i++) {
 		int x = w / 2 + 5;
 		int y = th+i*th + 5;
-		General::draw_text(texts[i], al_color_name("black"), x, y, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(texts[i], al_map_rgb(0x00, 0x00, 0x00), x, y, ALLEGRO_ALIGN_CENTER);
 	}
 	main_color = Graphics::change_brightness(main_color, 1.1f);
 	dark_color = Graphics::change_brightness(dark_color, 1.1f);
@@ -2637,7 +2637,7 @@ void Engine::notify(std::vector<std::string> texts, std::vector<Loop *> *loops_t
 		49, th+3,
 		main_color
 	);
-	General::draw_text(t("OK"), al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("OK"), al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	al_set_target_bitmap(old_target);
 
 	W_Icon *frame = new W_Icon(frame_bmp);
@@ -2773,12 +2773,12 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 	al_draw_filled_rectangle(
 		5, 5,
 		5+w, 5+h,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	al_set_target_bitmap(frame_bmp->bitmap);
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	Graphics::draw_bitmap_shadow_region_no_intermediate(work_bitmap, 0, 0, 10+w, 10+h, 0, 0);
-	ALLEGRO_COLOR main_color = al_color_name("lightgrey");
+	ALLEGRO_COLOR main_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 	ALLEGRO_COLOR dark_color = Graphics::change_brightness(main_color, 0.5f);
 	al_draw_filled_rectangle(
 		5, 5,
@@ -2794,7 +2794,7 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 	for (size_t i = 0; i < texts.size(); i++) {
 		int x = w / 2 + 5;
 		int y = th+i*th + 5;
-		General::draw_text(texts[i], al_color_name("black"), x, y, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(texts[i], al_map_rgb(0x00, 0x00, 0x00), x, y, ALLEGRO_ALIGN_CENTER);
 	}
 	main_color = Graphics::change_brightness(main_color, 1.1f);
 	dark_color = Graphics::change_brightness(dark_color, 1.1f);
@@ -2806,7 +2806,7 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 		49, th+3,
 		main_color
 	);
-	General::draw_text(text1, al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(text1, al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	Wrap::Bitmap *bitmap2 = Wrap::create_bitmap(50, th+4);
 	al_set_target_bitmap(bitmap2->bitmap);
 	al_clear_to_color(dark_color);
@@ -2815,7 +2815,7 @@ int Engine::prompt(std::vector<std::string> texts, std::string text1, std::strin
 		49, th+3,
 		main_color
 	);
-	General::draw_text(text2, al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(text2, al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	al_set_target_bitmap(old_target);
 
 	W_Icon *frame = new W_Icon(frame_bmp);
@@ -2970,12 +2970,12 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 	al_draw_filled_rectangle(
 		5, 5,
 		5+w, 5+h,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	al_set_target_bitmap(frame_bmp->bitmap);
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	Graphics::draw_bitmap_shadow_region_no_intermediate(work_bitmap, 0, 0, 10+w, 10+h, 0, 0);
-	ALLEGRO_COLOR main_color = al_color_name("lightgrey");
+	ALLEGRO_COLOR main_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 	ALLEGRO_COLOR dark_color = Graphics::change_brightness(main_color, 0.5f);
 	al_draw_filled_rectangle(
 		5, 5,
@@ -2991,7 +2991,7 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 	for (size_t i = 0; i < texts.size(); i++) {
 		int x = w / 2 + 5;
 		int y = th+i*th + 5;
-		General::draw_text(texts[i], al_color_name("black"), x, y, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(texts[i], al_map_rgb(0x00, 0x00, 0x00), x, y, ALLEGRO_ALIGN_CENTER);
 	}
 	main_color = Graphics::change_brightness(main_color, 1.1f);
 	dark_color = Graphics::change_brightness(dark_color, 1.1f);
@@ -3003,7 +3003,7 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 		49, th+3,
 		main_color
 	);
-	General::draw_text(t("YES"), al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("YES"), al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	Wrap::Bitmap *no_bitmap = Wrap::create_bitmap(50, th+4);
 	al_set_target_bitmap(no_bitmap->bitmap);
 	al_clear_to_color(dark_color);
@@ -3012,7 +3012,7 @@ bool Engine::yes_no_prompt(std::vector<std::string> texts, std::vector<Loop *> *
 		49, th+3,
 		main_color
 	);
-	General::draw_text(t("NO"), al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("NO"), al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	al_set_target_bitmap(old_target);
 
 	W_Icon *frame = new W_Icon(frame_bmp);
@@ -3188,12 +3188,12 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 	al_draw_filled_rectangle(
 		5, 5,
 		5+w, 5+h,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	al_set_target_bitmap(frame_bmp->bitmap);
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	Graphics::draw_bitmap_shadow_region_no_intermediate(work_bitmap, 0, 0, 10+w, 10+h, 0, 0);
-	ALLEGRO_COLOR main_color = al_color_name("lightgrey");
+	ALLEGRO_COLOR main_color = al_map_rgb(0xd3, 0xd3, 0xd3);
 	ALLEGRO_COLOR dark_color = Graphics::change_brightness(main_color, 0.5f);
 	al_draw_filled_rectangle(
 		5, 5,
@@ -3209,7 +3209,7 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 	for (size_t i = 0; i < texts.size(); i++) {
 		int x = (w+10) / 2;
 		int y = th+i*th + 5;
-		General::draw_text(texts[i], al_color_name("black"), x, y, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(texts[i], al_map_rgb(0x00, 0x00, 0x00), x, y, ALLEGRO_ALIGN_CENTER);
 	}
 	
 	W_Icon *frame = new W_Icon(frame_bmp);
@@ -3237,7 +3237,7 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 		49, th+3,
 		main_color
 	);
-	General::draw_text(t("OK"), al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("OK"), al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	Wrap::Bitmap *cancel_bitmap = Wrap::create_bitmap(50, th+4);
 	al_set_target_bitmap(cancel_bitmap->bitmap);
 	al_clear_to_color(dark_color);
@@ -3246,7 +3246,7 @@ int Engine::get_number(std::vector<std::string> texts, int low, int high, int st
 		49, th+3,
 		main_color
 	);
-	General::draw_text(t("CANCEL"), al_color_name("black"), 25, 2, ALLEGRO_ALIGN_CENTER);
+	General::draw_text(t("CANCEL"), al_map_rgb(0x00, 0x00, 0x00), 25, 2, ALLEGRO_ALIGN_CENTER);
 	al_set_target_bitmap(old_target);
 
 	W_Icon *ok_icon = new W_Icon(ok_bitmap);
@@ -3393,7 +3393,7 @@ static void fade(std::vector<Loop *> loops, double time, bool out)
 	while (true) {
 		ALLEGRO_BITMAP *old_target = engine->set_draw_target(false);
 
-		al_clear_to_color(al_color_name("black"));
+		al_clear_to_color(al_map_rgb(0x00, 0x00, 0x00));
 
 		engine->draw_all(loops, true);
 

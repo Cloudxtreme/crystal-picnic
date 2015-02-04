@@ -50,10 +50,10 @@ static void draw_character_preview_box(Player *p, bool selected, Wrap::Bitmap *b
 	
 	ALLEGRO_COLOR name_color;
 	if (selected) {
-		name_color = al_color_name("yellow");
+		name_color = al_map_rgb(0xff, 0xff, 0x00);
 	}
 	else {
-		name_color = al_color_name("white");
+		name_color = al_map_rgb(0xff, 0xff, 0xff);
 	}
 	
 	General::draw_text(General::get_hero_printable_name(p->get_name()), name_color, x+x1, y+3, 0);
@@ -67,9 +67,9 @@ static void draw_character_preview_box(Player *p, bool selected, Wrap::Bitmap *b
 
 	float percent;
 	percent = (attr.hp/cfg.difficulty_mult()) / (float)(max_hp/cfg.difficulty_mult());
-	Graphics::draw_gauge(x+x1, y1, remain_w, true, percent, hilight, al_color_name("lime"));
+	Graphics::draw_gauge(x+x1, y1, remain_w, true, percent, hilight, al_map_rgb(0x00, 0xff, 0x00));
 	percent = attr.mp / (float)max_mp;
-	Graphics::draw_gauge(x+x1, y1+gauge_span, remain_w, false, percent, hilight, al_color_name("cyan"));
+	Graphics::draw_gauge(x+x1, y1+gauge_span, remain_w, false, percent, hilight, al_map_rgb(0x00, 0xff, 0xff));
 	
 	resource_manager->release_bitmap("misc_graphics/interface/" + p->get_name() + "_normal_icon.png");
 }
@@ -111,7 +111,7 @@ void draw_green_window(Main_Menu_Loop *main_menu_loop, float ox, float oy)
 		Main_Menu_Loop::GREEN_WIN_BASE_W + main_menu_loop->get_extra_x(),
 		Main_Menu_Loop::GREEN_WIN_BASE_H + main_menu_loop->get_extra_y(),
 		false,
-		al_color_name("white"),
+		al_map_rgb(0xff, 0xff, 0xff),
 		1.0f
 	);
 }
@@ -466,7 +466,7 @@ void Main_Menu_Loop::draw()
 
 	money_y += 7;
 
-	ALLEGRO_COLOR crystals_color = engine->can_use_crystals() ? al_color_name("cyan") : al_color_name("lightgrey");
+	ALLEGRO_COLOR crystals_color = engine->can_use_crystals() ? al_map_rgb(0x00, 0xff, 0xff) : al_map_rgb(0xd3, 0xd3, 0xd3);
 
 	int w1 = General::get_text_width(General::FONT_LIGHT, General::itos(99));
 	int w2 = General::get_text_width(General::FONT_LIGHT, General::itos(9999));
@@ -492,14 +492,14 @@ void Main_Menu_Loop::draw()
 	}
 	General::draw_text(
 		General::itos(Game_Specific_Globals::cash),
-		al_color_name("lightgrey"),
+		al_map_rgb(0xd3, 0xd3, 0xd3),
 		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w1+w2+w4*2+5)/2+w1+w4+5+w4,
 		oy+money_y,
 		0
 	);
 	General::draw_text(
 		General::get_time_string(Game_Specific_Globals::elapsed_time),
-		al_color_name("lightgrey"),
+		al_map_rgb(0xd3, 0xd3, 0xd3),
 		ox+al_get_bitmap_width(money_time_box->bitmap)/2-(w3+w4)/2+w4,
 		oy+money_y+General::get_font_line_height(General::FONT_LIGHT),
 		0
@@ -922,7 +922,7 @@ void Main_Menu_Main_Loop::draw()
 	al_draw_filled_rectangle(
 		ox+main_menu_loop->get_green_x()+profile_x, oy+main_menu_loop->get_green_y()+profile_y,
 		ox+main_menu_loop->get_green_x()+profile_x+profile_w, oy+main_menu_loop->get_green_y()+profile_y+profile_h,
-		al_color_name("black")
+		al_map_rgb(0x00, 0x00, 0x00)
 	);
 	// FIXME: draw right profile pic
 	al_draw_bitmap(profiles[main_menu_loop->get_selected_player()]->bitmap, ox+main_menu_loop->get_green_x()+profile_x, oy+main_menu_loop->get_green_y()+profile_y, 0);
@@ -947,16 +947,16 @@ void Main_Menu_Main_Loop::draw()
 	defense += attr.equipment.armor.name == "" ? 0 : attr.equipment.armor.defense;
 	float percent;
 	percent = (float)(attr.hp/cfg.difficulty_mult()) / (max_hp/cfg.difficulty_mult());
-	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, true, percent, hilight, al_color_name("lime"));
+	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, true, percent, hilight, al_map_rgb(0x00, 0xff, 0x00));
 	text_y += text_h + gauge_h + 1;
 	percent = (float)attr.mp / max_mp;
-	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_color_name("cyan"));
+	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_map_rgb(0x00, 0xff, 0xff));
 	text_y += text_h + gauge_h;
 	percent = (float)attack / 7;
-	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_color_name("yellow"));
+	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_map_rgb(0xff, 0xff, 0x00));
 	text_y += text_h + gauge_h;
 	percent = (float)defense / 5;
-	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_color_name("yellow"));
+	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_map_rgb(0xff, 0xff, 0x00));
 	
 	// Then text
 	text_y = 10 + text_h;
@@ -1272,7 +1272,7 @@ void Main_Menu_Abilities_Loop::draw()
 	}
 	if (selected >= 0) {
 		int radius = (abilities_button_w + 6) / 2;
-		Graphics::draw_focus_circle(ox+button_starts[selected]+abilities_button_w/2.0, oy+by_save+abilities_button_h/2.0+1, radius, al_color_name("yellow"));
+		Graphics::draw_focus_circle(ox+button_starts[selected]+abilities_button_w/2.0, oy+by_save+abilities_button_h/2.0+1, radius, al_map_rgb(0xff, 0xff, 0x00));
 	}
 }
 
@@ -1562,12 +1562,12 @@ void Main_Menu_Items_Loop::draw()
 		std::vector<Game_Specific_Globals::Item> &items = Game_Specific_Globals::get_items();
 		General::draw_wrapped_text(
 			Game_Specific_Globals::get_item_description(items[sel].name),
-			al_color_name("white"), green_x+ox+9, green_y+oy+win_h-9-info_panel_h+1, win_w-18, General::FONT_LIGHT
+			al_map_rgb(0xff, 0xff, 0xff), green_x+ox+9, green_y+oy+win_h-9-info_panel_h+1, win_w-18, General::FONT_LIGHT
 		);
 	}
 	else {
 		General::draw_wrapped_text(
-			t("NO_ITEMS"), al_color_name("white"), green_x+ox+9, green_y+oy+win_h-9-info_panel_h+1, win_w-18, General::FONT_LIGHT
+			t("NO_ITEMS"), al_map_rgb(0xff, 0xff, 0xff), green_x+ox+9, green_y+oy+win_h-9-info_panel_h+1, win_w-18, General::FONT_LIGHT
 		);
 	}
 }
@@ -1582,7 +1582,7 @@ void Main_Menu_Items_Loop::post_draw()
 		al_translate_transform(&t, dropped_string_pos.x, dropped_string_pos.y);
 		al_compose_transform(&t, &backup);
 		al_use_transform(&t);
-		General::draw_text(dropped_string, al_color_name("red"), 0, 0, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(dropped_string, al_map_rgb(0xff, 0x00, 0x00), 0, 0, ALLEGRO_ALIGN_CENTER);
 		al_use_transform(&backup);
 	}
 }
@@ -2181,10 +2181,10 @@ void Main_Menu_Equip_Loop::draw()
 	};
 
 	ALLEGRO_COLOR colors[4] = {
-		al_color_name("lime"),
-		al_color_name("cyan"),
-		al_color_name("yellow"),
-		al_color_name("yellow")
+		al_map_rgb(0x00, 0xff, 0x00),
+		al_map_rgb(0x00, 0xff, 0xff),
+		al_map_rgb(0xff, 0xff, 0x00),
+		al_map_rgb(0xff, 0xff, 0x00)
 	};
 	
 	ALLEGRO_COLOR gauge_color = Graphics::change_brightness(General::UI_GREEN, 1.35f);
@@ -2200,7 +2200,7 @@ void Main_Menu_Equip_Loop::draw()
 	if (swapping) {
 		double percent = (swap_now - swap_start_time) / 0.5;
 		float swap_y = y_swap_start + ((y_swap_dest-y_swap_start) * percent);
-		General::draw_text(t(swap_string.c_str()), al_color_name("yellow"), ox+list2->getX()+12, oy+swap_y, 0);
+		General::draw_text(t(swap_string.c_str()), al_map_rgb(0xff, 0xff, 0x00), ox+list2->getX()+12, oy+swap_y, 0);
 	}
 }
 
@@ -2218,7 +2218,7 @@ void Main_Menu_Equip_Loop::post_draw()
 		al_translate_transform(&t, dropped_string_pos.x, dropped_string_pos.y);
 		al_compose_transform(&t, &backup);
 		al_use_transform(&t);
-		General::draw_text(dropped_string, al_color_name("red"), 0, 0, ALLEGRO_ALIGN_CENTER);
+		General::draw_text(dropped_string, al_map_rgb(0xff, 0x00, 0x00), 0, 0, ALLEGRO_ALIGN_CENTER);
 		al_use_transform(&backup);
 	}
 }
