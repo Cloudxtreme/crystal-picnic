@@ -131,55 +131,46 @@ static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRA
 		}
 		else {
 			std::vector< std::vector<Bones::Bone> > &bones = l->part->get_bones();
-			// side effect?
 			std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
-
-			transformed_bones.clear();
 
 			for (size_t i = 0; i < bones.size(); i++) {
 				std::vector<Bones::Bone> &src = bones[i];
-				std::vector<Bones::Bone> dst;
+				std::vector<Bones::Bone> &dst = transformed_bones[i];
 
 				for (size_t j = 0; j < src.size(); j++) {
 					Bones::Bone &b = src[j];
+					Bones::Bone &b2 = dst[j];
 					std::vector< General::Point<float> > &outline = b.get_outline();
-					std::vector< General::Point<float> > new_outline;
+					std::vector< General::Point<float> > &new_outline = b2.get_outline();
 					
 					int bmp_w = al_get_bitmap_width(l->part->get_bitmap(j)->bitmap);
 					int bmp_h = al_get_bitmap_height(l->part->get_bitmap(j)->bitmap);
 
 					for (size_t k = 0; k < outline.size(); k++) {
-						General::Point<float> p = outline[k];
-						float x = p.x;
-						float y = p.y;
-						x += bmp_w/2;
-						y += bmp_h;
-						al_transform_coordinates(&bone_trans, &x, &y);
-						new_outline.push_back(General::Point<float>(x, y));
+						General::Point<float> &p = outline[k];
+						General::Point<float> &p2 = new_outline[k];
+						p2.x = p.x;
+						p2.y = p.y;
+						p2.x += bmp_w/2;
+						p2.y += bmp_h;
+						al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
 					}
 
 					std::vector<Triangulate::Triangle> &triangles = b.get();
-					std::vector<Triangulate::Triangle> new_triangles;
+					std::vector<Triangulate::Triangle> &new_triangles = b2.get();
 
 					for (size_t k = 0; k < triangles.size(); k++) {
-						Triangulate::Triangle t;
 						for (int l = 0; l < 3; l++) {
-							General::Point<float> p = triangles[k].points[l];
-							float x = p.x;
-							float y = p.y;
-							x += bmp_w/2;
-							y += bmp_h;
-							al_transform_coordinates(&bone_trans, &x, &y);
-							t.points[l] = General::Point<float>(x, y);
+							General::Point<float> &p = triangles[k].points[l];
+							General::Point<float> &p2 = new_triangles[k].points[l];
+							p2.x = p.x;
+							p2.y = p.y;
+							p2.x += bmp_w/2;
+							p2.y += bmp_h;
+							al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
 						}
-						new_triangles.push_back(t);
 					}
-					
-					Bones::Bone new_bone = Bones::Bone(b.type, new_outline, new_triangles, General::Size<int>(bmp_w, bmp_h));
-
-					dst.push_back(new_bone);
 				}
-				transformed_bones.push_back(dst);
 			}
 		}
 	}

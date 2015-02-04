@@ -38,7 +38,7 @@ public:
 	std::vector<Transform *> &get_transforms();
 	std::vector< std::vector<Bones::Bone> > &get_bones() { return bones; }
 	std::vector< std::vector<Bones::Bone> > &get_transformed_bones() { return transformed_bones; }
-	void add_bone(std::vector<Bones::Bone> b) { bones.push_back(b); transformed_bones.push_back(std::vector<Bones::Bone>()); }
+	void add_bone(std::vector<Bones::Bone> b) { bones.push_back(b); transformed_bones.push_back(b); }
 	int get_layer() { return layer; }
 	void set_layer(int layer) { this->layer = layer; }
 
