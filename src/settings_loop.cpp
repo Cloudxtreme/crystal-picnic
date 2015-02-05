@@ -120,7 +120,9 @@ bool Settings_Loop::logic()
 		loops.push_back(l);
 		engine->fade_in(loops);
 		engine->do_blocking_mini_loop(loops, NULL);
-		engine->fade_in(this_loop);
+		if (!engine->get_done()) {
+			engine->fade_in(this_loop);
+		}
 	}
 	else if (w == video_button) {
 		std::vector<Loop *> this_loop;
@@ -138,7 +140,9 @@ bool Settings_Loop::logic()
 			engine->unblock_mini_loop();
 			return true;
 		}
-		engine->fade_in(this_loop);
+		if (!engine->get_done()) {
+			engine->fade_in(this_loop);
+		}
 	}
 	else if (w == keyboard_button) {
 		std::vector<Loop *> this_loop;
@@ -152,7 +156,9 @@ bool Settings_Loop::logic()
 		loops.push_back(l);
 		engine->fade_in(loops);
 		engine->do_blocking_mini_loop(loops, NULL);
-		engine->fade_in(this_loop);
+		if (!engine->get_done()) {
+			engine->fade_in(this_loop);
+		}
 	}
 	else if (w == gamepad_button) {
 		std::vector<Loop *> this_loop;
@@ -166,7 +172,9 @@ bool Settings_Loop::logic()
 		loops.push_back(l);
 		engine->fade_in(loops);
 		engine->do_blocking_mini_loop(loops, NULL);
-		engine->fade_in(this_loop);
+		if (!engine->get_done()) {
+			engine->fade_in(this_loop);
+		}
 	}
 	else if (w == language_button) {
 		std::vector<Loop *> this_loop;
@@ -182,7 +190,9 @@ bool Settings_Loop::logic()
 		engine->do_blocking_mini_loop(loops, NULL);
 		// Change return button
 		return_button->set_text(t("RETURN"));
-		engine->fade_in(this_loop);
+		if (!engine->get_done()) {
+			engine->fade_in(this_loop);
+		}
 	}
 	else if (w == return_button) {
 		std::vector<Loop *> loops;
