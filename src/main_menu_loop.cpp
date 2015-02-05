@@ -955,7 +955,7 @@ void Main_Menu_Main_Loop::draw()
 	percent = (float)attack / 7;
 	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_map_rgb(0xff, 0xff, 0x00));
 	text_y += text_h + gauge_h;
-	percent = (float)defense / 5;
+	percent = (float)defense / 4;
 	Graphics::draw_gauge(ox+text_x, oy+text_y, text_w, false, percent, hilight, al_map_rgb(0xff, 0xff, 0x00));
 	
 	// Then text
