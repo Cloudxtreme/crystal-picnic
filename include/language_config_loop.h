@@ -29,6 +29,7 @@ private:
 	W_Scrolling_List *language_list;
 	W_Vertical_Scrollbar *scrollbar;
 	W_Button *save_button;
+	W_Button *cancel_button;
 	bool list_was_activated;
 	std::vector<std::string> untranslated_languages;
 };

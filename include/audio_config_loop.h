@@ -24,6 +24,7 @@ private:
 	W_Slider *music_slider;
 	W_Checkbox *reverb_checkbox;
 	W_Audio_Settings_Button *save_button;
+	W_Button *cancel_button;
 };
 
 #endif // AUDIO_CONFIG_LOOP_H

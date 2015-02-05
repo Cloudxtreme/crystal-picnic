@@ -12,6 +12,8 @@ bool Audio_Config_Loop::init()
 	reverb_checkbox = new W_Checkbox(0, 0, cfg.reverb, t("REVERB"));
 	save_button = new W_Audio_Settings_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
 
+	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("CANCEL"));
+
 	sfx_slider->setPosition(cfg.sfx_volume);
 	music_slider->setPosition(cfg.music_volume);
 
@@ -21,6 +23,7 @@ bool Audio_Config_Loop::init()
 	maxw = MAX(maxw, music_slider->getWidth() + 5 + General::get_text_width(General::FONT_LIGHT, t("MUSIC")));
 	maxw = MAX(maxw, reverb_checkbox->getWidth());
 	maxw = MAX(maxw, save_button->getWidth());
+	maxw = MAX(maxw, cancel_button->getWidth());
 
 	int one_h = General::get_font_line_height(General::FONT_LIGHT) + 4;
 	int total_h = one_h * 5;
@@ -34,17 +37,23 @@ bool Audio_Config_Loop::init()
 	reverb_checkbox->setX(cfg.screen_w/2-maxw/2);
 	reverb_checkbox->setY(cfg.screen_h/2-total_h/2+one_h*2);
 
-	save_button->setX(cfg.screen_w/2-save_button->getWidth()/2);
+	int button_w = save_button->getWidth() + cancel_button->getWidth() + 5;
+
+	save_button->setX(cfg.screen_w/2-button_w/2);
 	save_button->setY(cfg.screen_h/2-total_h/2+one_h*4);
+
+	cancel_button->setX(cfg.screen_w/2-button_w/2+save_button->getWidth()+5);
+	cancel_button->setY(cfg.screen_h/2-total_h/2+one_h*4);
 
 	tgui::addWidget(sfx_slider);
 	tgui::addWidget(music_slider);
 	tgui::addWidget(reverb_checkbox);
 	tgui::addWidget(save_button);
+	tgui::addWidget(cancel_button);
 
 	tguiWidgetsSetColors(al_map_rgb(0xff, 0xff, 0x00), al_map_rgba_f(0.0f, 0.0f, 0.0f, 0.0f));
 
-	tgui::setFocus(save_button);
+	tgui::setFocus(cancel_button);
 
 	return true;
 }
@@ -88,7 +97,13 @@ bool Audio_Config_Loop::logic()
 	tgui::TGUIWidget *w = tgui::update();
 	
 	if (w == save_button) {
-		// FIXME: save into cfg etc
+		std::vector<Loop *> loops;
+		loops.push_back(this);
+		engine->fade_out(loops);
+		engine->unblock_mini_loop();
+		return true;
+	}
+	else if (w == cancel_button) {
 		std::vector<Loop *> loops;
 		loops.push_back(this);
 		engine->fade_out(loops);
@@ -129,6 +144,9 @@ Audio_Config_Loop::~Audio_Config_Loop()
 
 	save_button->remove();
 	delete save_button;
+
+	cancel_button->remove();
+	delete cancel_button;
 
 	tgui::pop(); // pushed beforehand
 	tgui::unhide();

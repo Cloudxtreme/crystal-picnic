@@ -54,7 +54,7 @@ bool Input_Config_Loop::init()
 		labels.push_back(t("CFG_DPAD_R"));
 		labels.push_back(t("CFG_DPAD_U"));
 		labels.push_back(t("CFG_DPAD_D"));
-	
+
 		gamepad_buttons[0] = cfg.joy_ability[0];
 		gamepad_buttons[1] = cfg.joy_ability[1];
 		gamepad_buttons[2] = cfg.joy_ability[2];
@@ -68,7 +68,7 @@ bool Input_Config_Loop::init()
 		gamepad_buttons[10] = cfg.joy_dpad_u;
 		gamepad_buttons[11] = cfg.joy_dpad_d;
 	}
-	
+
 	tgui::setNewWidgetParent(NULL);
 
 	if (keyboard) {
@@ -92,17 +92,22 @@ bool Input_Config_Loop::init()
 		}
 	}
 
+	cancel_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("CANCEL"));
+	cancel_button->setX(cfg.screen_w-cancel_button->getWidth()-5);
+	cancel_button->setY(cfg.screen_h-cancel_button->getHeight()-10);
+	tgui::addWidget(cancel_button);
+
+	save_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
+	save_button->setX(cfg.screen_w-save_button->getWidth()-5);
+	save_button->setY(cfg.screen_h-cancel_button->getHeight()-save_button->getHeight()-15);
+	tgui::addWidget(save_button);
+
 	defaults_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("DEFAULTS"));
 	defaults_button->setX(cfg.screen_w-defaults_button->getWidth()-5);
-	defaults_button->setY(cfg.screen_h-defaults_button->getHeight()-10);
+	defaults_button->setY(cfg.screen_h-cancel_button->getHeight()-save_button->getHeight()-defaults_button->getHeight()-20);
 	tgui::addWidget(defaults_button);
 
-	done_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("SAVE"));
-	done_button->setX(cfg.screen_w-done_button->getWidth()-5);
-	done_button->setY(cfg.screen_h-defaults_button->getHeight()-done_button->getHeight()-15);
-	tgui::addWidget(done_button);
-	
-	tgui::setFocus(done_button);
+	tgui::setFocus(cancel_button);
 
 	return true;
 }
@@ -205,7 +210,7 @@ bool Input_Config_Loop::logic()
 		}
 	}
 
-	if (w == done_button) {
+	if (w == save_button) {
 		// Saves the controls
 		if (keyboard) {
 			cfg.key_left = keys[0];
@@ -320,6 +325,13 @@ bool Input_Config_Loop::logic()
 			cfg.joy_dpad_d = tmp[11];
 		}
 	}
+	else if (w == cancel_button) {
+		std::vector<Loop *> loops;
+		loops.push_back(this);
+		engine->fade_out(loops);
+		engine->unblock_mini_loop();
+		return true;
+	}
 
 	return false;
 }
@@ -337,7 +349,7 @@ void Input_Config_Loop::draw()
 	}
 
 	tgui::draw();
-	
+
 	if (getting_key >= 0 || getting_button >= 0) {
 		int th = General::get_font_line_height(General::FONT_LIGHT);
 		int w = 200;
@@ -384,8 +396,11 @@ Input_Config_Loop::~Input_Config_Loop()
 	defaults_button->remove();
 	delete defaults_button;
 
-	done_button->remove();
-	delete done_button;
+	save_button->remove();
+	delete save_button;
+
+	cancel_button->remove();
+	delete cancel_button;
 
 	tgui::pop(); // pushed beforehand
 	tgui::unhide();

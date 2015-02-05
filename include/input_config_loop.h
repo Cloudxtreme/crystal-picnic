@@ -31,7 +31,8 @@ private:
 
 	W_Button *buttons[12];
 	W_Button *defaults_button;
-	W_Button *done_button;
+	W_Button *save_button;
+	W_Button *cancel_button;
 
 	int keys[11];
 	int gamepad_buttons[12];
