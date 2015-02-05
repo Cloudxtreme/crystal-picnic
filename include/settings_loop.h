@@ -24,6 +24,7 @@ public:
 
 private:
 
+	W_Translated_Button *audio_button;
 	W_Translated_Button *video_button;
 	W_Translated_Button *keyboard_button;
 	W_Translated_Button *gamepad_button;

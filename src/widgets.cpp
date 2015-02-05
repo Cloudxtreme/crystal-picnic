@@ -1578,3 +1578,165 @@ W_Title_Screen_Icon::~W_Title_Screen_Icon()
 {
 }
 
+bool W_Slider::keyChar(int keycode, int unichar)
+{
+	if (this != tgui::getFocussedWidget()) {
+		return false;
+	}
+
+	if (keycode == cfg.key_left) {
+		pos -= 5.0f / 100;
+		if (pos < 0) {
+			pos = 0;
+		}
+		return true;
+	}
+	else if (keycode == cfg.key_right) {
+		pos += 5.0f / 100;
+		if (pos > 1) {
+			pos = 1;
+		}
+		return true;
+	}
+
+	return false;
+}
+
+bool W_Slider::joyAxisRepeat(int stick, int axis, float value)
+{
+	if (this != tgui::getFocussedWidget()) {
+		return false;
+	}
+
+	if (axis == 0) {
+		if (value < 0) {
+			pos -= 5.0f / 100;
+			if (pos < 0) {
+				pos = 0;
+			}
+		}
+		else {
+			pos += 5.0f / 100;
+			if (pos > 1) {
+				pos = 1;
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
+void W_Slider::draw(int abs_x, int abs_y)
+{
+	int x1, y1, w, h;
+	int lx, ly, lw, lh;
+
+	int MY_TAB_SIZE = 5;
+	int MY_HEIGHT = height-4;
+	int sy = abs_y + 2;
+
+	if (direction == TGUI_HORIZONTAL) {
+		x1 = abs_x + pos*(size-MY_TAB_SIZE);
+		y1 = sy;
+		w = MY_TAB_SIZE;
+		h = MY_HEIGHT;
+		lx = MY_TAB_SIZE/2;
+		ly = MY_HEIGHT/2;
+		lw = size-MY_TAB_SIZE;
+		lh = 0;
+	}
+	else {
+		x1 = y1 = w = h = lx = ly = lw = lh = 0;
+	}
+
+	al_draw_line(abs_x+lx+0.5, sy+ly+0.5, abs_x+lx+0.5+lw, sy+ly+0.5+lh, al_map_rgb(0x00, 0x00, 0x00), 1);
+	al_draw_filled_rounded_rectangle(x1, y1, x1 + w, y1 + h, 3, 3, al_map_rgb(0xff, 0xff, 0x00));
+}
+
+bool W_Slider::acceptsFocus()
+{
+	return true;
+}
+
+W_Slider::W_Slider(int x, int y, int size) :
+	TGUI_Slider(x, y, size, TGUI_HORIZONTAL)
+{
+	width = size;
+	height = General::get_font_line_height(General::FONT_LIGHT) + 4;
+}
+
+void W_Audio_Settings_Button::keyDown(int keycode)
+{
+	if (this == tgui::getFocussedWidget()) {
+		if (keycode == ALLEGRO_KEY_ENTER || keycode == cfg.key_ability[3]) {
+			apply();
+		}
+	}
+
+	W_Button::keyDown(keycode);
+}
+
+void W_Audio_Settings_Button::joyButtonDown(int button)
+{
+	if (this == tgui::getFocussedWidget()) {
+		if (button == cfg.joy_ability[3]) {
+			apply();
+		}
+	}
+
+	W_Button::joyButtonDown(button);
+}
+
+void W_Audio_Settings_Button::mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, int mb)
+{
+	if (rel_x >= 0 && rel_y >= 0) {
+		if (enabled) {
+			apply();
+		}
+	}
+
+	W_Button::mouseDown(rel_x, rel_y, abs_x, abs_y, mb);
+}
+
+void W_Audio_Settings_Button::apply()
+{
+	cfg.sfx_volume = sfx_slider->getPosition();
+
+	bool enable_music = false;
+
+	if (cfg.music_volume == 0 && music_slider->getPosition() != 0) {
+		enable_music = true;
+	}
+
+	cfg.music_volume = music_slider->getPosition();
+
+	if (enable_music) {
+		cfg.music_off = false;
+		Music::play("music/title.mid");
+	}
+	else {
+		if (cfg.music_volume == 0) {
+			Music::stop();
+			cfg.music_off = true;
+		}
+		else {
+			Music::set_volume(cfg.music_volume);
+		}
+	}
+
+	if (cfg.reverb != reverb_checkbox->getChecked()) {
+		cfg.reverb = reverb_checkbox->getChecked();
+		if (!cfg.music_off) {
+			std::string playing = Music::get_playing();
+			Music::stop();
+			Music::play(playing);
+		}
+	}
+}
+
+W_Audio_Settings_Button::W_Audio_Settings_Button(std::string filename, std::string text) :
+	W_Button(filename, text)
+{
+}
+

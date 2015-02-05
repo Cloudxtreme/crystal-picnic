@@ -88,6 +88,7 @@ set(COMMON_SRCS
 	src/area_manager.cpp
 	src/astar.cpp
 	src/astar_character_role.cpp
+	src/audio_config_loop.cpp
 	src/bass.cpp
 	src/bass_fileprocs.cpp
 	src/battle_ai.cpp

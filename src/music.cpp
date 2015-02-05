@@ -15,7 +15,6 @@ static bool audio_ready;
 static HSTREAM music = 0;
 static bool music_playing = false;
 static HSOUNDFONT sf2;
-static unsigned char *delete_bytes = NULL;
 
 
 static BASS_FILEPROCS fileprocs;
@@ -55,6 +54,7 @@ void stop()
 	if (cfg.music_off) return;
 	if (!music_playing) return;
 	BASS_StreamFree(music);
+	music = 0;
 	music_playing = false;
 }
 
@@ -73,8 +73,6 @@ void play(std::string filename, float volume, bool loop)
 		Music::ramp_down(0.5);
 		al_rest(0.5);
 		BASS_StreamFree(music);
-		delete[] delete_bytes;
-		delete_bytes = NULL;
 	}
 
 	if (cfg.music_off) return;
@@ -201,7 +199,9 @@ float get_volume()
 void set_volume(float volume)
 {
 	current_volume = volume;
-	BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, volume);
+	if (!cfg.music_off) {
+		BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, volume);
+	}
 }
 
 bool is_playing()
@@ -221,8 +221,6 @@ void ramp_down(double time)
 
 void shutdown()
 {
-	delete[] delete_bytes;
-	delete_bytes = NULL;
 	BASS_MIDI_FontFree(sf2);
 }
 

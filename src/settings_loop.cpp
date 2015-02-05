@@ -7,6 +7,7 @@
 #include "input_config_loop.h"
 #include "video_config_loop.h"
 #include "language_config_loop.h"
+#include "audio_config_loop.h"
 
 bool Settings_Loop::init()
 {
@@ -15,6 +16,7 @@ bool Settings_Loop::init()
 	}
 	Loop::init();
 
+	audio_button = new W_Translated_Button("CONFIG_AUDIO");
 	video_button = new W_Translated_Button("CONFIG_VIDEO");
 	keyboard_button = new W_Translated_Button("CONFIG_KEYBOARD");
 	gamepad_button = new W_Translated_Button("CONFIG_GAMEPAD");
@@ -22,30 +24,34 @@ bool Settings_Loop::init()
 
 	return_button = new W_Button("misc_graphics/interface/fat_red_button.png", t("RETURN"));
 
-	int maxw = video_button->getWidth();
+	int maxw = audio_button->getWidth();
+	maxw = MAX(maxw, video_button->getWidth());
 	maxw = MAX(maxw, keyboard_button->getWidth());
 	maxw = MAX(maxw, gamepad_button->getWidth());
 	maxw = MAX(maxw, language_button->getWidth());
 
 #ifdef ALLEGRO_IPHONE
 	tgui::TGUIWidget *w[] = {
-		language_button,
-	};
-	int nw = 1;
-#elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
-	tgui::TGUIWidget *w[] = {
-		gamepad_button,
+		audio_button,
 		language_button,
 	};
 	int nw = 2;
+#elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
+	tgui::TGUIWidget *w[] = {
+		audio_button,
+		gamepad_button,
+		language_button,
+	};
+	int nw = 3;
 #else
 	tgui::TGUIWidget *w[] = {
+		audio_button,
 		video_button,
 		keyboard_button,
 		gamepad_button,
 		language_button,
 	};
-	int nw = 4;
+	int nw = 5;
 #endif
 
 	for (int i = 0; i < nw; i++) {
@@ -102,7 +108,21 @@ bool Settings_Loop::logic()
 {
 	tgui::TGUIWidget *w = tgui::update();
 
-	if (w == video_button) {
+	if (w == audio_button) {
+		std::vector<Loop *> this_loop;
+		this_loop.push_back(this);
+		engine->fade_out(this_loop);
+		Audio_Config_Loop *l = new Audio_Config_Loop();
+		tgui::hide();
+		tgui::push(); // popped in ~Audio_Config_Loop()
+		std::vector<Loop *> loops;
+		l->init();
+		loops.push_back(l);
+		engine->fade_in(loops);
+		engine->do_blocking_mini_loop(loops, NULL);
+		engine->fade_in(this_loop);
+	}
+	else if (w == video_button) {
 		std::vector<Loop *> this_loop;
 		this_loop.push_back(this);
 		engine->fade_out(this_loop);
@@ -188,6 +208,8 @@ Settings_Loop::Settings_Loop()
 
 Settings_Loop::~Settings_Loop()
 {
+	audio_button->remove();
+	delete audio_button;
 	video_button->remove();
 	delete video_button;
 	keyboard_button->remove();

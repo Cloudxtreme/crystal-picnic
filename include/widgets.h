@@ -651,4 +651,36 @@ private:
 	std::string text;
 };
 
+class W_Slider : public TGUI_Slider {
+public:
+	bool keyChar(int keycode, int unichar);
+	bool joyAxisRepeat(int stick, int axis, float value);
+	bool acceptsFocus();
+	void draw(int abs_x, int abs_y);
+
+	W_Slider(int x, int y, int size);
+};
+
+class W_Audio_Settings_Button : public W_Button {
+public:
+	void keyDown(int keycode);
+	void joyButtonDown(int button);
+	void mouseDown(int rel_x, int rel_y, int abs_x, int abs_y, int mb);
+
+	void set_widgets(W_Slider *sfx_slider, W_Slider *music_slider, W_Checkbox *reverb_checkbox) {
+		this->sfx_slider = sfx_slider;
+		this->music_slider = music_slider;
+		this->reverb_checkbox = reverb_checkbox;
+	};
+
+	W_Audio_Settings_Button(std::string filename, std::string text);
+
+private:
+	void apply();
+
+	W_Slider *sfx_slider;
+	W_Slider *music_slider;
+	W_Checkbox *reverb_checkbox;
+};
+
 #endif // WIDGETS_H
