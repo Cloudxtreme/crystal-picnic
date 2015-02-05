@@ -5339,6 +5339,15 @@ static int c_difficulty(lua_State *stack)
 	return 0;
 }
 
+static int c_log_message(lua_State *stack)
+{
+	std::string msg = lua_tostring(stack, 1);
+
+	General::log_message(msg);
+
+	return 0;
+}
+
 void register_c_functions(lua_State *lua_state)
 {
 	#define REGISTER_FUNCTION(name) \
@@ -5591,6 +5600,7 @@ void register_c_functions(lua_State *lua_state)
 	REGISTER_FUNCTION(set_save_state_version);
 	REGISTER_FUNCTION(is_item);
 	REGISTER_FUNCTION(get_ability_name);
+	REGISTER_FUNCTION(log_message);
 
 	// Graphics
 	REGISTER_FUNCTION(load_bitmap)
