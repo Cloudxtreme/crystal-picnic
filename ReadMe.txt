@@ -60,18 +60,23 @@ Items List:
   == Credits ==
  =============
 
+Various open source and commercial libraries are used by the game including
+Allegro, BASS, FreeType, libpng, Lua, poly2tri and zlib. See the respective
+licenses of each for details.
 
-Some SFX are modified versions of SFX found on www.freesound.org.
+Fonts and Soundfonts are commercially licensed and not to be distributed
+by any 3rd party.
 
-boing.ogg - plingativator
-quack.ogg - digitopia
-ribbit.ogg - juskiddink
-open_door.ogg - Zabuhailo
-splat_hit.ogg - MWLANDI
-splat.ogg - MWLANDI
-kaching.ogg - Benboncan
-slip.ogg - soundscapel.com
+Some sound effects are modified versions of sounds found on www.freesound.org:
 
+	boing.ogg - plingativator
+	quack.ogg - digitopia
+	ribbit.ogg - juskiddink
+	open_door.ogg - Zabuhailo
+	splat_hit.ogg - MWLANDI
+	splat.ogg - MWLANDI
+	kaching.ogg - Benboncan
+	slip.ogg - soundscapel.com
 
-Core team members are credited in the in-game credits.
+Core team members have been credited in the in-game credits.
 
