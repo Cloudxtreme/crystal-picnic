@@ -2177,7 +2177,7 @@ void Main_Menu_Equip_Loop::draw()
 		(float)max_hp / 22,
 		(float)max_mp / 10,
 		(float)attack / 7,
-		(float)defense / 5
+		(float)defense / 4
 	};
 
 	ALLEGRO_COLOR colors[4] = {
