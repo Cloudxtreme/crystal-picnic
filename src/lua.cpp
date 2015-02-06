@@ -5526,7 +5526,7 @@ void register_c_functions(lua_State *lua_state)
 	REGISTER_FUNCTION(get_battle_entity_hit_something_this_attack);
 	REGISTER_FUNCTION(get_random_start_platform);
 	REGISTER_FUNCTION(set_entity_immovable);
-	REGISTER_FUNCTION(set_entity_immovable);
+	REGISTER_FUNCTION(get_entity_immovable);
 	REGISTER_FUNCTION(apply_force);
 	REGISTER_FUNCTION(entity_is_on_ground);
 	REGISTER_FUNCTION(set_should_attack);
