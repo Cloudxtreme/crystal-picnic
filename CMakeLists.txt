@@ -249,7 +249,7 @@ else(WIN32)
 			${EXTRA_LIBS}
 		)
 	else(APPLE)
-		# Linux
+		# Linux/Raspberry Pi
 		if(DEMO)
 			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEMO=1")
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEMO=1")
