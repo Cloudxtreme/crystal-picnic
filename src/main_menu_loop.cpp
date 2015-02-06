@@ -332,7 +332,7 @@ bool Main_Menu_Loop::logic()
 		selected_player = pressed_player_button;
 	}
 	if (tgui_update_result == save_button) {
-#if defined OUYA || defined FIRETV
+#if defined OUYA_XXX || defined FIRETV
 		if (!engine->get_purchased()) {
 			std::string music = Music::get_playing();
 			std::vector<std::string> texts;

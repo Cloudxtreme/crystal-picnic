@@ -196,7 +196,7 @@ void Main::execute()
 		// Initial setup
 		engine->fade(0, 0, al_map_rgba(0, 0, 0, 0));
 
-#if defined OUYA || defined FIRETV
+#if defined OUYA_XXX || defined FIRETV
 		if (!engine->get_purchased()) {
 			queryPurchased();
 			int purchased = -1;
@@ -231,7 +231,7 @@ void Main::execute()
 
 			W_Title_Screen_Button *buy_button = NULL;
 
-#if defined OUYA || defined FIRETV
+#if defined OUYA_XXX || defined FIRETV
 			if (!engine->get_purchased()) {
 				buy_button = new W_Title_Screen_Button("BUY_FULL_GAME");
 				buy_button->setX(20);
@@ -450,7 +450,7 @@ void Main::execute()
 						fade(0.5, false);
 					}
 				}
-#if defined OUYA || defined FIRETV
+#if defined OUYA_XXX || defined FIRETV
 				else if (widget && widget == buy_button) {
 					if (try_purchase(event_queue)) {
 						engine->set_purchased(true);
@@ -564,7 +564,7 @@ end:
 		lost_boss_battle = engine->get_lost_boss_battle();
 		engine->set_lost_boss_battle(false);
 		if (lost_boss_battle) {
-#if defined OUYA || defined FIRETV
+#if defined OUYA_XXX || defined FIRETV
 			if (!engine->get_purchased()) {
 				std::string music = Music::get_playing();
 				std::vector<std::string> texts;
