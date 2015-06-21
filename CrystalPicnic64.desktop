@@ -8,8 +8,8 @@ Type=Application
 Name=Crystal Picnic
 GenericName=Crystal Picnic
 Comment=Crystal Picnic
-Icon=/home/trent/Crystal Picnic 1.5.1 (64 bit)/stuff/icon.png
-Exec="/home/trent/Crystal Picnic 1.5.1 (64 bit)/CrystalPicnic"
+Icon=/home/trent/Crystal Picnic 1.7 (64 bit)/stuff/icon.png
+Exec="/home/trent/Crystal Picnic 1.7 (64 bit)/CrystalPicnic"
 Categories=Game;
-Path=/home/trent/Crystal Picnic 1.5.1 (64 bit)
+Path=/home/trent/Crystal Picnic 1.7 (64 bit)
 
