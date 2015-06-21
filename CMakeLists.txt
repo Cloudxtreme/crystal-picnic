@@ -209,7 +209,7 @@ if(WIN32)
 		LIST(APPEND EXTRA_LIBS "libpng16_static" "jpeg-static")
 	endif()
 	if(LUAJIT)
-		set(LUA_LIB "c:\\Users\\trent\\code\\crystalpicnic\\build\\lua51.dll")
+		set(LUA_LIB "c:\\Users\\trent\\code\\crystal-picnic\\build\\lua51.dll")
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLUAJIT=1 -DLUA_BUILD_AS_DLL=1")
 	else()
 		set(LUA_LIB "lua5.2")
@@ -251,14 +251,8 @@ else(WIN32)
 			wrap
 			my_load_bitmap
 			atlas
-			allegro_ttf${ALLEG_SUFFIX}
-			allegro_font${ALLEG_SUFFIX}
-			allegro_primitives${ALLEG_SUFFIX}
-			allegro_memfile${ALLEG_SUFFIX}
-			allegro_dialog${ALLEG_SUFFIX}
-			allegro_image${ALLEG_SUFFIX}
-			allegro${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB}
-			/Users/trent/code/local/lib/liblua.a
+			allegro_monolith${ALLEG_SUFFIX}
+			/Users/trent/code/local/lib/liblua5.2.a
 			${EXTRA_LIBS}
 		)
 	else(APPLE)
@@ -275,7 +269,7 @@ else(WIN32)
 			include_directories("/opt/vc/include/interface/vcos/pthreads")
 
 			if(LUAJIT)
-				set(LUA_LIB "/Users/trent/code/crystalpicnic/build-raspberrypi/libluajit.so")
+				set(LUA_LIB "/Users/trent/code/crystal-picnic/build-raspberrypi/libluajit.so")
 				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLUAJIT=1")
 			else()
 				set(LUA_LIB "lua5.2")
@@ -287,12 +281,7 @@ else(WIN32)
 				wrap
 				my_load_bitmap
 				atlas
-				allegro_ttf${ALLEG_SUFFIX}
-				allegro_font${ALLEG_SUFFIX}
-				allegro_primitives${ALLEG_SUFFIX}
-				allegro_memfile${ALLEG_SUFFIX}
-				allegro_image${ALLEG_SUFFIX}
-				allegro${ALLEG_SUFFIX}
+				allegro_monolith${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				SM
 				ICE
@@ -306,8 +295,8 @@ else(WIN32)
 				Xau
 				Xdmcp
 				bcm_host GLESv2 EGL m pthread
-				/Users/trent/code/crystalpicnic/build-raspberrypi/libbassmidi.so
-				/Users/trent/code/crystalpicnic/build-raspberrypi/libbass.so
+				/Users/trent/code/crystal-picnic/build-raspberrypi/libbassmidi.so
+				/Users/trent/code/crystal-picnic/build-raspberrypi/libbass.so
 				${LUA_LIB}
 				png
 				freetype
@@ -333,20 +322,15 @@ else(WIN32)
 				wrap
 				tgui2
 				my_load_bitmap
-				allegro_ttf${ALLEG_SUFFIX}
-				allegro_font${ALLEG_SUFFIX}
-				allegro_primitives${ALLEG_SUFFIX}
-				allegro_memfile${ALLEG_SUFFIX}
-				allegro_image${ALLEG_SUFFIX}
-				allegro${ALLEG_SUFFIX}
+				allegro_monolith${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
 				/usr/local/lib/liblua5.2.a
 				/usr/local/lib/libpng.a
 				/usr/local/lib/libfreetype.a
 				/usr/local/lib/libz.a
-				/home/trent/code/crystalpicnic/build/libbass.so
-				/home/trent/code/crystalpicnic/build/libbassmidi.so
+				/home/trent/code/crystal-picnic/build/libbass.so
+				/home/trent/code/crystal-picnic/build/libbassmidi.so
 				/usr/local/lib/libpoly2tri.a
 			)
 		endif()
