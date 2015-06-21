@@ -209,18 +209,22 @@ void log_message(std::string msg)
 	}
 #endif
 
-#if defined ALLEGRO_MACOSX
-	LOG(tmp.c_str());
-#elif defined ALLEGRO_ANDROID
-	ALLEGRO_DEBUG("%s\n", tmp.c_str());
-#else
-#ifdef ALLEGRO_WINDOWS
+	// Note: logging is now DISABLED except when using the -log switch on Windows
+
+#if defined ALLEGRO_WINDOWS
 	if (find_arg("-log") > 0) {
 		al_append_native_text_log(textlog, "%s\n", tmp.c_str());
 	}
 	else {
+		return;
 		std::cout << tmp << std::endl;
 	}
+#else
+	return;
+#if defined ALLEGRO_MACOSX
+	LOG(tmp.c_str());
+#elif defined ALLEGRO_ANDROID
+	ALLEGRO_DEBUG("%s\n", tmp.c_str());
 #else
 	std::cout << tmp << std::endl;
 #endif
