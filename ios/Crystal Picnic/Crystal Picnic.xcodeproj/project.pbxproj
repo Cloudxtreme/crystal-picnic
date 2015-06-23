@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		962E88C91A33EFAA0004DE04 /* difficulty_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */; };
-		9670B12119C5F2F9008001FD /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11D19C5F2F9008001FD /* icon29.png */; };
-		9670B12219C5F2F9008001FD /* icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11E19C5F2F9008001FD /* icon40.png */; };
-		9670B12319C5F2F9008001FD /* icon76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B11F19C5F2F9008001FD /* icon76.png */; };
-		9670B12419C5F2F9008001FD /* icon152.png in Resources */ = {isa = PBXBuildFile; fileRef = 9670B12019C5F2F9008001FD /* icon152.png */; };
 		96BD8DCE19AFE7CA001BDCE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DCD19AFE7CA001BDCE2 /* Foundation.framework */; };
 		96BD8DD019AFE7CA001BDCE2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DCF19AFE7CA001BDCE2 /* CoreGraphics.framework */; };
 		96BD8DD219AFE7CA001BDCE2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BD8DD119AFE7CA001BDCE2 /* UIKit.framework */; };
@@ -134,10 +130,6 @@
 
 /* Begin PBXFileReference section */
 		962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = difficulty_loop.cpp; path = ../../src/difficulty_loop.cpp; sourceTree = "<group>"; };
-		9670B11D19C5F2F9008001FD /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = ../../icon29.png; sourceTree = "<group>"; };
-		9670B11E19C5F2F9008001FD /* icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon40.png; path = ../../icon40.png; sourceTree = "<group>"; };
-		9670B11F19C5F2F9008001FD /* icon76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon76.png; path = ../../icon76.png; sourceTree = "<group>"; };
-		9670B12019C5F2F9008001FD /* icon152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon152.png; path = ../../icon152.png; sourceTree = "<group>"; };
 		96BD8DCA19AFE7CA001BDCE2 /* Crystal Picnic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crystal Picnic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BD8DCD19AFE7CA001BDCE2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96BD8DCF19AFE7CA001BDCE2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -243,9 +235,6 @@
 		96D0921E19B003B70084C11A /* libbzip2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbzip2.a; path = "../../../local-ios/lib/libbzip2.a"; sourceTree = "<group>"; };
 		96D0922119B007010084C11A /* data.cpa.uncompressed */ = {isa = PBXFileReference; lastKnownFileType = file; name = data.cpa.uncompressed; path = ../../data.cpa.uncompressed; sourceTree = "<group>"; };
 		96D0922319B009A90084C11A /* data.cpa */ = {isa = PBXFileReference; lastKnownFileType = file; name = data.cpa; path = ../../data.cpa; sourceTree = "<group>"; };
-		96D0922519B017430084C11A /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon120.png; path = ../../icon120.png; sourceTree = "<group>"; };
-		96D0922619B017500084C11A /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon80.png; path = ../../icon80.png; sourceTree = "<group>"; };
-		96D0922719B0175F0084C11A /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon58.png; path = ../../icon58.png; sourceTree = "<group>"; };
 		96D35D1C1B39BCB5000B18FD /* libAllegro5_iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAllegro5_iOS.a; path = ../../../iphone_libs_r/lib/libAllegro5_iOS.a; sourceTree = "<group>"; };
 		96D35D1E1B39BDB9000B18FD /* audio_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = audio_config_loop.cpp; path = ../../src/audio_config_loop.cpp; sourceTree = "<group>"; };
 		96D35D201B39C116000B18FD /* libbz2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2.a; path = ../../../iphone_libs_r/lib/libbz2.a; sourceTree = "<group>"; };
@@ -296,13 +285,6 @@
 				96C4541419F172E300D8FCFF /* video_config_loop.cpp */,
 				96C4541219F1729900D8FCFF /* settings_loop.cpp */,
 				96C4541019F16F7500D8FCFF /* language_config_loop.cpp */,
-				9670B11D19C5F2F9008001FD /* icon29.png */,
-				9670B11E19C5F2F9008001FD /* icon40.png */,
-				9670B11F19C5F2F9008001FD /* icon76.png */,
-				9670B12019C5F2F9008001FD /* icon152.png */,
-				96D0922719B0175F0084C11A /* icon58.png */,
-				96D0922619B017500084C11A /* icon80.png */,
-				96D0922519B017430084C11A /* icon120.png */,
 				96D0922319B009A90084C11A /* data.cpa */,
 				96D0922119B007010084C11A /* data.cpa.uncompressed */,
 				96D0916219AFFA4B0084C11A /* abilities.cpp */,
@@ -523,10 +505,6 @@
 			files = (
 				96BD8DD819AFE7CA001BDCE2 /* InfoPlist.strings in Resources */,
 				96BD8DE019AFE7CA001BDCE2 /* Images.xcassets in Resources */,
-				9670B12219C5F2F9008001FD /* icon40.png in Resources */,
-				9670B12119C5F2F9008001FD /* icon29.png in Resources */,
-				9670B12319C5F2F9008001FD /* icon76.png in Resources */,
-				9670B12419C5F2F9008001FD /* icon152.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,8 +708,8 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -745,7 +723,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/iphone_libs_r/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aedb55a5-b823-4dc2-aa8f-b4265242d23f";
+				PROVISIONING_PROFILE = "07ae0526-53d1-4d97-b901-ca3f63ca7c87";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 arm64 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -762,8 +740,8 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nooskewl";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nooskewl";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -776,7 +754,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/iphone_libs_r/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aedb55a5-b823-4dc2-aa8f-b4265242d23f";
+				PROVISIONING_PROFILE = "07ae0526-53d1-4d97-b901-ca3f63ca7c87";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 arm64 armv7s";
 				WRAPPER_EXTENSION = app;
