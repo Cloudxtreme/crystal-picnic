@@ -153,11 +153,11 @@ void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 {
 	ALLEGRO_TRANSFORM t, backup, backup2;
 	ALLEGRO_DISPLAY *display = engine->get_display();
-	al_copy_transform(&backup, al_get_projection_transform(display));
+	al_copy_transform(&backup, al_get_current_projection_transform());
 	al_copy_transform(&backup2, al_get_current_transform());
 
 	al_identity_transform(&t);
-	al_use_transform(&t);
+	//al_use_transform(&t);
 
 	float x;
 	float y;
@@ -185,7 +185,10 @@ void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 		1000
 	);
 
-	al_set_projection_transform(display, &t);
+	al_use_projection_transform(&t);
+	
+	al_identity_transform(&t);
+	al_use_transform(&t);
 	
 	int low, high;
 	
@@ -233,7 +236,7 @@ void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 	
 	al_draw_prim(v, 0, bitmap->bitmap, 0, 4, ALLEGRO_PRIM_TRIANGLE_STRIP);
 	
-	al_set_projection_transform(display, &backup);
+	al_use_projection_transform(&backup);
 	al_use_transform(&backup2);
 }
 

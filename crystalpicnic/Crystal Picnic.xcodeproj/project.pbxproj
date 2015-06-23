@@ -110,7 +110,8 @@
 		9672078C19A5998B008F7DB1 /* libwrap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077D19A5998B008F7DB1 /* libwrap.a */; };
 		9672078D19A5998B008F7DB1 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672077E19A5998B008F7DB1 /* libz.a */; };
 		96C4540F19F16A1C00D8FCFF /* language_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */; };
-		96E8068A19C55CD7008030E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E8068919C55CD6008030E9 /* IOKit.framework */; };
+		96D35D191B39A820000B18FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D35D181B39A820000B18FD /* IOKit.framework */; };
+		96D35D1B1B39AF6F000B18FD /* audio_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D35D1A1B39AF6F000B18FD /* audio_config_loop.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,6 +257,8 @@
 		9672077E19A5998B008F7DB1 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../local/lib/libz.a; sourceTree = "<group>"; };
 		96A21AF619A5BCCE00303792 /* Crystal Picnic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Crystal Picnic.entitlements"; sourceTree = "<group>"; };
 		96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = language_config_loop.cpp; path = ../src/language_config_loop.cpp; sourceTree = "<group>"; };
+		96D35D181B39A820000B18FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		96D35D1A1B39AF6F000B18FD /* audio_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = audio_config_loop.cpp; path = ../src/audio_config_loop.cpp; sourceTree = "<group>"; };
 		96E8068919C55CD6008030E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -264,7 +267,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96E8068A19C55CD7008030E9 /* IOKit.framework in Frameworks */,
+				96D35D191B39A820000B18FD /* IOKit.framework in Frameworks */,
 				9672077F19A5998B008F7DB1 /* liballegro_font-static.a in Frameworks */,
 				9672078019A5998B008F7DB1 /* liballegro_image-static.a in Frameworks */,
 				9672078119A5998B008F7DB1 /* liballegro_main-static.a in Frameworks */,
@@ -304,6 +307,7 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
+				96D35D1A1B39AF6F000B18FD /* audio_config_loop.cpp */,
 				962E88C61A33EA1C0004DE04 /* difficulty_loop.cpp */,
 				96C4540E19F16A1C00D8FCFF /* language_config_loop.cpp */,
 				96463D2B19BF8CBA0028EF95 /* settings_loop.cpp */,
@@ -401,6 +405,7 @@
 		9672069019A5973D008F7DB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96D35D181B39A820000B18FD /* IOKit.framework */,
 				96E8068919C55CD6008030E9 /* IOKit.framework */,
 				9672077019A5998B008F7DB1 /* liballegro_font-static.a */,
 				9672077119A5998B008F7DB1 /* liballegro_image-static.a */,
@@ -525,7 +530,7 @@
 						DevelopmentTeam = ZCLK6CUZ99;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -596,6 +601,7 @@
 				9672072419A5978D008F7DB1 /* collidable.cpp in Sources */,
 				9672071E19A5978D008F7DB1 /* battle_transition_in.cpp in Sources */,
 				9672074D19A5978D008F7DB1 /* speech_loop.cpp in Sources */,
+				96D35D1B1B39AF6F000B18FD /* audio_config_loop.cpp in Sources */,
 				9672074519A5978D008F7DB1 /* resource_manager.cpp in Sources */,
 				9672073A19A5978D008F7DB1 /* main_menu_loop.cpp in Sources */,
 				9672075319A5978D008F7DB1 /* wander_character_role.cpp in Sources */,
@@ -765,9 +771,12 @@
 		967206C019A5973D008F7DB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application: Nooskewl (ZCLK6CUZ99)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";
@@ -780,11 +789,12 @@
 				);
 				INFOPLIST_FILE = "crystalpicnic/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = "-stdlib=libstdc++";
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6fe014ce-c4f8-41e0-8760-dd11bc6017e3";
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -792,9 +802,12 @@
 		967206C119A5973D008F7DB1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application: Nooskewl (ZCLK6CUZ99)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "crystalpicnic/Crystal Picnic-Prefix.pch";
@@ -806,11 +819,12 @@
 				);
 				INFOPLIST_FILE = "crystalpicnic/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = "-stdlib=libstdc++";
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6fe014ce-c4f8-41e0-8760-dd11bc6017e3";
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

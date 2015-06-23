@@ -60,8 +60,6 @@
 		96D091CF19AFFA4B0084C11A /* game_specific_globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918619AFFA4B0084C11A /* game_specific_globals.cpp */; };
 		96D091D019AFFA4B0084C11A /* general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918719AFFA4B0084C11A /* general.cpp */; };
 		96D091D119AFFA4B0084C11A /* graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918819AFFA4B0084C11A /* graphics.cpp */; };
-		96D091D219AFFA4B0084C11A /* hqm_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918919AFFA4B0084C11A /* hqm_loop.cpp */; };
-		96D091D319AFFA4B0084C11A /* hqm.c in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918A19AFFA4B0084C11A /* hqm.c */; };
 		96D091D419AFFA4B0084C11A /* input_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918B19AFFA4B0084C11A /* input_config_loop.cpp */; };
 		96D091D519AFFA4B0084C11A /* lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918C19AFFA4B0084C11A /* lua.cpp */; };
 		96D091D619AFFA4B0084C11A /* main_menu_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D0918D19AFFA4B0084C11A /* main_menu_loop.cpp */; };
@@ -93,18 +91,9 @@
 		96D091F119AFFA4B0084C11A /* whack_a_skunk_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D091A819AFFA4B0084C11A /* whack_a_skunk_loop.cpp */; };
 		96D091F219AFFA4B0084C11A /* widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D091A919AFFA4B0084C11A /* widgets.cpp */; };
 		96D091F319AFFA4B0084C11A /* xml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D091AA19AFFA4B0084C11A /* xml.cpp */; };
-		96D091F919B002F20084C11A /* liballegro_color-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091F419B002F20084C11A /* liballegro_color-static.a */; };
-		96D091FA19B002F20084C11A /* liballegro_font-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091F519B002F20084C11A /* liballegro_font-static.a */; };
-		96D091FB19B002F20084C11A /* liballegro_image-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091F619B002F20084C11A /* liballegro_image-static.a */; };
-		96D091FC19B002F20084C11A /* liballegro_main-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091F719B002F20084C11A /* liballegro_main-static.a */; };
-		96D091FD19B002F20084C11A /* liballegro_memfile-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091F819B002F20084C11A /* liballegro_memfile-static.a */; };
-		96D0920B19B0032B0084C11A /* liballegro_primitives-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091FE19B0032B0084C11A /* liballegro_primitives-static.a */; };
-		96D0920C19B0032B0084C11A /* liballegro_ttf-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D091FF19B0032B0084C11A /* liballegro_ttf-static.a */; };
-		96D0920D19B0032B0084C11A /* liballegro-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920019B0032B0084C11A /* liballegro-static.a */; };
 		96D0920E19B0032B0084C11A /* libatlas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920119B0032B0084C11A /* libatlas.a */; };
 		96D0920F19B0032B0084C11A /* libbass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920219B0032B0084C11A /* libbass.a */; };
 		96D0921019B0032B0084C11A /* libbassmidi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920319B0032B0084C11A /* libbassmidi.a */; };
-		96D0921119B0032B0084C11A /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920419B0032B0084C11A /* libcurl.a */; };
 		96D0921219B0032B0084C11A /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920519B0032B0084C11A /* libfreetype.a */; };
 		96D0921319B0032B0084C11A /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920619B0032B0084C11A /* liblua.a */; };
 		96D0921419B0032B0084C11A /* libpoly2tri.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0920719B0032B0084C11A /* libpoly2tri.a */; };
@@ -114,8 +103,10 @@
 		96D0921919B0033F0084C11A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0921819B0033F0084C11A /* AudioToolbox.framework */; };
 		96D0921B19B003460084C11A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0921A19B003460084C11A /* OpenGLES.framework */; };
 		96D0921D19B003A80084C11A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0921C19B003A80084C11A /* Accelerate.framework */; };
-		96D0921F19B003B70084C11A /* libbzip2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D0921E19B003B70084C11A /* libbzip2.a */; };
 		96D0922819B01AE00084C11A /* data.cpa.uncompressed in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96D0922119B007010084C11A /* data.cpa.uncompressed */; };
+		96D35D1D1B39BCB5000B18FD /* libAllegro5_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D35D1C1B39BCB5000B18FD /* libAllegro5_iOS.a */; };
+		96D35D1F1B39BDB9000B18FD /* audio_config_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D35D1E1B39BDB9000B18FD /* audio_config_loop.cpp */; };
+		96D35D211B39C116000B18FD /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D35D201B39C116000B18FD /* libbz2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,8 +188,6 @@
 		96D0918619AFFA4B0084C11A /* game_specific_globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = game_specific_globals.cpp; path = ../../src/game_specific_globals.cpp; sourceTree = "<group>"; };
 		96D0918719AFFA4B0084C11A /* general.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = general.cpp; path = ../../src/general.cpp; sourceTree = "<group>"; };
 		96D0918819AFFA4B0084C11A /* graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics.cpp; path = ../../src/graphics.cpp; sourceTree = "<group>"; };
-		96D0918919AFFA4B0084C11A /* hqm_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hqm_loop.cpp; path = ../../src/hqm_loop.cpp; sourceTree = "<group>"; };
-		96D0918A19AFFA4B0084C11A /* hqm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hqm.c; path = ../../src/hqm.c; sourceTree = "<group>"; };
 		96D0918B19AFFA4B0084C11A /* input_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = input_config_loop.cpp; path = ../../src/input_config_loop.cpp; sourceTree = "<group>"; };
 		96D0918C19AFFA4B0084C11A /* lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lua.cpp; path = ../../src/lua.cpp; sourceTree = "<group>"; };
 		96D0918D19AFFA4B0084C11A /* main_menu_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main_menu_loop.cpp; path = ../../src/main_menu_loop.cpp; sourceTree = "<group>"; };
@@ -257,6 +246,9 @@
 		96D0922519B017430084C11A /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon120.png; path = ../../icon120.png; sourceTree = "<group>"; };
 		96D0922619B017500084C11A /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon80.png; path = ../../icon80.png; sourceTree = "<group>"; };
 		96D0922719B0175F0084C11A /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon58.png; path = ../../icon58.png; sourceTree = "<group>"; };
+		96D35D1C1B39BCB5000B18FD /* libAllegro5_iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAllegro5_iOS.a; path = ../../../iphone_libs_r/lib/libAllegro5_iOS.a; sourceTree = "<group>"; };
+		96D35D1E1B39BDB9000B18FD /* audio_config_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = audio_config_loop.cpp; path = ../../src/audio_config_loop.cpp; sourceTree = "<group>"; };
+		96D35D201B39C116000B18FD /* libbz2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2.a; path = ../../../iphone_libs_r/lib/libbz2.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,28 +256,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96D0921F19B003B70084C11A /* libbzip2.a in Frameworks */,
+				96D35D211B39C116000B18FD /* libbz2.a in Frameworks */,
+				96D35D1D1B39BCB5000B18FD /* libAllegro5_iOS.a in Frameworks */,
 				96D0921D19B003A80084C11A /* Accelerate.framework in Frameworks */,
 				96D0921B19B003460084C11A /* OpenGLES.framework in Frameworks */,
 				96D0921919B0033F0084C11A /* AudioToolbox.framework in Frameworks */,
-				96D0920B19B0032B0084C11A /* liballegro_primitives-static.a in Frameworks */,
-				96D0920C19B0032B0084C11A /* liballegro_ttf-static.a in Frameworks */,
-				96D0920D19B0032B0084C11A /* liballegro-static.a in Frameworks */,
 				96D0920E19B0032B0084C11A /* libatlas.a in Frameworks */,
 				96D0920F19B0032B0084C11A /* libbass.a in Frameworks */,
 				96D0921019B0032B0084C11A /* libbassmidi.a in Frameworks */,
-				96D0921119B0032B0084C11A /* libcurl.a in Frameworks */,
 				96D0921219B0032B0084C11A /* libfreetype.a in Frameworks */,
 				96D0921319B0032B0084C11A /* liblua.a in Frameworks */,
 				96D0921419B0032B0084C11A /* libpoly2tri.a in Frameworks */,
 				96D0921519B0032B0084C11A /* libtgui2.a in Frameworks */,
 				96D0921619B0032B0084C11A /* libwrap.a in Frameworks */,
 				96D0921719B0032B0084C11A /* libz.a in Frameworks */,
-				96D091F919B002F20084C11A /* liballegro_color-static.a in Frameworks */,
-				96D091FA19B002F20084C11A /* liballegro_font-static.a in Frameworks */,
-				96D091FB19B002F20084C11A /* liballegro_image-static.a in Frameworks */,
-				96D091FC19B002F20084C11A /* liballegro_main-static.a in Frameworks */,
-				96D091FD19B002F20084C11A /* liballegro_memfile-static.a in Frameworks */,
 				96BD8DD019AFE7CA001BDCE2 /* CoreGraphics.framework in Frameworks */,
 				96BD8DD219AFE7CA001BDCE2 /* UIKit.framework in Frameworks */,
 				96BD8DCE19AFE7CA001BDCE2 /* Foundation.framework in Frameworks */,
@@ -307,6 +291,7 @@
 		96BD8DC119AFE7CA001BDCE2 = {
 			isa = PBXGroup;
 			children = (
+				96D35D1E1B39BDB9000B18FD /* audio_config_loop.cpp */,
 				962E88C81A33EFAA0004DE04 /* difficulty_loop.cpp */,
 				96C4541419F172E300D8FCFF /* video_config_loop.cpp */,
 				96C4541219F1729900D8FCFF /* settings_loop.cpp */,
@@ -358,8 +343,6 @@
 				96D0918619AFFA4B0084C11A /* game_specific_globals.cpp */,
 				96D0918719AFFA4B0084C11A /* general.cpp */,
 				96D0918819AFFA4B0084C11A /* graphics.cpp */,
-				96D0918919AFFA4B0084C11A /* hqm_loop.cpp */,
-				96D0918A19AFFA4B0084C11A /* hqm.c */,
 				96D0918B19AFFA4B0084C11A /* input_config_loop.cpp */,
 				96D0918C19AFFA4B0084C11A /* lua.cpp */,
 				96D0918D19AFFA4B0084C11A /* main_menu_loop.cpp */,
@@ -409,6 +392,8 @@
 		96BD8DCC19AFE7CA001BDCE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96D35D201B39C116000B18FD /* libbz2.a */,
+				96D35D1C1B39BCB5000B18FD /* libAllegro5_iOS.a */,
 				96D0921E19B003B70084C11A /* libbzip2.a */,
 				96D0921C19B003A80084C11A /* Accelerate.framework */,
 				96D0921A19B003460084C11A /* OpenGLES.framework */,
@@ -569,6 +554,7 @@
 				96D091C619AFFA4B0084C11A /* crystalpicnic.cpp in Sources */,
 				96D091AB19AFFA4B0084C11A /* abilities.cpp in Sources */,
 				96D091CF19AFFA4B0084C11A /* game_specific_globals.cpp in Sources */,
+				96D35D1F1B39BDB9000B18FD /* audio_config_loop.cpp in Sources */,
 				96D091CE19AFFA4B0084C11A /* frame.cpp in Sources */,
 				96D091C919AFFA4B0084C11A /* enemy_avatar.cpp in Sources */,
 				96D091D619AFFA4B0084C11A /* main_menu_loop.cpp in Sources */,
@@ -603,7 +589,6 @@
 				96D091E319AFFA4B0084C11A /* saveload_loop.cpp in Sources */,
 				962E88C91A33EFAA0004DE04 /* difficulty_loop.cpp in Sources */,
 				96D091DE19AFFA4B0084C11A /* npc.cpp in Sources */,
-				96D091D319AFFA4B0084C11A /* hqm.c in Sources */,
 				96D091CA19AFFA4B0084C11A /* engine.cpp in Sources */,
 				96D091D419AFFA4B0084C11A /* input_config_loop.cpp in Sources */,
 				96D091BD19AFFA4B0084C11A /* camera.cpp in Sources */,
@@ -625,7 +610,6 @@
 				96D091C119AFFA4B0084C11A /* collision_detection.cpp in Sources */,
 				96D091E419AFFA4B0084C11A /* shaders.cpp in Sources */,
 				96D091C719AFFA4B0084C11A /* direct3d.cpp in Sources */,
-				96D091D219AFFA4B0084C11A /* hqm_loop.cpp in Sources */,
 				96D091E219AFFA4B0084C11A /* runner_loop.cpp in Sources */,
 				96C4541319F1729900D8FCFF /* settings_loop.cpp in Sources */,
 				96D091F119AFFA4B0084C11A /* whack_a_skunk_loop.cpp in Sources */,
@@ -739,27 +723,31 @@
 		96BD8DF719AFE7CA001BDCE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
+				ARCHS = (
+					armv7,
+					arm64,
+					armv7s,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/trent/code/local-ios/include",
+					/Users/trent/code/iphone_libs_r/include,
 					/Users/trent/code/crystalpicnic/include,
 				);
 				INFOPLIST_FILE = "Crystal Picnic/Crystal Picnic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = /Users/trent/code/iphone_libs_r/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aedb55a5-b823-4dc2-aa8f-b4265242d23f";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -767,26 +755,30 @@
 		96BD8DF819AFE7CA001BDCE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
+				ARCHS = (
+					armv7,
+					arm64,
+					armv7s,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Trent Gamblin (5923J6TNDK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Crystal Picnic/Crystal Picnic-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/trent/code/local-ios/include",
+					/Users/trent/code/iphone_libs_r/include,
 					/Users/trent/code/crystalpicnic/include,
 				);
 				INFOPLIST_FILE = "Crystal Picnic/Crystal Picnic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "/Users/trent/code/local-ios/lib";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = /Users/trent/code/iphone_libs_r/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aedb55a5-b823-4dc2-aa8f-b4265242d23f";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
