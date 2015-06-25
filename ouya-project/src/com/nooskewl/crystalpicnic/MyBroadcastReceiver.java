@@ -1,4 +1,4 @@
-package com.nooskewl.crystal_picnic;
+package com.nooskewl.crystalpicnic;
 
 import android.content.Context;
 import android.content.Intent;
