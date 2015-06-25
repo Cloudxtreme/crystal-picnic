@@ -1,4 +1,4 @@
-package com.nooskewl.crystalpicnic;
+package ca.nooskewl.crystalpicnic;
 
 import org.liballeg.android.AllegroActivity;
 import android.net.Uri;
