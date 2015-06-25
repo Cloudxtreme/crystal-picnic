@@ -152,7 +152,6 @@ void side_swipe_out(ALLEGRO_COLOR color, float percent)
 void turn_bitmap(Wrap::Bitmap *bitmap, float angle)
 {
 	ALLEGRO_TRANSFORM t, backup, backup2;
-	ALLEGRO_DISPLAY *display = engine->get_display();
 	al_copy_transform(&backup, al_get_current_projection_transform());
 	al_copy_transform(&backup2, al_get_current_transform());
 
