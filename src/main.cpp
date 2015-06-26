@@ -263,7 +263,7 @@ void Main::execute()
 			
 			W_Title_Screen_Button *new_game_button = new W_Title_Screen_Button("NEW_GAME");
 			new_game_button->setX(20);
-			new_game_button->setY(116+button_inc+(add_continue ? 0 : 16));
+			new_game_button->setY(116+button_inc+(add_continue ? 0 : 16)+(buy_button ? -16 : 0));
 			W_Title_Screen_Button *continue_button = new W_Title_Screen_Button("CONTINUE");
 			continue_button->setX(20);
 			continue_button->setY(132+button_inc);
@@ -460,7 +460,7 @@ void Main::execute()
 						buy_button = NULL;
 						add_continue = true;
 						tgui::addWidget(continue_button);
-						new_game_button->setY(new_game_button->getY()-16);
+						//new_game_button->setY(new_game_button->getY()-16);
 					}
 					engine->switch_in();
 					Music::play("music/title.ogg");
