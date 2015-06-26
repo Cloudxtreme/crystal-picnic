@@ -555,8 +555,6 @@ end:
 		engine->set_loops_only(loops);
 		l->init();
 
-		ALLEGRO_DEBUG("Created start loop");
-
 		engine->do_event_loop();
 		
 		engine->destroy_loops();
