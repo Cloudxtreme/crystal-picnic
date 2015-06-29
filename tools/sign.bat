@@ -1,3 +1,4 @@
+@echo off
 del %1
 copy bin\crystalpicnic-project-release-unsigned.apk tmp.apk
 c:\Progra~1\Java\jdk1.8.0_45\bin\jarsigner.exe -verbose -sigalg MD5withRSA -digestalg SHA1 -keystore ..\..\my-release-key.keystore tmp.apk Nooskewl
