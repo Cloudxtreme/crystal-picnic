@@ -1,0 +1,59 @@
+<fly-eat>
+	<frames>12</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</fly-eat>
+<fly-left-right>
+	<frames>2</frames>
+	<delay>64</delay>
+</fly-left-right>
+<fly-down>
+	<frames>1</frames>
+</fly-down>
+<fly-grab>
+	<frames>12</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</fly-grab>
+<fly-idle>
+	<frames>2</frames>
+	<delay>64</delay>
+</fly-idle>
+<fly-idle-crystal>
+	<frames>2</frames>
+	<delay>64</delay>
+</fly-idle-crystal>
+<impudence>
+	<frames>4</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</impudence>
+<fly-impudence>
+	<frames>2</frames>
+	<delay>64</delay>
+</fly-impudence>
+<landing>
+	<frames>3</frames>
+	<delay>300</delay>
+	<looping>false</looping>
+</landing>
+<fly-throw>
+	<frames>7</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</fly-throw>
+<riding-ant>
+	<frames>1</frames>
+</riding-ant>
+<dizzy>
+	<frames>7</frames>
+	<delay>64</delay>
+</dizzy>
+<kiss>
+	<frames>3</frames>
+	<delay>120</delay>
+	<looping>false</looping>
+</kiss>
+<idle>
+	<frames>1</frames>
+</idle>

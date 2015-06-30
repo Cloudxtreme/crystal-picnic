@@ -1,0 +1,17 @@
+<battle-idle>
+	<frames>7</frames>
+	<delay>100</delay>
+</battle-idle>
+<jump-falling>
+	<frames>1</frames>
+</jump-falling>
+<jump-in-air>
+	<frames>1</frames>
+</jump-in-air>
+<jump-landed>
+	<frames>1</frames>
+</jump-landed>
+<jump-start>
+	<frames>5</frames>
+	<delay>32</delay>
+</jump-start>

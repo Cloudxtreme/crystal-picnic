@@ -1,0 +1,129 @@
+<idle>
+	<frames>1</frames>
+</idle>
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+<idle-up>
+	<frames>1</frames>
+</idle-up>
+<run>
+	<frames>6</frames>
+	<delay>64</delay>
+</run>
+<run-up>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-up>
+<run-down>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-down>
+<attack>
+	<frames>2</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</attack>
+<attack-up>
+	<frames>2</frames>
+	<delay>60</delay>
+	<looping>false</looping>
+</attack-up>
+<attack-down>
+	<frames>2</frames>
+	<delay>60</delay>
+	<looping>false</looping>
+</attack-down>
+<jump>
+	<frames>11</frames>
+	<delay>16</delay>
+	<looping>false</looping>
+</jump>
+<jump-start>
+	<frames>3</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-start>
+<jump-in-air>
+	<frames>1</frames>
+	<delay>0</delay>
+	<looping>false</looping>
+</jump-in-air>
+<jump-landed>
+	<frames>2</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-landed>
+<jump-flipping>
+	<frames>6</frames>
+	<delay>16</delay>
+	<looping>false</looping>
+</jump-flipping>
+<walk>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk>
+<walk-up>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-up>
+<walk-down>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-down>
+<hit>
+	<frames>1</frames>
+	<looping>false</looping>
+</hit>
+<die>
+	<frames>4</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</die>
+<crouch>
+	<frames>1</frames>
+</crouch>
+<air-attack-unequipped>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</air-attack-unequipped>
+<attack-unequipped>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack-unequipped>
+<attack-unequipped-up>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack-unequipped-up>
+<attack-unequipped-down>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack-unequipped-down>
+<roll>
+	<frames>4</frames>
+	<delay>32</delay>
+	<tag>hard-hitting 100</tag>
+	<tag>attack-up</tag>
+	<tag>multiplier 1.5</tag>
+</roll>
+<burrow>
+	<frames>3</frames>
+	<delay>40</delay>
+</burrow>
+<magic>
+	<frames>14</frames>
+	<delay>16</delay>
+	<looping>false</looping>
+</magic>
+<slide>
+	<frames>3</frames>
+	<delay>80</delay>
+	<looping>false</looping>
+</slide>

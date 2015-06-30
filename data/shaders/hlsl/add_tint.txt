@@ -1,0 +1,22 @@
+texture al_tex;
+sampler2D s = sampler_state {
+	texture = <al_tex>;
+};
+float color_r;
+float color_g;
+float color_b;
+float p;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float4 c = tex2D(s, Input.TexCoord);
+	if (c.a == 0) {
+		return c;
+	}
+	float inv_p = 1.0 - p;
+	c.r = (color_r * p) + (c.r * inv_p);
+	c.g = (color_g * p) + (c.g * inv_p);
+	c.b = (color_b * p) + (c.b * inv_p);
+	return c;
+}
+

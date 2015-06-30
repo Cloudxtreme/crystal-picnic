@@ -1,0 +1,5 @@
+<only>
+	<loop_mode>pingpong</loopmode>
+	<frames>4</frames>
+	<delay>80</delay>
+</only>

@@ -1,0 +1,15 @@
+<battle-idle>
+	<frames>9</frames>
+	<delays>
+		<0>32</0>
+		<1>32</1>
+		<2>32</2>
+		<3>32</3>
+		<4>32</4>
+		<5>64</5>
+		<6>64</6>
+		<7>64</7>
+		<8>64</8>
+	</delays>
+	<loop_start>5</loop_start>
+</battle-idle>

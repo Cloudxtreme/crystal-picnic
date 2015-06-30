@@ -1,0 +1,40 @@
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+
+<idle>
+	<frames>1</frames>
+</idle>
+
+<idle-up>
+	<frames>1</frames>
+</idle-up>
+
+<chant>
+	<frames>2</frames>
+	<delay>200</delay>
+</chant>
+
+<greet>
+	<frames>1</frames>
+</greet>
+
+<hmph>
+	<frames>1</frames>
+</hmph>
+
+<walk>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk>
+
+<walk-down>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk-down>
+
+<walk-up>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk-up>
+

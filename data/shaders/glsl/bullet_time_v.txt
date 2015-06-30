@@ -1,0 +1,23 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 varying_texcoord;
+uniform sampler2D al_tex;
+uniform float x1;
+uniform float y1;
+uniform float x2;
+uniform float y2;
+uniform float offset;
+uniform float target_w;
+
+void main()
+{
+	float w = x2 - x1;
+	float x = (varying_texcoord.x * target_w) - x1;
+	x += offset;
+	x = mod(x, w*2.0) - w;
+	vec2 coord = vec2(varying_texcoord.x + x / target_w, varying_texcoord.y);
+	gl_FragColor = texture2D(al_tex, coord);
+}
+

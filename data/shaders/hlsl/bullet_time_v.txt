@@ -1,0 +1,21 @@
+texture al_tex;
+sampler2D s = sampler_state {
+	texture = <al_tex>;
+};
+float x1;
+float y1;
+float x2;
+float y2;
+float offset;
+float target_w;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float w = x2 - x1;
+	float x = (Input.TexCoord.x * target_w) - x1;
+	x += offset;
+	x = fmod(x, (w*2.0)) - w;
+	float2 coord = float2(Input.TexCoord.x + x / target_w, Input.TexCoord.y);
+	return tex2D(s, coord);
+}
+

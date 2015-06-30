@@ -1,0 +1,33 @@
+texture al_tex;
+sampler2D s = sampler_state {
+	texture = <al_tex>;
+};
+bool al_use_tex;
+float opacity;
+float target_w;
+float target_h;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float4 tmp;
+	if (al_use_tex)
+		tmp = Input.Color * tex2D(s, Input.TexCoord);
+	else
+		tmp = Input.Color;
+	if (tmp.a != 0.0) {
+		if (abs(tmp.r-(37.0/255.0)) < 0.01 && abs(tmp.g-(85.0/255.0)) < 0.01 && abs(tmp.b-(46.0/255.0)) < 0.01) {
+			tmp.r *= opacity;
+			tmp.g *= opacity;
+			tmp.b *= opacity;
+			tmp.a *= opacity;
+		}
+		else if (abs(tmp.r-(28.0/255.0)) < 0.01 && abs(tmp.g-(60.0/255.0)) < 0.01 && abs(tmp.b-(34.0/255.0)) < 0.01) {
+			tmp.r *= opacity;
+			tmp.g *= opacity;
+			tmp.b *= opacity;
+			tmp.a *= opacity;
+		}
+	}
+	return tmp;
+}
+

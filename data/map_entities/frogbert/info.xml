@@ -1,0 +1,183 @@
+<idle>
+	<frames>1</frames>
+</idle>
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+<idle-up>
+	<frames>1</frames>
+</idle-up>
+<run>
+	<frames>6</frames>
+	<delay>64</delay>
+</run>
+<run-up>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-up>
+<run-down>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-down>
+<walk>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk>
+<walk-up>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-up>
+<walk-down>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-down>
+<push>
+	<frames>4</frames>
+	<delay>80</delay>
+</push>
+<push-up>
+	<frames>4</frames>
+	<delay>80</delay>
+</push-up>
+<push-down>
+	<frames>4</frames>
+	<delay>80</delay>
+</push-down>
+<point>
+	<frames>1</frames>
+</point>
+<snooty>
+	<frames>1</frames>
+</snooty>
+<thinking>
+	<frames>1</frames>
+</thinking>
+<hand-gesture>
+	<frames>4</frames>
+	<delay>100</delay>
+</hand-gesture>
+<surprised>
+	<frames>3</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</surprised>
+<air-attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</air-attack>
+<attack-up>
+	<frames>3</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+</attack-up>
+<attack-down>
+	<frames>3</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+</attack-down>
+<attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+	<tag>next-attack attack2 1.0</tag>
+</attack>
+<attack2>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+	<tag>next-attack attack3 1.0</tag>
+</attack2>
+<attack3>
+	<frames>10</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+	<tag>next-attack attack 0.0</tag>
+</attack3>
+<jump>
+	<frames>9</frames>
+	<delay>16</delay>
+	<looping>false</looping>
+</jump>
+<jump-start>
+	<frames>3</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-start>
+<jump-in-air>
+	<frames>1</frames>
+	<delay>0</delay>
+	<looping>false</looping>
+</jump-in-air>
+<jump-flipping>
+	<frames>5</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-flipping>
+<hit>
+	<frames>1</frames>
+	<looping>false</looping>
+</hit>
+<die>
+	<frames>4</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</die>
+<crouch>
+	<frames>1</frames>
+</crouch>
+<ladder>
+	<frames>4</frames>
+	<delay>100</delay>
+</ladder>
+<blush>
+	<frames>3</frames>
+	<delays>
+		<0>500</0>
+		<1>500</1>
+		<2>2000</2>
+	</delays>
+	<looping>false</looping>
+</blush>
+<trip>
+	<looping>false</looping>
+	<frames>4</frames>
+	<delay>128</delay>
+</trip>
+<trip-up>
+	<looping>false</looping>
+	<frames>4</frames>
+	<delay>128</delay>
+</trip-up>
+<trip-down>
+	<looping>false</looping>
+	<frames>4</frames>
+	<delay>128</delay>
+</trip-down>
+<kick>
+	<looping>false</looping>
+	<frames>7</frames>
+	<delay>40</delay>
+	<tag>hard-hitting 100</tag>
+	<tag>attack-up</tag>
+</kick>
+<plant>
+	<looping>false</looping>
+	<frames>10</frames>
+	<delay>40</delay>
+</plant>
+<magic>
+	<frames>2</frames>
+	<delay>80</delay>
+	<looping>false</looping>
+</magic>
+<on-ground>
+	<frames>1</frames>
+</on-ground>
+<dizzy>
+	<frames>4</frames>
+	<delay>64</delay>
+</dizzy>

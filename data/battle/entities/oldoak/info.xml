@@ -1,0 +1,16 @@
+<battle-idle>
+	<frames>2</frames>
+	<delays>
+		<0>5000</0>
+		<1>100</1>
+	</delays>
+</battle-idle>
+
+<hit>
+	<frames>2</frames>
+	<delay>40</delay>
+</hit>
+
+<angry>
+	<frames>1</frames>
+</angry>

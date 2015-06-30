@@ -1,0 +1,41 @@
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<run>
+	<frames>6</frames>
+	<delay>64</delay>
+</run>
+<attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack>
+<air-attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</air-attack>
+<jump-start>
+	<frames>4</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</jump-start>
+<jump-in-air>
+	<frames>1</frames>
+	<delay>0</delay>
+	<looping>false</looping>
+</jump-in-air>
+<hit>
+	<frames>1</frames>
+	<looping>false</looping>
+</hit>
+<die>
+	<frames>2</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</die>
+<jump-flipping>
+	<frames>2</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-flipping>

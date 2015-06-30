@@ -1,0 +1,20 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 varying_texcoord;
+uniform sampler2D al_tex;
+uniform float color_r;
+uniform float color_g;
+uniform float color_b;
+
+void main()
+{
+	vec4 c = texture2D(al_tex, varying_texcoord);
+	float v = ((c.r * 0.2126) + (c.g * 0.7152) + (c.b * 0.0722)) * 1.5;
+	c.r = v * color_r * c.a;
+	c.g = v * color_g * c.a;
+	c.b = v * color_b * c.a;
+	gl_FragColor = c;
+}
+

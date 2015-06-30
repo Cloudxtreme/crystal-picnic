@@ -1,0 +1,33 @@
+<air-attack>
+	<frames>4</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+</air-attack>
+
+<burrow-in>
+	<frames>4</frames>
+	<delay>40</delay>
+</burrow-in>
+
+<burrow-out>
+	<frames>4</frames>
+	<delay>40</delay>
+</burrow-out>
+
+<hit>
+	<frames>1</frames>
+</hit>
+
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+
+<jump-in-air>
+	<frames>3</frames>
+	<delay>64</delay>
+</jump-in-air>
+
+<run>
+	<frames>4</frames>
+	<delay>100</delay>
+</run>

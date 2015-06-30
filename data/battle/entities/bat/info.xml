@@ -1,0 +1,17 @@
+<battle-idle>
+	<frames>2</frames>
+	<delays>
+		<0>4000</0>
+		<1>100</1>
+	</delays>
+</battle-idle>
+
+<fly>
+	<frames>1</frames>
+</fly>
+<fly-up>
+	<frames>1</frames>
+</fly-up>
+<fly-down>
+	<frames>1</frames>
+</fly-down>

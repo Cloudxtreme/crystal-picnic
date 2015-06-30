@@ -1,0 +1,15 @@
+<left>
+	<frames>5</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</left>
+<middle>
+	<frames>5</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</middle>
+<right>
+	<frames>5</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</right>

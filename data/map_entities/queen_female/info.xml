@@ -1,0 +1,11 @@
+<idle>
+	<frames>1</frames>
+</idle>
+<talk>
+	<frames>3</frames>
+	<delays>
+		<0>64</0>
+		<1>128</1>
+		<2>128</2>
+	</delays>
+</talk>

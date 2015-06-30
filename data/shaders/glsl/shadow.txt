@@ -1,0 +1,61 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 varying_texcoord;
+uniform sampler2D bmp;
+uniform float radius;
+uniform float bmp_w;
+uniform float bmp_h;
+
+void main()
+{
+	float onex = 1.0 / bmp_w;
+	float oney = 1.0 / bmp_h;
+
+	float total = 0.0;
+	float xx, yy;
+	vec4 c;
+
+	xx = varying_texcoord.x - (onex * 1.5);
+	yy = varying_texcoord.y - (oney * 1.5);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + onex;
+	yy = varying_texcoord.y - (oney * 1.5);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + (onex * 2.0);
+	yy = varying_texcoord.y - (oney * 1.5);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5);
+	yy = varying_texcoord.y - (oney * 1.5) + oney;
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + onex;
+	yy = varying_texcoord.y - (oney * 1.5) + oney;
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + (onex * 2.0);
+	yy = varying_texcoord.y - (oney * 1.5) + oney;
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5);
+	yy = varying_texcoord.y - (oney * 1.5) + (oney * 2.0);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + onex;
+	yy = varying_texcoord.y - (oney * 1.5) + (oney * 2.0);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+	xx = varying_texcoord.x - (onex * 1.5) + (onex * 2.0);
+	yy = varying_texcoord.y - (oney * 1.5) + (oney * 2.0);
+	c = texture2D(bmp, vec2(xx, yy));
+	total += c.a;
+
+	total /= 9.0;
+
+	gl_FragColor = vec4(0.0, 0.0, 0.0, total);
+}
+

@@ -1,0 +1,9 @@
+<battle-idle>
+	<frames>4</frames>
+	<delay>32</delay>
+</battle-idle>
+<attack>
+	<looping>false</looping>
+	<frames>7</frames>
+	<delay>32</delay>
+</attack>

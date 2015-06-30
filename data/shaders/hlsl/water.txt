@@ -1,0 +1,50 @@
+texture al_tex;
+sampler2D s = sampler_state {
+	texture = <al_tex>;
+};
+
+float water_r;
+float water_g;
+float water_b;
+float dark_water_r;
+float dark_water_g;
+float dark_water_b;
+float time;
+float tex_w, tex_h;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float4 c = tex2D(s, Input.TexCoord);
+
+	float4 water = float4(water_r, water_g, water_b, 1.0);
+	float4 dark_water = float4(dark_water_r, dark_water_g, dark_water_b, 1.0);
+
+	if (length(c-dark_water) >= 0.15) {
+		return c;
+	}
+	else {
+		float one;
+		float n;
+		float offset;
+		float2 texcoord;
+		float4 c2;
+		n = ((Input.TexCoord.y * tex_h) % 18.0) / 18.0;
+		offset = sin(n * 6.28318 - time);
+		one = 1.0 / tex_w;
+		texcoord = float2(Input.TexCoord.x + one * offset, Input.TexCoord.y);
+		c2 = tex2D(s, texcoord);
+		if (length(c2-water) < 0.15) {
+			return water;
+		}
+		else {
+			texcoord = float2(Input.TexCoord.x + one * -offset, Input.TexCoord.y);
+			c2 = tex2D(s, texcoord);
+			if (length(c2-water) < 0.15) {
+				return water;
+			}
+			else {
+				return c;
+			}
+		}
+	}
+}

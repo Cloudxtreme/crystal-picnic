@@ -1,0 +1,8 @@
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+<gesture>
+	<frames>3</frames>
+	<delay>200</delay>
+	<looping>false</looping>
+</gesture>

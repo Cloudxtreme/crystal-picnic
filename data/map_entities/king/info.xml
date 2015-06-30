@@ -1,0 +1,7 @@
+<idle>
+	<frames>1</frames>
+</idle>
+<talk>
+	<frames>2</frames>
+	<delay>250</delay>
+</talk>

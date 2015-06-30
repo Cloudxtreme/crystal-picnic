@@ -1,0 +1,17 @@
+<idle>
+	<frames>4</frames>
+	<delay>40</delay>
+</idle>
+<walk>
+	<frames>4</frames>
+	<delay>40</delay>
+</walk>
+<walk-up>
+	<frames>4</frames>
+	<delay>40</delay>
+</walk-up>
+<walk-down>
+	<frames>4</frames>
+	<delay>40</delay>
+</walk-down>
+

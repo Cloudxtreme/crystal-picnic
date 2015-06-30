@@ -1,0 +1,24 @@
+<idle>
+	<frames>2</frames>
+	<delay>64</delay>
+</idle>
+<idle-up>
+	<frames>2</frames>
+	<delay>64</delay>
+</idle-up>
+<idle-down>
+	<frames>2</frames>
+	<delay>64</delay>
+</idle-down>
+<walk>
+	<frames>4</frames>
+	<delay>64</delay>
+</walk>
+<walk-up>
+	<frames>4</frames>
+	<delay>64</delay>
+</walk-up>
+<walk-down>
+	<frames>4</frames>
+	<delay>64</delay>
+</walk-down>

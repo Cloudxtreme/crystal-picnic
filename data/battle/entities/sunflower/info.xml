@@ -1,0 +1,14 @@
+<attack>
+	<frames>3</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</attack>
+<hit>
+	<frames>3</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</hit>
+<battle-idle>
+	<frames>4</frames>
+	<delay>175</delay>
+</battle-idle>

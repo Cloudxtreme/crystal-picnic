@@ -1,0 +1,24 @@
+texture al_tex;
+sampler2D s = sampler_state {
+	texture = <al_tex>;
+};
+float p;
+float color1_r;
+float color1_g;
+float color1_b;
+float color2_r;
+float color2_g;
+float color2_b;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float4 tmp = tex2D(s, Input.TexCoord);
+	if (length(tmp-float4(color1_r, color1_g, color1_b, 1.0)) < 0.1 || length(tmp-float4(color2_r, color2_g, color2_b, 1.0)) < 0.1) {
+		float p2 = 1.0 - p;
+		tmp.r = (tmp.r * p2) + p;
+		tmp.g = (tmp.g * p2) + p;
+		tmp.b = (tmp.b * p2);
+	}
+	return tmp;
+}
+

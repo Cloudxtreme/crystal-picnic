@@ -1,0 +1,136 @@
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<idle>
+	<frames>1</frames>
+</idle>
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+<idle-up>
+	<frames>1</frames>
+</idle-up>
+<run>
+	<frames>6</frames>
+	<delay>64</delay>
+</run>
+<run-up>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-up>
+<run-down>
+	<frames>6</frames>
+	<delay>64</delay>
+</run-down>
+<attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack>
+<attack2>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack2>
+<attack-up>
+	<frames>3</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+</attack-up>
+<attack-down>
+	<frames>3</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+</attack-down>
+<jump-start>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-start>
+<jump-in-air>
+	<frames>1</frames>
+	<delay>0</delay>
+	<looping>false</looping>
+</jump-in-air>
+<jump-landed>
+	<frames>3</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</jump-landed>
+<jump-flipping>
+	<frames>7</frames>
+	<delay>16</delay>
+	<looping>false</looping>
+</jump-flipping>
+<walk>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk>
+<walk-up>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-up>
+<walk-down>
+	<frames>6</frames>
+	<delay>80</delay>
+</walk-down>
+<air-attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</air-attack>
+<hit>
+	<frames>1</frames>
+	<looping>false</looping>
+</hit>
+<die>
+	<frames>4</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</die>
+<crouch>
+</crouch>
+<magic>
+	<frames>2</frames>
+	<delay>80</delay>
+	<looping>false</looping>
+</magic>
+<facepalm>
+	<looping>false</looping>
+	<frames>4</frames>
+	<delay>150</delay>
+</facepalm>
+<gesture>
+	<frames>1</frames>
+</gesture>
+<gesture-anim>
+	<frames>2</frames>
+	<delay>100</delay>
+</gesture-anim>
+<shake-head>
+	<frames>4</frames>
+	<delay>100</delay>
+</shake-head>
+<snooty>
+	<frames>1</frames>
+</snooty>
+<snooty-anim>
+	<frames>2</frames>
+	<delay>100</delay>
+</snooty-anim>
+<surprised>
+	<frames>3</frames>
+	<delay>100</delay>
+	<looping>false</looping>
+</surprised>
+<slash>
+	<looping>false</looping>
+	<frames>7</frames>
+	<delay>32</delay>
+	<tag>multiplier 1.5</tag>
+</slash>
+<throw>
+	<looping>false</looping>
+	<frames>3</frames>
+	<delay>48</delay>
+</throw>

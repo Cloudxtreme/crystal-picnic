@@ -1,0 +1,60 @@
+texture bmp;
+sampler2D s = sampler_state {
+	texture = <bmp>;
+};
+float bmp_w;
+float bmp_h;
+float target_w;
+float target_h;
+
+float4 ps_main(VS_OUTPUT Input) : COLOR0
+{
+	float onex = 1.0 / bmp_w;
+	float oney = 1.0 / bmp_h;
+
+	float total = 0.0;
+	float xx, yy;
+	float4 c;
+
+	xx = Input.TexCoord.x - (onex * 1.5);
+	yy = Input.TexCoord.y - (oney * 1.5);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex);
+	yy = Input.TexCoord.y - (oney * 1.5);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex*2);
+	yy = Input.TexCoord.y - (oney * 1.5);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex*2);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney*2);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney*2);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+	xx = Input.TexCoord.x - (onex * 1.5) + (onex*2);
+	yy = Input.TexCoord.y - (oney * 1.5) + (oney*2);
+	c = tex2D(s, float2(xx, yy));
+	total += c.a;
+
+	total /= 9.0;
+
+	return float4(0.0, 0.0, 0.0, total);
+}
+

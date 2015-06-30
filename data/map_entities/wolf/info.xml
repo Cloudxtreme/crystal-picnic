@@ -1,0 +1,33 @@
+<idle>
+	<frames>1</frames>
+</idle>
+<idle-down>
+	<frames>1</frames>
+</idle-down>
+<idle-up>
+	<frames>1</frames>
+</idle-up>
+<run>
+	<frames>4</frames>
+	<delay>80</delay>
+</run>
+<run-down>
+	<frames>4</frames>
+	<delay>80</delay>
+</run-down>
+<run-up>
+	<frames>4</frames>
+	<delay>80</delay>
+</run-up>
+<walk>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk>
+<walk-down>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk-down>
+<walk-up>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk-up>

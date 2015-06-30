@@ -1,0 +1,25 @@
+<attack>
+	<frames>4</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+	<tag>next-attack attack2 10.0</tag>
+</attack>
+<attack2>
+	<frames>5</frames>
+	<delay>40</delay>
+	<looping>false</looping>
+	<tag>poison 0.25</tag>
+	<tag>next-attack attack 0.0</tag>
+</attack2>
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<hit>
+	<frames>2</frames>
+	<delay>80</delay>
+	<looping>false</looping>
+</hit>
+<walk>
+	<frames>4</frames>
+	<delay>80</delay>
+</walk>

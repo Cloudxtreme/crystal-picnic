@@ -1,0 +1,27 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec4 varying_color;
+varying vec2 varying_texcoord;
+uniform sampler2D al_tex;
+uniform float opacity;
+
+void main()
+{
+	vec4 tmp = varying_color * texture2D(al_tex, varying_texcoord);
+	if (abs(tmp.r-(37.0/255.0)) < 0.05 && abs(tmp.g-(85.0/255.0)) < 0.05 && abs(tmp.b-(46.0/255.0)) < 0.05) {
+		tmp.r *= opacity;
+		tmp.g *= opacity;
+		tmp.b *= opacity;
+		tmp.a *= opacity;
+	}
+	else if (abs(tmp.r-(28.0/255.0)) < 0.05 && abs(tmp.g-(60.0/255.0)) < 0.05 && abs(tmp.b-(34.0/255.0)) < 0.05) {
+		tmp.r *= opacity;
+		tmp.g *= opacity;
+		tmp.b *= opacity;
+		tmp.a *= opacity;
+	}
+	gl_FragColor = tmp;
+}
+

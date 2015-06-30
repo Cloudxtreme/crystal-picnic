@@ -1,0 +1,29 @@
+<hit>
+	<frames>1</frames>
+</hit>
+<battle-idle>
+	<frames>1</frames>
+</battle-idle>
+<attack>
+	<frames>4</frames>
+	<delay>32</delay>
+	<looping>false</looping>
+</attack>
+<jump-in-air>
+	<frames>4</frames>
+	<delay>32</delay>
+</jump-in-air>
+<jump-landing>
+	<frames>3</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</jump-landing>
+<jump-start>
+	<frames>3</frames>
+	<delay>64</delay>
+	<looping>false</looping>
+</jump-start>
+<run>
+	<frames>4</frames>
+	<delay>64</delay>
+</run>

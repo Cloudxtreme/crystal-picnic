@@ -1,0 +1,13 @@
+<popup>
+	<frames>4</frames>
+	<delay>200</delay>
+</popup>
+<taunt>
+	<frames>4</frames>
+	<delay>150</delay>
+</taunt>
+<hit>
+	<frames>3</frames>
+	<delay>200</delay>
+	<looping>false</looping>
+</hit>

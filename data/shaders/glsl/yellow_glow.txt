@@ -1,0 +1,21 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 varying_texcoord;
+uniform sampler2D al_tex;
+uniform float p;
+uniform float color1_r, color1_g, color1_b;
+uniform float color2_r, color2_g, color2_b;
+
+void main()
+{
+	vec4 tmp = texture2D(al_tex, varying_texcoord);
+	if (length(tmp-vec4(color1_r, color1_g, color1_b, 1.0)) < 0.1 || length(tmp-vec4(color2_r, color2_g, color2_b, 1.0)) < 0.1) {
+		float p2 = 1.0 - p;
+		tmp.r = (tmp.r * p2) + p;
+		tmp.g = (tmp.g * p2) + p;
+		tmp.b = (tmp.b * p2);
+	}
+	gl_FragColor = tmp;
+}

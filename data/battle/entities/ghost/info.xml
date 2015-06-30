@@ -1,0 +1,14 @@
+<battle-idle>
+	<frames>4</frames>
+	<delay>40</delay>
+</battle-idle>
+<die>
+	<frames>1</frames>
+</die>
+<hit>
+	<frames>1</frames>
+</hit>
+<laugh>
+	<frames>3</frames>
+	<delay>40</delay>
+</laugh>
