@@ -12,7 +12,7 @@
 #include <tgui2.hpp>
 #include <tgui2_widgets.hpp>
 
-#include "widgets.hpp"
+#include "widgets.h"
 
 const int SCR_W = 1200;
 const int SCR_H = 680;
@@ -287,7 +287,6 @@ static void load(const char *filename)
 	std::vector<std::string> names;
 	for (int i = 0; i < ntiles; i++) {
 		names.push_back(readNString(f) + ".png");
-		//names.push_back(readNString(f));
 	}
 
 	int nlayers = read32(f);
@@ -1099,3 +1098,27 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+
+ALLEGRO_BITMAP *my_load_bitmap(std::string filename)
+{
+	ALLEGRO_FILE *f;
+
+	f = al_fopen(filename.c_str(), "rb");
+
+	if (!f) {
+		return NULL;
+	}
+
+	ALLEGRO_BITMAP *bmp = al_load_bitmap_f(f, ".png");
+
+	al_fclose(f);
+
+	return bmp;
+}
+
+ALLEGRO_SHADER *my_create_shader(std::string vertex_source, std::string pixel_source)
+{
+	// Not used
+	return NULL;
+}
+

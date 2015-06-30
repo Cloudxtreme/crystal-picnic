@@ -1,13 +1,12 @@
 #ifndef _widgets_h
 #define _widgets_h
 
-#include <tgui2.hpp>
-#include <tgui2_widgets.hpp>
-
 #include <map>
 #include <string>
 
-#include "atlas.h"
+#include <atlas.h>
+#include <tgui2.hpp>
+#include <tgui2_widgets.hpp>
 
 class B_TileSelector : public TGUI_Extended_Widget
 {

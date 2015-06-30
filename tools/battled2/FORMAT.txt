@@ -1,0 +1,20 @@
+(note: everything little endian)
+(note: "NString" = 4 bytes length, then that many 8 bit characters to form a string)
+
+4 bytes - level width
+4 bytes - level height
+4 bytes - number of tiles used
+number of tiles used NStrings - names of tiles used (no extension or "tiles/" prefix), sorted alphabettically - appear once maximum - indexes of these will be used later
+4 bytes - number of layers in the level
+for each layer:
+	4 bytes - number of tiles in this layer
+	4 bytes - tile index (0 based, tiles as they appear above)
+	4 bytes - tile x position (integer)
+	4 bytes - tile y position (integer)
+4 bytes - number of platforms
+for each platform:
+	4 bytes - number of "vertices" on the platform (connected lines)
+	for each vertex:
+		4 bytes - vertex x position (integer)
+		4 bytes - vertex y position (integer)
+

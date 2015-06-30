@@ -1,0 +1,294 @@
+This tutorial started as a blog post
+(http://www.nooskewl.com/content/quick-and-dirty-tgui-2-tutorial), however it's
+handier if it's shipped along with the library itself. I'll keep this version
+up-to-date while the blog post will likely stay unchanged. On with the show!
+
+
++-------------------------------- - - - - - -----------------------------------+
+Code and command line listings are displayed between these funky lines.
++-------------------------------- - - - - - -----------------------------------+
+
+
+TGUI has been around since I returned to making games in around 2002. It has
+changed a lot at times and I still consider it an evolving API. I've never
+written any reference or tutorial on how to use it -- until now (ok, I still
+haven't written it, but I'm getting to that.) This tutorial assumes the reader
+has knowledge in C++ and has an Allegro 5.1 development environment already set
+up.
+
+The first step -- get TGUI2! You can do so with git:
+
+git clone git://nooskewl.com/tgui2.git
+
+I presume you know how to build software from source, but the skinny is:
+
+
++-------------------------------- - - - - - -----------------------------------+
+cd tgui2
+mkdir build
+cd build
+cmake .. -DUSER_INCLUDE_PATH=<any extra include directories you need to specify>
+make
+cp libtgui2.a <your library path>
+cp ../tgui2*.hpp <your include path>
++-------------------------------- - - - - - -----------------------------------+
+
+
+Substitute for things in <>'s. The -D... part it wholey optional -- you should
+know if you need it.
+
+Ok, so let's break down the fundamental concepts before making a hello world
+program. TGUI is split into setup functions, which are used to create widgets
+and add them to the programs view, and a few core functions you'll call within
+your game loop.  A simple TGUI program with just two buttons you can click on
+would start out like this (this is the setup only, in rough pseudo-code so we
+can focus on only the TGUI stuff for now :)
+
+
++-------------------------------- - - - - - -----------------------------------+
+#includes...
+#include <tgui2.hpp>
+/* If you're only using custom widgets, don't include this: */
+#include <tgui2_widgets.hpp>
+
+int main(int argc, char **argv)
+{
+    // initialize Allegro, its addons and create a display ...
+
+    ALLEGRO_COLOR bgColor = al_map_rgb(0, 0, 0);
+
+    tgui::init(display);
+
+    ALLEGRO_FONT *font = al_load_font("DejaVuSans.ttf", 18, 0);
+    tgui::setFont(font);
+
+    /* Parameters are: Label, x, y, width, height */
+    TGUI_Button *button1 = new TGUI_Button("Change Color", 10, 10, 150, 30);
+    TGUI_Button *button2 = new TGUI_Button("Quit", 170, 10, 150, 30);
+
+    tgui::setNewWidgetParent(0);
+    tgui::addWidget(button1);
+    tgui::addWidget(button2);
+    tgui::setFocus(button1);
+
+    // game loop
+}
++-------------------------------- - - - - - -----------------------------------+
+
+
+A quick breakdown of each call is: tgui::init is always called before any other
+TGUI functions -- pass it the ALLEGRO_DISPLAY you're going to work with;
+tgui::setFont allows you to set the font TGUI will use for things with text,
+such as the buttons (this is not currently optional if you're using widgets that
+display text); The next two "new TGUI_Button" lines create two different buttons
+with different text and positions but the same size. TGUI_Button is, like all
+widgets used with TGUI, a descendant of the tgui::TGUIWidget class;
+tgui::setNewWidgetParent is not necessary here since the default is 0 (meaning
+the parent of added widgets is the display), but you will get into situations
+such as adding child widgets to a window where it's needed; The calls to
+tgui::addWidget will add the widgets to the scene so they are processed and
+drawn as we'll see soon; and finally, though also not necessary in this simple
+mouse driven example, tgui::setFocus gives the input focus to a widget.
+
+Those are the main functions you'll deal with during setup, besides creating
+different types of widgets. There are other functions you can use of course, but
+they won't be covered here.
+
+The next part of a TGUI program is pretty simple, and as I said it's the game
+loop integration.
+
+First look at a typical Allegro 5 game loop:
+
+
++-------------------------------- - - - - - -----------------------------------+
+    bool quit = false;
+
+    while (!quit) {
+        bool draw = false;
+
+        do {
+            ALLEGRO_EVENT event;
+            al_wait_for_event(queue, &event);
+            if (event.type == ALLEGRO_EVENT_TIMER &&
+                    event.timer.source == drawTimer) {
+                draw = true;
+            }
+        } while (!al_event_queue_is_empty(queue));
+
+        if (draw) {
+            al_clear_to_color(bgColor);
+            al_flip_display();
+        }
+    }
++-------------------------------- - - - - - -----------------------------------+
+
+
+TGUI integrates very easily with most any game loop:
+
+
++-------------------------------- - - - - - -----------------------------------+
+    bool quit = false;
+
+    while (!quit) {
+        bool draw = false;
+
+        do {
+            ALLEGRO_EVENT event;
+            al_wait_for_event(queue, &event);
+            tgui::handleEvent(&event); // *1*
+            if (event.type == ALLEGRO_EVENT_TIMER) {
+                if (event.timer.source == drawTimer) {
+                    draw = true;
+                }
+                else if (event.timer.source == logicTimer) {
+                    tgui::update(); // *2*
+                }
+            }
+        } while (!al_event_queue_is_empty(queue));
+
+        if (draw) {
+            al_clear_to_color(bgColor);
+            tgui::draw(); // *3*
+            al_flip_display();
+        }
+    }
++-------------------------------- - - - - - -----------------------------------+
+
+
+You'll see three main changes here, marked with *#* comments. tgui::handleEvent
+does all of the magic input handling, passing input events along to widgets to
+react to. You define these callbacks yourself when you create custom widgets or
+inherit from existing ones. tgui::update is special and we'll get to it in more
+detail in a minute, but you will place your GUI-reacting game logic here.
+tgui::draw is simple, it just draws the GUI elements you added with
+tgui::addWidget.
+
+So now onto responding to GUI events at the game level. We want button1 to
+change the clear color of the screen to something random, and button2 to quit
+the app. We modify the tgui::update call and add a few lines like so:
+
+
++-------------------------------- - - - - - -----------------------------------+
+                    tgui::TGUIWidget *ret = tgui::update(); 
+                    if (ret == button1) {
+                        bgColor =
+                            al_map_rgb(rand()%255, rand()%255, rand()%255);
+                    }
+                    else if (ret == button2) {
+                        quit = true;
+                        break;
+                    }
++-------------------------------- - - - - - -----------------------------------+
+
+
+So tgui::update returns a tgui::TGUIWidget *. What widget gets returned depends
+on what events were passed to tgui::handleEvent (for custom widgets, you can
+come up with any logic you like -- for example, return the widget's pointer
+based on a timer.) If no widget needs action, tgui::update returns NULL. In our
+case TGUI_Buttons return a pointer to themselves when clicked, so if button1 is
+clicked, button1 is returned from tgui::update. We check for each button being
+pressed and react appropriately.
+
+That is all there is to it. Below I'll put a complete code listing for a working
+demo using the bits from above. Happy coding!
+
+
++-------------------------------- - - - - - -----------------------------------+
+#include <allegro5/allegro.h>
+
+#include <tgui2.hpp>
+/* If you're only using custom widgets, don't include this: */
+#include <tgui2_widgets.hpp>
+
+int main(int argc, char **argv)
+{
+    al_init();
+    al_init_font_addon();
+    al_init_ttf_addon();
+
+    al_install_mouse();
+    al_install_keyboard();
+
+    ALLEGRO_DISPLAY *display = al_create_display(640, 480);
+
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
+    ALLEGRO_TIMER *logicTimer = al_create_timer(1.0/60.0);
+    ALLEGRO_TIMER *drawTimer = al_create_timer(1.0/30.0);
+    al_register_event_source(queue, al_get_timer_event_source(logicTimer));
+    al_register_event_source(queue, al_get_timer_event_source(drawTimer));
+
+    ALLEGRO_COLOR bgColor = al_map_rgb(0, 0, 0);
+
+    tgui::init(display);
+
+    ALLEGRO_FONT *font = al_load_font("DejaVuSans.ttf", 18, 0);
+    tgui::setFont(font);
+
+    /* Parameters are: Label, x, y, width, height */
+    TGUI_Button *button1 = new TGUI_Button("Change Color", 10, 10, 150, 30);
+    TGUI_Button *button2 = new TGUI_Button("Quit", 170, 10, 150, 30);
+
+    tgui::setNewWidgetParent(0);
+    tgui::addWidget(button1);
+    tgui::addWidget(button2);
+    tgui::setFocus(button1);
+
+    al_start_timer(logicTimer);
+    al_start_timer(drawTimer);
+
+    bool quit = false;
+
+    while (!quit) {
+        bool draw = false;
+
+        do {
+            ALLEGRO_EVENT event;
+            al_wait_for_event(queue, &event);
+            tgui::handleEvent(&event);
+            if (event.type == ALLEGRO_EVENT_TIMER) {
+                if (event.timer.source == drawTimer) {
+                    draw = true;
+                }
+                else if (event.timer.source == logicTimer) {
+                    tgui::TGUIWidget *ret = tgui::update(); 
+                    if (ret == button1) {
+                        bgColor =
+                            al_map_rgb(rand()%255, rand()%255, rand()%255);
+                    }
+                    else if (ret == button2) {
+                        quit = true;
+                        break;
+                    }
+                }
+            }
+        } while (!al_event_queue_is_empty(queue));
+
+        if (draw) {
+            al_clear_to_color(bgColor);
+            tgui::draw();
+            al_flip_display();
+        }
+    }
+
+    return 0;
+}
++-------------------------------- - - - - - -----------------------------------+
+
+
+Bonus track: Here's a far-too-brief description of how you create custom
+widgets: you'll need to look at example.cpp/example.hpp or
+tgui2_widgets.cpp/tgui2_widgets.hpp and understand that code for this to make
+sense. Basically you need to respond to certain "events" (method calls.) Those
+are listed in tgui2.hpp as virtual functions. You only have to implement the
+ones you need. The common ones are draw, update, mouseDown, mouseUp, mouseMove,
+keyDown, keyUp and maybe a few others (there are some more advanced ones like
+chain*, that you'll need to read the core code and/or tgui2_widgets.cpp to
+figure out until I write about that.)  There are some widgets defined in the
+library already, though only a small number. You can look in
+tgui2_widgets.cpp/hpp to see more details on how to create a widget.  I
+recommend looking at TGUI_Frame first as that's really simple. It's just a
+rectangular "window" that you can drag around by the title bar.
+

@@ -1,12 +1,12 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
-#include "widgets.hpp"
-#include "battled2.hpp"
-
-#include <float.h>
-#include <math.h>
+#include <cfloat>
+#include <cmath>
 #include <cstdio>
+
+#include "widgets.h"
+#include "battled2.h"
 
 void B_TileSelector::set_draw(bool do_draw)
 {
