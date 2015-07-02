@@ -19,7 +19,8 @@ Prerequisites
 - Lua 5.2
 - BASS and BASSMIDI
 - poly2tri
-- The libs in libs/ in git, these are not compiled automatically yet
+- TGUI2 from our GitHub page
+- The libs in libs/, these are not compiled automatically yet
 
 Platforms
 ---------
