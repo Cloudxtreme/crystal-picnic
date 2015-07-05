@@ -14,6 +14,10 @@ endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 
 include_directories("include")
 
+if(WIN32)
+	SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+endif()
+
 set(ATLAS_SRC src/atlas.cpp src/atlas_accessor.cpp)
 set(EX_ATLAS_SRC src/ex_atlas.cpp)
 add_library(atlas STATIC ${ATLAS_SRC})
@@ -34,7 +38,7 @@ if(WANT_EXAMPLE)
 		SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} ${APPKIT_LIBRARY})
 		SET(CMAKE_CXX_COMPILER "g++")
 		set(CMAKE_CXX_FLAGS "-stdlib=libstdc++")
-	else(APPLE) # Windows
+	else(APPLE)
 		if(WIN32)
 			SET(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi")
 		else()

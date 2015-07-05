@@ -8,6 +8,10 @@ if(APPLE)
 	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++")
 endif()
 
+if(WIN32)
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+endif()
+
 if(NOT ("${USER_INCLUDE_PATH}" STREQUAL ""))
 	include_directories(${USER_INCLUDE_PATH})
 endif(NOT ("${USER_INCLUDE_PATH}" STREQUAL ""))
