@@ -464,8 +464,6 @@ void Engine::setup_screen_size()
 
 bool Engine::init_allegro()
 {
-	ALLEGRO_DEBUG("Calling al_init");
-
 	al_init();
 
 	General::init_textlog();
