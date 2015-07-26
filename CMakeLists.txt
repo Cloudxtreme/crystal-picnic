@@ -72,9 +72,13 @@ if(WIN32)
 	else()
 		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
+		set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
+		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
 		if(DEMO)
 			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /DDEMO")
 			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /DDEMO")
+			set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /DDEMO")
+			set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /DDEMO")
 		endif()
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /SUBSYSTEM:WINDOWS")
 	endif()
@@ -210,19 +214,32 @@ if(WIN32)
 	else()
 		set(LUA_LIB "lua5.2")
 	endif()
+	if(DEBUG)
+		SET(ALLEGRO_LIB "allegro_monolith-debug")
+		SET(WRAP_LIB_NAME "wrap-debug")
+		SET(ATLAS_LIB_NAME "atlas-debug")
+		SET(TGUI2_LIB_NAME "tgui2-debug")
+		SET(POLY2TRI_LIB_NAME "poly2tri-debug")
+	else()
+		SET(ALLEGRO_LIB "allegro_monolith-static")
+		SET(WRAP_LIB_NAME "wrap")
+		SET(ATLAS_LIB_NAME "atlas")
+		SET(TGUI2_LIB_NAME "tgui2")
+		SET(POLY2TRI_LIB_NAME "poly2tri")
+	endif()
 	set(MAIN_LIBS
 		crystalpicnic-engine
-		wrap
+		${WRAP_LIB_NAME}
 		my_load_bitmap
-		atlas
-		tgui2
-		allegro_monolith-static
+		${ATLAS_LIB_NAME}
+		${TGUI2_LIB_NAME}
+		${ALLEGRO_LIB}
 		${LUA_LIB}
 		${FREETYPE_LIB_NAME}
 		${ZLIB_LIB_NAME}
 		bassmidi
 		bass
-		poly2tri
+		${POLY2TRI_LIB_NAME}
 		${EXTRA_LIBS}
 		"c:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3dx9.lib"
 		${ICON_OBJ}
