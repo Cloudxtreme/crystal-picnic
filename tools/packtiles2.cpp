@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 					TILE_SIZE,
 					TILE_SIZE,
 					ALLEGRO_PIXEL_FORMAT_ANY,
-					ALLEGRO_LOCK_READONLY
+					0
 				);
 				al_put_pixel(
 					dx-1, dy-1,
