@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 project(atlas CXX)
 
 option(WANT_EXAMPLE "Build the example" off)
+option(DEBUG "Enable debug build" off)
 
 set(ALLEG_SUFFIX "-static")
 
@@ -14,13 +15,21 @@ endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 
 include_directories("include")
 
-if(WIN32)
-	SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+if(DEBUG)
+	SET(LIB_NAME "atlas-debug")
+	if(WIN32)
+		SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+	endif()
+else()
+	SET(LIB_NAME "atlas")
+	if(WIN32)
+		SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+	endif()
 endif()
 
 set(ATLAS_SRC src/atlas.cpp src/atlas_accessor.cpp)
 set(EX_ATLAS_SRC src/ex_atlas.cpp)
-add_library(atlas STATIC ${ATLAS_SRC})
+add_library(${LIB_NAME} STATIC ${ATLAS_SRC})
 
 if(WANT_EXAMPLE)
 	add_executable(ex_atlas ${EX_ATLAS_SRC})
