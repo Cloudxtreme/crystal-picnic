@@ -31,5 +31,5 @@ Basic Process
 -------------
 
 - To build for Windows, you'll need the prerequisites first. Then use CMake to generate a project (MSVC and MinGW should work but we use MSVC for official builds.)
-- The datafile needs to be created. tools/mkcpa.sh is used to create the datafile which will be named data.cpa. data.cpa.uncompressed is also created and used on some platforms.
+- The datafile needs to be created. tools/mkcpa.sh will create it. It requires MSYS on Windows. There is an mkcpa-linux.sh too. Run it from the root of the project and it will create data.cpa and data.cpa.uncompressed in build/ off the root.
 - You'll need to put the datafile with the EXE and BASS DLLs to run the game.
