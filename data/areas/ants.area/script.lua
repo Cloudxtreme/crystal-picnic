@@ -3,6 +3,7 @@ is_dungeon = true
 local MILESTONE_NAME = "first_amaysa_encounter"
 local CRYSTAL1_MILESTONE_NAME = "ants_crystal1"
 local CRYSTAL2_MILESTONE_NAME = "ants_crystal2"
+local JUMP_SWITCH_INFO_MILESTONE = "jump_switch_info"
 local EGBERT_SCENE_X = 2631
 local EGBERT_SCENE_Y = 2840
 
@@ -636,13 +637,19 @@ function logic()
 		change_areas("antcolony", DIR_S, 960, 86)
 	end
 
-
-	if (milestone_is_complete(MILESTONE_NAME) and not (milestone_is_complete(CRYSTAL1_MILESTONE_NAME) and milestone_is_complete(CRYSTAL2_MILESTONE_NAME))) then
-		if (not crystal_block:entity_is_colliding(0)) then
+	if (milestone_is_complete(MILESTONE_NAME)) then
+		local x, y = get_entity_position(0)
+		if (not (milestone_is_complete(CRYSTAL1_MILESTONE_NAME) and milestone_is_complete(CRYSTAL2_MILESTONE_NAME)) and not crystal_block:entity_is_colliding(0)) then
 			set_entity_position(0, last_player_x, last_player_y)
 			simple_speak{
 				true,
 				"MUST_GET_CRYSTALS", "", 1
+			}
+		elseif (not milestone_is_complete(JUMP_SWITCH_INFO_MILESTONE) and (y > 185*TILE_SIZE)) then
+			set_entity_position(0, last_player_x, last_player_y)
+			simple_speak{
+				true,
+				"SHORTCUT", "", 1
 			}
 		else
 			last_player_x, last_player_y = get_entity_position(0)
