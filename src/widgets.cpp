@@ -1727,6 +1727,7 @@ void W_Audio_Settings_Button::apply()
 
 	if (cfg.reverb != reverb_checkbox->getChecked()) {
 		cfg.reverb = reverb_checkbox->getChecked();
+		cfg.loaded_reverb = cfg.reverb;
 		if (!cfg.music_off) {
 			std::string playing = Music::get_playing();
 			Music::stop();
