@@ -1,0 +1,19 @@
+diff -r 26242d0aa7b8 poly2tri/common/shapes.cc
+--- a/poly2tri/common/shapes.cc	Wed May 01 21:46:31 2013 -0400
++++ b/poly2tri/common/shapes.cc	Sat Jul 04 03:27:38 2015 -0600
+@@ -223,6 +223,7 @@
+     return points_[1];
+   }
+   assert(0);
++  return NULL;
+ }
+ 
+ // The point counter-clockwise to given point
+@@ -236,6 +237,7 @@
+     return points_[0];
+   }
+   assert(0);
++  return NULL;
+ }
+ 
+ // The neighbor clockwise to given point
