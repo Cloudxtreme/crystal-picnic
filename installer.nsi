@@ -1,4 +1,10 @@
- SetCompressor /SOLID lzma
+; Much of this was copied from Battle for Wesnoth
+
+!ifdef INNER
+  SetCompress off                           ; for speed
+!else
+  SetCompressor /SOLID lzma
+!endif
 
 !define Company "Nooskewl"
 !define Version "1.7"
@@ -24,7 +30,33 @@
  
   Name "${Game}"
   BrandingText "© 2015 ${Company}"
+
+!ifdef INNER
+  ;!echo "Inner invocation"                  ; just to see what's going on
+  OutFile "$%TEMP%\tempinstaller.exe"       ; not really important where this is
+!else
+  ;!echo "Outer invocation"
+ 
+  ; Call makensis again, defining INNER.  This writes an installer for us which, when
+  ; it is invoked, will just write the uninstaller to some location, and then exit.
+  ; Be sure to substitute the name of this script here.
+ 
+  !system "$\"${NSISDIR}\makensis$\" /DINNER C:\Users\Trent\code\crystal-picnic\installer.nsi" = 0
+ 
+  ; So now run that installer we just created as %TEMP%\tempinstaller.exe.  Since it
+  ; calls quit the return value isn't zero.
+ 
+  !system "$%TEMP%\tempinstaller.exe" = 2
+ 
+  ; That will have written an uninstaller binary for us.  Now we sign it with your
+  ; favourite code signing tool.
+ 
+  ;!system "SIGNCODE <signing options> $%TEMP%\Uninstall.exe" = 0
+ 
+  ; Good.  Now we can carry on writing the real installer.
+ 
   OutFile "${ExeName}-${Version}-Windows.exe"
+!endif
 
 ;--------------------------------
 ;Variables
@@ -54,6 +86,7 @@
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "FamilyLicense.txt"
   !insertmacro MULTIUSER_PAGE_INSTALLMODE
+  !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
  
   ;Start Menu Folder Page Configuration
@@ -91,14 +124,18 @@
 ;--------------------------------
 ;Installer Sections
  
-Section "${Game}" CPSection
+Section ; Main section
  
   SetOutPath "$INSTDIR"
   File /r /x .* build\full\*.*
  
   ;Create uninstaller
-  WriteUninstaller "$INSTDIR\Uninstall.exe"
+ !ifndef INNER
+  ; this packages the signed uninstaller
  
+  File $%TEMP%\Uninstall.exe
+!endif
+
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
  
   ;Create shortcuts
@@ -149,18 +186,46 @@ Section "${Game}" CPSection
 
 SectionEnd
 
+Section /o "Desktop Shortcut" DesktopShortcutSection
+
+  CreateShortCut "$DESKTOP\${Game}.lnk" "$INSTDIR\${ExeName}.exe"
+
+  WriteRegDWORD SHCTX "Software\${Company}\${Game}\${Version}" "UninstallDesktopShortcut" 1
+
+SectionEnd
+
 ;--------------------------------
 ;Installer Functions
  
 Function .onInit
+!ifdef INNER
  
+  ; If INNER is defined, then we aren't supposed to do anything except write out
+  ; the installer.  This is better than processing a command line option as it means
+  ; this entire code path is not present in the final (real) installer.
+ 
+  WriteUninstaller "$%TEMP%\Uninstall.exe"
+  Quit  ; just bail out quickly when running the "inner" installer
+!endif 
+
   !insertmacro MULTIUSER_INIT
   !insertmacro MUI_LANGDLL_DISPLAY
 
 FunctionEnd
 
 ;--------------------------------
+;Descriptions
+ 
+  ;USE A LANGUAGE STRING IF YOU WANT YOUR DESCRIPTIONS TO BE LANGAUGE SPECIFIC
+  ;Assign descriptions to sections
+  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+    !insertmacro MUI_DESCRIPTION_TEXT ${DesktopShortcutSection} "Create a shortcut on all users' or current user's desktop."
+  !insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+;--------------------------------
 ;Uninstaller Section
+
+!ifdef INNER
 
 Section "Uninstall"
 
@@ -179,14 +244,22 @@ Section "Uninstall"
  
   Delete "$SMPROGRAMS\$StartMenuFolder\${Game}.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
- 
+
+  ReadRegDWORD $1 SHCTX "Software\${Company}\${Game}\${Version}" "UninstallDesktopShortcut"
+
+  ${If} $1 == 1
+    Delete "$DESKTOP\${Game}.lnk"
+  ${EndIf}
+
   DeleteRegKey SHCTX "Software\${Company}\${Game}\${Version}"
   DeleteRegKey /ifempty SHCTX "Software\${Company}\${Game}"
   DeleteRegKey /ifempty SHCTX "Software\${Company}"
   DeleteRegKey SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${Game} ${Version}"
  
 SectionEnd
- 
+
+!endif
+
 ;--------------------------------
 ;Uninstaller Functions
  
