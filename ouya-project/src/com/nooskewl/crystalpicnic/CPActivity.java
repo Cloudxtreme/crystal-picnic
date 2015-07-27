@@ -31,14 +31,7 @@ public class CPActivity extends AllegroActivity {
 
 	/* load libs */
 	static {
-		System.loadLibrary("allegro");
-		System.loadLibrary("allegro_memfile");
-		System.loadLibrary("allegro_primitives");
-		System.loadLibrary("allegro_image");
-		System.loadLibrary("allegro_font");
-		System.loadLibrary("allegro_ttf");
-		System.loadLibrary("allegro_color");
-		System.loadLibrary("allegro_physfs");
+		System.loadLibrary("allegro_monolith");
 		System.loadLibrary("bass");
 		System.loadLibrary("bassmidi");
 		System.loadLibrary("crystalpicnic");
