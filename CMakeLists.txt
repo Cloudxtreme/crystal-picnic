@@ -197,7 +197,7 @@ endif(APPLE)
 
 if(WIN32)
 	set(ALLEGRO_MAIN_LIB "")
-	set(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "xinput" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi" "wsock32" "ws2_32" )
+	set(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "xinput" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi")
 	if(GNU)
 		set(ICON_OBJ "${CMAKE_SOURCE_DIR}/windows_icon.res")
 		set(FREETYPE_LIB_NAME "freetype")
@@ -275,12 +275,13 @@ else(WIN32)
 				set(LUA_LIB "lua5.2")
 			endif()
 
-			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,stuff")
 			set(MAIN_LIBS
 				crystalpicnic-engine
 				wrap
 				my_load_bitmap
 				atlas
+				tgui2
 				allegro_monolith${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				SM
@@ -294,18 +295,24 @@ else(WIN32)
 				xcb
 				Xau
 				Xdmcp
-				bcm_host GLESv2 EGL m pthread
-				/Users/trent/code/crystal-picnic/build-raspberrypi/libbassmidi.so
-				/Users/trent/code/crystal-picnic/build-raspberrypi/libbass.so
+				Xrender
+				Xfixes
+				bcm_host
+				GLESv2
+				EGL
+				vcos
+				vchiq_arm
+				/c/Users/trent/code/crystal-picnic/build-raspberrypi/libbassmidi.so
+				/c/Users/trent/code/crystal-picnic/build-raspberrypi/libbass.so
 				${LUA_LIB}
-				png
 				freetype
+				png16
 				z
-				atlas
-				tgui2
-				wrap
 				poly2tri
 				rt
+				uuid
+				pthread
+				m
 			)
 		else(RASPBERRYPI)
 			if(DEBUG)
