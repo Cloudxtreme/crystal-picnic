@@ -97,7 +97,6 @@
 		96FECB5C1B6930430020320A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB5B1B6930430020320A /* libz.dylib */; };
 		96FECB5F1B6930760020320A /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96FECB5D1B6930760020320A /* libbass.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		96FECB601B6930760020320A /* libbassmidi.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96FECB5E1B6930760020320A /* libbassmidi.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		96FECB621B69312D0020320A /* data.cpa in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96FECB611B69312D0020320A /* data.cpa */; };
 		96FECB641B6932B60020320A /* libtgui2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB631B6932B60020320A /* libtgui2.a */; };
 		96FECB651B6933230020320A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D35D181B39A820000B18FD /* IOKit.framework */; };
 		96FECBBE1B6937D50020320A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96FECB421B692EED0020320A /* Images.xcassets */; };
@@ -121,7 +120,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				96FECB621B69312D0020320A /* data.cpa in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +226,6 @@
 		96FECB5B1B6930430020320A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		96FECB5D1B6930760020320A /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../../../local/lib/libbass.dylib; sourceTree = "<group>"; };
 		96FECB5E1B6930760020320A /* libbassmidi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbassmidi.dylib; path = ../../../local/lib/libbassmidi.dylib; sourceTree = "<group>"; };
-		96FECB611B69312D0020320A /* data.cpa */ = {isa = PBXFileReference; lastKnownFileType = file; name = data.cpa; path = ../../data.cpa; sourceTree = "<group>"; };
 		96FECB631B6932B60020320A /* libtgui2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtgui2.a; path = ../../../local/lib/libtgui2.a; sourceTree = "<group>"; };
 		96FECB681B6936C00020320A /* abilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = abilities.h; path = ../../include/abilities.h; sourceTree = "<group>"; };
 		96FECB691B6936C00020320A /* android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = android.h; path = ../../include/android.h; sourceTree = "<group>"; };
@@ -345,7 +342,6 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
-				96FECB611B69312D0020320A /* data.cpa */,
 				96FECB5D1B6930760020320A /* libbass.dylib */,
 				96FECB5E1B6930760020320A /* libbassmidi.dylib */,
 				96FECB421B692EED0020320A /* Images.xcassets */,
@@ -846,6 +842,8 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/trent/code/local/include,
 					"/Users/trent/code/crystal-picnic/include",
+					"/Users/trent/code/crystal-picnic/libs/wrap/src",
+					"/Users/trent/code/crystal-picnic/libs/atlas/src",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
@@ -876,6 +874,8 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/trent/code/local/include,
 					"/Users/trent/code/crystal-picnic/include",
+					"/Users/trent/code/crystal-picnic/libs/wrap/src",
+					"/Users/trent/code/crystal-picnic/libs/atlas/src",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Crystal Picnic-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
