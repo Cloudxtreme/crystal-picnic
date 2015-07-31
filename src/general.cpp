@@ -93,8 +93,6 @@ namespace General {
 ALLEGRO_COLOR UI_GREEN;
 ALLEGRO_COLOR UI_BLUE;
 
-const float EPSILON = 0.0;
-
 int default_bmp_format;
 int noalpha_bmp_format;
 int font_bmp_format;

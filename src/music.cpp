@@ -122,7 +122,7 @@ void play(std::string filename, float volume, bool loop)
 
 		if (cfg.reverb) {
 			std::string basename_string = basename;
-			float val;
+			float val = 0.0f;
 			bool set = true;
 			if (basename_string == "abw") {
 				val = 0.1f;

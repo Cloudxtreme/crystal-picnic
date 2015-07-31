@@ -41,7 +41,7 @@ void set_flags(Steering::Boid *b)
 	std::set<Steering::Boid *, BoidCompare_z>::iterator it3;
 
 	for (it1 = boid_x.begin(); it1 != boid_x.end(); it1++) {
-		if (abs((*it1)->x-b->x) < MAX_DIST) {
+		if (fabs((*it1)->x-b->x) < MAX_DIST) {
 			(*it1)->flag = true;
 		}
 		else if ((*it1)->x-MAX_DIST > b->x) {
@@ -50,14 +50,14 @@ void set_flags(Steering::Boid *b)
 	}
 	for (it2 = boid_y.begin(); it2 != boid_y.end(); it2++) {
 		if ((*it2)->flag == false) continue;
-		if (abs((*it2)->y-b->y) < MAX_DIST) {
+		if (fabs((*it2)->y-b->y) < MAX_DIST) {
 			continue;
 		}
 		(*it2)->flag = false;
 	}
 	for (it3 = boid_z.begin(); it3 != boid_z.end(); it3++) {
 		if ((*it3)->flag == false) continue;
-		if (abs((*it3)->z-b->z) < MAX_DIST) {
+		if (fabs((*it3)->z-b->z) < MAX_DIST) {
 			continue;
 		}
 		(*it3)->flag = false;
@@ -66,7 +66,6 @@ void set_flags(Steering::Boid *b)
 
 namespace Steering {
 
-const float BEE_MAX_A = 0.3;
 const float BEE_MAX_V = 4;
 const int BEE_SPREAD = 50; // boids will start -SPREAD -> SPREAD from the center
 static General::Point<float> bee_target;

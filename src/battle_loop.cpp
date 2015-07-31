@@ -2364,7 +2364,8 @@ int Battle_Loop::get_next_id()
 
 General::Point<int> Battle_Loop::choose_random_start_platform(int entity_spacing, int edge_spacing)
 {
-	int x, y;
+	int x = 0;
+	int y = 0;
 	int *sizes = new int[geometry.size()];
 	int grand_total = 0;
 	for (size_t i = 0; i < geometry.size(); i++) {
@@ -2607,7 +2608,7 @@ void Battle_Loop::reload_graphics()
 	for (int i = 0; i < ntiles; i++) {
 		bool add;
 		std::string name;
-		int id;
+		int id = 0;
 		if (names[i] == "cart_left") {
 			add = true;
 			name = "cart_left2";

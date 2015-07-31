@@ -2339,7 +2339,7 @@ void Engine::save_game(int number)
 		if (l == NULL) {
 			// We must be in a map, get its name
 			is_map = true;
-			for (size_t i = old_loops.size()-1; i >= 0; i--) {
+			for (int i = old_loops.size()-1; i >= 0; i--) {
 				ml = General::find_in_vector<Map_Loop *, Loop *>(old_loops[i]);
 				if (ml) {
 					break;
@@ -2357,6 +2357,10 @@ void Engine::save_game(int number)
 			area = l->get_area();
 			area_name = area->get_name();
 		}
+	}
+	else {
+		// Don't know how this could happens
+		return;
 	}
 
 	Lua::clear_saved_lua_lines();

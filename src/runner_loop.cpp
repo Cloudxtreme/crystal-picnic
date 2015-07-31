@@ -13,7 +13,6 @@ const int LAST_LAYER = 5;
 const int NUM_PLATFORMS = 40;
 const float MIN_PLATFORM_DISTANCE = 50;
 const float MAX_PLATFORM_DISTANCE = 100;
-const float MOVE_SPEED = 0.05f;
 const float ROCK_SLOWDOWN = 0.005f;
 const float BIRD_SPEED = 3.0f;
 
