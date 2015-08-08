@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		963D656A1B7624C70064509A /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 963D65681B7624C70064509A /* libbass.dylib */; };
+		963D656B1B7624C70064509A /* libbassmidi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 963D65691B7624C70064509A /* libbassmidi.dylib */; };
+		963D656E1B7624E90064509A /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 963D656C1B7624E90064509A /* libbass.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		963D656F1B7624E90064509A /* libbassmidi.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 963D656D1B7624E90064509A /* libbassmidi.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		963D65711B7625010064509A /* data.cpa in CopyFiles */ = {isa = PBXBuildFile; fileRef = 963D65701B7625010064509A /* data.cpa */; };
 		9672069219A5973D008F7DB1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069119A5973D008F7DB1 /* Cocoa.framework */; };
 		9672075B19A59860008F7DB1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069419A5973D008F7DB1 /* AppKit.framework */; };
 		9672075D19A59861008F7DB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672075C19A59861008F7DB1 /* AudioToolbox.framework */; };
@@ -89,14 +94,10 @@
 		96FECB4A1B692FF00020320A /* atlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96FECB481B692FF00020320A /* atlas.cpp */; };
 		96FECB4C1B6930030020320A /* wrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96FECB4B1B6930030020320A /* wrap.cpp */; };
 		96FECB541B69303A0020320A /* liballegro_monolith-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB4D1B69303A0020320A /* liballegro_monolith-static.a */; };
-		96FECB551B69303A0020320A /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB4E1B69303A0020320A /* libbass.dylib */; };
-		96FECB561B69303A0020320A /* libbassmidi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB4F1B69303A0020320A /* libbassmidi.dylib */; };
 		96FECB571B69303A0020320A /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB501B69303A0020320A /* libfreetype.a */; };
 		96FECB581B69303A0020320A /* liblua5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB511B69303A0020320A /* liblua5.2.a */; };
 		96FECB5A1B69303A0020320A /* libpoly2tri.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB531B69303A0020320A /* libpoly2tri.a */; };
 		96FECB5C1B6930430020320A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB5B1B6930430020320A /* libz.dylib */; };
-		96FECB5F1B6930760020320A /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96FECB5D1B6930760020320A /* libbass.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		96FECB601B6930760020320A /* libbassmidi.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96FECB5E1B6930760020320A /* libbassmidi.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		96FECB641B6932B60020320A /* libtgui2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FECB631B6932B60020320A /* libtgui2.a */; };
 		96FECB651B6933230020320A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D35D181B39A820000B18FD /* IOKit.framework */; };
 		96FECBBE1B6937D50020320A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96FECB421B692EED0020320A /* Images.xcassets */; };
@@ -109,8 +110,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				96FECB5F1B6930760020320A /* libbass.dylib in CopyFiles */,
-				96FECB601B6930760020320A /* libbassmidi.dylib in CopyFiles */,
+				963D656E1B7624E90064509A /* libbass.dylib in CopyFiles */,
+				963D656F1B7624E90064509A /* libbassmidi.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,12 +121,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				963D65711B7625010064509A /* data.cpa in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		963D65681B7624C70064509A /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../../../local/lib/mac_app_store/libbass.dylib; sourceTree = "<group>"; };
+		963D65691B7624C70064509A /* libbassmidi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbassmidi.dylib; path = ../../../local/lib/mac_app_store/libbassmidi.dylib; sourceTree = "<group>"; };
+		963D656C1B7624E90064509A /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../../../local/lib/mac_app_store/libbass.dylib; sourceTree = "<group>"; };
+		963D656D1B7624E90064509A /* libbassmidi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbassmidi.dylib; path = ../../../local/lib/mac_app_store/libbassmidi.dylib; sourceTree = "<group>"; };
+		963D65701B7625010064509A /* data.cpa */ = {isa = PBXFileReference; lastKnownFileType = file; name = data.cpa; path = ../../data.cpa; sourceTree = "<group>"; };
 		9672068E19A5973D008F7DB1 /* Crystal Picnic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crystal Picnic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9672069119A5973D008F7DB1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9672069419A5973D008F7DB1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -224,8 +231,6 @@
 		96FECB521B69303A0020320A /* libphysfs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libphysfs.a; path = ../../../local/lib/libphysfs.a; sourceTree = "<group>"; };
 		96FECB531B69303A0020320A /* libpoly2tri.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpoly2tri.a; path = ../../../local/lib/libpoly2tri.a; sourceTree = "<group>"; };
 		96FECB5B1B6930430020320A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		96FECB5D1B6930760020320A /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../../../local/lib/libbass.dylib; sourceTree = "<group>"; };
-		96FECB5E1B6930760020320A /* libbassmidi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbassmidi.dylib; path = ../../../local/lib/libbassmidi.dylib; sourceTree = "<group>"; };
 		96FECB631B6932B60020320A /* libtgui2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtgui2.a; path = ../../../local/lib/libtgui2.a; sourceTree = "<group>"; };
 		96FECB681B6936C00020320A /* abilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = abilities.h; path = ../../include/abilities.h; sourceTree = "<group>"; };
 		96FECB691B6936C00020320A /* android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = android.h; path = ../../include/android.h; sourceTree = "<group>"; };
@@ -320,12 +325,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963D656A1B7624C70064509A /* libbass.dylib in Frameworks */,
+				963D656B1B7624C70064509A /* libbassmidi.dylib in Frameworks */,
 				96FECB651B6933230020320A /* IOKit.framework in Frameworks */,
 				96FECB641B6932B60020320A /* libtgui2.a in Frameworks */,
 				96FECB5C1B6930430020320A /* libz.dylib in Frameworks */,
 				96FECB541B69303A0020320A /* liballegro_monolith-static.a in Frameworks */,
-				96FECB551B69303A0020320A /* libbass.dylib in Frameworks */,
-				96FECB561B69303A0020320A /* libbassmidi.dylib in Frameworks */,
 				96FECB571B69303A0020320A /* libfreetype.a in Frameworks */,
 				96FECB581B69303A0020320A /* liblua5.2.a in Frameworks */,
 				96FECB5A1B69303A0020320A /* libpoly2tri.a in Frameworks */,
@@ -342,8 +347,9 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
-				96FECB5D1B6930760020320A /* libbass.dylib */,
-				96FECB5E1B6930760020320A /* libbassmidi.dylib */,
+				963D65701B7625010064509A /* data.cpa */,
+				963D656C1B7624E90064509A /* libbass.dylib */,
+				963D656D1B7624E90064509A /* libbassmidi.dylib */,
 				96FECB421B692EED0020320A /* Images.xcassets */,
 				96FECB461B692FD20020320A /* libs */,
 				96FECB661B6936790020320A /* include */,
@@ -365,6 +371,8 @@
 		9672069019A5973D008F7DB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				963D65681B7624C70064509A /* libbass.dylib */,
+				963D65691B7624C70064509A /* libbassmidi.dylib */,
 				96FECB631B6932B60020320A /* libtgui2.a */,
 				96FECB5B1B6930430020320A /* libz.dylib */,
 				96FECB4D1B69303A0020320A /* liballegro_monolith-static.a */,
@@ -832,7 +840,7 @@
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -846,11 +854,14 @@
 					"/Users/trent/code/crystal-picnic/libs/atlas/src",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Crystal Picnic-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/trent/code/local/lib,
+					/Users/trent/code/local/lib/mac_app_store,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "ededd5fa-9639-418d-b1b1-81b98c137e79";
 				SDKROOT = macosx;
 				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
@@ -865,7 +876,7 @@
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -878,11 +889,14 @@
 					"/Users/trent/code/crystal-picnic/libs/atlas/src",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Crystal Picnic-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/trent/code/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/trent/code/local/lib,
+					/Users/trent/code/local/lib/mac_app_store,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "ededd5fa-9639-418d-b1b1-81b98c137e79";
 				SDKROOT = macosx;
 				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
