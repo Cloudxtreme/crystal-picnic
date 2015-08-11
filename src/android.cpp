@@ -184,6 +184,22 @@ bool gamepadConnected()
 		"gamepadAlwaysConnected"
 	);
 
-	return ret || (al_is_joystick_installed() && al_get_num_joysticks() > 1);
+	if (ret) {
+		return true;
+	}
+
+	if (!al_is_joystick_installed()) {
+		return false;
+	}
+
+	int numjoy = al_get_num_joysticks();
+	for (int i = 0; i < numjoy; i++) {
+		ALLEGRO_JOYSTICK *joy = al_get_joystick(i);
+		if (al_get_joystick_num_buttons(joy) != 0) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
