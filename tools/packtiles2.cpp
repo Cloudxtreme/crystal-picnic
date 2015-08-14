@@ -211,43 +211,36 @@ int main(int argc, char **argv)
 						0
 					);
 				}
-				al_lock_bitmap_region(
-					out_bmp,
-					sx, sy,
-					TILE_SIZE,
-					TILE_SIZE,
-					ALLEGRO_PIXEL_FORMAT_ANY,
-					0
-				);
+
 				al_put_pixel(
 					dx-1, dy-1,
 					al_get_pixel(
-						out_bmp,
+						in_bmp,
 						sx, sy
 					)
 				);
 				al_put_pixel(
 					dx+TILE_SIZE, dy-1,
 					al_get_pixel(
-						out_bmp,
+						in_bmp,
 						sx+TILE_SIZE-1, sy
 					)
 				);
 				al_put_pixel(
 					dx-1, dy+TILE_SIZE,
 					al_get_pixel(
-						out_bmp,
+						in_bmp,
 						sx, sy+TILE_SIZE-1
 					)
 				);
 				al_put_pixel(
 					dx+TILE_SIZE, dy+TILE_SIZE,
 					al_get_pixel(
-						out_bmp,
+						in_bmp,
 						sx+TILE_SIZE-1, sy+TILE_SIZE-1
 					)
 				);
-				al_unlock_bitmap(out_bmp);
+
 				drawn_tiles++;
 				if (drawn_tiles >= tiles_per_sheet) {
 					char buf2[1000];
