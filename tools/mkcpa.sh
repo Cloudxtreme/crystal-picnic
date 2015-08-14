@@ -20,14 +20,14 @@ cd ../..
 
 echo "Writing header..."
 # the big space is a tab
-du -bc $FILES | grep "	total$" | cut -f1 > ../build/data.cpa
+du -bc $FILES | dos2unix | grep "	total$" | cut -f1 > ../build/data.cpa
 
 echo "Writing data..."
 cat $FILES >> ../build/data.cpa
 
 echo "Writing info..."
 # sed removed "./" from beginning of filenames
-du -b $FILES | sed -e 's|./||' >> ../build/data.cpa
+du -b $FILES | dos2unix | sed -e 's|./||' >> ../build/data.cpa
 
 cd ..
 
