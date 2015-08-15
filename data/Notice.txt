@@ -1,3 +1,8 @@
 light.ttf, heavy.ttf and retro.sf2 from the binary packages of the game are
 NOT covered under the zlib license. They are NOT to be distributed outside of
 the official game packages.
+
+If you find alternatives, they need to be placed in:
+ data/fonts/light.ttf
+ data/fonts/heavy.ttf
+ music/retro.sf2
