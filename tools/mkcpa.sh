@@ -1,15 +1,12 @@
 #!/bin/sh
 
-cp -a data __data.tmp__
+# This version runs on Windows using MSYS tools. You may need to change the
+# following path... Windows has a built-in find.exe that doesn't work with
+# this script.
 
-cd data
-DATA_FILES=`/c/mingw/msys/1.0/bin/find . -type f | sort`
-cd ../__data.tmp__
-FILES=`/c/mingw/msys/1.0/bin/find . -type f | sort`
+xcopy //e //y data __data__.tmp\\
 
-if [ ! "$DATA_FILES" == "$FILES" ] ; then echo "cp on Windows sucks." ; exit ; fi
-
-cd areas/tiles
+cd __data__.tmp/areas/tiles
 
 ../../../packtiles2.exe .png *
 
@@ -17,6 +14,7 @@ for f in `/c/mingw/msys/1.0/bin/find . -name "*_new.png"` ; do mv $f `echo $f | 
 
 cd ../..
 
+FILES=`/c/mingw/msys/1.0/bin/find * -type f | grep -v README.txt | grep -v "^flp" | sort`
 
 echo "Writing header..."
 # the big space is a tab
@@ -26,16 +24,15 @@ echo "Writing data..."
 cat $FILES >> ../build/data.cpa
 
 echo "Writing info..."
-# sed removed "./" from beginning of filenames
-du -b $FILES | dos2unix | sed -e 's|./||' >> ../build/data.cpa
+du -b $FILES | dos2unix >> ../build/data.cpa
+
+echo "Saving uncompressed archive..."
+cp ../build/data.cpa ../build/data.cpa.uncompressed
+
+echo "Compressing..."
+gzip ../build/data.cpa
+mv ../build/data.cpa.gz ../build/data.cpa
 
 cd ..
 
-echo "Saving uncompressed archive..."
-cp build/data.cpa build/data.cpa.uncompressed
-
-echo "Compressing..."
-gzip build/data.cpa
-mv build/data.cpa.gz build/data.cpa
-
-rm -rf __data.tmp__
+rm -rf __data__.tmp
