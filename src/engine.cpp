@@ -2358,10 +2358,6 @@ void Engine::save_game(int number)
 			area_name = area->get_name();
 		}
 	}
-	else {
-		// Don't know how this could happens
-		return;
-	}
 
 	Lua::clear_saved_lua_lines();
 	
