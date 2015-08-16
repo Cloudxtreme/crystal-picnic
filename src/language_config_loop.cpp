@@ -18,9 +18,11 @@ bool Language_Config_Loop::init()
 	std::vector<std::string> language_names;
 
 	untranslated_languages.push_back("English");
+	untranslated_languages.push_back("French");
 	untranslated_languages.push_back("German");
 
 	language_names.push_back(t("ENGLISH"));
+	language_names.push_back(t("FRENCH"));
 	language_names.push_back(t("GERMAN"));
 
 	int current = 0;

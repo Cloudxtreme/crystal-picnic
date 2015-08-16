@@ -46,6 +46,7 @@ bool Credits_Loop::init()
 	v1.push_back("");
 	v1.push_back("");
 	v1.push_back(t("CREDITS_TRANSLATIONS"));
+	v1.push_back("Rémi Verschelde");
 	v1.push_back("Thomas Faust");
 	strings.push_back(v1);
 	v1.clear();
