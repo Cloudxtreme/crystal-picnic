@@ -2296,7 +2296,7 @@ void Main_Menu_Equip_Loop::start_swap(int selected, float ystart)
 		int this_idx = selected - Game_Specific_Globals::get_weapons().size() - Game_Specific_Globals::get_armor().size();
 		Equipment::Accessory accessory = Game_Specific_Globals::get_accessories()[this_idx];
 		if (orig_string != "") {
-			list->insert_item(selected, "misc_graphics/interface/accessory_icon.png", orig_string.c_str(), "misc_graphics/interface/x_icon.png", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(accessory.name), false);
+			list->insert_item(selected, "misc_graphics/interface/accessory_icon.png", orig_string.c_str(), "misc_graphics/interface/x_icon.png", Equipment::ACCESSORY, Game_Specific_Globals::get_item_description(equip.accessory.name), false);
 			Game_Specific_Globals::get_accessories()[this_idx] = equip.accessory;
 		}
 		else {
