@@ -38,12 +38,13 @@ if(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 	link_directories(${USER_LIBRARY_PATH})
 endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 
-if(GNU)
-	set(CMAKE_C_FLAGS_RELEASE "-Wall")
-	set(CMAKE_CXX_FLAGS_RELEASE "-Wall")
-	set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG=1")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG=1")
-endif(GNU)
+if(RASPBERRYPI)
+	set(CMAKE_C_FLAGS_RELEASE "-Wall -O3")
+	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3")
+elseif(GNU)
+	set(CMAKE_C_FLAGS_RELEASE "-Wall -O2 -DNDEBUG=1")
+	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2 -DNDEBUG=1")
+endif()
 
 if(WIN32)
 	if(GNU)
@@ -269,7 +270,7 @@ else(WIN32)
 			include_directories("/opt/vc/include/interface/vcos/pthreads")
 
 			if(LUAJIT)
-				set(LUA_LIB "/Users/trent/code/crystal-picnic/build-raspberrypi/libluajit.so")
+				set(LUA_LIB "/home/trent/code/crystal-picnic/build/libluajit.so")
 				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLUAJIT=1")
 			else()
 				set(LUA_LIB "lua5.2")
@@ -284,35 +285,18 @@ else(WIN32)
 				tgui2
 				allegro_monolith${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
-				SM
-				ICE
-				X11
-				Xext
-				Xcursor
-				Xinerama
-				Xrandr
-				Xpm
-				xcb
-				Xau
-				Xdmcp
-				Xrender
-				Xfixes
-				bcm_host
-				GLESv2
-				EGL
-				vcos
-				vchiq_arm
-				/c/Users/trent/code/crystal-picnic/build-raspberrypi/libbassmidi.so
-				/c/Users/trent/code/crystal-picnic/build-raspberrypi/libbass.so
+				/home/trent/code/crystal-picnic/build/libbassmidi.so
+				/home/trent/code/crystal-picnic/build/libbass.so
 				${LUA_LIB}
 				freetype
-				png16
+				png
 				z
 				poly2tri
-				rt
-				uuid
+				GLESv2
+				EGL
+				bcm_host
+				X11
 				pthread
-				m
 			)
 		else(RASPBERRYPI)
 			if(DEBUG)
