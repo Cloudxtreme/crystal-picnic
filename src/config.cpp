@@ -97,17 +97,25 @@ void Configuration::reset(void)
 	language = "English";
 
 	vsync = true;
-	screen_w = 1024;
-	screen_h = 576;
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
 	fullscreen = false;
-#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE || defined ALLEGRO_RASPBERRYPI
+#if defined ALLEGRO_RASPBERRYPI
+	low_graphics = true;
+	water_shader = false;
+	screen_w = 480;
+	screen_h = 320;
+#else
+#if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	low_graphics = true;
 #else
 	low_graphics = false;
 #endif
 	water_shader = true;
+	screen_w = 1024;
+	screen_h = 576;
+#endif
+
 	force_opengl = false;
 	show_fps = false;
 	linear_filtering = true;
