@@ -1,25 +1,29 @@
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 project(crystalpicnic)
 cmake_minimum_required(VERSION 2.6)
-#cmake_policy(SET CMP0015 OLD)
 
 # Options
 
+# Extras
 option(EDITOR "Build battle level editor" off)
 option(TOOLS "Build extra tools" off)
+
+# Features
+option(DEMO "Build the demo version" off)
 option(WELL512 "Use well512 RNG" off)
+
+# Platforms
 option(RASPBERRYPI "Build for Raspberry Pi" off)
+
+# Compile options
+option(DEBUG "Build with debug symbols" off)
+option(PROFILE "Build for profiling" off)
+option(STABS "Use -gstabs debug symbols" off)
+option(STANDARD_LINUX_BUILD "Use default libraries on Linux" on)
 if(WIN32)
 	option(GNU "Use GNU tools on Windows" off)
 else()
 	option(GNU "Use GNU tools on Windows" on)
 endif()
-option(DEMO "Build the demo version" off)
-option(DEBUG "Build with debug symbols" off)
-option(PROFILE "Build for profiling" off)
-option(STABS "Use -gstabs" off)
-option(LUAJIT "Use LuaJIT" off)
-option(STANDARD_LINUX_BUILD "Use default libraries on Linux" on)
 
 # Option configuration
 
@@ -30,7 +34,13 @@ if(WELL512)
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DWELL512=1")
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include")
+if(RASPBERRYPI)
+	set(CMAKE_C_FLAGS_RELEASE "-Wall -O3")
+	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3")
+elseif(GNU)
+	set(CMAKE_C_FLAGS_RELEASE "-Wall -O2")
+	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
+endif()
 
 if(NOT ("${USER_INCLUDE_PATH}" STREQUAL ""))
 	include_directories(${USER_INCLUDE_PATH})
@@ -39,52 +49,7 @@ if(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 	link_directories(${USER_LIBRARY_PATH})
 endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 
-if(RASPBERRYPI)
-	set(CMAKE_C_FLAGS_RELEASE "-Wall -O3")
-	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3")
-elseif(GNU)
-	set(CMAKE_C_FLAGS_RELEASE "-Wall -O2 -DNDEBUG=1")
-	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2 -DNDEBUG=1")
-endif()
-
-if(WIN32)
-	if(GNU)
-		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -static-libgcc -static-libstdc++ -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
-		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static-libgcc -static-libstdc++ -fcheck-new -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
-		if(DEMO)
-			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DDEMO=1")
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DDEMO=1")
-		endif()
-		if(DEBUG)
-			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
-		else()
-			if(PROFILE)
-				set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -pg")
-				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -pg")
-			else()
-				if(STABS)
-					set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -gstabs")
-					set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -gstabs")
-					set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -gstabs")
-				endif()
-			endif()
-		endif()
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
-	else()
-		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
-		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
-		set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
-		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
-		if(DEMO)
-			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /DDEMO")
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /DDEMO")
-			set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /DDEMO")
-			set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /DDEMO")
-		endif()
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /SUBSYSTEM:WINDOWS")
-	endif()
-endif()
+include_directories("${CMAKE_SOURCE_DIR}/include")
 
 set(COMMON_SRCS
 	src/abilities.cpp
@@ -160,7 +125,40 @@ set(COMMON_SRCS
 	src/xml.cpp
 )
 
-if(APPLE)
+if(WIN32)
+	if(GNU)
+		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -static-libgcc -static-libstdc++ -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static-libgcc -static-libstdc++ -fcheck-new -Wno-unknown-pragmas -Wno-comment -Wno-strict-aliasing")
+		if(DEMO)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DDEMO=1")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DDEMO=1")
+		endif()
+		if(DEBUG)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
+		elseif(PROFILE)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -pg")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -pg")
+		elseif(STABS)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -gstabs")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -gstabs")
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -gstabs")
+		endif()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+	else()
+		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MT")
+		set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
+		set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /D_USE_MATH_DEFINES /DALLEGRO_STATICLINK /EHsc /D_WIN32_WINNT=0x501 /MTd")
+		if(DEMO)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /DDEMO")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /DDEMO")
+			set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} /DDEMO")
+			set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /DDEMO")
+		endif()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /SUBSYSTEM:WINDOWS")
+	endif()
+elseif(APPLE)
 	list(APPEND COMMON_SRCS src/apple.m)
 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Wno-unknown-pragmas -Wno-comment")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -Wno-comment")
@@ -170,15 +168,8 @@ if(APPLE)
 	endif()
 endif()
 
-add_library(my_load_bitmap
-	STATIC
-	src/my_load_bitmap.cpp
-)
-
-add_library(crystalpicnic-engine
-	STATIC
-	${COMMON_SRCS}
-)
+add_library(my_load_bitmap STATIC src/my_load_bitmap.cpp)
+add_library(crystalpicnic-engine STATIC	${COMMON_SRCS})
 
 if(DEMO)
 	add_executable(CrystalPicnicDemo src/crystalpicnic.cpp)
@@ -194,10 +185,17 @@ if(APPLE)
 	FIND_LIBRARY(APPKIT_LIBRARY AppKit)
 	FIND_LIBRARY(IOKIT_LIBRARY IOKit)
 	FIND_LIBRARY(AUDIOTOOLBOX_LIBRARY AudioToolbox)
-	SET(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} bass bassmidi atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
-endif(APPLE)
-
-if(WIN32)
+	set(EXTRA_LIBS ${IOKIT_LIBRARY} ${OPENGL_LIBRARY} ${FOUNDATION_LIBRARY} ${APPSERVICES_LIBRARY} /Users/trent/code/local/lib/libfreetype.a ${APPKIT_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} bass bassmidi atlas tgui2 wrap /Users/trent/code/local/lib/libz.a /Users/trent/code/local/lib/libpoly2tri.a)
+	set(MAIN_LIBS
+		crystalpicnic-engine
+		wrap
+		my_load_bitmap
+		atlas
+		allegro_monolith${ALLEG_SUFFIX}
+		/Users/trent/code/local/lib/liblua5.2.a
+		${EXTRA_LIBS}
+	)
+elseif(WIN32)
 	set(ALLEGRO_MAIN_LIB "")
 	set(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "xinput" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi")
 	if(GNU)
@@ -210,25 +208,20 @@ if(WIN32)
 		set(ZLIB_LIB_NAME "zlibstatic")
 		LIST(APPEND EXTRA_LIBS "libpng16_static" "jpeg-static")
 	endif()
-	if(LUAJIT)
-		set(LUA_LIB "c:\\Users\\trent\\code\\crystal-picnic\\build\\lua51.dll")
-		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLUAJIT=1 -DLUA_BUILD_AS_DLL=1")
-	else()
-		set(LUA_LIB "lua5.2")
-	endif()
 	if(DEBUG)
-		SET(ALLEGRO_LIB "allegro_monolith-debug")
-		SET(WRAP_LIB_NAME "wrap-debug")
-		SET(ATLAS_LIB_NAME "atlas-debug")
-		SET(TGUI2_LIB_NAME "tgui2-debug")
-		SET(POLY2TRI_LIB_NAME "poly2tri-debug")
+		set(ALLEGRO_LIB "allegro_monolith-debug")
+		set(WRAP_LIB_NAME "wrap-debug")
+		set(ATLAS_LIB_NAME "atlas-debug")
+		set(TGUI2_LIB_NAME "tgui2-debug")
+		set(POLY2TRI_LIB_NAME "poly2tri-debug")
 	else()
-		SET(ALLEGRO_LIB "allegro_monolith-static")
-		SET(WRAP_LIB_NAME "wrap")
-		SET(ATLAS_LIB_NAME "atlas")
-		SET(TGUI2_LIB_NAME "tgui2")
-		SET(POLY2TRI_LIB_NAME "poly2tri")
+		set(ALLEGRO_LIB "allegro_monolith-static")
+		set(WRAP_LIB_NAME "wrap")
+		set(ATLAS_LIB_NAME "atlas")
+		set(TGUI2_LIB_NAME "tgui2")
+		set(POLY2TRI_LIB_NAME "poly2tri")
 	endif()
+	set(LUA_LIB "lua5.2")
 	set(MAIN_LIBS
 		crystalpicnic-engine
 		${WRAP_LIB_NAME}
@@ -246,108 +239,96 @@ if(WIN32)
 		"c:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3dx9.lib"
 		${ICON_OBJ}
 	)
-else(WIN32)
-	if(APPLE)
+else()
+	# Linux
+
+	if(DEMO)
+		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DDEMO=1")
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DDEMO=1")
+	endif()
+
+	if(RASPBERRYPI)
+		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
+
+		include_directories("/opt/vc/include")
+		include_directories("/opt/vc/include/interface/vcos/pthreads")
+
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,stuff")
 		set(MAIN_LIBS
 			crystalpicnic-engine
 			wrap
 			my_load_bitmap
 			atlas
+			tgui2
 			allegro_monolith${ALLEG_SUFFIX}
-			/Users/trent/code/local/lib/liblua5.2.a
-			${EXTRA_LIBS}
+			${ALLEGRO_MAIN_LIB}
+			/home/trent/code/crystal-picnic/build/libbassmidi.so
+			/home/trent/code/crystal-picnic/build/libbass.so
+			lua5.2
+			freetype
+			png
+			z
+			poly2tri
+			GLESv2
+			EGL
+			bcm_host
+			X11
+			pthread
 		)
-	else(APPLE)
-		# Linux/Raspberry Pi
-		if(DEMO)
-			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DDEMO=1")
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DDEMO=1")
+	else(RASPBERRYPI)
+		# Desktop Linux
+
+		if(DEBUG)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g -Wall -Wno-unknown-pragmas -Wno-comment")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g -Wall -Wno-unknown-pragmas -Wno-comment")
+		else()
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 		endif()
 
-		if(RASPBERRYPI)
-			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
-			include_directories("/opt/vc/include")
-			include_directories("/opt/vc/include/interface/vcos/pthreads")
-
-			if(LUAJIT)
-				set(LUA_LIB "/home/trent/code/crystal-picnic/build/libluajit.so")
-				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLUAJIT=1")
-			else()
-				set(LUA_LIB "lua5.2")
-			endif()
-
-			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,stuff")
-			set(MAIN_LIBS
-				crystalpicnic-engine
-				wrap
-				my_load_bitmap
-				atlas
-				tgui2
-				allegro_monolith${ALLEG_SUFFIX}
-				${ALLEGRO_MAIN_LIB}
-				/home/trent/code/crystal-picnic/build/libbassmidi.so
-				/home/trent/code/crystal-picnic/build/libbass.so
-				${LUA_LIB}
-				freetype
-				png
-				z
-				poly2tri
-				GLESv2
-				EGL
-				bcm_host
-				X11
-				pthread
-			)
-		else(RASPBERRYPI)
-			if(DEBUG)
-				set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g -Wall -Wno-unknown-pragmas -Wno-comment")
-				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g -Wall -Wno-unknown-pragmas -Wno-comment")
-			else()
-				set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
-				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
-			endif()
-			if(STANDARD_LINUX_BUILD)
-				set(LUA_LIBRARY lua5.2)
-				set(PNG_LIBRARY png)
-				set(FREETYPE_LIBRARY freetype)
-				set(ZLIB_LIBRARY z)
-				set(BASS_LIBRARY bass)
-				set(BASSMIDI_LIBRARY bassmidi)
-				set(POLY2TRI_LIBRARY poly2tri)
-				set(OTHER_LIBRARIES pthread)
-			else()
-				set(LUA_LIBRARY "/usr/local/lib/liblua5.2.a")
-				set(PNG_LIBRARY "/usr/local/lib/libpng.a")
-				set(FREETYPE_LIBRARY "/usr/local/lib/libfreetype.a")
-				set(ZLIB_LIBRARY "/usr/local/lib/libz.a")
-				set(BASS_LIBRARY "/home/trent/code/crystal-picnic/build/libbass.so")
-				set(BASSMIDI_LIBRARY "/home/trent/code/crystal-picnic/build/libbassmidi.so")
-				set(POLY2TRI_LIBRARY "/usr/local/lib/libpoly2tri.a")
-				set(OTHER_LIBRARIES "")
-			endif()
-			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
-			set(MAIN_LIBS
-				crystalpicnic-engine
-				atlas
-				wrap
-				tgui2
-				my_load_bitmap
-				allegro_monolith${ALLEG_SUFFIX}
-				${ALLEGRO_MAIN_LIB}
-				Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
-				${LUA_LIBRARY}
-				${PNG_LIBRARY}
-				${FREETYPE_LIBRARY}
-				${ZLIB_LIBRARY}
-				${BASS_LIBRARY}
-				${BASSMIDI_LIBRARY}
-				${POLY2TRI_LIBRARY}
-				${OTHER_LIBRARIES}
-			)
+		if(STANDARD_LINUX_BUILD)
+			set(LUA_LIBRARY lua5.2)
+			set(PNG_LIBRARY png)
+			set(FREETYPE_LIBRARY freetype)
+			set(ZLIB_LIBRARY z)
+			set(BASS_LIBRARY bass)
+			set(BASSMIDI_LIBRARY bassmidi)
+			set(POLY2TRI_LIBRARY poly2tri)
+			set(OTHER_LIBRARIES pthread)
+		else()
+			set(LUA_LIBRARY "/usr/local/lib/liblua5.2.a")
+			set(PNG_LIBRARY "/usr/local/lib/libpng.a")
+			set(FREETYPE_LIBRARY "/usr/local/lib/libfreetype.a")
+			set(ZLIB_LIBRARY "/usr/local/lib/libz.a")
+			set(BASS_LIBRARY "/home/trent/code/crystal-picnic/build/libbass.so")
+			set(BASSMIDI_LIBRARY "/home/trent/code/crystal-picnic/build/libbassmidi.so")
+			set(POLY2TRI_LIBRARY "/usr/local/lib/libpoly2tri.a")
+			set(OTHER_LIBRARIES "")
 		endif()
-	endif(APPLE)
-endif(WIN32)
+
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
+
+		set(MAIN_LIBS
+			crystalpicnic-engine
+			atlas
+			wrap
+			tgui2
+			my_load_bitmap
+			allegro_monolith${ALLEG_SUFFIX}
+			${ALLEGRO_MAIN_LIB}
+			Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
+			${LUA_LIBRARY}
+			${PNG_LIBRARY}
+			${FREETYPE_LIBRARY}
+			${ZLIB_LIBRARY}
+			${BASS_LIBRARY}
+			${BASSMIDI_LIBRARY}
+			${POLY2TRI_LIBRARY}
+			${OTHER_LIBRARIES}
+		)
+	endif()
+endif()
 
 if(DEMO)
 	target_link_libraries(CrystalPicnicDemo ${MAIN_LIBS})
@@ -364,4 +345,3 @@ endif(EDITOR)
 if(TOOLS)
    add_subdirectory(tools)
 endif(TOOLS)
-
