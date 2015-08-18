@@ -31,6 +31,7 @@ void init(void)
 	fileprocs.seek = BASS_FileProcs::seek;
 
 #ifdef ALLEGRO_IPHONE
+	// Supposedly allows for the mute button to work, cannot verify
 	BASS_SetConfig(BASS_CONFIG_IOS_MIXAUDIO, 5);
 #endif
 
