@@ -477,7 +477,7 @@ bool Engine::init_allegro()
 
 	ALLEGRO_DEBUG("App name set");
 
-#if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID && !defined ALLEGRO_RASPBERRYPI
+#if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 	al_install_mouse();
 #elif defined ALLEGRO_IPHONE || defined ALLEGRO_ANDROID
 	al_install_touch_input();
@@ -616,7 +616,15 @@ bool Engine::init_allegro()
 #endif
 
 	al_clear_to_color(al_map_rgb_f(0, 0, 0));
+	
 	al_flip_display();
+
+#ifdef ALLEGRO_RASPBERRYPI
+	if (al_is_mouse_installed()) {
+		al_show_mouse_cursor(display);
+		al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+	}
+#endif
 
 	General::log_message("OpenGL: " + General::itos(cfg.force_opengl));
 	
@@ -680,7 +688,7 @@ bool Engine::init_allegro()
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
-#if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID && !defined ALLEGRO_RASPBERRYPI
+#if !defined ALLEGRO_IPHONE && !defined ALLEGRO_ANDROID
 	if (al_is_mouse_installed()) {
 		al_register_event_source(event_queue, al_get_mouse_event_source());
 	}
@@ -1655,7 +1663,11 @@ void Engine::set_milestone_complete(std::string name, bool complete)
 
 void Engine::process_touch_input(ALLEGRO_EVENT *event)
 {
-#ifndef ALLEGRO_RASPBERRYPI
+#ifdef ALLEGRO_RASPBERRYPI
+	if (!al_is_mouse_installed()) {
+		return;
+	}
+#endif
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	if (
 	event->type == ALLEGRO_EVENT_TOUCH_BEGIN ||
@@ -1694,7 +1706,6 @@ void Engine::process_touch_input(ALLEGRO_EVENT *event)
 		event->mouse.x = tmp_x;
 		event->mouse.y = tmp_y;
 	}
-#endif
 #endif
 }
 

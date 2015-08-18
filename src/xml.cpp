@@ -247,7 +247,7 @@ void XMLData::write(ALLEGRO_FILE *out, int tabs = 0)
 		std::list<XMLData*>::iterator it = nodes.begin();
 
 		while (it != nodes.end()) {
-			XMLData* node = dynamic_cast<XMLData*>(*it);
+			XMLData* node = *it;
 			node->write(out, tabs+1);
 			it++;
 		}
@@ -275,7 +275,7 @@ void XMLData::write(ALLEGRO_FILE *out, int tabs = 0)
 		std::list<XMLData*>::iterator it = nodes.begin();
 
 		while (it != nodes.end()) {
-			XMLData* node = dynamic_cast<XMLData*>(*it);
+			XMLData* node = *it;
 			node->write(out, tabs+1);
 			it++;
 		}

@@ -120,7 +120,7 @@ bool Crystal_Loop::logic()
 					if (Game_Specific_Globals::crystals <= 0) {
 						engine->play_sample("sfx/error.ogg");
 					}
-					else if (!dynamic_cast<Crystal_Button *>(w)->filled()) {
+					else if (!static_cast<Crystal_Button *>(w)->filled()) {
 						std::vector<std::string> v;
 						v.push_back(t("REALLY_SPEND_CRYSTAL"));
 						if (engine->yes_no_prompt(v, &loops)) {
@@ -141,7 +141,7 @@ bool Crystal_Loop::logic()
 					if (Game_Specific_Globals::crystals <= 0) {
 						engine->play_sample("sfx/error.ogg");
 					}
-					else if (!dynamic_cast<Crystal_Button *>(w)->filled()) {
+					else if (!static_cast<Crystal_Button *>(w)->filled()) {
 						std::vector<std::string> v;
 						v.push_back(t("REALLY_SPEND_CRYSTAL"));
 						if (engine->yes_no_prompt(v, &loops)) {
@@ -157,7 +157,7 @@ bool Crystal_Loop::logic()
 					if (Game_Specific_Globals::crystals <= 0) {
 						engine->play_sample("sfx/error.ogg");
 					}
-					else if (!dynamic_cast<Crystal_Button *>(w)->filled()) {
+					else if (!static_cast<Crystal_Button *>(w)->filled()) {
 						std::vector<std::string> v;
 						v.push_back(t("REALLY_SPEND_CRYSTAL"));
 						if (engine->yes_no_prompt(v, &loops)) {

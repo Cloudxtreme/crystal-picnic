@@ -176,10 +176,10 @@ protected:
 
 	// Visual stuff	
 	struct Tile {
-		int id;
+		int index;
 		int x;
 		int y;
-		std::vector<int> ids;
+		std::vector<int> indices;
 		int delay;
 	};
 	static General::Size<int> size;
@@ -210,6 +210,8 @@ protected:
 	Battle_Pathfinder_Edge *pathfinding_edges;
 	void make_pathfinding_info();
 	void make_sectors();
+
+	void maybe_expand_vertex_cache(int needed);
 
 	std::string level_name, script_name;
 
@@ -289,6 +291,11 @@ protected:
 	General::Point<float> rumble_offset;
 
 	bool runner_loop;
+
+	ALLEGRO_VERTEX *vertex_cache;
+	int vertex_cache_size;
+
+	std::map<int, Battle_Player *> player_map;
 };
 
 #include "battle_entity.h"

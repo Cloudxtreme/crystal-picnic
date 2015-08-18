@@ -412,8 +412,7 @@ static void stop_entity(int id)
 {
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *e =
-			dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *e = bl->get_entity(id);
 		if (e) {
 			e->stop();
 			e->get_input().clear();
@@ -755,8 +754,7 @@ static int c_get_entity_animation_size(lua_State *stack)
 
 	Area_Loop *al = GET_AREA_LOOP;
 	if (al) {
-		Map_Entity *entity =
-			dynamic_cast<Map_Entity *>(al->get_area()->get_entity(id));
+		Map_Entity *entity = al->get_area()->get_entity(id);
 		if (entity) {
 			Bitmap *bmp =
 				entity->get_animation_set()->get_current_animation()->get_current_frame()->get_bitmap();
@@ -768,8 +766,7 @@ static int c_get_entity_animation_size(lua_State *stack)
 	else {
 		Battle_Loop *bl = GET_BATTLE_LOOP;
 		if (bl) {
-			Battle_Entity *entity =
-				dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+			Battle_Entity *entity = bl->get_entity(id);
 			if (entity) {
 				Bitmap *bmp =
 					entity->get_animation_set()->get_current_animation()->get_current_frame()->get_bitmap();
@@ -789,8 +786,7 @@ static int c_get_entity_bone_size(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *entity =
-			dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *entity = bl->get_entity(id);
 		if (entity) {
 			std::pair<std::string, int> p;
 			p.first = "battle-idle";
@@ -1044,8 +1040,7 @@ static int c_set_show_entity_shadow(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *entity =
-			dynamic_cast<Battle_Entity *>(l->get_entity(entity_id));
+		Battle_Entity *entity = l->get_entity(entity_id);
 		if (entity) {
 			entity->set_show_shadow(show);
 		}
@@ -1123,8 +1118,7 @@ static int c_set_entity_animation(lua_State *stack)
 	else {
 		Battle_Loop *bl = GET_BATTLE_LOOP;
 		if (bl) {
-			Battle_Entity *entity =
-				dynamic_cast<Battle_Entity *>(bl->get_entity(entity_id));
+			Battle_Entity *entity = bl->get_entity(entity_id);
 			if (entity) {
 				Skeleton::Skeleton *skeleton = entity->get_skeleton();
 				if (skeleton) {
@@ -1205,8 +1199,7 @@ static int c_set_entity_animation_no_reset(lua_State *stack)
 	else {
 		Battle_Loop *bl = GET_BATTLE_LOOP;
 		if (bl) {
-			Battle_Entity *entity =
-				dynamic_cast<Battle_Entity *>(bl->get_entity(entity_id));
+			Battle_Entity *entity = bl->get_entity(entity_id);
 			if (entity) {
 				entity->get_animation_set()->set_sub_animation(anim_name);
 			}
@@ -1507,7 +1500,7 @@ static int c_set_entity_animation_set_prefix(lua_State *stack)
 
 	Area_Loop *loop = GET_AREA_LOOP;
 	if (loop) {
-		Map_Entity *e = dynamic_cast<Map_Entity *>(loop->get_area()->get_entity(id));
+		Map_Entity *e = loop->get_area()->get_entity(id);
 		if (e) {
 			e->get_animation_set()->set_prefix(prefix);
 		}
@@ -1515,7 +1508,7 @@ static int c_set_entity_animation_set_prefix(lua_State *stack)
 	else {
 		Battle_Loop *l = GET_BATTLE_LOOP;
 		if (l) {
-			Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+			Battle_Entity *e = l->get_entity(id);
 			if (e) {
 				e->get_animation_set()->set_prefix(prefix);
 			}
@@ -1531,7 +1524,7 @@ static int c_get_entity_animation_set_prefix(lua_State *stack)
 
 	Area_Loop *loop = GET_AREA_LOOP;
 	if (loop) {
-		Map_Entity *e = dynamic_cast<Map_Entity *>(loop->get_area()->get_entity(id));
+		Map_Entity *e = loop->get_area()->get_entity(id);
 		if (e) {
 			lua_pushstring(stack, e->get_animation_set()->get_prefix().c_str());
 			return 1;
@@ -1540,7 +1533,7 @@ static int c_get_entity_animation_set_prefix(lua_State *stack)
 	else {
 		Battle_Loop *l = GET_BATTLE_LOOP;
 		if (l) {
-			Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+			Battle_Entity *e = l->get_entity(id);
 			if (e) {
 				lua_pushstring(stack, e->get_animation_set()->get_prefix().c_str());
 				return 1;
@@ -1557,7 +1550,7 @@ static int c_center_entity_cameras(lua_State *stack)
 
 	Area_Loop *loop = GET_AREA_LOOP;
 	if (loop) {
-		Map_Entity *e = dynamic_cast<Map_Entity *>(loop->get_area()->get_entity(id));
+		Map_Entity *e = loop->get_area()->get_entity(id);
 		if (e) {
 			e->center_cameras();
 			return 0;
@@ -1574,7 +1567,7 @@ static int c_set_move_entity_cameras_while_input_disabled(lua_State *stack)
 
 	Area_Loop *loop = GET_AREA_LOOP;
 	if (loop) {
-		Map_Entity *e = dynamic_cast<Map_Entity *>(loop->get_area()->get_entity(id));
+		Map_Entity *e = loop->get_area()->get_entity(id);
 		if (e) {
 			e->set_move_cameras_while_input_disabled(move_cameras);
 			return 0;
@@ -1591,7 +1584,7 @@ static int c_set_entity_speed(lua_State *stack)
 
 	Area_Loop *loop = GET_AREA_LOOP;
 	if (loop) {
-		Map_Entity *e = dynamic_cast<Map_Entity *>(loop->get_area()->get_entity(id));
+		Map_Entity *e = loop->get_area()->get_entity(id);
 		if (e) {
 			e->set_speed(speed);
 		}
@@ -2266,7 +2259,7 @@ static int c_set_entity_visible(lua_State *stack)
 	}
 	else {
 		Battle_Loop *bl = GET_BATTLE_LOOP;
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *e = bl->get_entity(id);
 		if (e) {
 			e->set_visible(visible);
 		}
@@ -2501,7 +2494,7 @@ static int c_ai_get(lua_State *stack)
 
 	Battle_Loop *loop = GET_BATTLE_LOOP;
 	if (loop) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(loop->get_entity(entity_id));
+		Battle_Entity *e = loop->get_entity(entity_id);
 		if (e) {
 			lua_State *lua_state;
 			lua_state = e->get_lua_state();
@@ -2834,9 +2827,7 @@ static int c_set_battle_entity_attacking(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(
-			bl->get_entity(id)
-		);
+		Battle_Entity *be = bl->get_entity(id);
 		if (be) {
 			be->set_attacking(attacking);
 		}
@@ -2852,9 +2843,7 @@ static int c_set_battle_entity_sub_animation(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(
-			bl->get_entity(id)
-		);
+		Battle_Entity *be = bl->get_entity(id);
 		if (be) {
 			Skeleton::Skeleton *skel = be->get_skeleton();
 			if (skel) {
@@ -2875,9 +2864,7 @@ static int c_reset_battle_entity_animation(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(
-			bl->get_entity(id)
-		);
+		Battle_Entity *be = bl->get_entity(id);
 		if (be) {
 			Skeleton::Skeleton *skel = be->get_skeleton();
 			if (skel) {
@@ -2899,9 +2886,7 @@ static int c_set_battle_entity_flying(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(
-			bl->get_entity(id)
-		);
+		Battle_Entity *be = bl->get_entity(id);
 		if (be) {
 			be->set_flying_entity(flying);
 		}
@@ -3028,7 +3013,7 @@ static int c_set_entity_right(lua_State *stack)
 	
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->set_facing_right(right);
 		}
@@ -3036,7 +3021,7 @@ static int c_set_entity_right(lua_State *stack)
 	else {
 		Area_Loop *l = GET_AREA_LOOP;
 		if (l) {
-			Map_Entity *e = dynamic_cast<Map_Entity *>(l->get_area()->get_entity(id));
+			Map_Entity *e = l->get_area()->get_entity(id);
 			if (e) {
 				// This function is weird
 				if (right) {
@@ -3085,7 +3070,7 @@ static int c_get_entity_animation_length(lua_State *stack)
 	
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *e = bl->get_entity(id);
 		if (e) {
 			lua_pushnumber(stack, e->get_animation_set()->get_length(anim_name));
 			return 1;
@@ -3427,7 +3412,7 @@ static int c_get_entity_name(lua_State *stack)
 	}
 	else {
 		Battle_Loop *bl = GET_BATTLE_LOOP;
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *e = bl->get_entity(id);
 		if (e) {
 			lua_pushstring(stack, e->get_name().c_str());
 			return 1;
@@ -3711,7 +3696,7 @@ static int c_battle_entity_is_colliding_with_area(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *be = bl->get_entity(id);
 		if (be == NULL) {
 			lua_pushboolean(stack, false);
 			return 1;
@@ -3890,7 +3875,7 @@ static int c_set_entity_immovable(lua_State *stack)
 	
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->set_immovable(immovable);
 		}
@@ -3905,7 +3890,7 @@ static int c_get_entity_immovable(lua_State *stack)
 	
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushboolean(stack, be->is_immovable());
 			return 1;
@@ -3925,7 +3910,7 @@ static int c_apply_force(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->apply_force(dir, right, General::Point<float>(force_x, force_y));
 		}
@@ -3940,7 +3925,7 @@ static int c_entity_is_on_ground(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushnumber(stack, be->is_on_ground());
 			return 1;
@@ -4013,7 +3998,7 @@ static int c_set_should_attack(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->get_ai()->set_should_attack(should_attack);
 		}
@@ -4028,7 +4013,7 @@ static int c_set_battle_entity_jumping(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->set_on_ground(false);
 			be->set_check_platform(true);
@@ -4049,7 +4034,7 @@ static int c_get_height_from_ground(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushnumber(stack, be->get_height_from_ground());
 			return 1;
@@ -4092,7 +4077,7 @@ static int c_set_battle_entity_unhittable(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->set_unhittable(unhittable);
 		}
@@ -4107,7 +4092,7 @@ static int c_update_entity_animation(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->get_animation_set()->update();
 		}
@@ -4122,7 +4107,7 @@ static int c_get_hp(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushnumber(stack, be->get_attributes().hp);
 			return 1;
@@ -4138,7 +4123,7 @@ static int c_set_hp(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->get_attributes().hp = hp;
 		}
@@ -4153,7 +4138,7 @@ static int c_drain_magic(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			if (be->get_attributes().equipment.accessory.name != "REDRING") {
 				int mp = be->get_attributes().mp;
@@ -4172,7 +4157,7 @@ static int c_get_mp(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushnumber(stack, be->get_attributes().mp);
 			return 1;
@@ -4188,7 +4173,7 @@ static int c_get_ability_cost(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			lua_pushnumber(stack, Game_Specific_Globals::magic_cost(be->get_attributes(), ability));
 			return 1;
@@ -4555,7 +4540,7 @@ static int c_set_battle_entity_attack(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *be = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *be = l->get_entity(id);
 		if (be) {
 			be->get_attributes().attack = attack;
 		}
@@ -4622,8 +4607,7 @@ static int c_set_battle_entity_speed_multiplier(lua_State *stack)
 
 	Battle_Loop *bl = GET_BATTLE_LOOP;
 	if (bl) {
-		Battle_Entity *e =
-			dynamic_cast<Battle_Entity *>(bl->get_entity(id));
+		Battle_Entity *e = bl->get_entity(id);
 		if (e) {
 			e->set_speed_multiplier(mult);
 		}
@@ -4993,7 +4977,7 @@ static int c_get_skeleton_animation_elapsed_time(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *e = l->get_entity(id);
 		Skeleton::Skeleton *skel = e->get_skeleton();
 		int curr_anim = skel->get_curr_anim();
 		std::vector<Skeleton::Animation *> &v = skel->get_animations();
@@ -5017,7 +5001,7 @@ static int c_set_entity_stops_battle_end(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *e = l->get_entity(id);
 		if (e) {
 			e->set_stops_battle_end(stops_battle_end);
 		}
@@ -5073,7 +5057,7 @@ static int c_set_can_accelerate_quickly(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *e = l->get_entity(id);
 		if (e) {
 			e->set_can_accelerate_quickly(accelerates_quickly);
 		}
@@ -5228,7 +5212,7 @@ static int c_is_burrowing(lua_State *stack)
 
 	Battle_Loop *l = GET_BATTLE_LOOP;
 	if (l) {
-		Battle_Entity *e = dynamic_cast<Battle_Entity *>(l->get_entity(id));
+		Battle_Entity *e = l->get_entity(id);
 		if (e) {
 			lua_pushboolean(stack, e->is_burrowing());
 			return 1;

@@ -369,7 +369,6 @@ Speech_Loop::Speech_Loop(
 		Area_Loop *l = GET_AREA_LOOP;
 		if (l) {
 			Area_Manager *area = l->get_area();
-			// dynamic_cast can't fail here
 			Map_Entity *player = area->get_entity(0);
 			General::Point<float> pos = player->get_position();
 			General::Point<float> area_top = area->get_top();

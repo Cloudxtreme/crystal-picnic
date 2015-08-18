@@ -85,7 +85,7 @@ struct Bone {
 
 	General::Size<int> get_size() { return size; }
 	
-	General::Size<float> get_extents() const;
+	General::Size<float> get_extents(float *out_minx = NULL, float *out_miny = NULL) const;
 
 protected:
 	std::vector< General::Point<float> > outline;

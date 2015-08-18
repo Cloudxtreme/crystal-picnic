@@ -45,6 +45,9 @@ bool Area_Manager::logic()
 			Tile_Group *tg = tile_groups[layer][i];
 			if (tg->duration > 0) {
 				tg->duration -= General::LOGIC_MILLIS / 1000.0;
+				if (tg->duration < 0) {
+					tg->duration = 0;
+				}
 			}
 		}
 	}
@@ -125,9 +128,13 @@ void Area_Manager::draw_layer_tiled(int layer)
 	int wt = width_in_tiles + 1;
 	int ht = height_in_tiles + 1;
 
+	maybe_expand_vertex_cache(wt * ht * 6);
+
+	ALLEGRO_COLOR white = al_map_rgb_f(1.0f, 1.0f, 1.0f);
+
 	for (unsigned int sheet = 0; sheet < tile_sheets.size(); sheet++) {
-		al_hold_bitmap_drawing(true);
 		int sheet_wt = ORIG_SHEET_SIZE / General::TILE_SIZE;
+		int vcount = 0;
 		for (int y = 0; y < ht; y++) {
 			if (y+ty < 0 || y+ty >= height) {
 				continue;
@@ -144,19 +151,52 @@ void Area_Manager::draw_layer_tiled(int layer)
 					int oy = tile_sheet_y * 2 + 1;
 					float tu = tile_sheet_x * General::TILE_SIZE + ox;
 					float tv = tile_sheet_y * General::TILE_SIZE + oy;
-					al_draw_bitmap_region(
-						tile_sheets[sheet]->bitmap,
-						tu, tv,
-						General::TILE_SIZE,
-						General::TILE_SIZE,
-						(x+tx)*General::TILE_SIZE-top.x,
-						(y+ty)*General::TILE_SIZE-top.y,
-						0
-					);
+
+					ALLEGRO_VERTEX *v = &vertex_cache[vcount];
+
+					v[0].x = (x+tx)*General::TILE_SIZE-top.x;
+					v[0].y = (y+ty)*General::TILE_SIZE-top.y;
+					v[0].z = 0;
+					v[0].u = tu;
+					v[0].v = tv;
+					v[0].color = white;
+					v[1].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+					v[1].y = (y+ty)*General::TILE_SIZE-top.y;
+					v[1].z = 0;
+					v[1].u = tu + General::TILE_SIZE;
+					v[1].v = tv;
+					v[1].color = white;
+					v[2].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+					v[2].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+					v[2].z = 0;
+					v[2].u = tu + General::TILE_SIZE;
+					v[2].v = tv + General::TILE_SIZE;
+					v[2].color = white;
+					
+					v[3].x = (x+tx)*General::TILE_SIZE-top.x;
+					v[3].y = (y+ty)*General::TILE_SIZE-top.y;
+					v[3].z = 0;
+					v[3].u = tu;
+					v[3].v = tv;
+					v[3].color = white;
+					v[4].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+					v[4].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+					v[4].z = 0;
+					v[4].u = tu + General::TILE_SIZE;
+					v[4].v = tv + General::TILE_SIZE;
+					v[4].color = white;
+					v[5].x = (x+tx)*General::TILE_SIZE-top.x;
+					v[5].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+					v[5].z = 0;
+					v[5].u = tu;
+					v[5].v = tv + General::TILE_SIZE;
+					v[5].color = white;
+					
+					vcount += 6;
 				}
 			}
 		}
-		al_hold_bitmap_drawing(false);
+		al_draw_prim(vertex_cache, 0, tile_sheets[sheet]->bitmap, 0, vcount, ALLEGRO_PRIM_TRIANGLE_LIST);
 	}
 }
 
@@ -168,9 +208,13 @@ void Area_Manager::draw_layer_tiled_ungrouped(int layer)
 	int wt = width_in_tiles + 1;
 	int ht = height_in_tiles + 1;
 
+	maybe_expand_vertex_cache(wt * ht * 6);
+
+	ALLEGRO_COLOR white = al_map_rgb_f(1.0f, 1.0f, 1.0f);
+
 	for (unsigned int sheet = 0; sheet < tile_sheets.size(); sheet++) {
-		al_hold_bitmap_drawing(true);
 		int sheet_wt = ORIG_SHEET_SIZE / General::TILE_SIZE;
+		int vcount = 0;
 		for (int y = 0; y < ht; y++) {
 			if (y+ty < 0 || y+ty >= height) {
 				continue;
@@ -188,20 +232,54 @@ void Area_Manager::draw_layer_tiled_ungrouped(int layer)
 						int oy = tile_sheet_y * 2 + 1;
 						float tu = tile_sheet_x * General::TILE_SIZE + ox;
 						float tv = tile_sheet_y * General::TILE_SIZE + oy;
-						al_draw_bitmap_region(
-							tile_sheets[sheet]->bitmap,
-							tu, tv,
-							General::TILE_SIZE,
-							General::TILE_SIZE,
-							(x+tx)*General::TILE_SIZE-top.x,
-							(y+ty)*General::TILE_SIZE-top.y,
-							0
-						);
+
+						ALLEGRO_VERTEX *v = &vertex_cache[vcount];
+
+						v[0].x = (x+tx)*General::TILE_SIZE-top.x;
+						v[0].y = (y+ty)*General::TILE_SIZE-top.y;
+						v[0].z = 0;
+						v[0].u = tu;
+						v[0].v = tv;
+						v[0].color = white;
+						v[1].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+						v[1].y = (y+ty)*General::TILE_SIZE-top.y;
+						v[1].z = 0;
+						v[1].u = tu + General::TILE_SIZE;
+						v[1].v = tv;
+						v[1].color = white;
+						v[2].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+						v[2].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+						v[2].z = 0;
+						v[2].u = tu + General::TILE_SIZE;
+						v[2].v = tv + General::TILE_SIZE;
+						v[2].color = white;
+						
+						v[3].x = (x+tx)*General::TILE_SIZE-top.x;
+						v[3].y = (y+ty)*General::TILE_SIZE-top.y;
+						v[3].z = 0;
+						v[3].u = tu;
+						v[3].v = tv;
+						v[3].color = white;
+						v[4].x = (x+tx)*General::TILE_SIZE-top.x + General::TILE_SIZE;
+						v[4].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+						v[4].z = 0;
+						v[4].u = tu + General::TILE_SIZE;
+						v[4].v = tv + General::TILE_SIZE;
+						v[4].color = white;
+						v[5].x = (x+tx)*General::TILE_SIZE-top.x;
+						v[5].y = (y+ty)*General::TILE_SIZE-top.y + General::TILE_SIZE;
+						v[5].z = 0;
+						v[5].u = tu;
+						v[5].v = tv + General::TILE_SIZE;
+						v[5].color = white;
+						
+						vcount += 6;
 					}
 				}
 			}
 		}
-		al_hold_bitmap_drawing(false);
+		
+		al_draw_prim(vertex_cache, 0, tile_sheets[sheet]->bitmap, 0, vcount, ALLEGRO_PRIM_TRIANGLE_LIST);
 	}
 }
 
@@ -1824,14 +1902,9 @@ void Area_Manager::shake_bushes(Map_Entity *entity, General::Point<float> entity
 			if (tg->flags & TILE_GROUP_BUSHES) {
 				for (size_t i = 0; i < bones.size(); i++) {
 					// Do a quick check to try and avoid a long one
-					if (General::distance(pos.x, pos.y, tg->top_left.x, tg->top_left.y) < 100) {
+					if (fabs(pos.x-tg->top_left.x) < General::TILE_SIZE*3 && fabs(pos.y-tg->top_left.y) < General::TILE_SIZE*3) {
 						std::vector< General::Point<float> > outline;
-						if (entity->is_facing_right()) {
-							outline = bones[i].get_outline();
-						}
-						else {
-							outline = bones[i].get_outline_mirrored();
-						}
+						General::Size<float> size = bones[i].get_extents();
 						General::Point<float> top_left(
 							tg->top_left.x,
 							tg->top_left.y - 8
@@ -1840,13 +1913,15 @@ void Area_Manager::shake_bushes(Map_Entity *entity, General::Point<float> entity
 							tg->top_left.x + tg->size.w,
 							tg->top_left.y + tg->size.h - 8
 						);
-						if (checkcoll_box_polygon(
-							top_left,
-							bottom_right,
-							outline,
-							pos,
-							NULL))
-						{
+						General::Point<float> top_left2(
+							pos.x-size.w/2,
+							pos.y-size.h
+						);
+						General::Point<float> bottom_right2(
+							top_left2.x+size.w,
+							top_left2.y+size.h
+						);
+						if (checkcoll_box_box(top_left, bottom_right, top_left2, bottom_right2)) {
 							shaken_entities.push_back(entity);
 							shaken_positions.push_back(pos);
 							tg->duration += 0.025;
@@ -2091,7 +2166,8 @@ Area_Manager::Area_Manager() :
 	parallax_y(false),
 	early_break(false),
 	in_speech_loop(false),
-	rumble_offset(0, 0)
+	rumble_offset(0, 0),
+	vertex_cache_size(0)
 {
 	player_underlay_bitmap_add = NULL;
 	height_offset_dampened = 0.0f;
@@ -2161,6 +2237,8 @@ Area_Manager::~Area_Manager()
 	}
 	delete[] is_grouped;
 	delete[] group_drawn;
+
+	free(vertex_cache);
 }
 
 int Area_Manager::tile_x(int number)
@@ -3390,4 +3468,17 @@ bool Area_Manager::point_collides(int layer, General::Point<float> p)
 void Area_Manager::set_rumble_offset(General::Point<float> offset)
 {
 	rumble_offset = offset;
+}
+
+void Area_Manager::maybe_expand_vertex_cache(int needed)
+{
+	if (needed > vertex_cache_size) {
+		if (vertex_cache_size == 0) {
+			vertex_cache = (ALLEGRO_VERTEX *)malloc(sizeof(ALLEGRO_VERTEX) * needed);
+		}
+		else {
+			vertex_cache = (ALLEGRO_VERTEX *)realloc(vertex_cache, sizeof(ALLEGRO_VERTEX) * needed);
+		}
+		vertex_cache_size = needed;
+	}
 }

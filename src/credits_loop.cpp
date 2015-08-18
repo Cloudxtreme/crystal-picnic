@@ -73,7 +73,6 @@ bool Credits_Loop::init()
 		total_offset += 50 * 2;
 		for (size_t j = 0; j < strings[i].size(); j++) {
 			total_offset += General::get_font_line_height(General::FONT_LIGHT);
-			printf("%s\n", strings[i][j].c_str());
 		}
 	}
 

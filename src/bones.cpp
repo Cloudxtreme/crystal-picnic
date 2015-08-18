@@ -115,7 +115,7 @@ void load(
 	delete xml;
 }
 
-General::Size<float> Bone::get_extents() const
+General::Size<float> Bone::get_extents(float *out_minx, float *out_miny) const
 {
 	General::Size<float> extents;
 	float min_x = General::BIG_FLOAT;
@@ -137,6 +137,13 @@ General::Size<float> Bone::get_extents() const
 		if (p.y > max_y) {
 			max_y = p.y;
 		}
+	}
+
+	if (out_minx) {
+		*out_minx = min_x;
+	}
+	if (out_miny) {
+		*out_miny = min_y;
 	}
 	
 	return General::Size<float>(max_x-min_x, max_y-min_y);

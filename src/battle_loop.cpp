@@ -28,6 +28,8 @@ Battle_Pathfinder_Node *path;
 General::Size<int> Battle_Loop::size;
 float Battle_Loop::x_offset_ratio;
 
+static Wrap::Shader *black_shader;
+
 const int MINI_BATTLE_STATS_W = 64;
 static void draw_mini_battle_stats(Battle_Player *p, int x, int y)
 {
@@ -144,6 +146,7 @@ bool Battle_Loop::init(void)
 
 	bullet_time_shader = Shader::get("bullet_time");
 	bullet_time_v_shader = Shader::get("bullet_time_v");
+	black_shader = Shader::get("black");
 
 	active_players = 0;
 	for (size_t i = 0; i < players.size(); i++) {
@@ -447,7 +450,7 @@ bool Battle_Loop::logic(void)
 		engine->set_loops(std::vector<Loop *>(), true);
 		return false;
 	}
-	
+
 	sz = entities.size();
 	for (int i = 0; i < sz; i++) {
 		// Regenerate magic
@@ -595,7 +598,7 @@ void Battle_Loop::draw_entities(int layer)
 			tmp_w = a->get_current_frame()->get_bitmap()->get_width();
 			tmp_h = a->get_current_frame()->get_bitmap()->get_height();
 		}
-		
+
 		if (entity == get_active_player()) {
 			get_entity_draw_pos(pos, entity->get_animation_set(), &tlx, &tly);
 			tlx -= _offset.x;
@@ -643,7 +646,7 @@ void Battle_Loop::draw_entities(int layer)
 					entity->is_facing_right() ? 0 : ALLEGRO_FLIP_HORIZONTAL
 				);
 			}
-				
+
 			#if 0
 			int px = dx + pos.x;
 			int py = dy + pos.y;
@@ -893,7 +896,7 @@ void Battle_Loop::draw_entities(int layer)
 
 					al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ONE);
 				}
-				
+
 				al_restore_state(&blend_state);
 			}
 			else {
@@ -1033,11 +1036,11 @@ void Battle_Loop::draw_entities(int layer)
 				#endif
 			}
 		}
-		
+
 		entity->draw();
 
 		entity->post_draw();
-		
+
 		if (entity->is_burrowing()) {
 			al_set_clipping_rectangle(cx, cy, cw, ch);
 		}
@@ -1067,12 +1070,12 @@ void Battle_Loop::draw()
 		do_not_make_screen_copy = false;
 
 		battle_transition_in(pre_battle_screen_bmp, second);
-		
+
 		al_set_target_bitmap(old_target);
-		
+
 		Wrap::destroy_bitmap(pre_battle_screen_bmp);
 		Wrap::destroy_bitmap(second);
-	
+
 		engine->reset_logic_count();
 	}
 
@@ -1176,7 +1179,7 @@ void Battle_Loop::draw()
 		else {
 			bmp1 = bmp2 = b;
 		}
-		
+
 		al_draw_bitmap_region(
 			cart_parallax[2]->bitmap,
 			0,
@@ -1244,7 +1247,7 @@ void Battle_Loop::draw()
 			);
 		}
 	}
-	
+
 	bool draw_layer_0_tinted = false;
 	int sz = entities.size();
 	for (int i = 0; i < sz; i++) {
@@ -1256,7 +1259,9 @@ void Battle_Loop::draw()
 			break;
 		}
 	}
-	
+
+	ALLEGRO_COLOR white = al_map_rgb_f(1.0f, 1.0f, 1.0f);
+
 	int num_sheets = atlas_get_num_sheets(atlas);
 
 	for (size_t layer = 0; layer < tiles.size(); layer++) {
@@ -1269,23 +1274,28 @@ void Battle_Loop::draw()
 			al_set_shader_float("color_b", 1.0f);
 		}
 		for (int sheet = 0; sheet < num_sheets; sheet++) {
-			al_hold_bitmap_drawing(true);
 			int sz = tiles[layer].size();
+
+			maybe_expand_vertex_cache(sz * 6);
+			int vcount = 0;
+
 			for (int t = 0; t < sz; t++) {
 				Tile &tile = tiles[layer][t];
-				int id;
-				if (tile.ids.size() > 0) {
-					int frame = fmod((al_get_time() / (tile.delay/1000.0f)), tile.ids.size());
-					id = tile.ids[frame];
+				int index;
+				if (tile.indices.size() > 0) {
+					int frame = fmod((al_get_time() / (tile.delay/1000.0f)), tile.indices.size());
+					index = tile.indices[frame];
 				}
 				else {
-					id = tile.id;
+					index = tile.index;
 				}
-				ATLAS_ITEM *item = atlas_get_item_by_id(atlas, id);
+				ATLAS_ITEM *item = atlas_get_item_by_index(atlas, index);
 				if (atlas_get_item_sheet(item) != sheet) {
 					continue;
 				}
 				Wrap::Bitmap *sub = atlas_get_item_sub_bitmap(item);
+				int sub_x = atlas_get_item_x(item);
+				int sub_y = atlas_get_item_y(item);
 				int w = al_get_bitmap_width(sub->bitmap);
 				int h = al_get_bitmap_height(sub->bitmap);
 				float x = tile.x + dx;
@@ -1320,10 +1330,57 @@ void Battle_Loop::draw()
 					else {
 						y1 = 0;
 					}
-					al_draw_bitmap_region(sub->bitmap, x1, y1, x2-x1, y2-y1, _dx, _dy, 0);
+
+					ALLEGRO_VERTEX *v = &vertex_cache[vcount];
+
+					x1 += sub_x;
+					y1 += sub_y;
+					x2 += sub_x;
+					y2 += sub_y;
+
+					v[0].x = _dx;
+					v[0].y = _dy;
+					v[0].z = 0;
+					v[0].u = x1;
+					v[0].v = y1;
+					v[0].color = white;
+					v[1].x = _dx + (x2-x1);
+					v[1].y = _dy;
+					v[1].z = 0;
+					v[1].u = x2;
+					v[1].v = y1;
+					v[1].color = white;
+					v[2].x = _dx + (x2-x1);
+					v[2].y = _dy + (y2-y1);
+					v[2].z = 0;
+					v[2].u = x2;
+					v[2].v = y2;
+					v[2].color = white;
+
+					v[3].x = _dx;
+					v[3].y = _dy;
+					v[3].z = 0;
+					v[3].u = x1;
+					v[3].v = y1;
+					v[3].color = white;
+					v[4].x = _dx + (x2-x1);
+					v[4].y = _dy + (y2-y1);
+					v[4].z = 0;
+					v[4].u = x2;
+					v[4].v = y2;
+					v[4].color = white;
+					v[5].x = _dx;
+					v[5].y = _dy + (y2-y1);
+					v[5].z = 0;
+					v[5].u = x1;
+					v[5].v = y2;
+					v[5].color = white;
+
+					vcount += 6;
 				}
 			}
-			al_hold_bitmap_drawing(false);
+
+			al_draw_prim(vertex_cache, 0, atlas_get_sheet(atlas, sheet)->bitmap, 0, vcount, ALLEGRO_PRIM_TRIANGLE_LIST);
 		}
 		if (draw_layer_0_tinted) {
 			Shader::use(NULL);
@@ -1339,7 +1396,7 @@ void Battle_Loop::draw()
 			for (size_t i = 0; i < static_burrow_holes.size(); i++) {
 				al_draw_bitmap(burrow_hole_bmps[3]->bitmap, static_burrow_holes[i].pos.x-al_get_bitmap_width(burrow_hole_bmps[0]->bitmap)/2-get_top().x, static_burrow_holes[i].pos.y-al_get_bitmap_height(burrow_hole_bmps[0]->bitmap)-get_top().y+4, 0);
 			}
-			
+
 			// Draw low particles
 			int sz = particles.size();
 			al_hold_bitmap_drawing(true);
@@ -1396,48 +1453,22 @@ void Battle_Loop::draw()
 		entities[i]->ui_draw();
 	}
 
-	int count = 0;
-
 	if (!draw_interface) {
 		goto end_interface;
 	}
 
 	{
-		Battle_Player *p = NULL;
-		int sz = entities.size();
-		for (int i = 0; i < sz; i++) {
-			p = dynamic_cast<Battle_Player *>(entities[i]);
-			if (p) {
-				break;
-			}
-		}
-		Wrap::Bitmap *profile = p->get_profile_bitmap();
-		int stats_h = al_get_bitmap_height(profile->bitmap) + 6;
-		Wrap::Bitmap *work_bitmap = engine->get_work_bitmap();
-		ALLEGRO_BITMAP *old_target = al_get_target_bitmap();
-		al_set_target_bitmap(work_bitmap->bitmap);
-		al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+		int count = 0;
 		for (size_t i = 0; i < players.size(); i++) {
 			Battle_Player *p = get_player(i);
 			if (p) {
+				Shader::use(black_shader);
+				draw_mini_battle_stats(p, MINI_BATTLE_STATS_W*count+5*(count+1)+1, 5+1);
+				Shader::use(NULL);
 				draw_mini_battle_stats(p, MINI_BATTLE_STATS_W*count+5*(count+1), 5);
 				count++;
 			}
 		}
-		al_set_target_bitmap(old_target);
-		al_draw_tinted_bitmap_region(
-			work_bitmap->bitmap,
-			al_map_rgb(0x00, 0x00, 0x00),
-			0, 0, cfg.screen_w, stats_h,
-			1, 1,
-			0
-		);
-		al_draw_bitmap_region(
-			work_bitmap->bitmap,
-			0, 0, cfg.screen_w, stats_h,
-			0, 0,
-			0
-		);
 	}
 
 end_interface:
@@ -1566,7 +1597,8 @@ Battle_Loop::Battle_Loop(std::vector<Player *> players, Enemy_Avatar *enemy_avat
 	curr_id(0),
 	switch_players(false),
 	game_over_time(-1.0),
-	delete_enemy_avatar(delete_enemy_avatar)
+	delete_enemy_avatar(delete_enemy_avatar),
+	vertex_cache_size(0)
 {
 	construct();
 }
@@ -1585,7 +1617,7 @@ Battle_Loop::~Battle_Loop(void)
 		al_set_target_bitmap(old_target);
 	}
 	*end_screenshot = screen_copy_bmp;
-	
+
 	if (engine->game_is_over()) {
 		Wrap::destroy_bitmap(screen_copy_bmp);
 	}
@@ -1594,6 +1626,7 @@ Battle_Loop::~Battle_Loop(void)
 
 	Shader::destroy(bullet_time_shader);
 	Shader::destroy(bullet_time_v_shader);
+	Shader::destroy(black_shader);
 
 	// Transfer stats back to Players
 	for (size_t i = 0; i < players.size(); i++) {
@@ -1619,7 +1652,7 @@ Battle_Loop::~Battle_Loop(void)
 
 	Lua::call_lua(lua_state, "stop", ">");
 	lua_close(lua_state);
-	
+
 	for (int i = 0; i < 4; i++) {
 		Wrap::destroy_bitmap(burrow_hole_bmps[i]);
 	}
@@ -1686,8 +1719,10 @@ Battle_Loop::~Battle_Loop(void)
 	for (int i = 0; i < sz; i++) {
 		delete particles[i];
 	}
-	
+
 	engine->clear_touches();
+
+	free(vertex_cache);
 }
 
 void Battle_Loop::init_lua(void)
@@ -1701,7 +1736,7 @@ void Battle_Loop::init_lua(void)
 	Lua::load_global_scripts(lua_state);
 
 	unsigned char *bytes;
-	
+
 	bytes = General::slurp("battle/global.lua");
 	if (bytes) {
 		if (luaL_loadstring(lua_state, (char *)bytes)) {
@@ -1731,7 +1766,7 @@ void Battle_Loop::init_lua(void)
 	}
 
 	Lua::call_lua(lua_state, "start", "s>", level_name.c_str());
-	
+
 	lua_getglobal(lua_state, "logic");
 	script_has_logic = !lua_isnil(lua_state, -1);
 	lua_pop(lua_state, 1);
@@ -1812,7 +1847,7 @@ void Battle_Loop::make_jump_points(void)
 			}
 		}
 	}
-	
+
 	for (size_t platform1 = 0; platform1 < geometry.size(); platform1++) {
 		jump_points.push_back(std::vector<Jump_Point>());
 	}
@@ -2136,11 +2171,16 @@ Battle_Entity *Battle_Loop::get_entity(int entity_id)
 
 Battle_Player *Battle_Loop::get_player(int player_id)
 {
+	if (player_map.find(player_id) != player_map.end()) {
+		return player_map[player_id];
+	}
+
 	int sz = entities.size();
 	for (int i = 0; i < sz; i++) {
 		Battle_Player *p = dynamic_cast<Battle_Player *>(entities[i]);
 		if (p) {
 			if (p->get_player_id() == player_id) {
+				player_map[player_id] = p;
 				return p;
 			}
 		}
@@ -2293,7 +2333,7 @@ int Battle_Loop::ai_get(lua_State *stack, int entity_id, std::string cmd)
 	}
 	else if (c[i] == "right") {
 		i++;
-		int eid = atoi(c[i++].c_str());		
+		int eid = atoi(c[i++].c_str());
 		Battle_Entity *be = get_entity(eid);
 		if (be) {
 			lua_pushboolean(stack, be->is_facing_right());
@@ -2378,7 +2418,7 @@ General::Point<int> Battle_Loop::choose_random_start_platform(int entity_spacing
 		sizes[i] = total;
 		grand_total += total;
 	}
-	
+
 	int start = General::rand() % (int)grand_total;
 
 	while (true) {
@@ -2649,17 +2689,17 @@ void Battle_Loop::reload_graphics()
 			int y = General::read32bits(f);
 			Tile tile;
 			if (names[id] == "cart_left") {
-				tile.ids.push_back(id);
-				tile.ids.push_back(1000);
+				tile.indices.push_back(atlas_get_index_from_id(atlas, id));
+				tile.indices.push_back(atlas_get_index_from_id(atlas, 1000));
 				tile.delay = 100;
 			}
 			else if (names[id] == "cart_right") {
-				tile.ids.push_back(id);
-				tile.ids.push_back(1001);
+				tile.indices.push_back(atlas_get_index_from_id(atlas, id));
+				tile.indices.push_back(atlas_get_index_from_id(atlas, 1001));
 				tile.delay = 100;
 			}
 			else {
-				tile.id = id;
+				tile.index = atlas_get_index_from_id(atlas, id);
 			}
 			tile.x = x;
 			tile.y = y;
@@ -2723,4 +2763,17 @@ void Battle_Loop::add_entity(Battle_Entity *entity)
 bool Battle_Loop::is_cart_battle()
 {
 	return cart_battle;
+}
+
+void Battle_Loop::maybe_expand_vertex_cache(int needed)
+{
+	if (needed > vertex_cache_size) {
+		if (vertex_cache_size == 0) {
+			vertex_cache = (ALLEGRO_VERTEX *)malloc(sizeof(ALLEGRO_VERTEX) * needed);
+		}
+		else {
+			vertex_cache = (ALLEGRO_VERTEX *)realloc(vertex_cache, sizeof(ALLEGRO_VERTEX) * needed);
+		}
+		vertex_cache_size = needed;
+	}
 }

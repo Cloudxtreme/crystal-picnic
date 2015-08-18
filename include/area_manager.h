@@ -272,6 +272,8 @@ private:
 	void create_outline_storage();
 	void destroy_outline();
 
+	void maybe_expand_vertex_cache(int needed);
+
 	// Top left visible corner offset
 	General::Point<float> top;
 	int width;
@@ -377,6 +379,9 @@ private:
 	std::vector<Particle::Particle *> particles;
 
 	General::Point<float> rumble_offset;
+
+	ALLEGRO_VERTEX *vertex_cache;
+	int vertex_cache_size;
 };
 
 #endif // AREAMANAGER_H

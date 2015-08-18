@@ -438,6 +438,7 @@ void Area_Loop::draw(void)
 				angle = ((transition_time - HALF_TURN_TIME) / HALF_TURN_TIME) * (M_PI/2) + (M_PI/2);
 			}
 			Graphics::turn_bitmap(turn_bitmap, angle);
+			
 			al_flip_display();
 			al_rest(1.0/60.0);
 	
@@ -640,11 +641,11 @@ void Area_Loop::switch_characters(bool sound)
 	for (size_t i = 0; i < player_npcs.size(); i++) {
 		player_npcs[i]->set_id(ids[i]);
 		if (i == 0) {
-			dynamic_cast<Follow_Character_Role *>(roles[i])->
+			static_cast<Follow_Character_Role *>(roles[i])->
 				set_actors(player_npcs[i], players[0]);
 		}
 		else {
-			dynamic_cast<Follow_Character_Role *>(roles[i])->
+			static_cast<Follow_Character_Role *>(roles[i])->
 				set_actors(player_npcs[i], player_npcs[i-1]);
 		}
 		player_npcs[i]->set_role(roles[i]);

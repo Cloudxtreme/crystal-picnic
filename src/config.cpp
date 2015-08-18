@@ -96,29 +96,31 @@ void Configuration::reset(void)
 
 	language = "English";
 
-	vsync = true;
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
 	fullscreen = false;
+
+	force_opengl = false;
 #if defined ALLEGRO_RASPBERRYPI
 	low_graphics = true;
-	water_shader = false;
+	vsync = false;
 	screen_w = 480;
 	screen_h = 320;
+	water_shader = false;
 #else
 #if defined ALLEGRO_ANDROID || defined ALLEGRO_IPHONE
 	low_graphics = true;
 #else
 	low_graphics = false;
 #endif
-	water_shader = true;
+	vsync = true;
 	screen_w = 1024;
 	screen_h = 576;
+	water_shader = true;
 #endif
 
-	force_opengl = false;
-	show_fps = false;
 	linear_filtering = true;
+	show_fps = false;
 
 	music_volume = 1.0f;
 	sfx_volume = 1.0f;

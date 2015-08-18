@@ -50,134 +50,12 @@ static ALLEGRO_TRANSFORM *combine_transforms(ALLEGRO_TRANSFORM *start, std::vect
 				break;
 		}
 	}
-	
+
 	if (start) {
 		al_compose_transform(&t, start);
 	}
 
 	return &t;
-}
-
-static void recurse(General::Point<float> offset, Skeleton::Link *l, ALLEGRO_TRANSFORM t, bool draw_it, bool flip_it, int layer, ALLEGRO_COLOR tint, bool reversed)
-{
-	if (l->part == NULL) {
-		return;
-	}
-
-	Wrap::Bitmap *bitmap = l->part->get_bitmap();
-
-	ALLEGRO_TRANSFORM bone_trans;
-
-	if (!draw_it) {
-		al_copy_transform(&l->new_trans, combine_transforms(&t, l->part->get_transforms()));
-
-		al_identity_transform(&l->final_trans);
-		al_compose_transform(&l->final_trans, &l->new_trans);
-		if (flip_it) {
-			al_scale_transform(&l->final_trans, -1, 1);
-		}
-		al_copy_transform(&bone_trans, &l->final_trans);
-		al_translate_transform(&l->final_trans, offset.x, offset.y);
-	}
-
-	if (l->part->get_layer() == layer) {
-		if (draw_it) {
-			ALLEGRO_TRANSFORM t, backup;
-
-			al_copy_transform(&backup, al_get_current_transform());
-
-			al_copy_transform(&t, &l->final_trans);
-			al_compose_transform(&t, al_get_current_transform());
-			al_use_transform(&t);
-
-			al_draw_tinted_bitmap(bitmap->bitmap, tint, 0, 0, 0);
-
-			al_use_transform(&backup);
-
-			// KEEPME draw bones
-			/*
-			Battle_Loop *bl = GET_BATTLE_LOOP;
-			if (bl) {
-				General::Point<float> top = bl->get_top();
-				std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
-				std::vector<Bones::Bone> &b = transformed_bones[l->part->get_curr_bitmap()];
-				for (size_t i = 0; i < b.size(); i++) {
-					Bones::Bone &bone = b[i];
-					std::vector<Triangulate::Triangle> tris;
-					tris = bone.get();
-					for (size_t j = 0; j < tris.size(); j++) {
-						Triangulate::Triangle &t = tris[j];
-						ALLEGRO_COLOR color;
-						if (bone.type == Bones::BONE_ATTACK) {
-							color = al_map_rgb(0x00, 0x80, 0x00);
-						}
-						else {
-							color = al_map_rgb(0xff, 0xff, 0xff);
-						}
-						al_draw_triangle(
-							t.points[0].x+offset.x,
-							t.points[0].y+offset.y,
-							t.points[1].x+offset.x,
-							t.points[1].y+offset.y,
-							t.points[2].x+offset.x,
-							t.points[2].y+offset.y,
-							color,
-							1
-						);
-					}
-				}
-			}
-			*/
-		}
-		else {
-			std::vector< std::vector<Bones::Bone> > &bones = l->part->get_bones();
-			std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
-
-			for (size_t i = 0; i < bones.size(); i++) {
-				std::vector<Bones::Bone> &src = bones[i];
-				std::vector<Bones::Bone> &dst = transformed_bones[i];
-
-				for (size_t j = 0; j < src.size(); j++) {
-					Bones::Bone &b = src[j];
-					Bones::Bone &b2 = dst[j];
-					std::vector< General::Point<float> > &outline = b.get_outline();
-					std::vector< General::Point<float> > &new_outline = b2.get_outline();
-					
-					int bmp_w = al_get_bitmap_width(l->part->get_bitmap(j)->bitmap);
-					int bmp_h = al_get_bitmap_height(l->part->get_bitmap(j)->bitmap);
-
-					for (size_t k = 0; k < outline.size(); k++) {
-						General::Point<float> &p = outline[k];
-						General::Point<float> &p2 = new_outline[k];
-						p2.x = p.x;
-						p2.y = p.y;
-						p2.x += bmp_w/2;
-						p2.y += bmp_h;
-						al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
-					}
-
-					std::vector<Triangulate::Triangle> &triangles = b.get();
-					std::vector<Triangulate::Triangle> &new_triangles = b2.get();
-
-					for (size_t k = 0; k < triangles.size(); k++) {
-						for (int l = 0; l < 3; l++) {
-							General::Point<float> &p = triangles[k].points[l];
-							General::Point<float> &p2 = new_triangles[k].points[l];
-							p2.x = p.x;
-							p2.y = p.y;
-							p2.x += bmp_w/2;
-							p2.y += bmp_h;
-							al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	for (int i = 0; i < l->num_children; i++) {
-		recurse(offset, l->children[i], l->new_trans, draw_it, flip_it, layer, tint, reversed);
-	}
 }
 
 static void interpolate_part(float ratio, Skeleton::Part *a, Skeleton::Part *b, Skeleton::Part *result)
@@ -216,7 +94,7 @@ static void find_used_layers(Skeleton::Link *l, std::vector<int> &v)
 	if (l->part == NULL) {
 		return;
 	}
-	
+
 	int layer = l->part->get_layer();
 
 	if (std::find(v.begin(), v.end(), layer) == v.end()) {
@@ -292,6 +170,172 @@ void destroy_links(Link *l)
 	delete l;
 }
 
+void Skeleton::recurse(General::Point<float> offset, Link *l, ALLEGRO_TRANSFORM t, bool draw_it, bool flip_it, int layer, ALLEGRO_COLOR tint, bool reversed)
+{
+	if (l->part == NULL) {
+		return;
+	}
+
+	ALLEGRO_TRANSFORM bone_trans;
+
+	if (!draw_it) {
+		al_copy_transform(&l->new_trans, combine_transforms(&t, l->part->get_transforms()));
+
+		al_copy_transform(&l->final_trans, &l->new_trans);
+		if (flip_it) {
+			al_scale_transform(&l->final_trans, -1, 1);
+		}
+		if (l->part->get_layer() == layer) {
+			al_copy_transform(&bone_trans, &l->final_trans);
+		}
+		al_translate_transform(&l->final_trans, offset.x, offset.y);
+	}
+
+	if (l->part->get_layer() == layer) {
+		if (draw_it) {
+			ATLAS_ITEM *item = atlas_get_item_by_index(atlas, l->part->bitmaps[l->part->curr_bitmap]);
+			float tu = atlas_get_item_x(item);
+			float tv = atlas_get_item_y(item);
+			Wrap::Bitmap *bitmap = atlas_get_item_sub_bitmap(item);
+			int w = al_get_bitmap_width(bitmap->bitmap);
+			int h = al_get_bitmap_height(bitmap->bitmap);
+
+			maybe_expand_vertex_cache(6);
+
+			ALLEGRO_VERTEX *v = &vertex_cache[vcount];
+
+			float x1 = 0;
+			float y1 = 0;
+			float x2 = w;
+			float y2 = h;
+
+			v[0].x = x1;
+			v[0].y = y1;
+			v[0].z = 0;
+			v[0].u = tu;
+			v[0].v = tv;
+			v[0].color = tint;
+			v[1].x = x2;
+			v[1].y = y1;
+			v[1].z = 0;
+			v[1].u = tu + w;
+			v[1].v = tv;
+			v[1].color = tint;
+			v[2].x = x2;
+			v[2].y = y2;
+			v[2].z = 0;
+			v[2].u = tu + w;
+			v[2].v = tv + h;
+			v[2].color = tint;
+			v[5].x = x1;
+			v[5].y = y2;
+			v[5].z = 0;
+			v[5].u = tu;
+			v[5].v = tv + h;
+			v[5].color = tint;
+
+			ALLEGRO_TRANSFORM t;
+			al_copy_transform(&t, &l->final_trans);
+			al_compose_transform(&t, al_get_current_transform());
+
+			al_transform_coordinates(&t, &v[0].x, &v[0].y);
+			al_transform_coordinates(&t, &v[1].x, &v[1].y);
+			al_transform_coordinates(&t, &v[2].x, &v[2].y);
+			al_transform_coordinates(&t, &v[5].x, &v[5].y);
+
+			v[3] = v[0];
+			v[4] = v[2];
+
+			vcount += 6;
+
+			// KEEPME draw bones
+			/*
+			Battle_Loop *bl = GET_BATTLE_LOOP;
+			if (bl) {
+				General::Point<float> top = bl->get_top();
+				std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
+				std::vector<Bones::Bone> &b = transformed_bones[l->part->get_curr_bitmap()];
+				for (size_t i = 0; i < b.size(); i++) {
+					Bones::Bone &bone = b[i];
+					std::vector<Triangulate::Triangle> tris;
+					tris = bone.get();
+					for (size_t j = 0; j < tris.size(); j++) {
+						Triangulate::Triangle &t = tris[j];
+						ALLEGRO_COLOR color;
+						if (bone.type == Bones::BONE_ATTACK) {
+							color = al_map_rgb(0x00, 0x80, 0x00);
+						}
+						else {
+							color = al_map_rgb(0xff, 0xff, 0xff);
+						}
+						al_draw_triangle(
+							t.points[0].x+offset.x,
+							t.points[0].y+offset.y,
+							t.points[1].x+offset.x,
+							t.points[1].y+offset.y,
+							t.points[2].x+offset.x,
+							t.points[2].y+offset.y,
+							color,
+							1
+						);
+					}
+				}
+			}
+			*/
+		}
+		else {
+			std::vector< std::vector<Bones::Bone> > &bones = l->part->get_bones();
+			std::vector< std::vector<Bones::Bone> > &transformed_bones = l->part->get_transformed_bones();
+
+			for (size_t i = 0; i < bones.size(); i++) {
+				std::vector<Bones::Bone> &src = bones[i];
+				std::vector<Bones::Bone> &dst = transformed_bones[i];
+
+				for (size_t j = 0; j < src.size(); j++) {
+					Bones::Bone &b = src[j];
+					Bones::Bone &b2 = dst[j];
+					std::vector< General::Point<float> > &outline = b.get_outline();
+					std::vector< General::Point<float> > &new_outline = b2.get_outline();
+
+					ALLEGRO_BITMAP *bmp = l->part->get_bitmap(j)->bitmap;
+
+					int bmp_w = al_get_bitmap_width(bmp);
+					int bmp_h = al_get_bitmap_height(bmp);
+
+					for (size_t k = 0; k < outline.size(); k++) {
+						General::Point<float> &p = outline[k];
+						General::Point<float> &p2 = new_outline[k];
+						p2.x = p.x;
+						p2.y = p.y;
+						p2.x += bmp_w/2;
+						p2.y += bmp_h;
+						al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
+					}
+
+					std::vector<Triangulate::Triangle> &triangles = b.get();
+					std::vector<Triangulate::Triangle> &new_triangles = b2.get();
+
+					for (size_t k = 0; k < triangles.size(); k++) {
+						for (int l = 0; l < 3; l++) {
+							General::Point<float> &p = triangles[k].points[l];
+							General::Point<float> &p2 = new_triangles[k].points[l];
+							p2.x = p.x;
+							p2.y = p.y;
+							p2.x += bmp_w/2;
+							p2.y += bmp_h;
+							al_transform_coordinates(&bone_trans, &p2.x, &p2.y);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < l->num_children; i++) {
+		recurse(offset, l->children[i], l->new_trans, draw_it, flip_it, layer, tint, reversed);
+	}
+}
+
 void Skeleton::do_recurse(General::Point<float> offset, bool is_draw, bool flip, ALLEGRO_COLOR tint)
 {
 	if (animations.size() <= 0 || animations[curr_anim]->frames.size() <= 0) {
@@ -322,7 +366,14 @@ void Skeleton::do_recurse(General::Point<float> offset, bool is_draw, bool flip,
 
 void Skeleton::draw(General::Point<float> offset, bool flip, ALLEGRO_COLOR tint)
 {
+	vcount = 0;
 	do_recurse(offset, true, flip, tint);
+	ALLEGRO_TRANSFORM t, backup;
+	al_copy_transform(&backup, al_get_current_transform());
+	al_identity_transform(&t);
+	al_use_transform(&t);
+	al_draw_prim(vertex_cache, 0, atlas_get_sheet(atlas, 0)->bitmap, 0, vcount, ALLEGRO_PRIM_TRIANGLE_LIST);
+	al_use_transform(&backup);
 }
 
 void Skeleton::transform(General::Point<float> offset, bool flip)
@@ -370,6 +421,9 @@ Skeleton::Skeleton()
 	curr_anim = 0;
 	reversed = false;
 	transform_count = 0;
+	atlas = 0;
+	vertex_cache = 0;
+	vertex_cache_size = 0;
 }
 
 Skeleton::Skeleton(const std::string &filename)
@@ -379,6 +433,10 @@ Skeleton::Skeleton(const std::string &filename)
 	transform_count = 0;
 
 	this->filename = "skeletons/xml/" + filename;
+
+	atlas = 0;
+	vertex_cache = 0;
+	vertex_cache_size = 0;
 }
 
 Skeleton::~Skeleton()
@@ -390,9 +448,19 @@ Skeleton::~Skeleton()
 		}
 		destroy_links(anim->work);
 	}
+
+	if (atlas) {
+		atlas_destroy(atlas);
+	}
+
+	for (size_t i = 0; i < bitmaps.size(); i++) {
+		resource_manager->release_bitmap(bitmaps[i]->filename);
+	}
+
+	free(vertex_cache);
 }
 
-void read_xml(XMLData *xmlpart, Link *link)
+void read_xml(XMLData *xmlpart, Link *link, Skeleton *skeleton)
 {
 	std::string partname = xmlpart->find("name")->get_value();
 
@@ -404,12 +472,11 @@ void read_xml(XMLData *xmlpart, Link *link)
 	else {
 		layer = 0;
 	}
-	
+
 	XMLData *xmlbmp = xmlpart->find("bitmaps");
 	std::string xmlbmpvalue = xmlbmp->get_value();
 
-	std::vector<Wrap::Bitmap *> bitmaps;
-	std::vector<std::string> bitmap_names;
+	std::vector<int> bitmaps;
 	std::vector< std::vector<Bones::Bone> > bones;
 	std::vector<Bones::Bone> bone;
 
@@ -421,9 +488,22 @@ void read_xml(XMLData *xmlpart, Link *link)
 		current = next + 1;
 		next = xmlbmpvalue.find_first_of(",", current);
 		std::string name = xmlbmpvalue.substr(current, next - current);
-		Wrap::Bitmap *bitmap = resource_manager->reference_bitmap("skeletons/parts/" + name);
-		bitmaps.push_back(bitmap);
-		bitmap_names.push_back(name);
+		size_t index;
+		for (index = 0; index < skeleton->bitmap_names.size(); index++) {
+			if (skeleton->bitmap_names[index] == name) {
+				break;
+			}
+		}
+		Wrap::Bitmap *bitmap;
+		if (index == skeleton->bitmap_names.size()) {
+			bitmap = resource_manager->reference_bitmap("skeletons/parts/" + name);
+			skeleton->bitmaps.push_back(bitmap);
+			skeleton->bitmap_names.push_back(name);
+		}
+		else {
+			bitmap = skeleton->bitmaps[index];
+		}
+		bitmaps.push_back(index);
 		std::string bones_filename = "skeletons/parts/bones/" + name;
 		bones_filename = bones_filename.replace(bones_filename.length()-3, 3, "xml");
 		bone.clear();
@@ -475,11 +555,9 @@ void read_xml(XMLData *xmlpart, Link *link)
 		}
 	}
 
-	Part *part = new Part(partname, transforms, bitmaps);
+	Part *part = new Part(partname, transforms, bitmaps, skeleton->atlas);
 
 	part->set_layer(layer);
-
-	part->get_bitmap_names() = bitmap_names;
 
 	for (size_t i = 0; i < bones.size(); i++) {
 		part->add_bone(bones[i]);
@@ -503,7 +581,7 @@ void read_xml(XMLData *xmlpart, Link *link)
 		for (; it != childnodes.end(); it++) {
 			XMLData *child = *it;
 			link->children[i] = new Link;
-			read_xml(child, link->children[i++]);
+			read_xml(child, link->children[i++], skeleton);
 		}
 	}
 }
@@ -533,6 +611,8 @@ bool Skeleton::load()
 		al_set_new_file_interface(fs);
 		return false;
 	}
+
+	atlas = atlas_create(512, 512, 0, 1, false);
 
 	std::list<XMLData *> &xmlanims = xml->get_nodes();
 	std::list<XMLData *>::iterator it = xmlanims.begin();
@@ -565,27 +645,54 @@ bool Skeleton::load()
 			}
 			else if (tagname == "part") {
 				Link *link = new Link;
-				read_xml(node2, link);
+				read_xml(node2, link, this);
 				anim->frames.push_back(link);
 				if (anim->frames.size() == 1) {
 					anim->work = new_link();
 					animations.push_back(anim);
+					read_xml(node2, anim->work, this);
 				}
-				read_xml(node2, anim->work);
 			}
 		}
 	}
 
 	al_set_new_file_interface(fs);
 
-	for (size_t i = 0; i < animations.size(); i++) {	
-		Animation *anim = animations[curr_anim];
+	for (size_t i = 0; i < bitmaps.size(); i++) {
+		atlas_add(atlas, bitmaps[i], i);
+	}
+	atlas_finish(atlas);
+
+	for (size_t i = 0; i < animations.size(); i++) {
+		Animation *anim = animations[i];
 		anim->curr_frame = 0;
 		anim->curr_time = 0;
 		anim->loops = 0;
+
+		for (size_t j = 0; j < anim->frames.size(); j++) {
+			set_bitmaps(anim->frames[j]);
+		}
+
+		set_bitmaps(anim->work);
 	}
 
 	return true;
+}
+
+void Skeleton::set_bitmaps(Link *link)
+{
+	Part *part = link->part;
+
+	for (size_t i = 0; i < part->bitmaps.size(); i++) {
+		int index = atlas_get_index_from_id(atlas, part->bitmaps[i]);
+		part->bitmaps[i] = index;
+		ATLAS_ITEM *item = atlas_get_item_by_index(atlas, index);
+		part->wrap_bitmaps.push_back(atlas_get_item_sub_bitmap(item));
+	}
+
+	for (int i = 0; i < link->num_children; i++) {
+		set_bitmaps(link->children[i]);
+	}
 }
 
 void Skeleton::set_curr_anim(int index)
@@ -656,6 +763,20 @@ void Skeleton::interpolate_now()
 	);
 }
 
+void Skeleton::maybe_expand_vertex_cache(int needed)
+{
+	int sz = needed+vcount;
+	if (sz > vertex_cache_size) {
+		if (vertex_cache_size == 0) {
+			vertex_cache = (ALLEGRO_VERTEX *)malloc(sz * sizeof(ALLEGRO_VERTEX));
+		}
+		else {
+			vertex_cache = (ALLEGRO_VERTEX *)realloc(vertex_cache, sz * sizeof(ALLEGRO_VERTEX));
+		}
+		vertex_cache_size = sz;
+	}
+}
+
 /* Should only be called on 'work' */
 void Part::update()
 {
@@ -670,22 +791,20 @@ void Part::update()
 Part::Part(
 	std::string name,
 	std::vector<Transform *> transforms,
-	std::vector<Wrap::Bitmap *> bitmaps
+	std::vector<int> bitmaps,
+	ATLAS *atlas
 	) :
 	curr_bitmap(0),
 	name(name),
 	transforms(transforms),
 	bitmaps(bitmaps),
-	layer(0)
+	layer(0),
+	atlas(atlas)
 {
 }
 
 Part::~Part()
 {
-	for (size_t i = 0; i < bitmaps.size(); i++) {
-		resource_manager->release_bitmap(bitmaps[i]->filename);
-	}
-
 	for (size_t i = 0; i < transforms.size(); i++) {
 		delete transforms[i];
 	}
@@ -714,7 +833,7 @@ void Part::print(int tabs)
 		}
 	}
 }
-	
+
 std::vector<Transform *> &Part::get_transforms(void)
 {
 	return transforms;
@@ -723,7 +842,7 @@ std::vector<Transform *> &Part::get_transforms(void)
 Wrap::Bitmap *Part::get_bitmap(int index)
 {
 	if (index < 0) index = curr_bitmap;
-	return bitmaps[index];
+	return wrap_bitmaps[index];
 }
 
 const std::string &Part::get_name()
@@ -738,24 +857,12 @@ Part *Part::clone()
 		Transform *t = clone_transform(transforms[i]);
 		new_transforms.push_back(t);
 	}
-	std::vector<Wrap::Bitmap *> new_bitmaps;
-	for (size_t i = 0; i < bitmaps.size(); i++) {
-		// FIXME: LOAD HERE NOT CREATE
-		Wrap::Bitmap *b = Wrap::create_bitmap(al_get_bitmap_width(bitmaps[i]->bitmap), al_get_bitmap_height(bitmaps[i]->bitmap));
-		ALLEGRO_STATE state;
-		al_store_state(&state, ALLEGRO_STATE_BLENDER | ALLEGRO_STATE_TARGET_BITMAP);
-		al_set_target_bitmap(b->bitmap);
-		al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
-		al_draw_bitmap(bitmaps[i]->bitmap, 0, 0, 0);
-		al_restore_state(&state);
-		new_bitmaps.push_back(b);
-	}
-	Part *p = new Part(name, new_transforms, new_bitmaps);
+	Part *p = new Part(name, new_transforms, bitmaps, atlas);
 	p->set_layer(layer);
-	p->get_bitmap_names() = bitmap_names;
 	p->curr_bitmap = curr_bitmap;
 	p->bones = bones;
 	p->transformed_bones = transformed_bones;
+	p->wrap_bitmaps = wrap_bitmaps;
 	return p;
 }
 

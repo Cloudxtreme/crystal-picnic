@@ -612,20 +612,20 @@ void Runner_Loop::start1()
 			int second = 0;
 			tile.x = platx + left_bmp_width*j;
 			if (j == 0) {
-				tile.id = 0;
+				tile.index = atlas_get_index_from_id(atlas, 0);
 				second = 4;
 			}
 			else if (j == platlen+1) {
-				tile.id = 1;
+				tile.index = atlas_get_index_from_id(atlas, 1);
 				second = 6;
 			}
 			else {
-				tile.id = 7 + (General::rand() % num_middle_bmps);
+				tile.index = atlas_get_index_from_id(atlas, 7 + (General::rand() % num_middle_bmps));
 				second = 5;
 			}
 			tile.y = platy;
 			tiles[2].push_back(tile);
-			tile.id = second;
+			tile.index = atlas_get_index_from_id(atlas, second);
 			tile.y += left_bmp_height;
 			tiles[3].push_back(tile);
 			// add coins to birdless platforms
@@ -651,10 +651,10 @@ void Runner_Loop::start1()
 			// rocks, stumps, big trees (slide)
 			if (j > 0 && j < platlen && (General::rand() % 30) == 0 && next_obstacle < 0) {
 				if (General::rand() % 2 == 0 && j < platlen-6) {
-					tile.id = tree_slide_i;
+					tile.index = atlas_get_index_from_id(atlas, tree_slide_i);
 					tile.y = platy - tree_slide_h + 4;
 					tiles[PLAYER_LAYER-1].push_back(tile);
-					tile.id++;
+					tile.index++;
 					tiles[PLAYER_LAYER+1].push_back(tile);
 					slide_trees.push_back(
 						General::Point<int>(
@@ -666,10 +666,10 @@ void Runner_Loop::start1()
 				}
 				else {
 					if (General::rand() % 2) {
-						tile.id = 2;
+						tile.index = atlas_get_index_from_id(atlas, 2);
 					}
 					else {
-						tile.id = 3;
+						tile.index = atlas_get_index_from_id(atlas, 3);
 					}
 					tile.y = platy - left_bmp_height + 2;
 					tiles[4].push_back(tile);
@@ -689,12 +689,12 @@ void Runner_Loop::start1()
 		int line_y = platy + 3;
 		for (int j = 0; j < platlen+2; j++) {
 			if (tiles[4].size() > (unsigned)rock_idx && tiles[4][rock_idx].x == tiles[2][idx+j].x) {
-				if (tiles[4][rock_idx].id == 3) { // stump
+				if (tiles[4][rock_idx].index == 3) { // stump
 					line.push_back(General::Point<int>(tiles[4][rock_idx].x, line_y));
 					line.push_back(General::Point<int>(tiles[4][rock_idx].x, line_y-32));
 					line.push_back(General::Point<int>(tiles[4][rock_idx].x+left_bmp_width, line_y-32));
 				}
-				else if (tiles[4][rock_idx].id == 2) { // rock
+				else if (tiles[4][rock_idx].index == 2) { // rock
 					line.push_back(General::Point<int>(tiles[4][rock_idx].x, line_y));
 
 					line.push_back(General::Point<int>(tiles[4][rock_idx].x, line_y-32));
@@ -786,7 +786,7 @@ void Runner_Loop::start1()
 				// foreground tree
 				if (i < NUM_PLATFORMS-2) {
 					t.y = platy - tree_fg_h + 2;
-					t.id = General::rand() % 2 + tree_fg_i;
+					t.index = atlas_get_index_from_id(atlas, General::rand() % 2 + tree_fg_i);
 					tiles[5].push_back(t);
 				}
 			}
@@ -794,13 +794,13 @@ void Runner_Loop::start1()
 				// background mountain
 				if (General::rand() % 10 == 0) {
 					t.y = platy - mountain_bg_h + 2;
-					t.id = tree_bg_i+2;
+					t.index = atlas_get_index_from_id(atlas, tree_bg_i+2);
 					tiles[0].push_back(t);
 				}
 				// background tree
 				else {
 					t.y = platy - tree_bg_h + 2;
-					t.id = General::rand() % 2 + tree_bg_i;
+					t.index = atlas_get_index_from_id(atlas, General::rand() % 2 + tree_bg_i);
 					tiles[1].push_back(t);
 				}
 			}

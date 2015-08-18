@@ -122,6 +122,7 @@ void battle_transition_in(Wrap::Bitmap *start_bmp, Wrap::Bitmap *end_bmp)
 		al_hold_bitmap_drawing(false);
 
 		engine->draw_to_display(buf->bitmap);
+		
 		al_flip_display();
 
 		double now = al_get_time();

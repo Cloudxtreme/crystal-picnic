@@ -5,6 +5,7 @@
 
 #include <map>
 
+#include <atlas.h>
 #include <wrap.h>
 
 #include "general.h"
@@ -30,10 +31,11 @@ struct Transform {
 class Part
 {
 public:
+	friend class Skeleton;
+
 	const std::string &get_name();
-	Wrap::Bitmap *get_bitmap(int index = -1); // default: current bitmap
-	std::vector<Wrap::Bitmap *> &get_bitmaps() { return bitmaps; }
-	std::vector<std::string> &get_bitmap_names() { return bitmap_names; }
+ 	Wrap::Bitmap *get_bitmap(int index = -1); // default: current bitmap
+	std::vector<int> &get_bitmaps() { return bitmaps; }
 	int get_curr_bitmap() { return curr_bitmap; }
 	std::vector<Transform *> &get_transforms();
 	std::vector< std::vector<Bones::Bone> > &get_bones() { return bones; }
@@ -51,7 +53,7 @@ public:
 
 	void print(int tabs);
 
-	Part(std::string name, std::vector<Transform *> transforms, std::vector<Wrap::Bitmap *> bitmaps);
+	Part(std::string name, std::vector<Transform *> transforms, std::vector<int> bitmaps, ATLAS *atlas);
 
 	~Part();
 
@@ -63,8 +65,7 @@ private:
 	/* Transformation 0 should be pivot if there is one */
 	std::vector<Transform *> transforms;
 
-	std::vector<Wrap::Bitmap *> bitmaps;
-	std::vector<std::string> bitmap_names;
+	std::vector<int> bitmaps;
 
 	/* For collision detection */
 	std::vector< std::vector<Bones::Bone> > bones;
@@ -73,6 +74,9 @@ private:
 	int layer;
 
 	General::Point<float> pos;
+
+	ATLAS *atlas;
+	std::vector<Wrap::Bitmap *> wrap_bitmaps;
 };
 
 struct Link
@@ -104,6 +108,8 @@ void clone_link(Link *clone_to, Link *to_clone);
 class Skeleton
 {
 public:
+	friend void read_xml(XMLData *xmlpart, Link *link, Skeleton *skeleton);
+
 	bool load();
 
 	void set_curr_anim(int index);
@@ -121,14 +127,20 @@ public:
 
 	int get_loops();
 
+	void load_atlas();
+	void destroy_atlas();
+
 	Skeleton();
 	Skeleton(const std::string &filename);
 
 	~Skeleton();
 
 private:
+	void recurse(General::Point<float> offset, Link *l, ALLEGRO_TRANSFORM t, bool draw_it, bool flip_it, int layer, ALLEGRO_COLOR tint, bool reversed);
 	void do_recurse(General::Point<float> offset, bool is_draw, bool flip, ALLEGRO_COLOR tint);
 	void interpolate_now();
+	void set_bitmaps(Link *link);
+	void maybe_expand_vertex_cache(int needed);
 
 	int curr_anim;
 	std::vector<Animation *> animations;
@@ -140,6 +152,13 @@ private:
 	int transform_count;
 	General::Point<float> last_transform_offset;
 	bool last_transform_flip;
+
+	std::vector<Wrap::Bitmap *> bitmaps;
+	std::vector<std::string> bitmap_names;
+	ATLAS *atlas;
+	ALLEGRO_VERTEX *vertex_cache;
+	int vertex_cache_size;
+	int vcount;
 };
 
 } // End namespace Skeleton
