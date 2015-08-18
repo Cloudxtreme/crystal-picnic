@@ -19,6 +19,7 @@ option(DEBUG "Build with debug symbols" off)
 option(PROFILE "Build for profiling" off)
 option(STABS "Use -gstabs" off)
 option(LUAJIT "Use LuaJIT" off)
+option(STANDARD_LINUX_BUILD "Use default libraries on Linux" on)
 
 # Option configuration
 
@@ -306,6 +307,25 @@ else(WIN32)
 				set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 				set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 			endif()
+			if(STANDARD_LINUX_BUILD)
+				set(LUA_LIBRARY lua5.2)
+				set(PNG_LIBRARY png)
+				set(FREETYPE_LIBRARY freetype)
+				set(ZLIB_LIBRARY z)
+				set(BASS_LIBRARY bass)
+				set(BASSMIDI_LIBRARY bassmidi)
+				set(POLY2TRI_LIBRARY poly2tri)
+				set(OTHER_LIBRARIES pthread)
+			else()
+				set(LUA_LIBRARY "/usr/local/lib/liblua5.2.a")
+				set(PNG_LIBRARY "/usr/local/lib/libpng.a")
+				set(FREETYPE_LIBRARY "/usr/local/lib/libfreetype.a")
+				set(ZLIB_LIBRARY "/usr/local/lib/libz.a")
+				set(BASS_LIBRARY "/home/trent/code/crystal-picnic/build/libbass.so")
+				set(BASSMIDI_LIBRARY "/home/trent/code/crystal-picnic/build/libbassmidi.so")
+				set(POLY2TRI_LIBRARY "/usr/local/lib/libpoly2tri.a")
+				set(OTHER_LIBRARIES "")
+			endif()
 			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,\$ORIGIN/stuff")
 			set(MAIN_LIBS
 				crystalpicnic-engine
@@ -316,13 +336,14 @@ else(WIN32)
 				allegro_monolith${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
 				Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
-				/usr/local/lib/liblua5.2.a
-				/usr/local/lib/libpng.a
-				/usr/local/lib/libfreetype.a
-				/usr/local/lib/libz.a
-				/home/trent/code/crystal-picnic/build/libbass.so
-				/home/trent/code/crystal-picnic/build/libbassmidi.so
-				/usr/local/lib/libpoly2tri.a
+				${LUA_LIBRARY}
+				${PNG_LIBRARY}
+				${FREETYPE_LIBRARY}
+				${ZLIB_LIBRARY}
+				${BASS_LIBRARY}
+				${BASSMIDI_LIBRARY}
+				${POLY2TRI_LIBRARY}
+				${OTHER_LIBRARIES}
 			)
 		endif()
 	endif(APPLE)
