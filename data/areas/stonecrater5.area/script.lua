@@ -179,7 +179,6 @@ function show_all_rocks()
 	for y=1,7 do
 		for x=21,26 do
 			set_tile(1, x, y, rocks[count][1], rocks[count][2], rocks[count][3])
-			print(count, rocks[count][1], rocks[count][2], rocks[count][3])
 			count = count + 1
 		end
 	end
