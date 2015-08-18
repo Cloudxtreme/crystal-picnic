@@ -1,3 +1,4 @@
+#define ALLEGRO_STATICLINK
 #include <cstdio>
 #include <map>
 
@@ -14,6 +15,7 @@
 #include "skeleton.h"
 #include "config.h"
 #include "collision_detection.h"
+#include "crystalpicnic.h"
 #include "resource_manager.h"
 
 #include "skeled.hpp"
