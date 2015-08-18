@@ -40,28 +40,18 @@ else(APPLE)
 				allegro_memfile${ALLEG_SUFFIX}
 				allegro${ALLEG_SUFFIX}
 				${ALLEGRO_MAIN_LIB}
-				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xpm bcm_host GLESv2 EGL
+				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr bcm_host GLESv2 EGL
 				/usr/lib/arm-linux-gnueabihf/libpng.a
 				/usr/lib/arm-linux-gnueabihf/libfreetype.a
 				/usr/lib/arm-linux-gnueabihf/libz.a
 			)
 		else(RASPBERRYPI)
 			set(ALLEGRO_LIBS
-				allegro_ttf${ALLEG_SUFFIX}
-				allegro_font${ALLEG_SUFFIX}
-				allegro_primitives${ALLEG_SUFFIX}
-				allegro_image${ALLEG_SUFFIX}
-				allegro_color${ALLEG_SUFFIX}
-				allegro_memfile${ALLEG_SUFFIX}
-				allegro${ALLEG_SUFFIX}
-				${ALLEGRO_MAIN_LIB}
-				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xpm GL GLU
-#				/usr/lib/x86_64-linux-gnu/libpng.a
-#				/usr/lib/x86_64-linux-gnu/libfreetype.a
-#				/usr/lib/x86_64-linux-gnu/libz.a
-				/usr/lib/libpng.a
-				/usr/lib/libfreetype.a
-				/usr/lib/libz.a
+				allegro_monolith-static
+				m pthread SM ICE X11 Xext Xcursor Xinerama Xrandr Xi GL GLU
+				png
+				freetype
+				z
 			)
 		endif()
 	endif(WIN32)
@@ -89,9 +79,9 @@ if(NOT RASPBERRYPI)
 endif()
 
 if(APPLE)
-add_tool(boneed "${ALLEGRO_LIBS};allegro_ttf${ALLEG_SUFFIX};allegro_font${ALLEG_SUFFIX};z" boneed.cpp)
+add_tool(boneed "${ALLEGRO_LIBS}" boneed.cpp)
 else(APPLE)
-add_tool(boneed "allegro_ttf${ALLEG_SUFFIX};allegro_font${ALLEG_SUFFIX};${ALLEGRO_LIBS}" boneed.cpp)
+add_tool(boneed "${ALLEGRO_LIBS}" boneed.cpp)
 endif(APPLE)
 
 #add_tool(weaponed "${MAIN_LIBS}" weaponed.cpp)
