@@ -26,6 +26,7 @@ int atlas_get_destroy_bmps(ATLAS *atlas);
 int atlas_get_num_items(ATLAS *atlas);
 ATLAS_ITEM *atlas_get_item_by_id(ATLAS *atlas, int id);
 ATLAS_ITEM *atlas_get_item_by_index(ATLAS *atlas, int index);
+int atlas_get_index_from_id(ATLAS *atlas, int id);
 int atlas_get_num_sheets(ATLAS *atlas);
 Wrap::Bitmap *atlas_get_sheet(ATLAS *atlas, int index);
   /* ATLAS_ITEM */

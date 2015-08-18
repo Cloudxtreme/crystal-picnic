@@ -38,6 +38,17 @@ ATLAS_ITEM *atlas_get_item_by_index(ATLAS *atlas, int index)
 	return atlas->items[index];
 }
 
+int atlas_get_index_from_id(ATLAS *atlas, int id)
+{
+	for (int i = 0; i < atlas->num_items; i++) {
+		if (atlas->items[i]->id == id) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 int atlas_get_num_sheets(ATLAS *atlas)
 {
 	return atlas->num_sheets;
