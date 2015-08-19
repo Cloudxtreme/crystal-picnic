@@ -28,7 +28,7 @@ endif()
 
 # Option configuration
 
-set(ALLEG_SUFFIX "-static" CACHE STRING "Allegro library suffix")
+set(ALLEGRO_SUFFIX "-static" CACHE STRING "Allegro library suffix")
 
 if(WELL512)
 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DWELL512=1")
@@ -179,7 +179,7 @@ else()
 endif()
 
 if(APPLE)
-	set(ALLEGRO_MAIN_LIB "allegro_main${ALLEG_SUFFIX}")
+	set(ALLEGRO_MAIN_LIB "allegro_main${ALLEGRO_SUFFIX}")
 	FIND_LIBRARY(OPENGL_LIBRARY OpenGL)
 	FIND_LIBRARY(FOUNDATION_LIBRARY Foundation)
 	FIND_LIBRARY(APPSERVICES_LIBRARY ApplicationServices)
@@ -192,7 +192,7 @@ if(APPLE)
 		wrap
 		my_load_bitmap
 		atlas
-		allegro_monolith${ALLEG_SUFFIX}
+		allegro_monolith${ALLEGRO_SUFFIX}
 		/Users/trent/code/local/lib/liblua5.2.a
 		${EXTRA_LIBS}
 	)
@@ -262,7 +262,7 @@ else()
 			my_load_bitmap
 			atlas
 			tgui2
-			allegro_monolith${ALLEG_SUFFIX}
+			allegro_monolith${ALLEGRO_SUFFIX}
 			${ALLEGRO_MAIN_LIB}
 			/home/trent/code/crystal-picnic/build/libbassmidi.so
 			/home/trent/code/crystal-picnic/build/libbass.so
@@ -289,9 +289,16 @@ else()
 		endif()
 
 		if(ALLEGRO_MONOLITH)
-			set(ALLEGRO_LIBRARIES allegro_monolith${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB})
+			set(ALLEGRO_LIBRARIES allegro_monolith${ALLEGRO_SUFFIX} ${ALLEGRO_MAIN_LIB})
 		else()
-			set(ALLEGRO_LIBRARIES allegro allegro_font allegro_image allegro_memfile allegro_primitives allegro_ttf)
+			set(ALLEGRO_LIBRARIES
+				allegro${ALLEGRO_SUFFIX}
+				allegro_font${ALLEGRO_SUFFIX}
+				allegro_image${ALLEGRO_SUFFIX}
+				allegro_memfile${ALLEGRO_SUFFIX}
+				allegro_primitives${ALLEGRO_SUFFIX}
+				allegro_ttf${ALLEGRO_SUFFIX}
+			)
 		endif()
 
 		if(STANDARD_LINUX_BUILD)
