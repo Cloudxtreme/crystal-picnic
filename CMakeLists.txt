@@ -18,6 +18,7 @@ option(RASPBERRYPI "Build for Raspberry Pi" off)
 option(DEBUG "Build with debug symbols" off)
 option(PROFILE "Build for profiling" off)
 option(STABS "Use -gstabs debug symbols" off)
+option(ALLEGRO_MONOLITH "Use the monolith allegro library" on)
 option(STANDARD_LINUX_BUILD "Use default libraries on Linux" on)
 if(WIN32)
 	option(GNU "Use GNU tools on Windows" off)
@@ -287,6 +288,12 @@ else()
 			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 		endif()
 
+		if(ALLEGRO_MONOLITH)
+			set(ALLEGRO_LIBRARIES allegro_monolith${ALLEG_SUFFIX} ${ALLEGRO_MAIN_LIB})
+		else()
+			set(ALLEGRO_LIBRARIES allegro allegro_font allegro_image allegro_memfile allegro_primitives allegro_ttf)
+		endif()
+
 		if(STANDARD_LINUX_BUILD)
 			set(LUA_LIBRARY lua5.2)
 			set(PNG_LIBRARY png)
@@ -315,8 +322,7 @@ else()
 			wrap
 			tgui2
 			my_load_bitmap
-			allegro_monolith${ALLEG_SUFFIX}
-			${ALLEGRO_MAIN_LIB}
+			${ALLEGRO_LIBRARIES}
 			Xcursor Xi Xinerama Xrandr GLU GL SM ICE X11 Xext
 			${LUA_LIBRARY}
 			${PNG_LIBRARY}
