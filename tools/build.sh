@@ -49,5 +49,6 @@ git pull --rebase
 mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release \
          -DUSER_INCLUDE_PATH="${WRAP_DIR}/src;${ATLAS_DIR}/src;${TGUI2_DIR};${BASS_DIR}" \
-         -DUSER_LIBRARY_PATH="${WRAP_DIR}/build;${ATLAS_DIR}/build;${TGUI2_DIR}/build;${BASS_LIBDIR}"
+         -DUSER_LIBRARY_PATH="${WRAP_DIR}/build;${ATLAS_DIR}/build;${TGUI2_DIR}/build;${BASS_LIBDIR}" \
+         $@
 make -j${NODES}
