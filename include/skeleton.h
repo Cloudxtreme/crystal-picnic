@@ -100,7 +100,7 @@ struct Animation
 };
 
 void destroy_links(Link *l);
-void interpolate(float ratio, Skeleton::Link *a, Skeleton::Link *b, Skeleton::Link *result);
+void interpolate(float ratio, Link *a, Link *b, Link *result);
 Transform *clone_transform(Transform *t);
 Link *new_link();
 void clone_link(Link *clone_to, Link *to_clone);
