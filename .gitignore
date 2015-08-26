@@ -1,2 +1,5 @@
+data/music/retro.sf2
+data/fonts/heavy.ttf
+data/fonts/light.ttf
 installer.nsi
 installer-demo.nsi
