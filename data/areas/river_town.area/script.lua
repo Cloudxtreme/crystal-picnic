@@ -225,6 +225,7 @@ function logic()
 		set_whack_a_skunk_played(false)
 		if (score >= 60) then
 			if (not milestone_is_complete(MAIN_MINIGAME_MILESTONE)) then
+				achieve("whack");
 				speak(false, false, true, t("WON_DIRTYSOCK"), t("FLOYD"), flea_minigames, flea_minigames)
 				play_sample("sfx/item_found.ogg", 1, 0, 1)
 				give_items("DIRTYSOCK", 1)

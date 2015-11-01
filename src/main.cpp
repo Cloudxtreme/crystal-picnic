@@ -1,3 +1,7 @@
+#ifdef STEAMWORKS
+#include <steam/steam_api.h>
+#endif
+
 #include "crystalpicnic.h"
 #include "main.h"
 #include "area_loop.h"
@@ -8,9 +12,6 @@
 #include "runner_loop.h"
 #include "settings_loop.h"
 #include "difficulty_loop.h"
-
-// FIXME:
-#include "credits_loop.h"
 
 #ifdef ALLEGRO_WINDOWS
 #include "direct3d.h"
@@ -303,6 +304,10 @@ void Main::execute()
 			ALLEGRO_EVENT_QUEUE *event_queue = engine->get_event_queue();
 
 			while (true) {
+#ifdef STEAMWORKS
+				SteamAPI_RunCallbacks();
+#endif
+
 				engine->set_touch_input_type(TOUCHINPUT_GUI);
 
 				if (!Music::is_playing() && !engine->is_switched_out()) {
@@ -347,6 +352,10 @@ void Main::execute()
 #endif
 #if !defined ALLEGRO_ANDROID
 					else if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+						done = true;
+						break;
+					}
+					else if (event.type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN && event.joystick.button == cfg.joy_ability[2]) {
 						done = true;
 						break;
 					}

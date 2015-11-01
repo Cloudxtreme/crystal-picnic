@@ -21,6 +21,11 @@
 #include "android.h"
 #endif
 
+#ifdef STEAMWORKS
+#include <steam/steam_api.h>
+#include "steamworks.h"
+#endif
+
 #include <allegro5/allegro_opengl.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
@@ -69,6 +74,10 @@ static void do_modal(
 	al_start_timer(logic_timer);
 
 	while (1) {
+#ifdef STEAMWORKS
+		SteamAPI_RunCallbacks();
+#endif
+
 		ALLEGRO_EVENT event;
 
 		while (!al_event_queue_is_empty(queue)) {
@@ -1039,6 +1048,10 @@ void Engine::do_event_loop()
 	engine->start_timers();
 
 	while (!done) {
+#ifdef STEAMWORKS
+		SteamAPI_RunCallbacks();
+#endif
+
 		top();
 
 		bool do_acknowledge_resize = false;
@@ -1276,6 +1289,10 @@ void Engine::do_blocking_mini_loop(std::vector<Loop *> loops, const char *cb)
 	int draw_count = 0;
 
 	while (!done) {
+#ifdef STEAMWORKS
+		SteamAPI_RunCallbacks();
+#endif
+
 		top();
 
 		bool do_acknowledge_resize = false;
@@ -1659,6 +1676,52 @@ void Engine::set_milestone_complete(std::string name, bool complete)
 			milestones[name] = complete;
 		}
 	}
+
+#ifdef STEAMWORKS
+	if (
+		milestone_is_complete("antcolony_chest1") &&
+		milestone_is_complete("antcolony_chest2") &&
+		milestone_is_complete("ants_chest1") &&
+		milestone_is_complete("ants_chest2") &&
+		milestone_is_complete("ants_chest3") &&
+		milestone_is_complete("ants_chest4") &&
+		milestone_is_complete("ants_chest5") &&
+		milestone_is_complete("castle_banquet_hockeymask") &&
+		milestone_is_complete("castle_crystal_cash") &&
+		milestone_is_complete("castle_hall_sock") &&
+		milestone_is_complete("castle_tower3_chest1") &&
+		milestone_is_complete("castle_tower3_chest2") &&
+		milestone_is_complete("caverns2_chest1") &&
+		milestone_is_complete("caverns2_chest2") &&
+		milestone_is_complete("caverns2_chest3") &&
+		milestone_is_complete("caverns3_chest2") &&
+		milestone_is_complete("caverns3_chest3") &&
+		milestone_is_complete("caverns4_chest1") &&
+		milestone_is_complete("caverns4_chest2") &&
+		milestone_is_complete("caverns4_chest4") &&
+		milestone_is_complete("caverns7_chest1") &&
+		milestone_is_complete("of_chest1") &&
+		milestone_is_complete("of_chest2") &&
+		milestone_is_complete("of_chest3") &&
+		milestone_is_complete("of_chest4") &&
+		milestone_is_complete("of_chest5") &&
+		milestone_is_complete("of2_chest1") &&
+		milestone_is_complete("pyou2_chest1") &&
+		milestone_is_complete("pyou2_chest2") &&
+		milestone_is_complete("pyou2_chest3") &&
+		milestone_is_complete("stonecrater1_chest1") &&
+		milestone_is_complete("stonecrater2_chest1") &&
+		milestone_is_complete("stonecrater2_chest2") &&
+		milestone_is_complete("stonecrater2_chest3") &&
+		milestone_is_complete("stonecrater2.5_chest1") &&
+		milestone_is_complete("stonecrater2.5_chest2") &&
+		milestone_is_complete("stonecrater2.5_chest3") &&
+		milestone_is_complete("stonecrater2.5_chest4") &&
+		milestone_is_complete("stonecrater4_chest1")
+	) {
+		achieve("chests");
+	}
+#endif
 }
 
 void Engine::process_touch_input(ALLEGRO_EVENT *event)

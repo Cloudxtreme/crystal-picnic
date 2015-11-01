@@ -98,8 +98,8 @@ void Configuration::reset(void)
 
 	save_screen_w = screen_w;
 	save_screen_h = screen_h;
-	fullscreen = false;
 
+	fullscreen = false;
 	force_opengl = false;
 #if defined ALLEGRO_RASPBERRYPI
 	low_graphics = true;
@@ -163,6 +163,17 @@ bool Configuration::load(void)
 	ALLEGRO_CONFIG *acfg = al_load_config_file(cfg_path().c_str());
 	if (!acfg) {
 		LOG("Could not read configuration file.\n");
+#ifdef STEAMWORKS
+		// Override default screen resolution to desktop resolution for Steam builds, and default to fullscreen
+		ALLEGRO_MONITOR_INFO mi;
+		al_get_monitor_info(0, &mi);
+		fullscreen = true;
+		screen_w = mi.x2 - mi.x1;
+		screen_h = mi.y2 - mi.y1;
+		loaded_w = screen_w;
+		loaded_h = screen_h;
+		loaded_fullscreen = fullscreen;
+#endif
 		return false;
 	}
 

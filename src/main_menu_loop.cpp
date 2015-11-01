@@ -7,6 +7,10 @@
 #include "saveload_loop.h"
 #include "resource_manager.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 const float TOTAL_TRANSITION_TIME = 0.4f;
 
 const float DROPPED_TEXT_SPEED = 5.0f;
@@ -2179,6 +2183,15 @@ void Main_Menu_Equip_Loop::draw()
 		(float)attack / 7,
 		(float)defense / 4
 	};
+
+#ifdef STEAMWORKS
+	if (attack >= 7) {
+		achieve("attack");
+	}
+	if (defense >= 4) {
+		achieve("defense");
+	}
+#endif
 
 	ALLEGRO_COLOR colors[4] = {
 		al_map_rgb(0x00, 0xff, 0x00),

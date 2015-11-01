@@ -6,6 +6,10 @@
 #include "speech_types.h"
 #include "game_specific_globals.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 bool Crystal_Loop::init()
 {
 	if (inited) {
@@ -128,6 +132,9 @@ bool Crystal_Loop::logic()
 							Game_Specific_Globals::crystals--;
 							players[current_player]->get_battle_attributes().abilities.abilities[x]++;
 							copy_abilities();
+#ifdef STEAMWORKS
+							achieve("crystal");
+#endif
 						}
 					}
 					done = true;
@@ -150,6 +157,9 @@ bool Crystal_Loop::logic()
 							players[current_player]->get_battle_attributes().abilities.hp++;
 							players[current_player]->get_battle_attributes().max_hp += 10 * cfg.difficulty_mult();
 							copy_abilities();
+#ifdef STEAMWORKS
+							achieve("crystal");
+#endif
 						}
 					}
 				}
@@ -166,12 +176,34 @@ bool Crystal_Loop::logic()
 							players[current_player]->get_battle_attributes().abilities.mp++;
 							players[current_player]->get_battle_attributes().max_mp += 5;
 							copy_abilities();
+#ifdef STEAMWORKS
+							achieve("crystal");
+#endif
 						}
 					}
 				}
 			}
 		}
 	}
+
+#ifdef STEAMWORKS
+	bool all_full = true;
+	for (int i = 0; i < 3; i++) {
+		if (
+			players[i]->get_battle_attributes().abilities.abilities[0] != 1 ||
+			players[i]->get_battle_attributes().abilities.abilities[1] != 1 ||
+			players[i]->get_battle_attributes().abilities.abilities[2] != 1 ||
+			players[i]->get_battle_attributes().abilities.hp != 1 ||
+			players[i]->get_battle_attributes().abilities.mp != 1
+		) {
+			all_full = false;
+			break;
+		}
+	}
+	if (all_full) {
+		achieve("crystals");
+	}
+#endif
 
 	return false;
 }

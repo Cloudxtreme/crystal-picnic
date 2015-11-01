@@ -3,6 +3,10 @@
 #include "credits_loop.h"
 #include "engine.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 bool Credits_Loop::init()
 {
 	engine->clear_touches();
@@ -98,6 +102,9 @@ bool Credits_Loop::logic()
 
 	if (offset >= total_offset) {
 		engine->unblock_mini_loop();
+#ifdef STEAMWORKS
+		achieve("credits");
+#endif
 		return true;
 	}
 

@@ -1,3 +1,4 @@
+#define ALLEGRO_STATICLINK
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <wrap.h>
@@ -12,12 +13,16 @@ ALLEGRO_BITMAP *my_load_bitmap(std::string filename)
 	f = al_fopen(filename.c_str(), "rb");
 
 	if (!f) {
+	printf("FUCK\n");
 		return NULL;
 	}
 
 	ALLEGRO_BITMAP *bmp = al_load_bitmap_f(f, ".png");
 
 	al_fclose(f);
+	if (bmp == 0) {
+	printf("FUCK!!\n");
+	}
 
 	return bmp;
 }
@@ -34,41 +39,17 @@ int main(int argc, char **argv)
 
 	al_init();
 	al_init_image_addon();
-	al_install_keyboard();
 
-	ALLEGRO_DISPLAY *display = al_create_display(512, 512);
-	ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
-	al_register_event_source(queue, al_get_keyboard_event_source());
-
-	ATLAS *atlas = atlas_create(512, 512, 0, 1, true);
+	ATLAS *atlas = atlas_create(8192, 8192, 0, 0, true);
 
 	for (i = 1; i < argc; i++) {
+		printf("i=%d\n", i);
 		atlas_add(atlas, Wrap::load_bitmap(argv[i]), i-1);
 	}
 
 	atlas_finish(atlas);
 
-	bool done = false;
-	int sheet = 0;
-
-	while (!done) {
-		al_set_target_backbuffer(display);
-		al_clear_to_color(al_map_rgb(0, 0, 0));
-		al_draw_bitmap(atlas_get_sheet(atlas, sheet)->bitmap, 0, 0, 0);
-		al_flip_display();
-		ALLEGRO_EVENT event;
-		al_wait_for_event(queue, &event);
-		if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-			if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-				done = true;
-			else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
-				if (sheet > 0) sheet--;
-			}
-			else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-				 if (sheet < atlas_get_num_sheets(atlas)-1) sheet++;
-			}
-		}
-	}
+	al_save_bitmap("test.png", atlas_get_sheet(atlas, 0)->bitmap);
 
 	return 0;
 }

@@ -7,6 +7,10 @@
 #include "engine.h"
 #include "battle_pathfind.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 const int BEE_LAYER = 1;
 const int PLAYER_LAYER = 4;
 const int LAST_LAYER = 5;
@@ -170,6 +174,9 @@ bool Runner_Loop::logic(void)
 			loops.push_back(this);
 			engine->fade_out(loops);
 			engine->unblock_mini_loop();
+#ifdef STEAMWORKS
+			achieve("bonus");
+#endif
 			return true;
 		}
 	}

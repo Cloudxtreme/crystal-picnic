@@ -26,6 +26,10 @@
 #include "runner_loop.h"
 #include "credits_loop.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 enum Saveable_Type {
 	SAVE_PLAYER = 1,
 	SAVE_CHOPPABLE = 2,
@@ -5332,6 +5336,17 @@ static int c_log_message(lua_State *stack)
 	return 0;
 }
 
+static int c_achieve(lua_State *stack)
+{
+#ifdef STEAMWORKS
+	std::string name = lua_tostring(stack, 1);
+
+	achieve(name);
+#endif
+
+	return 0;
+}
+
 void register_c_functions(lua_State *lua_state)
 {
 	#define REGISTER_FUNCTION(name) \
@@ -5585,6 +5600,7 @@ void register_c_functions(lua_State *lua_state)
 	REGISTER_FUNCTION(is_item);
 	REGISTER_FUNCTION(get_ability_name);
 	REGISTER_FUNCTION(log_message);
+	REGISTER_FUNCTION(achieve);
 
 	// Graphics
 	REGISTER_FUNCTION(load_bitmap)

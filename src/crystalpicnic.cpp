@@ -1,9 +1,17 @@
 #include "crystalpicnic.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
+
 bool restart_game;
 
 int main(int argc, char **argv)
 {
+#ifdef STEAMWORKS
+	init_steamworks();
+#endif
+
 	General::argc = argc;
 	General::argv = argv;
 

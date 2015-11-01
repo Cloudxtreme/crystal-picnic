@@ -9,6 +9,9 @@
 #include "enemy_avatar_wander_character_role.h"
 #include "game_specific_globals.h"
 
+#ifdef STEAMWORKS
+#include "steamworks.h"
+#endif
 
 // FIXME:
 #include "runner_loop.h"
@@ -525,6 +528,15 @@ void Area_Loop::load_area_deferred(std::string name, General::Direction directio
 
 	swipe_out_time = 0.0;
 	swiping_out = true;
+
+#ifdef STEAMWORKS
+	if (name == "river_town_egbert") {
+		achieve("egberts");
+	}
+	else if (name == "river_town_frogbert") {
+		achieve("frogberts");
+	}
+#endif
 }
 
 void Area_Loop::change_areas(void)

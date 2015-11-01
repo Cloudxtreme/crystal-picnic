@@ -15,21 +15,13 @@ endif(NOT ("${USER_LIBRARY_PATH}" STREQUAL ""))
 
 include_directories("include")
 
-if(DEBUG)
-	SET(LIB_NAME "atlas-debug")
-	if(WIN32)
-		SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-	endif()
-else()
-	SET(LIB_NAME "atlas")
-	if(WIN32)
-		SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-	endif()
-endif()
-
 set(ATLAS_SRC src/atlas.cpp src/atlas_accessor.cpp)
 set(EX_ATLAS_SRC src/ex_atlas.cpp)
-add_library(${LIB_NAME} STATIC ${ATLAS_SRC})
+add_library(atlas STATIC ${ATLAS_SRC})
+
+if(WIN32)
+	set_target_properties(atlas PROPERTIES COMPILE_FLAGS "/MT")
+endif()
 
 if(WANT_EXAMPLE)
 	add_executable(ex_atlas ${EX_ATLAS_SRC})
@@ -50,6 +42,8 @@ if(WANT_EXAMPLE)
 	else(APPLE)
 		if(WIN32)
 			SET(EXTRA_LIBS "opengl32" "dxguid" "dinput8" "dsound" "d3d9" "kernel32" "user32" "gdi32" "comdlg32" "ole32" "winmm" "psapi" "gdiplus" "uuid" "shlwapi")
+			set_target_properties(ex_atlas PROPERTIES COMPILE_FLAGS "/MT")
+			set_target_properties(ex_atlas PROPERTIES LINK_FLAGS "/LINK setargv.obj")
 		else()
 			SET(EXTRA_LIBS "Xcursor" "Xi" "Xinerama" "Xrandr" "GLU" "GL" "SM" "ICE" "X11" "Xext" "png" "z")
 		endif()
@@ -61,9 +55,7 @@ if(WANT_EXAMPLE)
 		ex_atlas
 		atlas
 		wrap
-		allegro_image${ALLEG_SUFFIX}
-		allegro${ALLEG_SUFFIX}
-		allegro_main${ALLEG_SUFFIX}
+		allegro_monolith${ALLEG_SUFFIX}
 		${EXTRA_LIBS}
 	)
 endif()
