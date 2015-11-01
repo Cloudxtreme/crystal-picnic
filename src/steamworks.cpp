@@ -1,5 +1,8 @@
+#include <allegro5/allegro.h>
 #include <string>
+#ifdef ALLEGRO_WINDOWS
 #include <windows.h>
+#endif
 #include <steam/steam_api.h>
 
 #define _ACH_ID( id, name ) { id, #id, name, "", 0, 0 }
@@ -84,7 +87,7 @@ void CSteamAchievements::OnUserStatsReceived( UserStatsReceived_t *pCallback )
  {
    if ( k_EResultOK == pCallback->m_eResult )
    {
-     OutputDebugString("Received stats and achievements from Steam\n");
+     //OutputDebugString("Received stats and achievements from Steam\n");
      m_bInitialized = true;
 
      // load achievements
@@ -105,7 +108,7 @@ void CSteamAchievements::OnUserStatsReceived( UserStatsReceived_t *pCallback )
    {
      char buffer[128];
      _snprintf( buffer, 128, "RequestStats - failed, %d\n", pCallback->m_eResult );
-     OutputDebugString( buffer );
+     //OutputDebugString( buffer );
    }
  }
 }
@@ -117,13 +120,13 @@ void CSteamAchievements::OnUserStatsStored( UserStatsStored_t *pCallback )
  {
    if ( k_EResultOK == pCallback->m_eResult )
    {
-     OutputDebugString( "Stored stats for Steam\n" );
+     //OutputDebugString( "Stored stats for Steam\n" );
    }
    else
    {
      char buffer[128];
      _snprintf( buffer, 128, "StatsStored - failed, %d\n", pCallback->m_eResult );
-     OutputDebugString( buffer );
+     //OutputDebugString( buffer );
    }
  }
 }
@@ -133,7 +136,7 @@ void CSteamAchievements::OnAchievementStored( UserAchievementStored_t *pCallback
      // we may get callbacks for other games' stats arriving, ignore them
      if ( m_iAppID == pCallback->m_nGameID )	
      {
-          OutputDebugString( "Stored Achievement for Steam\n" );
+          //OutputDebugString( "Stored Achievement for Steam\n" );
      }
 }
 

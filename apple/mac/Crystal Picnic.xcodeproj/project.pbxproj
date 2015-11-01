@@ -16,6 +16,9 @@
 		9672075B19A59860008F7DB1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672069419A5973D008F7DB1 /* AppKit.framework */; };
 		9672075D19A59861008F7DB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672075C19A59861008F7DB1 /* AudioToolbox.framework */; };
 		9672076019A59875008F7DB1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9672075E19A59875008F7DB1 /* OpenGL.framework */; };
+		96C321EC1BE59487009EF276 /* steamworks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C321EB1BE59486009EF276 /* steamworks.cpp */; settings = {ASSET_TAGS = (); }; };
+		96C321EE1BE594D1009EF276 /* libsteam_api.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C321ED1BE594D1009EF276 /* libsteam_api.dylib */; };
+		96C321F01BE594F2009EF276 /* libsteam_api.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96C321EF1BE594F2009EF276 /* libsteam_api.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		96FECAEC1B692A850020320A /* abilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96FECAA21B692A840020320A /* abilities.cpp */; };
 		96FECAED1B692A850020320A /* animation_set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96FECAA31B692A840020320A /* animation_set.cpp */; };
 		96FECAEE1B692A850020320A /* animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96FECAA41B692A840020320A /* animation.cpp */; };
@@ -110,6 +113,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				96C321F01BE594F2009EF276 /* libsteam_api.dylib in CopyFiles */,
 				963D656E1B7624E90064509A /* libbass.dylib in CopyFiles */,
 				963D656F1B7624E90064509A /* libbassmidi.dylib in CopyFiles */,
 			);
@@ -141,6 +145,9 @@
 		9672075C19A59861008F7DB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9672075E19A59875008F7DB1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9672075F19A59875008F7DB1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		96C321EB1BE59486009EF276 /* steamworks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = steamworks.cpp; path = ../../src/steamworks.cpp; sourceTree = "<group>"; };
+		96C321ED1BE594D1009EF276 /* libsteam_api.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsteam_api.dylib; path = ../../../local/lib/libsteam_api.dylib; sourceTree = "<group>"; };
+		96C321EF1BE594F2009EF276 /* libsteam_api.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsteam_api.dylib; path = ../../../local/lib/libsteam_api.dylib; sourceTree = "<group>"; };
 		96D35D181B39A820000B18FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		96E8068919C55CD6008030E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		96FECAA21B692A840020320A /* abilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = abilities.cpp; path = ../../src/abilities.cpp; sourceTree = "<group>"; };
@@ -325,6 +332,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96C321EE1BE594D1009EF276 /* libsteam_api.dylib in Frameworks */,
 				963D656A1B7624C70064509A /* libbass.dylib in Frameworks */,
 				963D656B1B7624C70064509A /* libbassmidi.dylib in Frameworks */,
 				96FECB651B6933230020320A /* IOKit.framework in Frameworks */,
@@ -347,6 +355,7 @@
 		9672068519A5973C008F7DB1 = {
 			isa = PBXGroup;
 			children = (
+				96C321EF1BE594F2009EF276 /* libsteam_api.dylib */,
 				963D65701B7625010064509A /* data.cpa */,
 				963D656C1B7624E90064509A /* libbass.dylib */,
 				963D656D1B7624E90064509A /* libbassmidi.dylib */,
@@ -371,6 +380,7 @@
 		9672069019A5973D008F7DB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96C321ED1BE594D1009EF276 /* libsteam_api.dylib */,
 				963D65681B7624C70064509A /* libbass.dylib */,
 				963D65691B7624C70064509A /* libbassmidi.dylib */,
 				96FECB631B6932B60020320A /* libtgui2.a */,
@@ -423,6 +433,7 @@
 		96FECAA11B692A3A0020320A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				96C321EB1BE59486009EF276 /* steamworks.cpp */,
 				96FECAA21B692A840020320A /* abilities.cpp */,
 				96FECAA31B692A840020320A /* animation_set.cpp */,
 				96FECAA41B692A840020320A /* animation.cpp */,
@@ -639,7 +650,7 @@
 						DevelopmentTeam = ZCLK6CUZ99;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -728,6 +739,7 @@
 				96FECAFE1B692A850020320A /* camera.cpp in Sources */,
 				96FECB2F1B692A850020320A /* video_player.cpp in Sources */,
 				96FECB081B692A850020320A /* difficulty_loop.cpp in Sources */,
+				96C321EC1BE59487009EF276 /* steamworks.cpp in Sources */,
 				96FECB061B692A850020320A /* crystal_loop.cpp in Sources */,
 				96FECB111B692A850020320A /* game_specific_globals.cpp in Sources */,
 				96FECAFF1B692A850020320A /* character_map_entity.cpp in Sources */,
@@ -839,12 +851,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "STEAMWORKS=1";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -861,9 +872,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "ededd5fa-9639-418d-b1b1-81b98c137e79";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386";
+				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -875,11 +886,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_ENTITLEMENTS = "Crystal Picnic.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application: Nooskewl (ZCLK6CUZ99)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "STEAMWORKS=1";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -896,9 +907,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Crystal Picnic";
-				PROVISIONING_PROFILE = "ededd5fa-9639-418d-b1b1-81b98c137e79";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386";
+				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
