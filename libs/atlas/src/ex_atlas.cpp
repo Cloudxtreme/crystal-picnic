@@ -13,16 +13,12 @@ ALLEGRO_BITMAP *my_load_bitmap(std::string filename)
 	f = al_fopen(filename.c_str(), "rb");
 
 	if (!f) {
-	printf("FUCK\n");
 		return NULL;
 	}
 
 	ALLEGRO_BITMAP *bmp = al_load_bitmap_f(f, ".png");
 
 	al_fclose(f);
-	if (bmp == 0) {
-	printf("FUCK!!\n");
-	}
 
 	return bmp;
 }
@@ -40,10 +36,9 @@ int main(int argc, char **argv)
 	al_init();
 	al_init_image_addon();
 
-	ATLAS *atlas = atlas_create(8192, 8192, 0, 0, true);
+	ATLAS *atlas = atlas_create(1024, 1024, 0, 0, true);
 
 	for (i = 1; i < argc; i++) {
-		printf("i=%d\n", i);
 		atlas_add(atlas, Wrap::load_bitmap(argv[i]), i-1);
 	}
 
