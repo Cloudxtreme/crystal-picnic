@@ -1,0 +1,11 @@
+{
+	"title": "Crystal Picnic",
+	"icon-size": 80,
+	"background": "bg.png",
+	"contents": [
+		{ "x": 120, "y": 100, "type": "file", "path": "Crystal Picnic.app" },
+		{ "x": 280, "y": 100, "type": "link", "path": "/Applications" },
+		{ "x": 140, "y": 250, "type": "file", "path": "FamilyLicense.txt" },
+		{ "x": 260, "y": 250, "type": "file", "path": "ReadMe.txt" }
+	]
+}
