@@ -262,7 +262,7 @@ else()
 		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DDEMO=1")
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DDEMO=1")
 	endif()
-
+	
 	if(RASPBERRYPI)
 		set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas -march=armv6 -mfpu=vfp -mfloat-abi=hard")
@@ -301,6 +301,14 @@ else()
 		else()
 			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
 			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wno-unknown-pragmas -Wno-comment")
+		endif()
+
+		if(STEAMWORKS)
+			set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DSTEAMWORKS=1")
+			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DSTEAMWORKS=1")
+			SET(STEAMWORKS_LIBRARY "${CMAKE_BINARY_DIR}/libsteam_api.so")
+		else()
+			SET(STEAMWORKS_LIBRARY "")
 		endif()
 
 		if(ALLEGRO_MONOLITH)
@@ -354,6 +362,8 @@ else()
 			${BASSMIDI_LIBRARY}
 			${POLY2TRI_LIBRARY}
 			${OTHER_LIBRARIES}
+			${STEAMWORKS_LIBRARY}
+			pthread
 		)
 	endif()
 endif()
