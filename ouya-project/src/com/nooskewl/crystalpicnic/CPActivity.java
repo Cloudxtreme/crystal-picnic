@@ -120,142 +120,73 @@ public class CPActivity extends AllegroActivity {
 		return clipdata;
 	}
 
-	static String keyS = "FIXME";
-
-	static HashMap<String, Product> mOutstandingPurchaseRequests = new HashMap<String, Product>();
-	static PublicKey mPublicKey;
-
 	static int purchased = -1;
 
-	public void requestPurchase(final Product product)
-		throws GeneralSecurityException, UnsupportedEncodingException, JSONException {
-		SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+	public void requestPurchase(final Product product) {
+		Purchasable purchasable = new Purchasable(product.getIdentifier());
 
-		// This is an ID that allows you to associate a successful purchase with
-		// it's original request. The server does nothing with this string except
-		// pass it back to you, so it only needs to be unique within this instance
-		// of your app to allow you to pair responses with requests.
-		String uniqueId = Long.toHexString(sr.nextLong());
-
-		JSONObject purchaseRequest = new JSONObject();
-		purchaseRequest.put("uuid", uniqueId);
-		purchaseRequest.put("identifier", product.getIdentifier());
-		// This value is only needed for testing, not setting it results in a live purchase
-		purchaseRequest.put("testing", "true"); 
-		String purchaseRequestJson = purchaseRequest.toString();
-
-		byte[] keyBytes = new byte[16];
-		sr.nextBytes(keyBytes);
-		SecretKey key = new SecretKeySpec(keyBytes, "AES");
-
-		byte[] ivBytes = new byte[16];
-		sr.nextBytes(ivBytes);
-		IvParameterSpec iv = new IvParameterSpec(ivBytes);
-
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
-		cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-		byte[] payload = cipher.doFinal(purchaseRequestJson.getBytes("UTF-8"));
-
-		cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
-		cipher.init(Cipher.ENCRYPT_MODE, mPublicKey);
-		byte[] encryptedKey = cipher.doFinal(keyBytes);
-
-		Purchasable purchasable =
-			new Purchasable(
-				product.getIdentifier(),
-				Base64.encodeToString(encryptedKey, Base64.NO_WRAP),
-				Base64.encodeToString(ivBytes, Base64.NO_WRAP),
-				Base64.encodeToString(payload, Base64.NO_WRAP) );
-	
-		synchronized (mOutstandingPurchaseRequests) {
-		    mOutstandingPurchaseRequests.put(uniqueId, product);
-		}
-		OuyaResponseListener<String> purchaseListener =
-		new OuyaResponseListener<String>() {
-		    @Override
-		    public void onCancel() {
-		    	purchased = 0;
-		    }
-		    @Override
-		    public void onSuccess(String result) {
-			try {
-			    OuyaEncryptionHelper helper = new OuyaEncryptionHelper();
-
-			    JSONObject response = new JSONObject(result);
-
-			    String id = helper.decryptPurchaseResponse(response, mPublicKey);
-			    Product storedProduct;
-			    synchronized (mOutstandingPurchaseRequests) {
-				storedProduct = mOutstandingPurchaseRequests.remove(id);
-			    }
-			    if(storedProduct == null) {
-				onFailure(
-				    OuyaErrorCodes.THROW_DURING_ON_SUCCESS, 
-				    "No purchase outstanding for the given purchase request",
-				    Bundle.EMPTY);
+		OuyaResponseListener<PurchaseResult> purchaseListener =	new OuyaResponseListener<PurchaseResult>() {
+			@Override
+			public void onCancel() {
 				purchased = 0;
-				return;
-			    }
-
-			    Log.d("Purchase", "Congrats you bought: " + storedProduct.getName());
-
-			    if (storedProduct.getName().equals("Crystal Picnic")) {
-			    	purchased = 1;
-			    }
-			    else {
-			        purchased = 0;
-			    }
-			} catch (Exception e) {
-			    purchased = 0;
-			    Log.e("Purchase", "Your purchase failed.", e);
 			}
-		    }
-
-		    @Override
-		    public void onFailure(int errorCode, String errorMessage, Bundle errorBundle) {
-		    	purchased = 0;
-			Log.d("Error", errorMessage);
-		    }
+			@Override
+			public void onSuccess(PurchaseResult result) {
+				if (result.getProductIdentifier().equals("CRYSTAL_PICNIC")) {
+					Log.d("CrystalPicnic", "Congrats on your purchase");
+					writeReceipt();
+					purchased = 1;
+				}
+				else {
+					purchased = 0;
+					Log.e("CrystalPicnic", "Your purchase failed.");
+				}
+			}
+			@Override
+			public void onFailure(int errorCode, String errorMessage, Bundle errorBundle) {
+				purchased = 0;
+				Log.d("CrystalPicnic", errorMessage);
+			}
 		};
-		OuyaFacade.getInstance().requestPurchase(purchasable, purchaseListener);
+
+		OuyaFacade.getInstance().requestPurchase(this, purchasable, purchaseListener);
 	}
 
-	static void writeReceipt(String receipt)
+	static void writeReceipt()
 	{
-		try {
-			File file = new File(receipt_fn);
-			FileOutputStream f = new FileOutputStream(file);
-			f.write(receipt.getBytes());
-			f.close();
-		}
-		catch (Exception e) {
-		}
+		OuyaFacade.getInstance().putGameData("CrystalPicnic", "PURCHASED");
 	}
 
 	public void doIAP()
 	{
 		purchased = -1;
-		if (OuyaFacade.getInstance().isRunningOnOUYAHardware()) {
+
+		if (OuyaFacade.getInstance().isRunningOnOUYASupportedHardware()) {
+			// This is the set of product IDs which our app knows about
 			List<Purchasable> PRODUCT_ID_LIST =
 				Arrays.asList(new Purchasable("CRYSTAL_PICNIC"));
-			OuyaResponseListener<ArrayList<Product>> productListListener =
-				new OuyaResponseListener<ArrayList<Product>>() {
+
+			OuyaResponseListener<List<Product>> productListListener =
+				new OuyaResponseListener<List<Product>>() {
 					@Override
 					public void onCancel() {
 						purchased = 0;
 					}
 					@Override
-					public void onSuccess(ArrayList<Product> products) {
+					public void onSuccess(List<Product> products) {
 						if (products.size() == 0) {
 							purchased = 0;
 						}
 						else {
 							for (Product p : products) {
-								Log.d("Product", p.getName() + " costs " + p.getPriceInCents());
+								Log.d("CrystalPicnic", p.getName() + " costs " + p.getPriceInCents());
 								try {
-									requestPurchase(p);
+									if (p.getIdentifier().equals("CRYSTAL_PICNIC")) {
+										requestPurchase(p);
+									}
 								} catch (Exception e) {
-									Log.e("ERROR", "requestPurcase failure", e);
+									purchased = 0;
+									Log.e("CrystalPicnic", "requestPurcase failure", e);
 								}
 							}
 						}
@@ -264,10 +195,11 @@ public class CPActivity extends AllegroActivity {
 					@Override
 					public void onFailure(int errorCode, String errorMessage, Bundle errorBundle) {
 						purchased = 0;
-						Log.d("Error", errorMessage);
+						Log.d("CrystalPicnic", errorMessage);
 					}
 			};
-			OuyaFacade.getInstance().requestProductList(PRODUCT_ID_LIST, productListListener);
+
+			OuyaFacade.getInstance().requestProductList(this, PRODUCT_ID_LIST, productListListener);
 		}
 		else {
 			purchased = 0;
@@ -279,100 +211,74 @@ public class CPActivity extends AllegroActivity {
 		return purchased;
 	}
 
-	static void decrypt(String receiptResponse)
-	{
-		OuyaEncryptionHelper helper = new OuyaEncryptionHelper();
-		List<Receipt> receipts = null;
-		try {
-		    JSONObject response = new JSONObject(receiptResponse);
-		    receipts = helper.decryptReceiptResponse(response, mPublicKey);
-		} catch (Exception e) {
-		    purchased = 0;
-		    throw new RuntimeException(e);
-		}
-		Log.d("Receipt", "Listing purchases:");
-		for (Receipt r : receipts) {
-		    Log.d("Receipt", "You have purchased: " + r.getIdentifier());
-		    if (r.getIdentifier().equals("CRYSTAL_PICNIC")) {
-			purchased = 1;
-		    }
-		}
-		if (purchased == -1) {
-		    purchased = 0;
-		}
-	}
-
 	public void queryPurchased()
 	{
 		purchased = -1;
-		OuyaResponseListener<String> receiptListListener =
-		new OuyaResponseListener<String>() {
-		    @Override
-		    public void onCancel() {
-		    	purchased = 0;
-		    }
-		    @Override
-		    public void onSuccess(String receiptResponse) {
-		    	decrypt(receiptResponse);
-			if (purchased == 1) {
-				writeReceipt(receiptResponse);
-			}
-		    }
 
-		    @Override
-		    public void onFailure(int errorCode, String errorMessage, Bundle errorBundle) {
-		    	purchased = 0;
-			Log.d("Error", errorMessage);
-		    }
-		};
+		// The receipt listener now receives a collection of tv.ouya.console.api.Receipt objects.
+		OuyaResponseListener<Collection<Receipt>> receiptListListener =
+			new OuyaResponseListener<Collection<Receipt>>() {
+				@Override
+				public void onSuccess(Collection<Receipt> receipts) {
+					for (Receipt r : receipts) {
+						Log.d("CrystalPicnic", r.getIdentifier() + " purchased for " + r.getFormattedPrice());
+						if (r.getIdentifier().equals("CRYSTAL_PICNIC")) {
+							purchased = 1;
+						}
+					}
+					if (purchased == -1) {
+						purchased = 0;
+					}
+				}
+
+				@Override
+				public void onFailure(int errorCode, String errorMessage, Bundle errorBundle) {
+					Log.d("CrystalPicnic", errorMessage);
+					purchased = 0;
+				}
+
+				@Override
+				public void onCancel() {
+					Log.d("CrystalPicnic", "Cancelled checking receipts");
+					purchased = 0;
+				}
+			};
 
 		try {
-			File file = new File(receipt_fn);
-			FileInputStream f = new FileInputStream(file);
-			byte[] b = null;
-			int c;
-			int sz = 0;
-			while ((c = f.read()) != -1) {
-				byte[] tmp = new byte[sz+1];
-				for (int i = 0; i < sz; i++) {
-					tmp[i] = b[i];
-				}
-				tmp[sz] = (byte)c;
-				b = null;
-				b = tmp;
-				tmp = null;
-				sz++;
+			if (OuyaFacade.getInstance().getGameData("CrystalPicnic").equals("PURCHASED")) {
+				purchased = 1;
 			}
-			f.close();
-			String s = new String(b);
-
-			decrypt(s);
+			else {
+				purchased = 0;
+			}
 		}
 		catch (Exception e) {
-			OuyaFacade.getInstance().requestReceipts(receiptListListener);
+			if (OuyaFacade.getInstance().isRunningOnOUYASupportedHardware()) {
+				OuyaFacade.getInstance().requestReceipts(this, receiptListListener);
+			}
+			else {
+				purchased = 0;
+			}
 		}
 	}
 
 	public static final String DEVELOPER_ID = "FIXME";
 
-	static String receipt_fn;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		receipt_fn = getFilesDir().getAbsolutePath() + "/receipt";
+		Bundle developerInfo = new Bundle();
 
-		OuyaFacade.getInstance().init(this, DEVELOPER_ID);
-		try {
-			X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decode(keyS, Base64.DEFAULT));
-			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-			mPublicKey = keyFactory.generatePublic(keySpec);
-		} catch (Exception e) {
-			Log.e("ERROR", "Unable to create encryption key", e);
-		}
+		// Your developer id can be found in the Developer Portal
+		developerInfo.putString(OuyaFacade.OUYA_DEVELOPER_ID, DEVELOPER_ID);
 
+		// There are a variety of ways to store and access your application key.
+		// Two of them are demoed in the samples 'game-sample' and 'iap-sample-app'
+		developerInfo.putByteArray(OuyaFacade.OUYA_DEVELOPER_PUBLIC_KEY, loadApplicationKey());
+
+		OuyaFacade.getInstance().init(this, developerInfo);
 		super.onCreate(savedInstanceState);
-		
+
 		bcr = new MyBroadcastReceiver();
 	}
 
@@ -398,5 +304,35 @@ public class CPActivity extends AllegroActivity {
 	public boolean gamepadAlwaysConnected() {
 		return true;
 	}
-}
 
+	byte[] loadApplicationKey() {
+		// Create a PublicKey object from the key data downloaded from the developer portal.
+		try {
+			// Read in the key.der file (downloaded from the developer portal)
+			InputStream inputStream = getResources().openRawResource(R.raw.key);
+			byte[] applicationKey = new byte[inputStream.available()];
+			inputStream.read(applicationKey);
+			inputStream.close();
+			return applicationKey;
+		} catch (Exception e) {
+			Log.e("CrystalPicnic", "Unable to load application key", e);
+		}
+
+		return null;
+	}
+
+	@Override
+	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (null != OuyaFacade.getInstance())
+		{
+			if (OuyaFacade.getInstance().processActivityResult(requestCode, resultCode, data)) {
+				// handled activity result
+			} else {
+				// unhandled activity result
+			}
+		} else {
+		// OuyaFacade not initialized
+		}
+	}
+}
