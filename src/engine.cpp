@@ -581,7 +581,7 @@ bool Engine::init_allegro()
 	ALLEGRO_DEBUG("Display flags set");
 
 #ifdef ALLEGRO_ANDROID
-	al_set_new_display_option(ALLEGRO_COLOR_SIZE, 16, ALLEGRO_REQUIRE);
+	al_set_new_display_option(ALLEGRO_COLOR_SIZE, 32, ALLEGRO_REQUIRE);
 	display = al_create_display(1280, 720);
 #else
 #if defined ALLEGRO_RASPBERRYPI
@@ -604,6 +604,10 @@ bool Engine::init_allegro()
 		General::log_message("Unable to create display.");
 		return false;
 	}
+
+#ifdef ALLEGRO_ANDROID
+	glDisable(GL_DITHER);
+#endif
 
 #if defined OUYA
 	// We use setFixedSize on OUYA for performance
@@ -1003,10 +1007,6 @@ static void destroy_event(ALLEGRO_USER_EVENT *u)
 
 void Engine::top()
 {
-	if (!switched_out && !Music::is_playing()) {
-		Music::play(music_name);
-	}
-
 	for (size_t i = 0; i < loops.size(); i++) {
 		loops[i]->top();
 	}
@@ -2323,6 +2323,8 @@ void Engine::handle_halt(ALLEGRO_EVENT *event)
 	start_timers();
 
 #ifdef ALLEGRO_ANDROID
+	glDisable(GL_DITHER);
+
 	setup_screen_size();
 
 	Wrap::reload_loaded_shaders();
@@ -4403,7 +4405,9 @@ void Engine::clear_touches()
 
 void Engine::switch_music_out()
 {
-	Music::stop();
+	switch_out_volume = Music::get_volume();
+	Music::set_volume(0.0f);
+
 	std::map<std::string, Sample>::iterator it;
 	for (it = sfx.begin(); it != sfx.end(); it++) {
 		std::pair<const std::string, Sample> &p = *it;
@@ -4415,6 +4419,8 @@ void Engine::switch_music_out()
 
 void Engine::switch_music_in()
 {
+	Music::set_volume(switch_out_volume);
+
 	std::map<std::string, Sample>::iterator it;
 	for (it = sfx.begin(); it != sfx.end(); it++) {
 		std::pair<const std::string, Sample> &p = *it;

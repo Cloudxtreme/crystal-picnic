@@ -228,15 +228,30 @@ void shutdown()
 
 
 #ifdef ALLEGRO_ANDROID
-JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
-  (JNIEnv *env, jobject obj)
-{
-	engine->switch_music_out();
-}
+extern "C" {
+	JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
+	  (JNIEnv *env, jobject obj)
+	{
+		engine->switch_music_out();
+	}
 
-JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_resumeSound
-  (JNIEnv *env, jobject obj)
-{
-	engine->switch_music_in();
+	JNIEXPORT void JNICALL Java_com_nooskewl_crystalpicnic_MyBroadcastReceiver_resumeSound
+	  (JNIEnv *env, jobject obj)
+	{
+		engine->switch_music_in();
+	}
+
+	// copies of above for ca.nooskewl
+	JNIEXPORT void JNICALL Java_ca_nooskewl_crystalpicnic_MyBroadcastReceiver_pauseSound
+	  (JNIEnv *env, jobject obj)
+	{
+		engine->switch_music_out();
+	}
+
+	JNIEXPORT void JNICALL Java_ca_nooskewl_crystalpicnic_MyBroadcastReceiver_resumeSound
+	  (JNIEnv *env, jobject obj)
+	{
+		engine->switch_music_in();
+	}
 }
 #endif

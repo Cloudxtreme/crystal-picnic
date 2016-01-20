@@ -384,6 +384,8 @@ protected:
 
 	// This is only set from the Continue screen (NOT New Game)
 	bool started_new_game;
+
+	float switch_out_volume;
 };
 
 extern Engine *engine;

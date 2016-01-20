@@ -262,7 +262,7 @@ public class CPActivity extends AllegroActivity {
 		}
 	}
 
-	public static final String DEVELOPER_ID = "FIXME";
+	public static final String DEVELOPER_ID = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)

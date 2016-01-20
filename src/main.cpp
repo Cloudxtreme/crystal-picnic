@@ -310,10 +310,6 @@ void Main::execute()
 
 				engine->set_touch_input_type(TOUCHINPUT_GUI);
 
-				if (!Music::is_playing() && !engine->is_switched_out()) {
-					Music::play(engine->get_music_name());
-				}
-
 				while (!al_event_queue_is_empty(event_queue)) {
 					ALLEGRO_EVENT event;
 					al_get_next_event(event_queue, &event);
